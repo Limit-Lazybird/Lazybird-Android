@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- deprecated -->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray_200"
+    tools:context=".ui.onboarding.OnBoardingFragment">
+
+    <RelativeLayout
+        android:id="@+id/on_boarding_header_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="14dp">
+
+        <ImageButton
+            android:id="@+id/on_boarding_back_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/transparent"
+            android:src="@drawable/ic_left" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/onb_title"
+            android:textColor="@color/white"
+            android:textSize="17dp" />
+    </RelativeLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/on_boarding_categories"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/on_boarding_button_container"
+        android:layout_below="@id/on_boarding_header_layout"
+        android:layout_marginLeft="17dp"
+        android:orientation="vertical"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+    <FrameLayout
+        android:id="@+id/on_boarding_button_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="17dp"
+        android:layout_marginBottom="98dp">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/on_boarding_to_be_next_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_rounded_10"
+            android:backgroundTint="@color/gray_300"
+            android:text="@string/on_boarding_to_be_next"
+            android:textColor="@color/white"
+            android:textSize="17dp" />
+    </FrameLayout>
+</RelativeLayout>

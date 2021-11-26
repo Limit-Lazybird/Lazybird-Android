@@ -1,0 +1,83 @@
+package com.xemic.lazybird.ui.ticketing
+
+import android.os.Bundle
+import android.text.Html
+import android.util.Log
+import android.view.View
+import androidx.core.text.HtmlCompat
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.coroutineScope
+import androidx.lifecycle.lifecycleScope
+import com.bumptech.glide.Glide
+import com.xemic.lazybird.R
+import com.xemic.lazybird.databinding.FragmentTicketingConfirmBinding
+import com.xemic.lazybird.ui.MainActivity
+import com.xemic.lazybird.util.thousandUnitFormatted
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+
+@AndroidEntryPoint
+class TicketingConfirmFragment : Fragment(R.layout.fragment_ticketing_confirm) {
+
+    lateinit var binding: FragmentTicketingConfirmBinding
+    private val viewModel: TicketingViewModel by viewModels()
+    private val parentActivity: MainActivity by lazy {
+        activity as MainActivity
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding = FragmentTicketingConfirmBinding.bind(view)
+
+        viewModel.updateExhibitionInfo(
+            requireArguments().getParcelable(
+                TicketingViewModel.EXHIBITION_INFO
+            )!!
+        )
+
+        viewModel.exhibitionInfo.observe(viewLifecycleOwner) { exhibitionInfo ->
+            binding.ticketingConfirmExhbtTitle.text = exhibitionInfo.title
+            binding.ticketingConfirmExhbtDate.text =
+                "${exhibitionInfo.startDate}~${exhibitionInfo.endDate}"
+            binding.ticketingConfirmExhbtPlace.text = exhibitionInfo.place
+            binding.ticketingConfirmExhbtPrice.text = Html.fromHtml(
+                "<strike>${exhibitionInfo.price.thousandUnitFormatted()}</strike>",
+                HtmlCompat.FROM_HTML_MODE_LEGACY
+            )
+            binding.discount = exhibitionInfo.discount
+            binding.ticketingConfirmExhbtPriceDc.text = exhibitionInfo.discountedPrice.thousandUnitFormatted()
+            Glide.with(this)
+                .load(exhibitionInfo.thumbnailImageUrl)
+                .centerCrop()
+                .into(binding.ticketingConfirmExhbtImg)
+        }
+
+        binding.ticketingConfirmOkBtn.setOnClickListener { 
+            // 예매 완료 버튼 클릭 시
+            binding.ticketingConfirmOkBtn.isClickable = false // 중복클릭 차단
+            viewLifecycleOwner.lifecycle.coroutineScope.launch {
+                if(binding.ticketingConfirmAddCalendar.isChecked){
+                    // 캘린더에 추가하기
+                    // Todo : 전시 일정 추가 Switch가 ON 되어있으면 캘린더에 일정 추가하기
+                }
+                viewModel.updateExhibitionReservation()
+                moveToMain()
+            }
+        }
+
+        binding.ticketingConfirmCancelBtn.setOnClickListener {
+            // 돌아가기 버튼 클릭 시
+            moveToMain()
+        }
+    }
+
+    private fun moveToMain() {
+        repeat(2){
+            parentActivity.supportFragmentManager.popBackStack()
+        }
+    }
+}

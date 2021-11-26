@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.exhibition.ExhibitionFragment">
+
+    <!-- exhibition_header -->
+    <RelativeLayout
+        android:id="@+id/exhibition_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:paddingTop="14dp"
+        android:paddingBottom="14dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:text="@string/exhibition_title"
+            android:textColor="@color/white"
+            android:textSize="17dp" />
+
+        <ImageView
+            android:id="@+id/exhibition_bell"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="7dp"
+            android:layout_toLeftOf="@id/exhibition_earlycard"
+            android:src="@drawable/ic_bell_point" />
+
+        <ImageView
+            android:id="@+id/exhibition_earlycard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="25dp"
+            android:src="@drawable/ic_earlycard" />
+
+    </RelativeLayout>
+
+    <!-- exhibition_custom_exhibition_layout -->
+    <RelativeLayout
+        android:id="@+id/exhibition_custom_exhibition_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/exhibition_header"
+        android:background="@color/gray_150"
+        android:paddingLeft="16dp"
+        android:paddingTop="17dp"
+        android:paddingRight="16dp"
+        android:paddingBottom="17dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:text="@string/exhibition_custom_exhibition_title"
+            android:textColor="@color/white"
+            android:textSize="14dp" />
+
+        <TextView
+            android:id="@+id/exhibition_custom_reset_btn"
+            android:layout_toLeftOf="@id/exhibition_custom_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:text="@string/exhibition_reset_title"
+            android:textColor="@color/white"
+            android:textSize="11dp" />
+
+        <Switch
+            android:id="@+id/exhibition_custom_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:thumb="@drawable/switch_thumb"
+            android:track="@drawable/switch_track_selector" />
+
+    </RelativeLayout>
+
+    <!-- OptionItemLayout -->
+    <ImageButton
+        android:id="@+id/exhibition_detail_option_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/exhibition_custom_exhibition_layout"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="14dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="12dp"
+        android:background="@drawable/button_rounded_100"
+        android:backgroundTint="@color/gray_200"
+        android:paddingLeft="19dp"
+        android:paddingTop="3dp"
+        android:paddingRight="19dp"
+        android:paddingBottom="2dp"
+        android:src="@drawable/ic_filter" />
+
+    <HorizontalScrollView
+        android:id="@+id/exhibition_option_item_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/exhibition_custom_exhibition_layout"
+        android:layout_alignTop="@id/exhibition_detail_option_btn"
+        android:layout_toRightOf="@id/exhibition_detail_option_btn"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:id="@+id/exhibition_option_item_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+        </LinearLayout>
+
+    </HorizontalScrollView>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/exhibition_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/exhibition_detail_option_btn"
+        android:paddingLeft="12dp"
+        android:paddingTop="5dp"
+        android:paddingRight="12dp"
+        android:paddingBottom="5dp"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:spanCount="2"
+        tools:itemCount="4"
+        tools:listitem="@layout/item_exhibition" />
+
+</RelativeLayout>

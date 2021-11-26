@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="discount"
+            type="int" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/transparent"
+        android:paddingLeft="4dp"
+        android:paddingTop="7dp"
+        android:paddingRight="4dp"
+        android:paddingBottom="7dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="240dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true">
+
+            <ImageView
+                android:id="@+id/item_exhibition_thumbnail"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                tools:src="@drawable/ic_launcher_background" />
+
+            <ImageButton
+                android:id="@+id/item_exhibition_like_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@id/item_exhibition_info_container"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="14dp"
+                android:background="@color/transparent"
+                android:src="@drawable/ic_fav_sm_off" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/item_exhibition_info_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:background="@drawable/button_rounded_bottom_20"
+                android:backgroundTint="@color/black_trans_70"
+                android:padding="8dp">
+
+                <TextView
+                    android:id="@+id/item_exhibition_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:textColor="@color/white"
+                    android:textSize="13dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/item_exhibition_info_container"
+                    tools:text="앨리스 달튼 브라운" />
+
+                <TextView
+                    android:id="@+id/item_exhibition_place"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:textColor="@color/white"
+                    android:textSize="11dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/item_exhibition_title"
+                    tools:text="마이아트뮤지엄" />
+
+                <TextView
+                    android:id="@+id/item_exhibition_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:textColor="@color/white"
+                    android:textSize="11dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/item_exhibition_place"
+                    tools:text="2021.07.24 ~ 2021.11.07" />
+
+                <TextView
+                    android:id="@+id/item_exhibition_discount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingRight="3dp"
+                    android:text='@{discount + "%"}'
+                    android:textColor="@color/red01"
+                    android:textSize="12dp"
+                    android:visibility="@{discount == 0 ? View.GONE : View.VISIBLE}"
+                    app:layout_constraintBottom_toBottomOf="@id/item_exhibition_price_dc"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/item_exhibition_date"
+                    app:layout_constraintTop_toTopOf="@id/item_exhibition_price_dc"
+                    tools:text="30%" />
+
+                <TextView
+                    android:id="@+id/item_exhibition_price_dc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:textColor="@color/white"
+                    android:textSize="12dp"
+                    app:layout_constraintLeft_toRightOf="@id/item_exhibition_discount"
+                    app:layout_constraintTop_toBottomOf="@id/item_exhibition_date"
+                    tools:text="16,200" />
+
+                <TextView
+                    android:id="@+id/item_exhibition_price_dc_unit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="2dp"
+                    android:text="원"
+                    android:textColor="@color/gray_1000"
+                    android:textSize="9dp"
+                    app:layout_constraintBottom_toBottomOf="@id/item_exhibition_price_dc"
+                    app:layout_constraintLeft_toRightOf="@id/item_exhibition_price_dc"
+                    app:layout_constraintTop_toBottomOf="@id/item_exhibition_date"
+                    app:layout_constraintTop_toTopOf="@id/item_exhibition_price_dc" />
+
+                <TextView
+                    android:id="@+id/item_exhibition_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="2dp"
+                    android:textColor="@color/gray04"
+                    android:textSize="10dp"
+                    android:visibility="@{discount == 0 ? View.GONE : View.VISIBLE}"
+                    app:layout_constraintBottom_toBottomOf="@id/item_exhibition_price_dc"
+                    app:layout_constraintLeft_toRightOf="@id/item_exhibition_price_dc_unit"
+                    app:layout_constraintTop_toBottomOf="@id/item_exhibition_date"
+                    app:layout_constraintTop_toTopOf="@id/item_exhibition_price_dc"
+                    tools:text="20,200" />
+
+                <TextView
+                    android:id="@+id/item_exhibition_price_unit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="1dp"
+                    android:text="원"
+                    android:textColor="@color/gray04"
+                    android:textSize="9dp"
+                    android:visibility="@{discount == 0 ? View.GONE : View.VISIBLE}"
+                    app:layout_constraintBottom_toBottomOf="@id/item_exhibition_price_dc"
+                    app:layout_constraintLeft_toRightOf="@id/item_exhibition_price"
+                    app:layout_constraintTop_toBottomOf="@id/item_exhibition_date"
+                    app:layout_constraintTop_toTopOf="@id/item_exhibition_price_dc" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+</layout>

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.search.SearchFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="16dp"
+        android:paddingTop="13dp"
+        android:paddingRight="16dp"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <RelativeLayout
+            android:id="@+id/search_view_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_rounded_30"
+            android:backgroundTint="@color/gray_200">
+
+            <ImageView
+                android:id="@+id/search_sb_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="12dp"
+                android:paddingTop="11dp"
+                android:paddingRight="12dp"
+                android:paddingBottom="11dp"
+                android:src="@drawable/ic_search_light" />
+
+            <EditText
+                android:id="@+id/search_edit_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@id/search_sb_icon"
+                android:layout_alignBottom="@id/search_sb_icon"
+                android:layout_toRightOf="@id/search_sb_icon"
+                android:background="@color/transparent"
+                android:hint="@string/search_hint"
+                android:lines="1"
+                android:textColor="@color/white"
+                android:textColorHint="@color/gray04"
+                android:textSize="15dp" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/search_recommend_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/search_view_layout"
+            android:layout_marginTop="24dp"
+            android:text="@string/search_recommend_title"
+            android:textColor="@color/white"
+            android:textSize="13dp" />
+
+        <com.google.android.flexbox.FlexboxLayout
+            android:id="@+id/search_recommend_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/search_recommend_title"
+            android:paddingTop="8dp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/search_recyclerview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/search_view_layout"
+            android:layout_marginTop="23dp"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:spanCount="2"
+            tools:itemCount="3"
+            tools:listitem="@layout/item_exhibition" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/search_no_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/mybird_no_search"
+        android:textColor="@color/gray_600"
+        android:textSize="17dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.45" />
+</androidx.constraintlayout.widget.ConstraintLayout>

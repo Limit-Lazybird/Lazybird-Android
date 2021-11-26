@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="discount"
+            type="int" />
+
+        <variable
+            name="notice"
+            type="String" />
+    </data>
+
+    <RelativeLayout
+        android:background="@color/gray_100"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/exhibition_detail_footer_layout"
+            android:layout_alignParentTop="true">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="50dp">
+
+                <ImageView
+                    android:id="@+id/exhibition_detail_thumbnail"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    app:layout_constraintDimensionRatio="H,3:4"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <!-- dDayLayout -->
+                <TextView
+                    android:id="@+id/exhibition_detail_d_day_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white_90"
+                    android:paddingLeft="11dp"
+                    android:paddingTop="16dp"
+                    android:paddingBottom="16dp"
+                    android:text="Current Exhibition"
+                    android:textColor="@color/black"
+                    android:textSize="13dp"
+                    app:layout_constraintBottom_toBottomOf="@id/exhibition_detail_thumbnail"
+                    app:layout_constraintLeft_toLeftOf="parent" />
+
+                <TextView
+                    android:id="@+id/exhibition_detail_d_day"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="16dp"
+                    android:paddingRight="11dp"
+                    android:paddingBottom="16dp"
+                    android:textColor="@color/black"
+                    android:textSize="13dp"
+                    app:layout_constraintBottom_toBottomOf="@id/exhibition_detail_thumbnail"
+                    app:layout_constraintRight_toRightOf="parent"
+                    tools:text="D - 10" />
+
+                <!-- ExhibitionSummaryLayout -->
+                <TextView
+                    android:id="@+id/exhibition_detail_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="13dp"
+                    android:textSize="17dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/exhibition_detail_d_day_title"
+                    tools:text="미구엘 슈발리에 제주 특별전" />
+
+                <ImageButton
+                    android:id="@+id/exhibition_detail_like_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="17dp"
+                    android:background="@color/transparent"
+                    android:src="@drawable/ic_fav_lg_off"
+                    app:layout_constraintBottom_toBottomOf="@id/exhibition_detail_title"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/exhibition_detail_title" />
+
+                <TextView
+                    android:id="@+id/exhibition_detail_place_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="12dp"
+                    android:text="장소"
+                    android:textColor="@color/or01"
+                    android:textSize="11dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/exhibition_detail_title" />
+
+                <TextView
+                    android:id="@+id/exhibition_detail_place"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="6dp"
+                    android:textColor="@color/white"
+                    android:textSize="11dp"
+                    app:layout_constraintBottom_toBottomOf="@id/exhibition_detail_place_title"
+                    app:layout_constraintLeft_toRightOf="@id/exhibition_detail_place_title"
+                    app:layout_constraintTop_toTopOf="@id/exhibition_detail_place_title"
+                    tools:text="아쿠아플라넷 제주" />
+
+                <TextView
+                    android:id="@+id/exhibition_detail_date_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="6dp"
+                    android:text="날짜"
+                    android:textColor="@color/or01"
+                    android:textSize="11dp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/exhibition_detail_place_title" />
+
+                <TextView
+                    android:id="@+id/exhibition_detail_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="6dp"
+                    android:textColor="@color/white"
+                    android:textSize="11dp"
+                    app:layout_constraintBottom_toBottomOf="@id/exhibition_detail_date_title"
+                    app:layout_constraintLeft_toRightOf="@id/exhibition_detail_date_title"
+                    app:layout_constraintTop_toTopOf="@id/exhibition_detail_date_title"
+                    tools:text="2021.11.08 ~ 2021.12.31" />
+
+
+                <View
+                    android:id="@+id/exhibition_detail_empty_space"
+                    android:layout_width="1dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="7dp"
+                    app:layout_constraintBottom_toBottomOf="@id/exhibition_detail_price_dc"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/exhibition_detail_price_dc" />
+
+                <TextView
+                    android:id="@+id/exhibition_detail_discount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="@{discount == 0 ? View.GONE : View.VISIBLE}"
+                    android:layout_marginLeft="8dp"
+                    android:text='@{discount+"%"}'
+                    tools:text="50%"
+                    android:textColor="@color/red01"
+                    android:textSize="17dp"
+                    app:layout_constraintBottom_toBottomOf="@id/exhibition_detail_price_dc"
+                    app:layout_constraintLeft_toRightOf="@id/exhibition_detail_empty_space"
+                    app:layout_constraintTop_toTopOf="@id/exhibition_detail_price_dc" />
+
+                <TextView
+                    android:id="@+id/exhibition_detail_price_dc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginTop="23dp"
+                    android:textColor="@color/white"
+                    android:textSize="20dp"
+                    app:layout_constraintLeft_toRightOf="@id/exhibition_detail_discount"
+                    app:layout_constraintTop_toBottomOf="@id/exhibition_detail_date_title"
+                    tools:text="10,000" />
+
+                <TextView
+                    android:id="@+id/exhibition_detail_price_dc_unit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="2dp"
+                    android:text="원"
+                    android:textColor="@color/gray_900"
+                    android:textSize="15dp"
+                    app:layout_constraintBottom_toBottomOf="@id/exhibition_detail_price_dc"
+                    app:layout_constraintLeft_toRightOf="@id/exhibition_detail_price_dc"
+                    app:layout_constraintTop_toTopOf="@id/exhibition_detail_price_dc" />
+
+                <TextView
+                    android:id="@+id/exhibition_detail_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:textColor="@color/gray04"
+                    android:textSize="15dp"
+                    android:visibility="@{discount == 0 ? View.GONE : View.VISIBLE}"
+                    app:layout_constraintBottom_toBottomOf="@id/exhibition_detail_price_dc"
+                    app:layout_constraintLeft_toRightOf="@id/exhibition_detail_price_dc_unit"
+                    app:layout_constraintTop_toTopOf="@id/exhibition_detail_price_dc"
+                    tools:text="20,000" />
+
+                <TextView
+                    android:id="@+id/exhibition_detail_price_unit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="원"
+                    android:visibility="@{discount == 0 ? View.GONE : View.VISIBLE}"
+                    android:textColor="@color/gray04"
+                    android:textSize="14dp"
+                    app:layout_constraintBottom_toBottomOf="@id/exhibition_detail_price_dc"
+                    app:layout_constraintLeft_toRightOf="@id/exhibition_detail_price"
+                    app:layout_constraintTop_toTopOf="@id/exhibition_detail_price_dc" />
+
+                <View
+                    android:id="@+id/exhibition_detail_line_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="16dp"
+                    android:layout_marginTop="13dp"
+                    android:background="@color/gray_150"
+                    app:layout_constraintTop_toBottomOf="@id/exhibition_detail_price_dc" />
+
+                <ImageView
+                    android:id="@+id/exhibition_detail_img"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="24dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginRight="24dp"
+                    android:layout_marginBottom="31dp"
+                    android:adjustViewBounds="true"
+                    app:layout_constraintTop_toBottomOf="@id/exhibition_detail_line_1"/>
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/exhibition_detail_more_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="24dp"
+                    android:layout_marginRight="24dp"
+                    android:background="@drawable/button_white_stroke_1"
+                    android:gravity="center"
+                    android:text="@string/exhibition_detail_more_title"
+                    android:textColor="@color/white"
+                    android:textSize="13dp"
+                    android:visibility="invisible"
+                    app:layout_constraintBottom_toBottomOf="@id/exhibition_detail_img"
+                    tools:visibility="visible" />
+
+                <View
+                    android:id="@+id/exhibition_detail_line_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="16dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@color/gray_150"
+                    app:layout_constraintTop_toBottomOf="@id/exhibition_detail_img" />
+
+                <!-- ExhibitionNoticeLayout -->
+                <TextView
+                    android:id="@+id/exhibition_detail_notice_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginTop="14dp"
+                    android:text="@string/exhibition_detail_notice_title"
+                    android:textColor="@color/or01"
+                    android:textSize="13dp"
+                    android:visibility='@{notice == "" ? View.GONE : View.VISIBLE}'
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/exhibition_detail_line_2" />
+
+                <TextView
+                    android:id="@+id/exhibition_detail_notice"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="17dp"
+                    android:layout_marginTop="13dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginBottom="14dp"
+                    android:text="@{notice}"
+                    android:visibility='@{notice == "" ? View.GONE : View.VISIBLE}'
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/exhibition_detail_notice_title"
+                    tools:text="얼리버드 티켓은 12월 17일까지 판매됩니다.\n\n - 매주 월요일은 휴관합니다.\n - 36개월 미만은 입장불가능합니다." />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.core.widget.NestedScrollView>
+
+        <RelativeLayout
+            android:id="@+id/exhibition_detail_footer_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@color/gray_200"
+            android:paddingLeft="20dp"
+            android:paddingTop="9dp"
+            android:paddingRight="20dp"
+            android:paddingBottom="16dp">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/exhibition_detail_ticketing_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/button_rounded_10"
+                android:backgroundTint="@color/or01"
+                android:paddingLeft="26dp"
+                android:paddingTop="16dp"
+                android:paddingRight="27dp"
+                android:paddingBottom="15dp"
+                android:text="예매하러 가기"
+                android:textColor="@color/white"
+                android:textSize="17dp" />
+        </RelativeLayout>
+
+    </RelativeLayout>
+</layout>

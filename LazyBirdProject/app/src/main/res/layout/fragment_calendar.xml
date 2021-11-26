@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context=".ui.calendar.CalendarFragment">
+
+    <com.kizitonwose.calendarview.CalendarView
+        android:id="@+id/calendar_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cv_dayViewResource="@layout/calendar_day_layout"
+        app:cv_monthHeaderResource="@layout/calendar_month_header_layout"
+        app:cv_scrollMode="paged" />
+
+    <RelativeLayout
+        android:id="@+id/calendar_schedule_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/calendar_view">
+
+        <TextView
+            android:id="@+id/calendar_schedule_day"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:gravity="center"
+            tools:text="16" />
+
+        <TextView
+            android:id="@+id/calendar_schedule_is_today"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/calendar_schedule_day"
+            android:layout_alignBottom="@id/calendar_schedule_day"
+            android:layout_toRightOf="@id/calendar_schedule_day"
+            android:gravity="center_vertical"
+            android:text="오늘"
+            android:visibility="invisible"
+            tools:visibility="visible" />
+
+        <TextView
+            android:id="@+id/calendar_schedule_day_of_week"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/calendar_schedule_day"
+            android:layout_alignLeft="@id/calendar_schedule_day"
+            android:layout_alignRight="@id/calendar_schedule_day"
+            android:gravity="center"
+            tools:text="수" />
+
+        <TextView
+            android:id="@+id/calendar_schedule_count"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/calendar_schedule_is_today"
+            android:layout_alignLeft="@id/calendar_schedule_is_today"
+            android:layout_alignTop="@id/calendar_schedule_day_of_week"
+            android:layout_alignRight="@id/calendar_schedule_is_today"
+            android:layout_alignBottom="@id/calendar_schedule_day_of_week"
+            tools:text="2개의 일정이 있습니다." />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignTop="@id/calendar_schedule_items"
+            android:layout_alignBottom="@id/calendar_schedule_items"
+            android:layout_toLeftOf="@id/calendar_schedule_items">
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="@color/white" />
+        </FrameLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/calendar_schedule_items"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/calendar_schedule_count"
+            android:layout_alignLeft="@id/calendar_schedule_count"
+            android:layout_alignRight="@id/calendar_schedule_count"
+            android:layout_marginTop="10dp"
+            android:orientation="vertical"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            tools:itemCount="3"
+            tools:listitem="@layout/item_schedule" />
+    </RelativeLayout>
+</RelativeLayout>

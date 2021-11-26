@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <!-- header container -->
+    <TextView
+        android:id="@+id/header_year"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toBottomOf="@id/header_month"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="2021" />
+
+    <TextView
+        android:id="@+id/header_month"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:textSize="20dp"
+        app:layout_constraintLeft_toRightOf="@id/header_year"
+        app:layout_constraintRight_toLeftOf="@id/btn_calendar_month_prev"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="10월" />
+
+    <ImageButton
+        android:id="@+id/btn_calendar_month_prev"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/header_year"
+        android:layout_alignBottom="@id/header_year"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_left"
+        app:layout_constraintBottom_toBottomOf="@id/header_month"
+        app:layout_constraintRight_toLeftOf="@id/btn_calendar_month_next"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageButton
+        android:id="@+id/btn_calendar_month_next"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/header_year"
+        android:layout_alignBottom="@id/header_year"
+        android:layout_alignParentRight="true"
+        android:layout_toLeftOf="@id/btn_calendar_month_prev"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_right"
+        app:layout_constraintBottom_toBottomOf="@id/header_month"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- dayofweek container -->
+    <LinearLayout
+        android:id="@+id/header_day_of_week"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/header_month">
+
+        <TextView
+            style="@style/calendarDayOfWeekHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="일" />
+
+        <TextView
+            style="@style/calendarDayOfWeekHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="월" />
+
+        <TextView
+            style="@style/calendarDayOfWeekHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="화" />
+
+        <TextView
+            style="@style/calendarDayOfWeekHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="수" />
+
+        <TextView
+            style="@style/calendarDayOfWeekHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="목" />
+
+        <TextView
+            style="@style/calendarDayOfWeekHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="금" />
+
+        <TextView
+            style="@style/calendarDayOfWeekHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="토" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

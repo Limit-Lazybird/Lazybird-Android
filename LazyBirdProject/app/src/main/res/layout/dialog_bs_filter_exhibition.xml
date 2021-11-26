@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/transparent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/layout_rounded_top_30"
+        android:backgroundTint="@color/gray_150"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/dialog_bs_filter_title"
+            android:textColor="@color/white"
+            android:textSize="17dp"
+            app:layout_constraintBottom_toBottomOf="@id/dialog_bs_refresh"
+            app:layout_constraintTop_toTopOf="@id/dialog_bs_refresh" />
+
+        <ImageButton
+            android:id="@+id/dialog_bs_refresh"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:layout_marginRight="21dp"
+            android:background="@color/transparent"
+            android:src="@drawable/ic_refresh"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/dialog_bs_filter_class_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="16dp"
+
+            android:text="@string/dialog_bs_filter_class_title"
+            android:textColor="@color/white"
+            android:textSize="15dp"
+            app:layout_constraintTop_toBottomOf="@id/dialog_bs_refresh" />
+
+        <com.google.android.flexbox.FlexboxLayout
+            android:id="@+id/dialog_bs_filter_class"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="9dp"
+            android:paddingBottom="16dp"
+            android:paddingLeft="16dp"
+            app:flexWrap="wrap"
+            app:layout_constraintTop_toBottomOf="@id/dialog_bs_filter_class_title" />
+
+        <TextView
+            android:id="@+id/dialog_bs_filter_etc_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="16dp"
+            android:text="@string/dialog_bs_filter_etc_title"
+            android:textColor="@color/white"
+            android:textSize="15dp"
+            app:layout_constraintTop_toBottomOf="@id/dialog_bs_filter_class" />
+
+        <com.google.android.flexbox.FlexboxLayout
+            android:id="@+id/dialog_bs_filter_etc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="9dp"
+            android:paddingBottom="16dp"
+            android:paddingLeft="16dp"
+            app:flexWrap="wrap"
+            app:layout_constraintTop_toBottomOf="@id/dialog_bs_filter_etc_title" />
+
+        <TextView
+            android:id="@+id/dialog_bs_filter_place_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="16dp"
+            android:text="@string/dialog_bs_filter_place_title"
+            android:textColor="@color/white"
+            android:textSize="15dp"
+            app:layout_constraintTop_toBottomOf="@id/dialog_bs_filter_etc" />
+
+        <com.google.android.flexbox.FlexboxLayout
+            android:id="@+id/dialog_bs_filter_place"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="9dp"
+            android:paddingBottom="10dp"
+            android:paddingLeft="16dp"
+            app:flexWrap="wrap"
+            app:layout_constraintTop_toBottomOf="@id/dialog_bs_filter_place_title" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/dialog_bs_filter_cancel"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@color/gray_400"
+            android:backgroundTint="@color/gray_400"
+            android:paddingTop="18dp"
+            android:paddingBottom="17dp"
+            android:text="@string/dialog_bs_filter_cancel"
+            android:textColor="@color/white"
+            android:textSize="15dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/dialog_bs_filter_place"
+            app:layout_constraintWidth_percent="0.37" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/dialog_bs_filter_ok"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:background="@color/or01"
+            android:backgroundTint="@color/or01"
+            android:paddingTop="18dp"
+            android:paddingBottom="17dp"
+            android:text="@string/dialog_bs_filter_ok"
+            android:textColor="@color/white"
+            android:textSize="15dp"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/dialog_bs_filter_place"
+            app:layout_constraintWidth_percent="0.63" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

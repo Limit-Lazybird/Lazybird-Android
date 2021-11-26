@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+
+    <color name="black">#FF000000</color>
+    <color name="black_trans_80">#CC000000</color>
+    <color name="black_trans_70">#B2000000</color>
+    <color name="black_trans_54">#89000000</color>
+    <color name="black_trans_50">#80000000</color>
+    <color name="black_trans_30">#4C000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="white_87">#DEFFFFFF</color>
+    <color name="white_60">#99FFFFFF</color>
+    <color name="or02">#FF8A00</color>
+    <color name="or01">#FE6B00</color>
+    <color name="or01_90">#E5FE6B00</color>
+    <color name="orange_500">#FFDB692C</color>
+    <color name="gray_100">#FF171717</color>
+    <color name="gray_150">#FF1f1f1f</color>
+    <color name="gray_200">#FF333333</color>
+    <color name="gray_250">#FF383838</color>
+    <color name="gray_300">#FF3B3B3B</color>
+    <color name="gray_400">#FF464646</color>
+    <color name="gray_600">#FF626262</color>
+    <color name="gray04">#A7A7A7</color>
+    <color name="gray_900">#FFB8B8B8</color>
+    <color name="gray_950">#FFDADADA</color>
+    <color name="gray_1000">#FFF1F1F1</color>
+    <color name="transparent">#00000000</color>
+    <color name="kakao_yellow">#FEE500</color>
+    <color name="red01">#FF5454</color>
+    <color name="pink">#FF5757</color>
+    <color name="white_90">#E5FFFFFF</color>
+    <color name="or90">#E5FE6B00</color>
+
+</resources>

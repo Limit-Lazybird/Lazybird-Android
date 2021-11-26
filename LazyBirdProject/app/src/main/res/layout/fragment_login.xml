@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray_100"
+    tools:context=".ui.splashlogin.LoginFragment">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/login_start_button_container"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/cv_layout_rounded_bottom_20">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="134dp"
+            android:src="@drawable/ic_welcome" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="12.5dp"
+            android:layout_marginTop="44.5dp"
+            android:src="@drawable/ic_logo" />
+    </FrameLayout>
+
+    <RelativeLayout
+        android:id="@+id/login_start_button_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="45dp"
+        android:layout_marginTop="21dp"
+        android:layout_marginRight="45dp"
+        android:layout_marginBottom="46dp">
+
+        <TextView
+            android:id="@+id/login_tv_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:text="@string/login"
+            android:textColor="@color/white"
+            android:textSize="17dp" />
+
+        <RelativeLayout
+            android:id="@+id/login_google_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/login_tv_login"
+            android:layout_marginBottom="16dp">
+
+            <ImageButton
+                android:id="@+id/login_google_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@id/login_google_container_layout"
+                android:layout_alignBottom="@id/login_google_container_layout"
+                android:background="@drawable/button_rounded_10"
+                android:backgroundTint="@color/white" />
+
+            <RelativeLayout
+                android:id="@+id/login_google_container_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true">
+
+                <ImageView
+                    android:id="@+id/login_iv_google"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="11dp"
+                    android:paddingRight="16dp"
+                    android:paddingBottom="11dp"
+                    android:src="@drawable/ic_google" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@id/login_iv_google"
+                    android:layout_alignBottom="@id/login_iv_google"
+                    android:layout_toRightOf="@id/login_iv_google"
+                    android:gravity="center_vertical"
+                    android:text="@string/login_google"
+                    android:textColor="@color/black"
+                    android:textSize="15dp" />
+            </RelativeLayout>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/login_kakao_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/login_google_container">
+
+            <ImageButton
+                android:id="@+id/login_kakao_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@id/login_kakao_container_layout"
+                android:layout_alignBottom="@id/login_kakao_container_layout"
+                android:background="@drawable/button_rounded_10"
+                android:backgroundTint="@color/kakao_yellow" />
+
+            <RelativeLayout
+                android:id="@+id/login_kakao_container_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true">
+
+                <ImageView
+                    android:id="@+id/login_iv_kakao"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="11dp"
+                    android:paddingRight="16dp"
+                    android:paddingBottom="11dp"
+                    android:src="@drawable/ic_kakao" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@id/login_iv_kakao"
+                    android:layout_alignBottom="@id/login_iv_kakao"
+                    android:layout_toRightOf="@id/login_iv_kakao"
+                    android:gravity="center_vertical"
+                    android:text="@string/login_kakao"
+                    android:textColor="@color/black"
+                    android:textSize="15dp" />
+            </RelativeLayout>
+        </RelativeLayout>
+    </RelativeLayout>
+</RelativeLayout>

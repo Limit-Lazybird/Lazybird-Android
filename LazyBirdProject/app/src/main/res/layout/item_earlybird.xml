@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:backgroundTint="@color/transparent"
+        app:cardElevation="10dp"
+        app:cardUseCompatPadding="true">
+
+        <ImageView
+            android:id="@+id/earlybird_page_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="20dp"
+            android:scaleType="centerCrop" />
+
+        <TextView
+            android:id="@+id/earlybird_page_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/layout_rounded_top_10"
+            android:backgroundTint="@color/black"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:paddingLeft="10dp"
+            android:paddingTop="12dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="10dp"
+            android:textColor="@color/white"
+            android:textSize="13dp"
+            tools:text="미구엘 슈발리에 제주 특별전" />
+
+        <FrameLayout
+            android:id="@+id/earlybird_page_percent_container"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="right"
+            android:layout_marginTop="12dp"
+            android:layout_marginRight="18dp"
+            android:background="@drawable/circle"
+            android:backgroundTint="@color/or01">
+
+            <TextView
+                android:id="@+id/earlybird_page_discount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textColor="@color/black"
+                android:textSize="21dp"
+                tools:text="42%" />
+        </FrameLayout>
+    </androidx.cardview.widget.CardView>
+</RelativeLayout>

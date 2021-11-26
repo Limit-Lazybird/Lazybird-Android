@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray_100"
+    tools:context=".ui.earlybird.EarlyBirdFragment">
+
+    <RelativeLayout
+        android:id="@+id/earlybird_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="10dp">
+
+        <ImageView
+            android:id="@+id/earlybird_lazybird_icon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="22dp"
+            android:src="@drawable/ic_earlybird"
+            app:tint="@color/orange_500" />
+
+        <ImageView
+            android:id="@+id/earlybird_bell"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="7dp"
+            android:layout_toLeftOf="@id/earlybird_earlycard"
+            android:src="@drawable/ic_bell_point" />
+
+        <ImageView
+            android:id="@+id/earlybird_earlycard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="25dp"
+            android:src="@drawable/ic_earlycard" />
+
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/earlybird_todayearlybird_icon"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/earlybird_header"
+        android:layout_marginLeft="44dp"
+        android:layout_marginTop="38dp"
+        android:layout_marginRight="45dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_todayearlybird" />
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/earlybird_viewpager2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/earlybird_todayearlybird_icon"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="14dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginBottom="14dp"/>
+
+    <!-- deprecated -->
+    <!--    <HorizontalScrollView-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:layout_below="@id/earlybird_header"-->
+    <!--        android:scrollbars="none">-->
+
+    <!--        <LinearLayout-->
+    <!--            android:id="@+id/flexbox_layout"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:orientation="horizontal">-->
+
+    <!--            <ImageView-->
+    <!--                android:id="@+id/earlybird_detail_filter_button"-->
+    <!--                android:layout_width="wrap_content"-->
+    <!--                android:layout_height="wrap_content"-->
+    <!--                android:layout_marginRight="10px"-->
+    <!--                android:background="@drawable/option_item_rounded"-->
+    <!--                android:backgroundTint="@color/gray_400"-->
+    <!--                android:paddingLeft="10dp"-->
+    <!--                android:paddingTop="5dp"-->
+    <!--                android:paddingRight="10dp"-->
+    <!--                android:paddingBottom="5dp"-->
+    <!--                android:src="@drawable/ic_filter"-->
+    <!--                app:tint="@color/white" />-->
+    <!--        </LinearLayout>-->
+    <!--    </HorizontalScrollView>-->
+
+</RelativeLayout>
