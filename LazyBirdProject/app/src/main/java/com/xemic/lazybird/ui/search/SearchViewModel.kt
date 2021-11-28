@@ -43,7 +43,7 @@ class SearchViewModel @Inject constructor(
                     discountedPrice = exhbt.dc_prc?.removeSuffix("원")?.replace(",", "")?.toInt()
                         ?: exhbt.exhbt_prc.removeSuffix("원").replace(",", "").toInt(), // null 이면 price 값 출력
                     thumbnailImageUrl = exhbt.exhbt_sn,
-                    isLiked = false // Todo : 추가하기
+                    isLiked = exhbt.like_yn == "Y"
                 )
             }
         }
