@@ -161,9 +161,7 @@ class EarlyBirdDetailFragment : Fragment(R.layout.fragment_earlybird_detail) {
             }
             binding.earlybirdDetailLikeBtn.setOnClickListener {
                 // 좋아요 버튼 클릭
-                viewLifecycleOwner.lifecycle.coroutineScope.launch {
-                    viewModel.clickLike()
-                }
+                viewModel.clickLike()
             }
         }
 

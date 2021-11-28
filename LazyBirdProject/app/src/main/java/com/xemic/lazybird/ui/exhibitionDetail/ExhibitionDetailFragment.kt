@@ -154,9 +154,7 @@ class ExhibitionDetailFragment: Fragment(R.layout.fragment_exhibition_detail) {
             }
             binding.exhibitionDetailLikeBtn.setOnClickListener {
                 // 좋아요 버튼 클릭
-                viewLifecycleOwner.lifecycle.coroutineScope.launch {
-                    viewModel.clickLike()
-                }
+                viewModel.clickLike()
             }
         }
 

@@ -66,13 +66,12 @@ class ExhibitionFragment : Fragment(R.layout.fragment_exhibition) {
                         position: Int
                     ) {
                         // 하트 클릭 시
-                        lifecycleScope.launch {
-                            viewModel.clickLike(viewModel.getExhibitionInfo(position), holder.isLike)
-                            if(binding.exhibitionCustomSwitch.isChecked)
-                                viewModel.getCustomExhbtList()
-                            else
-                                viewModel.getExhbtList()
-                        }
+                        viewModel.clickLike(viewModel.getExhibitionInfo(position), holder.isLike)
+                        if(binding.exhibitionCustomSwitch.isChecked)
+                            viewModel.getCustomExhbtList()
+                        else
+                            viewModel.getExhbtList()
+
                         // Todo : RecyclerView에 LiveData와 ListAdapter 적용하여, 데이터 변환시 시각적으로 변화하도록 수정
 //                        holder.isLike = !holder.isLike
 //                        if (holder.isLike) {

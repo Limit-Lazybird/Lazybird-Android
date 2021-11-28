@@ -71,7 +71,7 @@ class ExhibitionDetailViewModel @Inject constructor(
         _exhibitionLike.postValue(exhbt.like_yn == "Y")
     }
 
-    suspend fun clickLike() {
+    fun clickLike() = viewModelScope.launch {
         // 좋아요 버튼 클릭
         if(exhibitionLike.value!!){
             apiHelper.exhbtLikeDel(token, exhibitionInfo.value!!.id) // 좋아요 버튼 취소

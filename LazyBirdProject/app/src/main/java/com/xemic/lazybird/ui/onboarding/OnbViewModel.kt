@@ -32,10 +32,8 @@ class OnbViewModel @Inject constructor(
     var selectedResult = mutableListOf<Int>() // page 별로 선택한 답변 리스트
 
     init {
-        viewModelScope.launch {
-            initToken()
-            getCustomizedList()
-        }
+        initToken()
+        getCustomizedList()
     }
 
     private fun initToken() = viewModelScope.launch {
@@ -43,7 +41,7 @@ class OnbViewModel @Inject constructor(
         token = repository.getPreferenceFlow().first()
     }
 
-    private suspend fun getCustomizedList() = viewModelScope.launch {
+    private fun getCustomizedList() = viewModelScope.launch {
         // 질문 정보 가져오기
         val response = repository.getCustomizedList(token)
         response.body()?.let{

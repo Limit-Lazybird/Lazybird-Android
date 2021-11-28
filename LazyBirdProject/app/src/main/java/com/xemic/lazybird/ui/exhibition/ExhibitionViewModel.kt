@@ -105,7 +105,7 @@ class ExhibitionViewModel @Inject constructor(
         )
     }
 
-    suspend fun clickLike(exhibitionInfo: Exhbt, is_like: Boolean) {
+    fun clickLike(exhibitionInfo: Exhbt, is_like: Boolean) = viewModelScope.launch {
         // 좋아요 버튼 클릭
         if(is_like){
             repository.exhbtLikeDel(token, exhibitionInfo.exhbt_cd) // 좋아요 버튼 취소
