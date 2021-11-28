@@ -2,15 +2,12 @@ package com.xemic.lazybird.ui.search
 
 import android.app.Activity
 import android.os.Bundle
-import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.coroutineScope
-import androidx.lifecycle.lifecycleScope
 import com.xemic.lazybird.R
 import com.xemic.lazybird.custom.OptionItemView
 import com.xemic.lazybird.databinding.FragmentSearchBinding
@@ -22,13 +19,11 @@ import com.xemic.lazybird.ui.exhibitionDetail.ExhibitionDetailFragment
 import com.xemic.lazybird.ui.exhibitionDetail.ExhibitionDetailViewModel
 import com.xemic.lazybird.util.replaceFragment
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 
 /************* SearchFragment ***************
  * 메인화면(검색 탭) (Fragment)
  * 검색 화면
  * Todo : 추천검색어 클릭 시 그 단어로 검색되도록 기능 구현
- * Todo : 추천검색리스트 string.xml 로 따로 빼기
  ********************************************** ***/
 @AndroidEntryPoint
 class SearchFragment : Fragment(R.layout.fragment_search) {
@@ -50,14 +45,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         val imm =
             parentActivity.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
 
-        val recommendList = listOf(
-            "회화",
-            "조형",
-            "사진",
-            "특별전",
-            "아동전시"
-        )
-
+        val recommendList = resources.getStringArray(R.array.fast_search_list)
         recommendList.forEach { name ->
             binding.searchRecommendList.addView(
                 OptionItemView(requireContext(), viewLifecycleOwner, name)
@@ -66,7 +54,6 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
 
 
         binding.searchEditText.setOnEditorActionListener { textView, actionId, keyEvent ->
-//            Log.e("test", "${ keyEvent.action }")
             if (actionId == EditorInfo.IME_ACTION_DONE || keyEvent.action == KeyEvent.ACTION_DOWN) {
                 // Done or Enter 눌렀을 시
                 viewModel.searchExhibition(textView.text.toString()) // 검색 결과 업데이트

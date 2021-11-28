@@ -1,11 +1,14 @@
 package com.xemic.lazybird.ui.exhibition
 
+import android.content.Context
 import android.util.Log
 import androidx.lifecycle.*
+import com.xemic.lazybird.R
 import com.xemic.lazybird.models.ExhibitionInfoShort
 import com.xemic.lazybird.models.retrofit.Exhbt
 import com.xemic.lazybird.util.dateFormatted
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -13,10 +16,10 @@ import javax.inject.Inject
 /************* ExhibitionViewModel ***************
  * 메인화면(전시 탭) (ViewModel)
  * 전시 정보 전체 보기
- * Todo : 옵션 버튼 List string.xml 로 따로 빼기
  ********************************************** ***/
 @HiltViewModel
 class ExhibitionViewModel @Inject constructor(
+    @ApplicationContext private val context: Context,
     private val repository: ExhibitionRepository
 ): ViewModel() {
 
@@ -96,13 +99,7 @@ class ExhibitionViewModel @Inject constructor(
 
     private fun getOptionItemList() {
         // 빠른 옵션 버튼명 가져오기
-        _optionItemList.value = listOf(
-            "회화",
-            "조형",
-            "사진",
-            "특별전",
-            "아동전시"
-        )
+        _optionItemList.value = context.resources.getStringArray(R.array.fast_search_list).toList()
     }
 
     fun clickLike(exhibitionInfo: Exhbt, is_like: Boolean) = viewModelScope.launch {
