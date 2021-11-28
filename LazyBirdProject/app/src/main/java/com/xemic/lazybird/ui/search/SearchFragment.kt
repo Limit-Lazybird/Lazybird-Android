@@ -2,6 +2,7 @@ package com.xemic.lazybird.ui.search
 
 import android.app.Activity
 import android.os.Bundle
+import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.EditorInfo
@@ -9,6 +10,7 @@ import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.coroutineScope
+import androidx.lifecycle.lifecycleScope
 import com.xemic.lazybird.R
 import com.xemic.lazybird.custom.OptionItemView
 import com.xemic.lazybird.databinding.FragmentSearchBinding
@@ -62,16 +64,16 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
             )
         }
 
+
         binding.searchEditText.setOnEditorActionListener { textView, actionId, keyEvent ->
+//            Log.e("test", "${ keyEvent.action }")
             if (actionId == EditorInfo.IME_ACTION_DONE || keyEvent.action == KeyEvent.ACTION_DOWN) {
                 // Done or Enter 눌렀을 시
-                viewLifecycleOwner.lifecycle.coroutineScope.launch {
-                    imm.hideSoftInputFromWindow(binding.searchEditText.windowToken, 0) // 키보드 내리기
-                    viewModel.searchExhibition(textView.text.toString()) // 검색 결과 업데이트
-                    binding.searchRecommendList.visibility = View.GONE
-                    binding.searchRecommendTitle.visibility = View.GONE
-                    binding.searchEditText.setText("") // 검색어 초기화
-                }
+                viewModel.searchExhibition(textView.text.toString()) // 검색 결과 업데이트
+                imm.hideSoftInputFromWindow(binding.searchEditText.windowToken, 0) // 키보드 내리기
+                binding.searchRecommendList.visibility = View.GONE
+                binding.searchRecommendTitle.visibility = View.GONE
+                binding.searchEditText.text = null // 검색어 초기화
             }
             return@setOnEditorActionListener false
         }

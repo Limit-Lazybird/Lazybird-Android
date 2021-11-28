@@ -57,9 +57,9 @@ class SearchViewModel @Inject constructor(
         token = repository.getPreferenceFlow().first()
     }
 
-    suspend fun searchExhibition(words:String) = viewModelScope.launch {
+    fun searchExhibition(words:String) = viewModelScope.launch {
         // 검색결과 전시리스트 받기
-        repository.searchExhibitionList(token, words).let { response ->
+        repository.searchExhibitionList(token, words.trim()).let { response ->
             if (response.body() != null) {
                 _exhbtList.postValue(response.body()!!.exhbtList)
             } else {
