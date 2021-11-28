@@ -32,12 +32,12 @@ class SearchAdapter(
     private lateinit var binding: ItemExhibitionBinding
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val exhibitionBinding = binding
         val exhibitionThumbnail = binding.itemExhibitionThumbnail // 전시 thumbnail 이미지
         val exhibitionLikeBtn = binding.itemExhibitionLikeBtn // 좋아요 버튼
         val exhibitionTitle = binding.itemExhibitionTitle // 전시 제목
         val exhibitionPlace = binding.itemExhibitionPlace // 전시 장소
         val exhibitionDate = binding.itemExhibitionDate // 전시 기간
-        var exhibitionDiscount = binding.discount // 할인율
         val exhibitionPriceDc = binding.itemExhibitionPriceDc // 할인된 가격 (할인율이 0%일 경우, itemExhibitionPrice 와 같은 값)
         val exhibitionPrice = binding.itemExhibitionPrice // 가격
         var isLike = false // 좋아요 상태
@@ -54,7 +54,7 @@ class SearchAdapter(
         holder.exhibitionTitle.text = list[position].title
         holder.exhibitionPlace.text = list[position].place
         holder.exhibitionDate.text = "${list[position].startDate} ~ ${list[position].endDate}"
-        holder.exhibitionDiscount = list[position].discount
+        holder.exhibitionBinding.discount = list[position].discount
         holder.exhibitionPriceDc.text = "${list[position].discountedPrice.thousandUnitFormatted()}"
         holder.exhibitionPrice.text = "${list[position].price.thousandUnitFormatted()}"
         holder.isLike = list[position].isLiked

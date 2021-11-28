@@ -36,11 +36,11 @@ class ReservationDetailAdapter(
     private lateinit var binding: ItemReservationBinding
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val exhibitionBinding = binding
         val exhibitionThumbnail = binding.itemReservationThumbnail // 전시회 정보 최상단 thumbnail 이미지
         val exhibitionTitle = binding.itemReservationTitle // 전시 제목
         val exhibitionPlace = binding.itemReservationPlace // 전시 장소
         val exhibitionDate = binding.itemReservationDate // 전시 기간
-        var exhibitionDiscount = binding.discount // 할인율
         val exhibitionPriceDc = binding.itemReservationPriceDc // 할인된 가격 (할인율이 0%일 경우, itemReservationPrice 와 같은 값)
         val exhibitionPrice = binding.itemReservationPrice // 가격
         val exhibitionDday = binding.itemReservationDday // 전시 시작까지 남은 기간
@@ -57,7 +57,7 @@ class ReservationDetailAdapter(
         holder.exhibitionTitle.text = list[position].title
         holder.exhibitionPlace.text = list[position].place
         holder.exhibitionDate.text = "${list[position].startDate} ~ ${list[position].endDate}"
-        holder.exhibitionDiscount = list[position].discount
+        holder.exhibitionBinding.discount = list[position].discount
         holder.exhibitionPriceDc.text = "${list[position].discountedPrice.thousandUnitFormatted()}"
         holder.exhibitionPrice.text = Html.fromHtml(
             "<strike>${list[position].price.thousandUnitFormatted()}</strike>",
