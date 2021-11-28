@@ -1,7 +1,6 @@
 package com.xemic.lazybird.ui.mybird
 
 import android.text.Html
-import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +14,7 @@ import com.xemic.lazybird.R
 import com.xemic.lazybird.databinding.ItemExhibitionBinding
 import com.xemic.lazybird.models.ExhibitionInfoShort
 import com.xemic.lazybird.util.thousandUnitFormatted
+import com.xemic.lazybird.util.toDp
 
 /************* LikeDetailAdapter ***************
  * 메인화면(마이버드 탭) >> 내가 찜한 전시리스트 보기 (Recycler Adpater)
@@ -71,11 +71,7 @@ class LikeDetailAdapter(
                 RequestOptions().transform(
                     CenterCrop(),
                     RoundedCorners(
-                        TypedValue.applyDimension(
-                            TypedValue.COMPLEX_UNIT_DIP,
-                            20f,
-                            holder.itemView.resources.displayMetrics
-                        ).toInt()
+                        20f.toDp(holder.itemView)
                     )
                 )
             )

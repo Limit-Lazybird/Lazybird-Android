@@ -1,6 +1,5 @@
 package com.xemic.lazybird.ui.search
 
-import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,6 +12,7 @@ import com.xemic.lazybird.R
 import com.xemic.lazybird.databinding.ItemExhibitionBinding
 import com.xemic.lazybird.models.ExhibitionInfoShort
 import com.xemic.lazybird.util.thousandUnitFormatted
+import com.xemic.lazybird.util.toDp
 
 /************* SearchAdapter ***************
  * 메인화면(검색 탭) (Recycler Adapter)
@@ -65,11 +65,7 @@ class SearchAdapter(
                 RequestOptions().transform(
                     CenterCrop(),
                     RoundedCorners(
-                        TypedValue.applyDimension(
-                            TypedValue.COMPLEX_UNIT_DIP,
-                            20f,
-                            holder.itemView.resources.displayMetrics
-                        ).toInt()
+                        20f.toDp(holder.itemView)
                     )
                 )
             )

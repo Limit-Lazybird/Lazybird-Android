@@ -1,8 +1,6 @@
 package com.xemic.lazybird.ui.mybird
 
 import android.os.Bundle
-import android.util.Log
-import android.util.TypedValue
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -12,14 +10,9 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.xemic.lazybird.R
 import com.xemic.lazybird.databinding.FragmentMybirdBinding
-import com.xemic.lazybird.databinding.FragmentSearchBinding
 import com.xemic.lazybird.ui.MainActivity
-import com.xemic.lazybird.ui.search.SearchViewModel
 import com.xemic.lazybird.ui.setting.SettingFragment
-import com.xemic.lazybird.util.calculateDateDiff
-import com.xemic.lazybird.util.dateFormatted
-import com.xemic.lazybird.util.replaceFragment
-import com.xemic.lazybird.util.toDate
+import com.xemic.lazybird.util.*
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 
@@ -72,11 +65,7 @@ class MyBirdFragment : Fragment(R.layout.fragment_mybird) {
                         RequestOptions().transform(
                             CenterCrop(),
                             RoundedCorners(
-                                TypedValue.applyDimension(
-                                    TypedValue.COMPLEX_UNIT_DIP,
-                                    15f,
-                                    view.resources.displayMetrics
-                                ).toInt()
+                                15f.toDp(view)
                             )
                         )
                     )
@@ -98,11 +87,7 @@ class MyBirdFragment : Fragment(R.layout.fragment_mybird) {
                         RequestOptions().transform(
                             CenterCrop(),
                             RoundedCorners(
-                                TypedValue.applyDimension(
-                                    TypedValue.COMPLEX_UNIT_DIP,
-                                    15f,
-                                    view.resources.displayMetrics
-                                ).toInt()
+                                15f.toDp(view)
                             )
                         )
                     )
@@ -135,11 +120,7 @@ class MyBirdFragment : Fragment(R.layout.fragment_mybird) {
                         RequestOptions().transform(
                             CenterCrop(),
                             RoundedCorners(
-                                TypedValue.applyDimension(
-                                    TypedValue.COMPLEX_UNIT_DIP,
-                                    15f,
-                                    view.resources.displayMetrics
-                                ).toInt()
+                                15f.toDp(view)
                             )
                         )
                     )
@@ -164,11 +145,7 @@ class MyBirdFragment : Fragment(R.layout.fragment_mybird) {
                         RequestOptions().transform(
                             CenterCrop(),
                             RoundedCorners(
-                                TypedValue.applyDimension(
-                                    TypedValue.COMPLEX_UNIT_DIP,
-                                    15f,
-                                    view.resources.displayMetrics
-                                ).toInt()
+                                15f.toDp(view)
                             )
                         )
                     )

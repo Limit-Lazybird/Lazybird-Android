@@ -1,8 +1,6 @@
 package com.xemic.lazybird.ui.exhibition
 
 import android.text.Html
-import android.util.Log
-import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +14,7 @@ import com.xemic.lazybird.R
 import com.xemic.lazybird.databinding.ItemExhibitionBinding
 import com.xemic.lazybird.models.ExhibitionInfoShort
 import com.xemic.lazybird.util.thousandUnitFormatted
+import com.xemic.lazybird.util.toDp
 
 /************* ExhibitionAdapter ***************
  * 메인화면(전시 탭) (Recycler Adpater)
@@ -72,11 +71,7 @@ class ExhibitionAdapter(
                 RequestOptions().transform(
                     CenterCrop(),
                     RoundedCorners(
-                        TypedValue.applyDimension(
-                            TypedValue.COMPLEX_UNIT_DIP,
-                            20f,
-                            holder.itemView.resources.displayMetrics
-                        ).toInt()
+                        20f.toDp(holder.itemView)
                     )
                 )
             )

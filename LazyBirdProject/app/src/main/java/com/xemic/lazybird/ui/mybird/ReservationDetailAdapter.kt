@@ -1,7 +1,6 @@
 package com.xemic.lazybird.ui.mybird
 
 import android.text.Html
-import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,6 +16,7 @@ import com.xemic.lazybird.models.ExhibitionInfoShort
 import com.xemic.lazybird.util.calculateDateDiff
 import com.xemic.lazybird.util.thousandUnitFormatted
 import com.xemic.lazybird.util.toDate2
+import com.xemic.lazybird.util.toDp
 import java.util.*
 
 /************* ReservationDetailAdapter ***************
@@ -71,11 +71,7 @@ class ReservationDetailAdapter(
                 RequestOptions().transform(
                     CenterCrop(),
                     RoundedCorners(
-                        TypedValue.applyDimension(
-                            TypedValue.COMPLEX_UNIT_DIP,
-                            10f,
-                            holder.itemView.resources.displayMetrics
-                        ).toInt()
+                        10f.toDp(holder.itemView)
                     )
                 )
             )

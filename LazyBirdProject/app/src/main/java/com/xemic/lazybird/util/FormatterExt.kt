@@ -1,8 +1,10 @@
 package com.xemic.lazybird.util
 
+import android.util.TypedValue
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.math.ceil
+import android.view.View
 
 // 12345 >> 12,345
 fun Int.thousandUnitFormatted(): String {
@@ -40,3 +42,10 @@ fun calculateDateDiff(d1: Date, d2: Date): Int {
         ceil(((d2.time - d1.time) / (1000 * 60 * 60 * 24f))).toInt()
     }
 }
+
+fun Float.toDp(view: View) =
+    TypedValue.applyDimension(
+        TypedValue.COMPLEX_UNIT_DIP,
+        20f,
+        view.resources.displayMetrics
+    ).toInt()

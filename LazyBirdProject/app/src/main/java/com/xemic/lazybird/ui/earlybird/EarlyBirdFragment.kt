@@ -12,6 +12,7 @@ import com.xemic.lazybird.models.retrofit.Exhbt
 import com.xemic.lazybird.ui.MainActivity
 import com.xemic.lazybird.ui.earilybirdDetail.EarlyBirdDetailViewModel
 import com.xemic.lazybird.ui.earlybirdDetail.EarlyBirdDetailFragment
+import com.xemic.lazybird.ui.notification.NotificationFragment
 import com.xemic.lazybird.util.replaceFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.math.abs
@@ -85,6 +86,9 @@ class EarlyBirdFragment : Fragment(R.layout.fragment_earlybird) {
                 }
             )
         }
+        binding.earlybirdBell.setOnClickListener {
+            moveToNotification()
+        }
     }
 
     private fun moveToEarlyBirdDetail(earlyBirdInfo: Exhbt) {
@@ -98,5 +102,10 @@ class EarlyBirdFragment : Fragment(R.layout.fragment_earlybird) {
             },
             true
         )
+    }
+
+    private fun moveToNotification() {
+        // Notification Fragment 로 이동
+        parentActivity.supportFragmentManager.replaceFragment(NotificationFragment())
     }
 }
