@@ -2,6 +2,7 @@ package com.xemic.lazybird.ui.search
 
 import android.app.Activity
 import android.os.Bundle
+import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.EditorInfo
@@ -23,7 +24,6 @@ import dagger.hilt.android.AndroidEntryPoint
 /************* SearchFragment ***************
  * 메인화면(검색 탭) (Fragment)
  * 검색 화면
- * Todo : 추천검색어 클릭 시 그 단어로 검색되도록 기능 구현
  ********************************************** ***/
 @AndroidEntryPoint
 class SearchFragment : Fragment(R.layout.fragment_search) {
@@ -48,7 +48,16 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         val recommendList = resources.getStringArray(R.array.fast_search_list)
         recommendList.forEach { name ->
             binding.searchRecommendList.addView(
-                OptionItemView(requireContext(), viewLifecycleOwner, name)
+                OptionItemView(requireContext(), viewLifecycleOwner, name).apply { 
+                    setOnClickListener { 
+                        // 추천검색어 클릭
+                        viewModel.searchExhibition(text.toString()) // 해당 키워드로 검색
+                        imm.hideSoftInputFromWindow(binding.searchEditText.windowToken, 0) // 키보드 내리기
+                        binding.searchRecommendList.visibility = View.GONE
+                        binding.searchRecommendTitle.visibility = View.GONE
+                        binding.searchEditText.text = null // 검색어 초기화
+                    }
+                }
             )
         }
 
