@@ -39,6 +39,7 @@ class NotificationViewModel @Inject constructor(
     }
 
     private fun initNotificationList() {
+        // Todo : dummy data
         _notificationList.postValue(
             listOf(
                 NotificationInfo(

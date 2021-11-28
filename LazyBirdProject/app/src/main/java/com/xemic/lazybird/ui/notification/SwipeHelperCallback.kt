@@ -8,6 +8,11 @@ import android.view.View
 import kotlin.math.max
 import kotlin.math.min
 
+/********** PositionedCropTransformation **********
+ * RecyclerView 에서 옆으로 스와이프 하여,
+ * 취소모드로 전환하여 item을 변경할 수 있도록 만들어진 Custom ItemTouchHelper.Callback
+ * Code Ref : https://velog.io/@trycatch98/Android-RecyclerView-Swipe-Menu
+ ********************************************** ***/
 class SwipeHelperCallback: ItemTouchHelper.Callback() {
 
     private var currentPosition: Int? = null
