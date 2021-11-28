@@ -12,15 +12,17 @@ import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.xemic.lazybird.R
-import com.xemic.lazybird.databinding.ItemExhibitionBinding
 import com.xemic.lazybird.databinding.ItemReservationBinding
 import com.xemic.lazybird.models.ExhibitionInfoShort
 import com.xemic.lazybird.util.calculateDateDiff
 import com.xemic.lazybird.util.thousandUnitFormatted
-import com.xemic.lazybird.util.toDate
 import com.xemic.lazybird.util.toDate2
 import java.util.*
 
+/************* ReservationDetailAdapter ***************
+ * 메인화면(마이버드 탭) >> 내가 예약한 전시리스트 보기 (Recycler Adapter)
+ * 내가 예약한 전시리스트 보기
+ ********************************************** ***/
 class ReservationDetailAdapter(
     val list: List<ExhibitionInfoShort>
 ) : RecyclerView.Adapter<ReservationDetailAdapter.ViewHolder>() {
@@ -34,15 +36,14 @@ class ReservationDetailAdapter(
     private lateinit var binding: ItemReservationBinding
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val exhibitBinding = binding
-        val exhibitionThumbnail = binding.itemReservationThumbnail
-        val exhibitionTitle = binding.itemReservationTitle
-        val exhibitionPlace = binding.itemReservationPlace
-        val exhibitionDate = binding.itemReservationDate
-        val exhibitionDiscount = binding.itemReservationDiscount
-        val exhibitionPriceDc = binding.itemReservationPriceDc
-        val exhibitionPrice = binding.itemReservationPrice
-        val exhibitionDday = binding.itemReservationDday
+        val exhibitionThumbnail = binding.itemReservationThumbnail // 전시회 정보 최상단 thumbnail 이미지
+        val exhibitionTitle = binding.itemReservationTitle // 전시 제목
+        val exhibitionPlace = binding.itemReservationPlace // 전시 장소
+        val exhibitionDate = binding.itemReservationDate // 전시 기간
+        var exhibitionDiscount = binding.discount // 할인율
+        val exhibitionPriceDc = binding.itemReservationPriceDc // 할인된 가격 (할인율이 0%일 경우, itemReservationPrice 와 같은 값)
+        val exhibitionPrice = binding.itemReservationPrice // 가격
+        val exhibitionDday = binding.itemReservationDday // 전시 시작까지 남은 기간
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -56,7 +57,7 @@ class ReservationDetailAdapter(
         holder.exhibitionTitle.text = list[position].title
         holder.exhibitionPlace.text = list[position].place
         holder.exhibitionDate.text = "${list[position].startDate} ~ ${list[position].endDate}"
-        holder.exhibitBinding.discount = list[position].discount
+        holder.exhibitionDiscount = list[position].discount
         holder.exhibitionPriceDc.text = "${list[position].discountedPrice.thousandUnitFormatted()}"
         holder.exhibitionPrice.text = Html.fromHtml(
             "<strike>${list[position].price.thousandUnitFormatted()}</strike>",

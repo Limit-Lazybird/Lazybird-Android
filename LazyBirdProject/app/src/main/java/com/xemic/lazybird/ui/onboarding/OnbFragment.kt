@@ -1,15 +1,11 @@
 package com.xemic.lazybird.ui.onboarding
 
-import android.app.AlertDialog
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.core.os.bundleOf
 import androidx.core.view.forEachIndexed
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.coroutineScope
@@ -24,8 +20,16 @@ import com.xemic.lazybird.util.replaceFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+/************* OnbFragment ***************
+ * 온보딩 시작화면 >> 온보딩 화면 (Fragment)
+ * 온보딩 설문조사하는 화면
+ ********************************************** ***/
 @AndroidEntryPoint
 class OnbFragment : Fragment(R.layout.fragment_onb) {
+
+    companion object {
+        const val TAG = "OnbFragment"
+    }
 
     private lateinit var binding: FragmentOnbBinding
     private val viewModel: OnbViewModel by viewModels()
@@ -65,6 +69,7 @@ class OnbFragment : Fragment(R.layout.fragment_onb) {
             viewModel.page.observe(viewLifecycleOwner) { page ->
                 binding.page = page
                 if (page >= surveyList.size) {
+                    updateResultToServer() // 서버에 결과 업데이트
                     moveToEndFragment() // 화면 이동
                 } else if(page < 0) {
                     moveToStartFragment() // 화면 벗어나기
@@ -140,11 +145,12 @@ class OnbFragment : Fragment(R.layout.fragment_onb) {
 
 
     private fun moveToStartFragment() {
+        // OnbStartFragment 로 이동
         parentActivity.supportFragmentManager.popBackStack()
     }
 
-    private fun moveToEndFragment() {
-        // Server에 업데이트
+    private fun updateResultToServer() {
+        // 설문조사 결과 서버에 업데이트
         viewLifecycleOwner.lifecycle.coroutineScope.launch {
             viewModel.deleteCustomizedList()
             viewModel.insertCustomizedList(
@@ -153,8 +159,10 @@ class OnbFragment : Fragment(R.layout.fragment_onb) {
                 }.joinToString(".")
             )
         }
+    }
 
-        // 얼리버드 화면(메인화면)으로 이동
+    private fun moveToEndFragment() {
+        // OnbEndFragment로 이동
         parentActivity.supportFragmentManager.replaceFragment(OnbEndFragment(), false)
     }
 

@@ -12,6 +12,10 @@ import kotlinx.coroutines.launch
 import okhttp3.ResponseBody
 import javax.inject.Inject
 
+/************* LoginViewModel ***************
+ * 로그인 화면 (ViewModel)
+ * 로그인 화면 (카카오 로그인, 구글 로그인)
+ ********************************************** ***/
 @HiltViewModel
 class LoginViewModel @Inject constructor(
     private val apiHelper: ApiHelper,
@@ -26,6 +30,7 @@ class LoginViewModel @Inject constructor(
         kakaoToken: String,
         name: String
     ) = viewModelScope.launch {
+        // LazyBird 서버에 카카오 로그인 요청
         updateUserInfo(email, name)
         val response = apiHelper.loginKakao(
             email = email,
@@ -44,6 +49,7 @@ class LoginViewModel @Inject constructor(
         googleToken: String,
         name: String
     ) = viewModelScope.launch {
+        // LazyBird 서버에 구글 로그인 요청
         updateUserInfo(email, name)
         val response = apiHelper.loginGoogle(
             email = email,
@@ -58,10 +64,12 @@ class LoginViewModel @Inject constructor(
     }
 
     fun updateToken(token:String) = viewModelScope.launch {
+        // dataStore 에서 토큰 값 저장하기
         preferenceDataStoreManager.updateToken(token)
     }
 
     fun updateUserInfo(email: String, name: String) = viewModelScope.launch {
+        // dataStore 에서 유저정보 값 저장하기
         preferenceDataStoreManager.updateUserInfo(email, name)
     }
 

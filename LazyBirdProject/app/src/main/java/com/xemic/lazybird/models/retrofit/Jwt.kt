@@ -1,7 +1,5 @@
 package com.xemic.lazybird.models.retrofit
 
-import com.google.gson.annotations.SerializedName
-
 data class Jwt(
     val code: Int,
     val msg: String,

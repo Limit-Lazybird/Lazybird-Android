@@ -9,8 +9,16 @@ import com.xemic.lazybird.databinding.FragmentNoticeBinding
 import com.xemic.lazybird.ui.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
 
+/***************** NoticeFragment *******************
+ * 메인화면(마이버드 탭) >> 옵션 >> 공지사항 (Fragment)
+ * 공지사항 전체 보기
+ ********************************************** ***/
 @AndroidEntryPoint
 class NoticeFragment : Fragment(R.layout.fragment_notice) {
+
+    companion object {
+        const val TAG = "NoticeFragment"
+    }
 
     lateinit var binding: FragmentNoticeBinding
     private val viewModel: NoticeViewModel by viewModels()

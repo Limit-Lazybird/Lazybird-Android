@@ -2,7 +2,6 @@ package com.xemic.lazybird.ui.search
 
 import android.app.Activity
 import android.os.Bundle
-import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.EditorInfo
@@ -23,9 +22,18 @@ import com.xemic.lazybird.util.replaceFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+/************* SearchFragment ***************
+ * 메인화면(검색 탭) (Fragment)
+ * 검색 화면
+ * Todo : 추천검색어 클릭 시 그 단어로 검색되도록 기능 구현
+ * Todo : 추천검색리스트 string.xml 로 따로 빼기
+ ********************************************** ***/
 @AndroidEntryPoint
 class SearchFragment : Fragment(R.layout.fragment_search) {
 
+    companion object {
+        const val TAG = "SearchFragment"
+    }
     lateinit var binding: FragmentSearchBinding
     private val viewModel: SearchViewModel by viewModels()
     private val parentActivity: MainActivity by lazy {
@@ -75,6 +83,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
                 binding.searchNoItem.visibility = View.INVISIBLE
             }
             binding.searchRecyclerview.adapter = SearchAdapter(exhibitionList).apply {
+                // RecyclerView 업데이트
                 itemClickListener = object : SearchAdapter.OnItemClickListener {
                     override fun onItemClick(
                         holder: SearchAdapter.ViewHolder,
@@ -99,6 +108,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
     }
 
     private fun moveToExhibitionDetail(exhibitionInfo: Exhbt) {
+        // ExhibitionDetail Fragment 로 이동
         when (exhibitionInfo.eb_yn) {
             "Y" -> {
                 val bundle = Bundle().apply {

@@ -16,6 +16,10 @@ import com.xemic.lazybird.custom.OptionItemView
 import com.xemic.lazybird.databinding.DialogBsFilterExhibitionBinding
 import com.xemic.lazybird.models.ExhibitionFilterList
 
+/************* ExhibitionFilterBSDialog ***************
+ * 메인화면(전시 탭) >> 상세필터 보기 (Dialog)
+ * 상세필터링 선택하는 Dialog 화면
+ ********************************************** ***/
 class ExhibitionFilterBSDialog : BottomSheetDialogFragment() {
 
     companion object {
@@ -116,8 +120,6 @@ class ExhibitionFilterBSDialog : BottomSheetDialogFragment() {
 
         binding.dialogBsFilterOk.setOnClickListener {
             // 확인버튼 클릭 시
-
-
             setFragmentResult(TAG, Bundle().apply {
                 putString(RESULT_CODE, RESULT_OK)
                 putParcelable(FILTER_LIST, ExhibitionFilterList(
@@ -144,7 +146,7 @@ class ExhibitionFilterBSDialog : BottomSheetDialogFragment() {
         }
 
         binding.dialogBsRefresh.setOnClickListener {
-            // refresh button click
+            // 초기화버튼 클릭 시 (선택된 모든 버튼 초기화)
             binding.dialogBsFilterClass.allViews.forEach { optionItemView ->
                 optionItemView.isSelected = false
             }
@@ -162,5 +164,6 @@ class ExhibitionFilterBSDialog : BottomSheetDialogFragment() {
         return binding.root
     }
 
-    override fun getTheme(): Int = R.style.BottomSheetDialog // 모달창 배경 transparent 으로 지정
+    // 모달창 배경 transparent 으로 지정
+    override fun getTheme(): Int = R.style.BottomSheetDialog
 }

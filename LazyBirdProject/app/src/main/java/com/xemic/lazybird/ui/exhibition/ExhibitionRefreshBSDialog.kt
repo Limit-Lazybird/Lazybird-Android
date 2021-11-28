@@ -13,6 +13,10 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.xemic.lazybird.R
 import com.xemic.lazybird.databinding.DialogBsRefreshExhibitionBinding
 
+/************* ExhibitionRefreshBSDialog ***************
+ * 메인화면(전시 탭) >> 맞춤전시 재설정하기 (Dialog)
+ * 맞춤전시 재설정 선택하는 Dialog 화면
+ ********************************************** ***/
 class ExhibitionRefreshBSDialog : BottomSheetDialogFragment() {
 
     companion object {

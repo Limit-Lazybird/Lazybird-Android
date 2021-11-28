@@ -14,8 +14,17 @@ import com.xemic.lazybird.util.removeAllBackStack
 import com.xemic.lazybird.util.replaceFragment
 import dagger.hilt.android.AndroidEntryPoint
 
+/***************** SettingFragment *******************
+ * 메인화면(마이버드 탭) >> 옵션  (Fragment)
+ * 옵션 화면
+ ********************************************** ***/
 @AndroidEntryPoint
 class SettingFragment : Fragment(R.layout.fragment_setting) {
+
+    companion object {
+        const val TAG = "SettingFragment"
+    }
+
     lateinit var binding: FragmentSettingBinding
     private val parentActivity: MainActivity by lazy {
         activity as MainActivity
@@ -77,7 +86,7 @@ class SettingFragment : Fragment(R.layout.fragment_setting) {
                 LogoutBSDialog.RESULT_OK -> {
                     // 로그아웃에서 OK 버튼 누름
                     parentActivity.supportFragmentManager.removeAllBackStack()
-                    parentActivity.supportFragmentManager.replaceFragment(LoginFragment())
+                    parentActivity.supportFragmentManager.replaceFragment(LoginFragment(), false)
                 }
             }
         }

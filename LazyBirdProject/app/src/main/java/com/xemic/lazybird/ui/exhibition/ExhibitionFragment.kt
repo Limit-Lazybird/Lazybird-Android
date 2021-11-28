@@ -1,7 +1,6 @@
 package com.xemic.lazybird.ui.exhibition
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.core.view.allViews
 import androidx.fragment.app.Fragment
@@ -23,8 +22,18 @@ import com.xemic.lazybird.util.replaceFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+/************* ExhibitionFragment ***************
+ * 메인화면(전시 탭) (Fragment)
+ * 전시 정보 전체 보기
+ * Todo : 하트 클릭 정보 Local로 두고, 하트 클릭 시 전시정보 업데이트 안하도록 변경
+ * Todo : RecyclerView에 LiveData와 ListAdapter 적용하여, 데이터 변환시 시각적으로 변화하도록 수정
+ ********************************************** ***/
 @AndroidEntryPoint
 class ExhibitionFragment : Fragment(R.layout.fragment_exhibition) {
+
+    companion object {
+        const val TAG = "ExhibitionFragment"
+    }
 
     private lateinit var binding: FragmentExhibitionBinding
     private val viewModel: ExhibitionViewModel by viewModels()
@@ -38,6 +47,7 @@ class ExhibitionFragment : Fragment(R.layout.fragment_exhibition) {
         binding = FragmentExhibitionBinding.bind(view)
 
         viewModel.exhibitionList.observe(viewLifecycleOwner) { exhibitionList ->
+            // RecyclerView 업데이트
             binding.exhibitionRecyclerView.adapter = ExhibitionAdapter(exhibitionList).apply {
                 itemClickListener = object : ExhibitionAdapter.OnItemClickListener {
                     override fun onItemClick(
@@ -63,7 +73,7 @@ class ExhibitionFragment : Fragment(R.layout.fragment_exhibition) {
                             else
                                 viewModel.getExhbtList()
                         }
-                        // Todo : 차후 개선
+                        // Todo : RecyclerView에 LiveData와 ListAdapter 적용하여, 데이터 변환시 시각적으로 변화하도록 수정
 //                        holder.isLike = !holder.isLike
 //                        if (holder.isLike) {
 //                            holder.exhibitionLikeBtn.setImageResource(R.drawable.ic_fav_sm_on)
@@ -76,6 +86,7 @@ class ExhibitionFragment : Fragment(R.layout.fragment_exhibition) {
         }
 
         viewModel.optionItemList.observe(viewLifecycleOwner) { optionList ->
+            // 상단 빠른 필터링 옵션버튼 그려주기
             for (idx in optionList.indices) {
                 val optionName =  optionList[idx]
                 binding.exhibitionOptionItemLayout.addView(
@@ -96,7 +107,7 @@ class ExhibitionFragment : Fragment(R.layout.fragment_exhibition) {
         }
 
         binding.exhibitionDetailOptionBtn.setOnClickListener {
-            // 상세 필터링 버튼 클릭 시
+            // 상세 필터링 버튼 클릭
             ExhibitionFilterBSDialog().show(
                 parentFragmentManager,
                 ExhibitionFilterBSDialog.TAG
@@ -112,6 +123,7 @@ class ExhibitionFragment : Fragment(R.layout.fragment_exhibition) {
         }
 
         binding.exhibitionCustomSwitch.setOnCheckedChangeListener { _, isOn ->
+            // 스위치 클릭
             if(isOn){
                 resetShortFilter()
                 viewModel.getCustomExhbtList()
@@ -121,15 +133,17 @@ class ExhibitionFragment : Fragment(R.layout.fragment_exhibition) {
         }
 
         setFragmentResultListener(ExhibitionRefreshBSDialog.TAG) { _, bundle ->
+            // 전시성향분석 재설정 Dialog 선택 결과 확인
             when(bundle.getString(ExhibitionRefreshBSDialog.RESULT_CODE)){
                 ExhibitionRefreshBSDialog.RESULT_OK -> {
-                    parentActivity.supportFragmentManager.replaceFragment(OnbFragment())
+                    parentActivity.supportFragmentManager.replaceFragment(OnbFragment()) // 전시성향분석 Dialog 이동
                 }
             }
         }
 
 
         setFragmentResultListener(ExhibitionFilterBSDialog.TAG) { _, bundle ->
+            // 상세필터 결과 확인
             when(bundle.getString(ExhibitionFilterBSDialog.RESULT_CODE)){
                 ExhibitionFilterBSDialog.RESULT_OK -> {
                     val exhibitionFilterList = bundle.getParcelable<ExhibitionFilterList>(
@@ -153,16 +167,19 @@ class ExhibitionFragment : Fragment(R.layout.fragment_exhibition) {
     }
 
     private fun resetSwitch() {
+        // 스위치 초기화 하기
         binding.exhibitionCustomSwitch.isChecked = false
     }
 
     private fun resetShortFilter() {
+        // 빠른 필터링 옵션버튼 초기화 하기
         binding.exhibitionOptionItemLayout.allViews.forEach { optionView ->
             optionView.isSelected = false
         }
     }
 
     private fun moveToExhibitionDetail(exhibitionInfo: Exhbt) {
+        // ExhibitionDetail Fragment 로 이동
         when (exhibitionInfo.eb_yn) {
             "Y" -> {
                 val bundle = Bundle().apply {

@@ -13,6 +13,10 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.xemic.lazybird.R
 import com.xemic.lazybird.databinding.DialogBsLogoutBinding
 
+/************* ExhibitionFilterBSDialog ***************
+ * 메인화면(마이버드 탭) >> 옵션 >> 로그아웃 (BottomSheetDialogFragment)
+ * 정말로 로그아웃 할지 선택하는 화면
+ ********************************************** ***/
 class LogoutBSDialog : BottomSheetDialogFragment() {
 
     companion object {

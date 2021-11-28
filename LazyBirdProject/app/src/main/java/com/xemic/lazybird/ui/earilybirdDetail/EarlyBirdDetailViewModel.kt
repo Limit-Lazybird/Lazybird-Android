@@ -1,6 +1,5 @@
 package com.xemic.lazybird.ui.earilybirdDetail
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -18,6 +17,10 @@ import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
 
+/************* EarlyBirdDetailViewModel ***************
+ * 메인화면(얼리버드 탭) >> 얼리버드 상세보기 (ViewModel)
+ * 얼리버드 정보 자세히 보기
+ ********************************************** ***/
 @HiltViewModel
 class EarlyBirdDetailViewModel @Inject constructor(
     private val apiHelper: ApiHelper,
@@ -25,6 +28,7 @@ class EarlyBirdDetailViewModel @Inject constructor(
 ) : ViewModel() {
 
     companion object {
+        const val TAG = "EarlyBirdDetailViewModel"
         const val EARLYBIRD_INFO = "earlyBirdInfo"
     }
 
@@ -38,19 +42,15 @@ class EarlyBirdDetailViewModel @Inject constructor(
 
     init {
         initToken()
-//        updateExhibitionInfo()
-//        updateExhibitionLike()
     }
 
     private fun initToken() = viewModelScope.launch {
-        token = dataStoreManager.preferenceTokenFlow.first()
+        // dataStore 에서 토큰 값 가져오기
+        token = dataStoreManager.preferenceTokenFlow.first() 
     }
 
-//    private fun updateExhibitionLike() {
-//        _exhibitionLike.value = false
-//    }
-
     fun updateExhibitionInfo(exhbt: Exhbt) {
+        // Exhbt 정보 업데이트
         _exhibitionInfo.postValue(
             ExhibitionInfo(
                 id = exhbt.exhbt_cd,
@@ -70,33 +70,16 @@ class EarlyBirdDetailViewModel @Inject constructor(
                 like_yn = exhbt.like_yn == "Y"
             )
         )
-        Log.e("test", exhbt.toString())
+
         _exhibitionLike.postValue(exhbt.like_yn == "Y")
     }
 
-    /*** deprecated ***/
-//    private fun updateExhibitionInfo() {
-//        _exhibitionInfo.value = ExhibitionInfo(
-//            "미구엘 슈발리에 제주 특별전",
-//            10,
-//            "아쿠아 플라넷 제주",
-//            "2021.11.08",
-//            "2021.12.31",
-//            50,
-//            20000,
-//            10000,
-//            "얼리버드 티켓은 12월 17일까지 판매됩니다.\n - 매주 월요일은 휴관합니다.\n - 36개월 미만은 입장 불가능합니다.\n",
-//            "https://ticketimage.interpark.com/Play/image/etc/21/21010892-01.jpg",
-//            "http://img1.tmon.kr/cdn4/deals/2021/11/05/9002271818/summary_ad815.jpg"
-//        )
-//    }
-
     suspend fun clickLike() {
+        // 좋아요 버튼 클릭
         if(exhibitionLike.value!!){
             apiHelper.exhbtLikeDel(token, exhibitionInfo.value!!.id) // 좋아요 버튼 취소
         } else {
-            // 좋아요 버튼 누름
-            apiHelper.exhbtLikeSave(token, exhibitionInfo.value!!.id) // 좋아요 버튼 취소
+            apiHelper.exhbtLikeSave(token, exhibitionInfo.value!!.id) // 좋아요 버튼 활성화
         }
         _exhibitionLike.value = !exhibitionLike.value!!
     }

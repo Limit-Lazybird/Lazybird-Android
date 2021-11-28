@@ -14,6 +14,10 @@ import com.xemic.lazybird.databinding.ItemExhibitionBinding
 import com.xemic.lazybird.models.ExhibitionInfoShort
 import com.xemic.lazybird.util.thousandUnitFormatted
 
+/************* SearchAdapter ***************
+ * 메인화면(검색 탭) (Recycler Adapter)
+ * 검색 화면
+ ********************************************** ***/
 class SearchAdapter(
     val list: List<ExhibitionInfoShort>
 ) : RecyclerView.Adapter<SearchAdapter.ViewHolder>() {
@@ -28,16 +32,15 @@ class SearchAdapter(
     private lateinit var binding: ItemExhibitionBinding
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val exhibitBinding = binding
-        val exhibitionThumbnail = binding.itemExhibitionThumbnail
-        val exhibitionLikeBtn = binding.itemExhibitionLikeBtn
-        val exhibitionTitle = binding.itemExhibitionTitle
-        val exhibitionPlace = binding.itemExhibitionPlace
-        val exhibitionDate = binding.itemExhibitionDate
-        val exhibitionDiscount = binding.itemExhibitionDiscount
-        val exhibitionPriceDc = binding.itemExhibitionPriceDc
-        val exhibitionPrice = binding.itemExhibitionPrice
-        var isLike = false
+        val exhibitionThumbnail = binding.itemExhibitionThumbnail // 전시 thumbnail 이미지
+        val exhibitionLikeBtn = binding.itemExhibitionLikeBtn // 좋아요 버튼
+        val exhibitionTitle = binding.itemExhibitionTitle // 전시 제목
+        val exhibitionPlace = binding.itemExhibitionPlace // 전시 장소
+        val exhibitionDate = binding.itemExhibitionDate // 전시 기간
+        var exhibitionDiscount = binding.discount // 할인율
+        val exhibitionPriceDc = binding.itemExhibitionPriceDc // 할인된 가격 (할인율이 0%일 경우, itemExhibitionPrice 와 같은 값)
+        val exhibitionPrice = binding.itemExhibitionPrice // 가격
+        var isLike = false // 좋아요 상태
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -51,7 +54,7 @@ class SearchAdapter(
         holder.exhibitionTitle.text = list[position].title
         holder.exhibitionPlace.text = list[position].place
         holder.exhibitionDate.text = "${list[position].startDate} ~ ${list[position].endDate}"
-        holder.exhibitBinding.discount = list[position].discount
+        holder.exhibitionDiscount = list[position].discount
         holder.exhibitionPriceDc.text = "${list[position].discountedPrice.thousandUnitFormatted()}"
         holder.exhibitionPrice.text = "${list[position].price.thousandUnitFormatted()}"
         holder.isLike = list[position].isLiked

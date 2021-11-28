@@ -4,7 +4,6 @@ import android.content.Context
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.text.Html
-import android.util.Log
 import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
@@ -33,6 +32,11 @@ import com.xemic.lazybird.util.thousandUnitFormatted
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+/************* EarlyBirdDetailFragment ***************
+ * 메인화면(얼리버드 탭) >> 얼리버드 상세보기 (Fragment)
+ * 얼리버드 정보 자세히 보기
+ * Todo : 코드단에서 수동으로 안하고 ConstraintLayout 을 통해 비율 맞추도록 수정
+ ********************************************** ***/
 @AndroidEntryPoint
 class EarlyBirdDetailFragment : Fragment(R.layout.fragment_earlybird_detail) {
 
@@ -40,8 +44,8 @@ class EarlyBirdDetailFragment : Fragment(R.layout.fragment_earlybird_detail) {
         const val TAG = "EarlyBirdDetailFragment"
     }
 
-    private val THUMBNAIL_IMAGE_RATIO = 4 / 3f
-    private val DETAIL_IMAGE_LIMIT_HIGH = 500f
+    private val THUMBNAIL_IMAGE_RATIO = 4 / 3f // Thumbnail 이미지의 세로 크기
+    private val DETAIL_IMAGE_LIMIT_HIGH = 500f // detail Image의 최대 Hegiht 값
 
     private lateinit var binding: FragmentEarlybirdDetailBinding
     private val viewModel: EarlyBirdDetailViewModel by viewModels()
@@ -57,25 +61,27 @@ class EarlyBirdDetailFragment : Fragment(R.layout.fragment_earlybird_detail) {
         binding = FragmentEarlybirdDetailBinding.bind(view)
 
         lifecycleScope.launchWhenStarted {
+            // argument 로 넘어오는 earlyBird 상세정보 ViewModel에 업데이트
             val exhbt = requireArguments().getParcelable<Exhbt>(EarlyBirdDetailViewModel.EARLYBIRD_INFO)
             if(exhbt!=null)
                 viewModel.updateExhibitionInfo(exhbt)
         }
 
         viewModel.exhibitionInfo.observe(viewLifecycleOwner) { exhibitionInfo ->
-            binding.earlybirdDetailDDay.text = "D - ${exhibitionInfo.dDay}"
-            binding.earlybirdDetailTitle.text = exhibitionInfo.title
-            binding.earlybirdDetailPlace.text = exhibitionInfo.place
+            // exhibitionInfo 정보 업데이트 완료
+            binding.earlybirdDetailDDay.text = "D - ${exhibitionInfo.dDay}" // 전시 시작까지 남은 기간
+            binding.earlybirdDetailTitle.text = exhibitionInfo.title // 전시 제목
+            binding.earlybirdDetailPlace.text = exhibitionInfo.place // 전시 장소
             binding.earlybirdDetailDate.text =
-                "${exhibitionInfo.startDate}~${exhibitionInfo.endDate}"
-            binding.earlybirdDetailDiscount.text = "${exhibitionInfo.discount}%"
+                "${exhibitionInfo.startDate}~${exhibitionInfo.endDate}" // 전시 기간
+            binding.earlybirdDetailDiscount.text = "${exhibitionInfo.discount}%" // 할인율
             binding.earlybirdDetailPriceDc.text =
-                "${exhibitionInfo.discountedPrice.thousandUnitFormatted()}"
+                "${exhibitionInfo.discountedPrice.thousandUnitFormatted()}" // 할인 가격
             binding.earlybirdDetailPrice.text = Html.fromHtml(
-                "<strike>${exhibitionInfo.price.thousandUnitFormatted()}</strike>",
+                "<strike>${exhibitionInfo.price.thousandUnitFormatted()}</strike>", // 가격
                 HtmlCompat.FROM_HTML_MODE_LEGACY
             )
-            binding.notice = exhibitionInfo.notice.applyEscapeSequence()
+            binding.notice = exhibitionInfo.notice.applyEscapeSequence() // 전시 공지사항
 
             // thumbnail Image
             Glide.with(this)
@@ -162,6 +168,7 @@ class EarlyBirdDetailFragment : Fragment(R.layout.fragment_earlybird_detail) {
         }
 
         viewModel.exhibitionLike.observe(viewLifecycleOwner) { isLike ->
+            // 좋아요 상태 변경
             if (isLike) {
                 binding.earlybirdDetailLikeBtn.setImageResource(R.drawable.ic_fav_lg_on)
             } else {
@@ -170,6 +177,7 @@ class EarlyBirdDetailFragment : Fragment(R.layout.fragment_earlybird_detail) {
         }
 
         binding.earlybirdDetailTicketingBtn.setOnClickListener {
+            // TicketingNoticeFragment 화면 이동
             val bundle = Bundle().apply {
                 putParcelable(TicketingViewModel.EXHIBITION_INFO, viewModel.exhibitionInfo.value!!)
             }

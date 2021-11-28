@@ -15,8 +15,16 @@ import com.xemic.lazybird.ui.exhibitionDetail.ExhibitionDetailViewModel
 import com.xemic.lazybird.util.replaceFragment
 import dagger.hilt.android.AndroidEntryPoint
 
+/************* ReservationDetailFragment ***************
+ * 메인화면(마이버드 탭) >> 내가 예약한 전시리스트 보기 (Fragment)
+ * 내가 예약한 전시리스트 보기
+ ********************************************** ***/
 @AndroidEntryPoint
 class ReservationDetailFragment: Fragment(R.layout.fragment_reservation_detail) {
+
+    companion object {
+        const val TAG = "ReservationDetailFragment"
+    }
 
     lateinit var binding: FragmentReservationDetailBinding
     private val viewModel: MyBirdViewModel by viewModels()
@@ -57,6 +65,7 @@ class ReservationDetailFragment: Fragment(R.layout.fragment_reservation_detail) 
     }
 
     private fun moveToExhibitionDetail(exhibitionInfo: Exhbt) {
+        // ExhibitionDetail 화면으로 이동
         when (exhibitionInfo.eb_yn) {
             "Y" -> {
                 val bundle = Bundle().apply {

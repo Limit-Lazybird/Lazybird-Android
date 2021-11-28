@@ -4,6 +4,10 @@ import com.xemic.lazybird.api.ApiHelper
 import com.xemic.lazybird.data.PreferenceDataStoreManager
 import javax.inject.Inject
 
+/************* SearchRepository ***************
+ * 메인화면(검색 탭) (Repository)
+ * 검색 화면
+ ********************************************** ***/
 class SearchRepository @Inject constructor(
     private val apiHelper: ApiHelper,
     private val dataStoreManager: PreferenceDataStoreManager
@@ -13,10 +17,4 @@ class SearchRepository @Inject constructor(
         token: String,
         words: String
     ) = apiHelper.searchExhbtList(token, words)
-
-
-    // Todo: for test (deleted some day)
-    suspend fun getExhibitionList(
-        token: String
-    ) = apiHelper.getExhbtList(token)
 }

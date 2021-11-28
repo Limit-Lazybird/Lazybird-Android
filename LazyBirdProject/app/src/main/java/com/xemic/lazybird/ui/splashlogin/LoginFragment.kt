@@ -15,7 +15,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
-import com.google.android.gms.tasks.OnCompleteListener
 import com.kakao.sdk.auth.AuthApiClient
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.KakaoSdk
@@ -32,7 +31,10 @@ import com.xemic.lazybird.util.replaceFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 
-
+/************* LoginFragment ***************
+ * 로그인 화면 (Fragment)
+ * 로그인 화면 (카카오 로그인, 구글 로그인)
+ ********************************************** ***/
 @AndroidEntryPoint
 class LoginFragment : Fragment(R.layout.fragment_login) {
 
@@ -40,8 +42,8 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         const val TAG = "LoginFragment"
     }
 
-    private val viewModel: LoginViewModel by viewModels()
     private lateinit var binding: FragmentLoginBinding
+    private val viewModel: LoginViewModel by viewModels()
     private val parentActivity: MainActivity by lazy {
         activity as MainActivity
     }

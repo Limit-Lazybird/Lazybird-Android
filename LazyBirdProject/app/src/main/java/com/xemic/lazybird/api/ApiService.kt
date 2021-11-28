@@ -1,42 +1,45 @@
 package com.xemic.lazybird.api
 
-import com.xemic.lazybird.models.Todo
 import com.xemic.lazybird.models.retrofit.*
 import retrofit2.Response
 import retrofit2.http.*
 
+/****************** ApiService *********************
+ * Retrofit Service interface 파일
+ ********************************************** ***/
+
 interface ApiService {
-    @GET("/todos")
-    suspend fun getTodos(
-    ): Response<List<Todo>>
+    /********* Customized Question *********/
+    @FormUrlEncoded
+    @POST("/customized/list")
+    suspend fun getCustomizedList(
+        @Field("token") token: String
+    ):Response<CustomListResponseBody>
 
     @FormUrlEncoded
-    @POST("/oauth/kakao")
-    suspend fun loginKakao(
-        @Field("comp_cd") comp_cd: String,
-        @Field("email") email: String,
+    @POST("/customized/listSave")
+    suspend fun insertCustomizedList(
         @Field("token") token: String,
-        @Field("name") name: String
-    ):Response<LoginResponseBody>
+        @Field("answer_idx") answer_idx: String
+    ):Response<MsgResponseBody>
 
     @FormUrlEncoded
-    @POST("/oauth/google")
-    suspend fun loginGoogle(
-        @Field("comp_cd") comp_cd: String,
-        @Field("email") email: String,
-        @Field("token") token: String,
-        @Field("name") name: String
-    ):Response<LoginResponseBody>
+    @POST("/customized/listDelete")
+    suspend fun deleteCustomizedList(
+        @Field("token") token: String
+    ):Response<MsgResponseBody>
 
+
+    /********* Exhibit Info *********/
     @FormUrlEncoded
-    @POST("/exhibit/earlyList")
-    suspend fun getEarlyList(
+    @POST("/exhibit/list")
+    suspend fun getExhbtList(
         @Field("token") token: String
     ):Response<ExhbtResponseBody>
 
     @FormUrlEncoded
-    @POST("/exhibit/list")
-    suspend fun getExhbtList(
+    @POST("/exhibit/earlyList")
+    suspend fun getEarlyList(
         @Field("token") token: String
     ):Response<ExhbtResponseBody>
 
@@ -60,6 +63,8 @@ interface ApiService {
         @Field("words") words: String
     ):Response<ExhbtResponseBody>
 
+
+    /********* Exhibit Status *********/
     @FormUrlEncoded
     @POST("/status/likeSave")
     suspend fun exhbtLikeSave(
@@ -96,22 +101,23 @@ interface ApiService {
         @Field("state_cd") state_cd: String
     ):Response<ExhbtResponseBody>
 
-    @FormUrlEncoded
-    @POST("/customized/list")
-    suspend fun getCustomizedList(
-        @Field("token") token: String
-    ):Response<CustomListResponseBody>
 
+    /********* Login *********/
     @FormUrlEncoded
-    @POST("/customized/listSave")
-    suspend fun insertCustomizedList(
+    @POST("/oauth/kakao")
+    suspend fun loginKakao(
+        @Field("comp_cd") comp_cd: String,
+        @Field("email") email: String,
         @Field("token") token: String,
-        @Field("answer_idx") answer_idx: String
-    ):Response<MsgResponseBody>
+        @Field("name") name: String
+    ):Response<LoginResponseBody>
 
     @FormUrlEncoded
-    @POST("/customized/listDelete")
-    suspend fun deleteCustomizedList(
-        @Field("token") token: String
-    ):Response<MsgResponseBody>
+    @POST("/oauth/google")
+    suspend fun loginGoogle(
+        @Field("comp_cd") comp_cd: String,
+        @Field("email") email: String,
+        @Field("token") token: String,
+        @Field("name") name: String
+    ):Response<LoginResponseBody>
 }

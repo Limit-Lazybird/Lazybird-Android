@@ -2,25 +2,30 @@ package com.xemic.lazybird.ui.ticketing
 
 import android.os.Bundle
 import android.text.Html
-import android.util.Log
 import android.view.View
 import androidx.core.text.HtmlCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.coroutineScope
-import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.xemic.lazybird.R
 import com.xemic.lazybird.databinding.FragmentTicketingConfirmBinding
 import com.xemic.lazybird.ui.MainActivity
 import com.xemic.lazybird.util.thousandUnitFormatted
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
+/************* ExhibitionFragment ***************
+ * ??? >> 전시 상세정보 >> 예약하기 전 확인 >> 예약 완료화면 (Fragment)
+ * 예약 완료 후 확인하는 화면
+ * Todo : Calendar 일정에 추가하는 기능 업데이트 
+ ********************************************** ***/
 @AndroidEntryPoint
 class TicketingConfirmFragment : Fragment(R.layout.fragment_ticketing_confirm) {
+
+    companion object {
+        const val TAG = "TicketingConfirmFragment"
+    }
 
     lateinit var binding: FragmentTicketingConfirmBinding
     private val viewModel: TicketingViewModel by viewModels()
@@ -76,6 +81,7 @@ class TicketingConfirmFragment : Fragment(R.layout.fragment_ticketing_confirm) {
     }
 
     private fun moveToMain() {
+        // 메인화면으로 되돌아가기
         repeat(2){
             parentActivity.supportFragmentManager.popBackStack()
         }

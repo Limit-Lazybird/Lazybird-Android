@@ -12,6 +12,10 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
+/****************** AppModule *********************
+ * Injection 을 위한 제공자들이 모여있는 Module
+ * Todo : Preference DataStore 도 여기에 추가하기
+ ********************************************** ***/
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {

@@ -11,13 +11,24 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/************* SearchViewModel ***************
+ * 메인화면(검색 탭) (ViewModel)
+ * 검색 화면
+ ********************************************** ***/
 @HiltViewModel
 class SearchViewModel @Inject constructor(
     private val repository: SearchRepository
 ):ViewModel() {
+
+    companion object {
+        const val TAG = "ExhibitionViewModel"
+    }
+
     private lateinit var token: String
+
     private val _exhbtList = MutableLiveData<List<Exhbt>>()
     val exhbtList: LiveData<List<Exhbt>> get() = _exhbtList
+
     val exhibitionList: LiveData<List<ExhibitionInfoShort>>
         get() =
         exhbtList.map { exhibitionList ->
@@ -41,13 +52,13 @@ class SearchViewModel @Inject constructor(
         initToken()
     }
 
-    fun getExhibitionInfo(idx: Int): Exhbt = exhbtList.value?.get(idx)!!
-
     private fun initToken() = viewModelScope.launch {
+        // dataStore 에서 토큰 값 가져오기
         token = repository.getPreferenceFlow().first()
     }
 
     suspend fun searchExhibition(words:String) = viewModelScope.launch {
+        // 검색결과 전시리스트 받기
         repository.searchExhibitionList(token, words).let { response ->
             if (response.body() != null) {
                 _exhbtList.postValue(response.body()!!.exhbtList)
@@ -56,4 +67,7 @@ class SearchViewModel @Inject constructor(
             }
         }
     }
+
+    // 전시 리스트 정보 가져오기
+    fun getExhibitionInfo(idx: Int): Exhbt = exhbtList.value?.get(idx)!!
 }

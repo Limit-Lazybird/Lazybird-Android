@@ -17,6 +17,10 @@ import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
 
+/************* ExhibitionDetailViewModel ***************
+ * 메인화면(전시 탭) >> 전시 상세보기 (ViewModel)
+ * 전시 정보 자세히 보기
+ ********************************************** ***/
 @HiltViewModel
 class ExhibitionDetailViewModel @Inject constructor(
     private val apiHelper: ApiHelper,
@@ -24,6 +28,7 @@ class ExhibitionDetailViewModel @Inject constructor(
 ) : ViewModel() {
 
     companion object {
+        private val TAG = "ExhibitionDetailViewModel"
         const val EXHIBITION_INFO = "exhibitionInfo"
     }
 
@@ -37,7 +42,6 @@ class ExhibitionDetailViewModel @Inject constructor(
 
     init {
         initToken()
-//        updateExhibitionLike()
     }
 
     private fun initToken() = viewModelScope.launch {
@@ -67,34 +71,13 @@ class ExhibitionDetailViewModel @Inject constructor(
         _exhibitionLike.postValue(exhbt.like_yn == "Y")
     }
 
-    /*** deprecated ***/
-//    private fun updateExhibitionInfo() {
-//        _exhibitionInfo.value = ExhibitionInfo(
-//            "미구엘 슈발리에 제주 특별전",
-//            10,
-//            "아쿠아 플라넷 제주",
-//            "2021.11.08",
-//            "2021.12.31",
-//            50,
-//            20000,
-//            10000,
-//            "얼리버드 티켓은 12월 17일까지 판매됩니다.\n - 매주 월요일은 휴관합니다.\n - 36개월 미만은 입장 불가능합니다.\n",
-//            "https://ticketimage.interpark.com/Play/image/etc/21/21010892-01.jpg",
-//            "http://img1.tmon.kr/cdn4/deals/2021/11/05/9002271818/summary_ad815.jpg"
-//        )
-//    }
-
-//    private fun updateExhibitionLike() {
-//        _exhibitionLike.value = false
-//    }
-
-
     suspend fun clickLike() {
+        // 좋아요 버튼 클릭
         if(exhibitionLike.value!!){
             apiHelper.exhbtLikeDel(token, exhibitionInfo.value!!.id) // 좋아요 버튼 취소
         } else {
-            // 좋아요 버튼 누름
-            apiHelper.exhbtLikeSave(token, exhibitionInfo.value!!.id) // 좋아요 버튼 취소
+            apiHelper.exhbtLikeSave(token, exhibitionInfo.value!!.id) // 좋아요 버튼 활성화
         }
-        _exhibitionLike.value = !exhibitionLike.value!!    }
+        _exhibitionLike.value = !exhibitionLike.value!!
+    }
 }

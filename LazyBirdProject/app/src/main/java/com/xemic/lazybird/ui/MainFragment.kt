@@ -14,15 +14,16 @@ import com.xemic.lazybird.ui.mybird.MyBirdFragment
 import com.xemic.lazybird.ui.search.SearchFragment
 import com.xemic.lazybird.util.replaceChildFragment
 
+/************* ExhibitionViewModel ***************
+ * 메인화면 (Fragment)
+ * (얼리버드, 전시, 캘린더, 검색, 마이버드 탭) 을 모두 포함하는 Fragment
+ ********************************************** ***/
 class MainFragment: Fragment(R.layout.fragment_main) {
 
-    private lateinit var binding : FragmentMainBinding
     private var _currentChildFragment = MutableLiveData(0) // 선택된 페이지
     private val currentChildFragment: LiveData<Int> get() = _currentChildFragment
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
+    private lateinit var binding : FragmentMainBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

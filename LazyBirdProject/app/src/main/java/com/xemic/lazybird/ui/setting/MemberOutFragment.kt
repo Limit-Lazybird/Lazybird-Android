@@ -3,7 +3,6 @@ package com.xemic.lazybird.ui.setting
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.setFragmentResult
 import com.xemic.lazybird.R
 import com.xemic.lazybird.databinding.FragmentMemberOutBinding
 import com.xemic.lazybird.ui.MainActivity
@@ -13,8 +12,16 @@ import com.xemic.lazybird.util.removeAllBackStack
 import com.xemic.lazybird.util.replaceFragment
 import dagger.hilt.android.AndroidEntryPoint
 
+/************* MemberOutFragment ***************
+ * 메인화면(마이버드 탭) >> 옵션 >> 회원탈퇴 (Fragment)
+ * 정말로 회원탈퇴 할지 선택하는 화면
+ ********************************************** ***/
 @AndroidEntryPoint
 class MemberOutFragment : Fragment(R.layout.fragment_member_out) {
+
+    companion object {
+        const val TAG = "MemberOutFragment"
+    }
 
     lateinit var binding: FragmentMemberOutBinding
     private val parentActivity: MainActivity by lazy {
@@ -35,7 +42,7 @@ class MemberOutFragment : Fragment(R.layout.fragment_member_out) {
         binding.memberOutOk.setOnClickListener {
             // 탈퇴하기 버튼
             parentActivity.supportFragmentManager.removeAllBackStack()
-            parentActivity.supportFragmentManager.replaceFragment(LoginFragment())
+            parentActivity.supportFragmentManager.replaceFragment(LoginFragment(), false)
         }
         binding.memberOutContext.text = getString(R.string.member_out_context).applyEscapeSequence()
     }

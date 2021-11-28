@@ -1,27 +1,25 @@
 package com.xemic.lazybird.ui.earlybird
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.CompositePageTransformer
 import com.xemic.lazybird.R
 import com.xemic.lazybird.databinding.FragmentEarlybirdBinding
-import com.xemic.lazybird.models.EarlyBirdInfo
 import com.xemic.lazybird.models.retrofit.Exhbt
 import com.xemic.lazybird.ui.MainActivity
 import com.xemic.lazybird.ui.earilybirdDetail.EarlyBirdDetailViewModel
 import com.xemic.lazybird.ui.earlybirdDetail.EarlyBirdDetailFragment
 import com.xemic.lazybird.util.replaceFragment
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.first
 import kotlin.math.abs
 
+/************* EarlyBirdFragment ***************
+ * 메인화면(얼리버드 탭) (Fragment)
+ * 얼리버드 정보 리스트로 보기
+ ********************************************** ***/
 @AndroidEntryPoint
 class EarlyBirdFragment : Fragment(R.layout.fragment_earlybird) {
 
@@ -29,9 +27,9 @@ class EarlyBirdFragment : Fragment(R.layout.fragment_earlybird) {
         const val TAG = "EarlyBirdFragment"
     }
 
-    private val SCREEN_PAGE_RATIO = 0.90f
-    private val OFF_SCREEN_PAGE_LIMIT = 1
-    private val OFF_SCREEN_PAGE_RATIO = 0.88f
+    private val SCREEN_PAGE_RATIO = 0.90f // ViewPager2에서 현재 페이지의 가로 크기 값 (기기의 몇퍼센트인지)
+    private val OFF_SCREEN_PAGE_LIMIT = 1 // ViewPager2에서 보여줄 다음 페이지 개수
+    private val OFF_SCREEN_PAGE_RATIO = 0.88f // ViewPager2에서 다음 페이지의 크기감소 비율
 
     private lateinit var binding: FragmentEarlybirdBinding
     private val earlyBirdViewModel: EarlyBirdViewModel by viewModels()
@@ -87,45 +85,10 @@ class EarlyBirdFragment : Fragment(R.layout.fragment_earlybird) {
                 }
             )
         }
-
-//        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-//            // token 초기화
-//            val token = earlyBirdViewModel.preferenceFlow.first()
-//            Log.e("test", token)
-//        }
-
-//        earlyBirdViewModel.todos.observe(viewLifecycleOwner) { todoList ->
-//            for (todo in todoList) {
-//                // Log.e("test", todo.toString())
-//            }
-//        }
-//        earlybird_detail_filter_button.setOnClickListener {
-//            // Todo : 전시상세검색 올라오도록 기능 구현
-//            Toast.makeText(context, "전시상세검색 올라와야하는데.. 아직 개발안함", Toast.LENGTH_SHORT).show()
-//        }
-//        flexbox_layout.addView(
-//            OptionItemView(requireContext(), viewLifecycleOwner).apply {
-//                text = "이것도 한번 눌러보시지!"
-//            }
-//        )
-//        flexbox_layout.addView(
-//            OptionItemView(requireContext(), viewLifecycleOwner).apply {
-//                text = "hello world! by option"
-//            }
-//        )
-//        flexbox_layout.addView(
-//            OptionItemView(requireContext(), viewLifecycleOwner).apply {
-//                text = "asdfawefasdfawefawefasdfawefasdfawefawef"
-//            }
-//        )
     }
 
     private fun moveToEarlyBirdDetail(earlyBirdInfo: Exhbt) {
-//        setFragmentResult(TAG, bundleOf("title" to earlyBirdInfo.exhbt_nm))
-//        val bundle = Bundle().apply {
-//            putParcelable(EarlyBirdDetailViewModel.EARLYBIRD_INFO, earlyBirdInfo)
-//        }
-//        setFragmentResult(EarlyBirdDetailFragment.TAG, bundle)
+        // EarlyBirdDetail Fragment 로 이동
         val bundle = Bundle().apply {
             putParcelable(EarlyBirdDetailViewModel.EARLYBIRD_INFO, earlyBirdInfo)
         }

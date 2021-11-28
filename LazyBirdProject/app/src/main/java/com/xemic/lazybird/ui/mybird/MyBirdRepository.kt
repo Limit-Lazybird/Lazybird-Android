@@ -4,6 +4,10 @@ import com.xemic.lazybird.api.ApiHelper
 import com.xemic.lazybird.data.PreferenceDataStoreManager
 import javax.inject.Inject
 
+/************* MyBirdRepository ***************
+ * 메인화면(마이버드 탭) (Repository)
+ * 마이버드 화면 (내 정보 보기)
+ ********************************************** ***/
 class MyBirdRepository @Inject constructor(
     private val apiHelper: ApiHelper,
     private val dataStoreManager: PreferenceDataStoreManager

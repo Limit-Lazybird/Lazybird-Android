@@ -23,8 +23,16 @@ import com.xemic.lazybird.util.toDate
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 
+/************* MyBirdFragment ***************
+ * 메인화면(마이버드 탭) (Fragment)
+ * 마이버드 화면 (내 정보 보기)
+ ********************************************** ***/
 @AndroidEntryPoint
 class MyBirdFragment : Fragment(R.layout.fragment_mybird) {
+
+    companion object {
+        const val TAG = "MyBirdFragment"
+    }
 
     lateinit var binding: FragmentMybirdBinding
     private val viewModel: MyBirdViewModel by viewModels()
@@ -34,11 +42,14 @@ class MyBirdFragment : Fragment(R.layout.fragment_mybird) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         binding = FragmentMybirdBinding.bind(view)
+
         viewModel.userInfo.observe(viewLifecycleOwner) { userInfo ->
             binding.mybirdEmail.text = userInfo.email
             binding.mybirdName.text = userInfo.name
         }
+
         viewModel.likeExhbtList.observe(viewLifecycleOwner) { exhbtList ->
             if (exhbtList.isNullOrEmpty()){
                 binding.mybirdNoLikeText.visibility = View.VISIBLE
@@ -71,6 +82,7 @@ class MyBirdFragment : Fragment(R.layout.fragment_mybird) {
                     )
                     .into(binding.mybirdLike1Image)
             }
+            
             if (!exhbtList.isNullOrEmpty() && exhbtList.size >= 2) {
                 binding.mybirdLike2Title.visibility = View.VISIBLE
                 binding.mybirdLike2Date.visibility = View.VISIBLE
@@ -97,6 +109,7 @@ class MyBirdFragment : Fragment(R.layout.fragment_mybird) {
                     .into(binding.mybirdLike2Image)
             }
         }
+        
         viewModel.reservationExhbtList.observe(viewLifecycleOwner) { exhbtList ->
             if (exhbtList.isNullOrEmpty()){
                 binding.mybirdNoReservationText.visibility = View.VISIBLE
@@ -132,6 +145,7 @@ class MyBirdFragment : Fragment(R.layout.fragment_mybird) {
                     )
                     .into(binding.mybirdReservation1Image)
             }
+            
             if (!exhbtList.isNullOrEmpty() && exhbtList.size >= 2) {
                 binding.mybirdReservation2Title.visibility = View.VISIBLE
                 binding.mybirdReservation2Date.visibility = View.VISIBLE
@@ -163,17 +177,17 @@ class MyBirdFragment : Fragment(R.layout.fragment_mybird) {
         }
 
         binding.mybirdReservationContainer.setOnClickListener {
-            // 예매한 전시 클릭 >> 디테일로 넘어감
+            // 예매한 전시 클릭 >> 내가 예매한 전시 화면으로 넘어감
             parentActivity.supportFragmentManager.replaceFragment(ReservationDetailFragment())
         }
 
         binding.mybirdLikeContainer.setOnClickListener {
-            // 찜한 전시 클릭 >> 디테일로 넘어감
+            // 찜한 전시 클릭 >> 내가 찜한 전시 화면으로 넘어감
             parentActivity.supportFragmentManager.replaceFragment(LikeDetailFragment())
         }
 
         binding.mybirdSetting.setOnClickListener {
-            // 옵션 버튼 클릭
+            // 옵션 버튼 클릭 >> 세팅 화면으로 넘어감
             parentActivity.supportFragmentManager.replaceFragment(SettingFragment())
         }
     }

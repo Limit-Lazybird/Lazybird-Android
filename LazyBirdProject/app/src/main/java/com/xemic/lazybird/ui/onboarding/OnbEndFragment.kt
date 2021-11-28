@@ -13,14 +13,20 @@ import com.xemic.lazybird.R
 import com.xemic.lazybird.databinding.FragmentOnbEndBinding
 import com.xemic.lazybird.ui.MainActivity
 import com.xemic.lazybird.ui.MainFragment
-import com.xemic.lazybird.ui.earlybird.EarlyBirdFragment
 import com.xemic.lazybird.util.removeAllBackStack
 import com.xemic.lazybird.util.replaceFragment
 
+/************* OnbEndFragment ***************
+ * 온보딩 시작화면 >> 온보딩 화면 >> 온보딩 완료 화면 (Fragment)
+ * 온보딩을 완료했을 때의 화면
+ ********************************************** ***/
 class OnbEndFragment : Fragment(R.layout.fragment_onb_end) {
 
-    private lateinit var binding: FragmentOnbEndBinding
+    companion object {
+        const val TAG = "OnbEndFragment"
+    }
 
+    private lateinit var binding: FragmentOnbEndBinding
     private val parentActivity: MainActivity by lazy {
         activity as MainActivity
     }

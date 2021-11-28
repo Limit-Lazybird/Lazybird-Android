@@ -5,11 +5,6 @@ import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.util.Log
-import android.util.TypedValue
-import android.view.Gravity
-import android.view.ViewGroup
-import android.view.WindowManager
 import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.setFragmentResult
@@ -17,6 +12,10 @@ import com.xemic.lazybird.R
 import com.xemic.lazybird.databinding.DialogOnbCancelBinding
 import com.xemic.lazybird.models.DialogInfo
 
+/************* OnbCancelDialogFragment ***************
+ * 온보딩 화면 >> 온보딩 취소하기 Dialog (DialogFragment)
+ * 진행중인 온보딩을 취소할지에 대한 Dialog
+ ********************************************** ***/
 class OnbCancelDialogFragment : DialogFragment() {
 
     companion object {
@@ -33,11 +32,6 @@ class OnbCancelDialogFragment : DialogFragment() {
         val dialogInfo = requireArguments().getParcelable<DialogInfo>(DIALOG_INFO)!!
         val layout = layoutInflater.inflate(R.layout.dialog_onb_cancel, null).apply {
             binding = DialogOnbCancelBinding.bind(this)
-//            Log.e("test",TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 100f, resources.displayMetrics).toString() )
-//            layoutParams = ViewGroup.LayoutParams(
-//                100,
-//                ViewGroup.LayoutParams.WRAP_CONTENT
-//            )
         }
         binding.apply {
             onbCancelTitle.text = dialogInfo.title
@@ -61,6 +55,7 @@ class OnbCancelDialogFragment : DialogFragment() {
     }
 
     private fun cancelOnb() {
+        // 확인 버튼 클릭 시
         setFragmentResult(
             TAG, bundleOf(
                 "resultCode" to RESULT_OK
@@ -70,6 +65,7 @@ class OnbCancelDialogFragment : DialogFragment() {
     }
 
     private fun cancelDialog() {
+        // 취소 버튼 클릭 시
         setFragmentResult(
             TAG, bundleOf(
                 "resultCode" to RESULT_CANCEL

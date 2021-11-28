@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.math.ceil
 
+// 12345 >> 12,345
 fun Int.thousandUnitFormatted(): String {
     val str = this.toString().reversed()
     var outStr = ""
@@ -15,15 +16,23 @@ fun Int.thousandUnitFormatted(): String {
     return outStr.reversed()
 }
 
+// "yyyy-MM-dd" to Date
 fun String.toDate(): Date = SimpleDateFormat("yyyy-MM-dd").parse(this)
+
+// "yyyy.MM.dd" to Date
 fun String.toDate2(): Date = SimpleDateFormat("yyyy.MM.dd").parse(this)
+
+// \\n to \n
 fun String.applyEscapeSequence(): String {
     return this.replace("\\n", "\n")
 }
+
+// "yyyy.MM.dd" to "yyyy-MM-dd"
 fun String.dateFormatted(): String = SimpleDateFormat("yyyy.MM.dd").format(
     SimpleDateFormat("yyyy-MM-dd").parse(this)
 )
 
+// calculate date diff of d1, d2
 fun calculateDateDiff(d1: Date, d2: Date): Int {
     return if (d1.time > d2.time) {
         ceil(((d1.time - d2.time) / (1000 * 60 * 60 * 24f))).toInt()

@@ -10,8 +10,16 @@ import com.xemic.lazybird.ui.MainActivity
 import com.xemic.lazybird.util.applyEscapeSequence
 import dagger.hilt.android.AndroidEntryPoint
 
+/***************** PrivacyFragment *******************
+ * 메인화면(마이버드 탭) >> 옵션 >> 이용약관 (Fragment)
+ * 이용약관 보기
+ ********************************************** ***/
 @AndroidEntryPoint
 class TermFragment:Fragment(R.layout.fragment_term) {
+
+    companion object {
+        const val TAG = "TermFragment"
+    }
 
     lateinit var binding :FragmentTermBinding
     private val parentActivity: MainActivity by lazy {

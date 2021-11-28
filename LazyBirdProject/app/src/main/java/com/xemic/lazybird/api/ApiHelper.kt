@@ -1,49 +1,64 @@
 package com.xemic.lazybird.api
 
-import com.xemic.lazybird.models.Todo
 import com.xemic.lazybird.models.retrofit.*
 import retrofit2.Response
 
-interface ApiHelper {
-    suspend fun getTodos(): Response<List<Todo>>
+/****************** ApiHelper *********************
+ * API 연결에 사용하기 위한 interface 파일
+ * 이를 기반으로 ApiHelperImpl 객체를 만든다.
+********************************************** ***/
 
-    suspend fun loginKakao(
-        email: String,
+interface ApiHelper {
+    /********* Customized Question *********/
+    suspend fun getCustomizedList(
+        token: String
+    ): Response<CustomListResponseBody>
+
+    suspend fun insertCustomizedList(
         token: String,
-        name: String
-    ): Response<LoginResponseBody>
-    suspend fun loginGoogle(
-        email: String,
-        token: String,
-        name: String
-    ): Response<LoginResponseBody>
+        answer_idx: String
+    ): Response<MsgResponseBody>
+
+    suspend fun deleteCustomizedList(
+        token: String
+    ): Response<MsgResponseBody>
+
+
+    /********* Exhibit Info *********/
+    suspend fun getExhbtList(
+        token: String
+    ): Response<ExhbtResponseBody>
 
     suspend fun getEarlyList(
         token: String
     ): Response<ExhbtResponseBody>
-    suspend fun getExhbtList(
-        token: String
-    ): Response<ExhbtResponseBody>
+
     suspend fun getCustomExhbtList(
         token: String
     ): Response<ExhbtResponseBody>
+
     suspend fun filterDetailExhbtList(
         token: String,
         searchList: String
     ): Response<ExhbtResponseBody>
+
     suspend fun searchExhbtList(
         token: String,
         words: String
     ): Response<ExhbtResponseBody>
 
+
+    /********* Exhibit Status *********/
     suspend fun exhbtLikeSave(
         token: String,
         exhbt_cd: String
     ): Response<MsgResponseBody>
+
     suspend fun exhbtLikeDel(
         token: String,
         exhbt_cd: String
     ): Response<MsgResponseBody>
+
     suspend fun getExhbtLikeList(
         token: String
     ): Response<ExhbtResponseBody>
@@ -52,18 +67,22 @@ interface ApiHelper {
         token: String,
         exhbt_cd: String
     ): Response<MsgResponseBody>
+
     suspend fun getExhbtReservationList(
         token: String
     ): Response<ExhbtResponseBody>
 
-    suspend fun getCustomizedList(
-        token: String
-    ): Response<CustomListResponseBody>
-    suspend fun insertCustomizedList(
+
+    /********* Login *********/
+    suspend fun loginKakao(
+        email: String,
         token: String,
-        answer_idx: String
-    ): Response<MsgResponseBody>
-    suspend fun deleteCustomizedList(
-        token: String
-    ): Response<MsgResponseBody>
+        name: String
+    ): Response<LoginResponseBody>
+
+    suspend fun loginGoogle(
+        email: String,
+        token: String,
+        name: String
+    ): Response<LoginResponseBody>
 }

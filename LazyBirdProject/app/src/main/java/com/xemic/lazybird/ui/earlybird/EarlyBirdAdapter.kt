@@ -11,8 +11,11 @@ import com.bumptech.glide.request.RequestOptions
 import com.xemic.lazybird.R
 import com.xemic.lazybird.databinding.ItemEarlybirdBinding
 import com.xemic.lazybird.models.EarlyBirdInfo
-import com.xemic.lazybird.ui.onboarding.OnBoardingAdapter
 
+/************* EarlyBirdAdapter ***************
+ * 메인화면(얼리버드 탭) (ViewPager Adapter)
+ * 얼리버드 정보 리스트로 보기
+ ********************************************** ***/
 class EarlyBirdAdapter(
     val list: List<EarlyBirdInfo>
 ) : RecyclerView.Adapter<EarlyBirdAdapter.PageViewHolder>() {
@@ -26,9 +29,9 @@ class EarlyBirdAdapter(
     private lateinit var binding: ItemEarlybirdBinding
 
     inner class PageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val pageTitle = binding.earlybirdPageTitle
-        val pageDiscount = binding.earlybirdPageDiscount
-        val pageImageView = binding.earlybirdPageImage
+        val pageTitle = binding.earlybirdPageTitle // 얼리버드 전시 제목
+        val pageDiscount = binding.earlybirdPageDiscount // 얼리버드 할인율
+        val pageImageView = binding.earlybirdPageImage // 얼리버드 전시 thumbnail 이미지
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PageViewHolder {

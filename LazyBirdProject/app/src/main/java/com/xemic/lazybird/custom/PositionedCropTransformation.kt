@@ -12,7 +12,11 @@ import com.bumptech.glide.load.resource.bitmap.TransformationUtils
 import com.bumptech.glide.load.resource.bitmap.TransformationUtils.PAINT_FLAGS
 import java.security.MessageDigest
 
-// for top crop in Glide
+/********** PositionedCropTransformation **********
+ * Glide 에서 TopCrop 을 하기 위해 만들어진 Custom Transformation
+ * Code Ref : https://gist.github.com/bjornson/3ff8888c09908d5c6cc345d0a8e1f6a7
+ ********************************************** ***/
+
 class PositionedCropTransformation : BitmapTransformation {
     private var xPercentage = 0.5f
     private var yPercentage = 0.5f

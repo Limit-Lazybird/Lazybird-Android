@@ -10,6 +10,11 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/************* ExhibitionViewModel ***************
+ * 메인화면(전시 탭) (ViewModel)
+ * 전시 정보 전체 보기
+ * Todo : 옵션 버튼 List string.xml 로 따로 빼기
+ ********************************************** ***/
 @HiltViewModel
 class ExhibitionViewModel @Inject constructor(
     private val repository: ExhibitionRepository
@@ -47,18 +52,17 @@ class ExhibitionViewModel @Inject constructor(
 
     init {
         initToken()
-        viewModelScope.launch {
-            initToken()
-            getExhbtList()
-        }
+        getExhbtList()
         getOptionItemList()
     }
 
     private fun initToken() = viewModelScope.launch {
+        // dataStore 에서 토큰 값 가져오기
         token = repository.getPreferenceFlow().first()
     }
 
     fun getExhbtList() = viewModelScope.launch {
+        // 전시리스트 받기
         repository.getExhibitionList(token).let { response ->
             if (response.body() != null) {
                 _exhbtList.postValue(response.body()!!.exhbtList)
@@ -69,6 +73,7 @@ class ExhibitionViewModel @Inject constructor(
     }
 
     fun getCustomExhbtList() = viewModelScope.launch {
+        // 맞춤형 전시리스트 받기
         repository.getCustomExhibitionList(token).let { response ->
             if (response.body() != null) {
                 _exhbtList.postValue(response.body()!!.exhbtList)
@@ -79,6 +84,7 @@ class ExhibitionViewModel @Inject constructor(
     }
 
     fun getFilterExhbtList(searchList: String) = viewModelScope.launch {
+        // 필터링한 전시리스트 받기
         repository.filterExhbtList(token, searchList).let { response ->
             if (response.body() != null) {
                 _exhbtList.postValue(response.body()!!.exhbtList)
@@ -88,9 +94,8 @@ class ExhibitionViewModel @Inject constructor(
         }
     }
 
-    fun getExhibitionInfo(idx: Int): Exhbt = exhbtList.value?.get(idx)!!
-
     private fun getOptionItemList() {
+        // 빠른 옵션 버튼명 가져오기
         _optionItemList.value = listOf(
             "회화",
             "조형",
@@ -101,10 +106,14 @@ class ExhibitionViewModel @Inject constructor(
     }
 
     suspend fun clickLike(exhibitionInfo: Exhbt, is_like: Boolean) {
+        // 좋아요 버튼 클릭
         if(is_like){
             repository.exhbtLikeDel(token, exhibitionInfo.exhbt_cd) // 좋아요 버튼 취소
         } else {
             repository.exhbtLikeSave(token, exhibitionInfo.exhbt_cd) // 좋아요 버튼 누르기
         }
     }
+
+    // 전시 리스트 정보 가져오기
+    fun getExhibitionInfo(idx: Int): Exhbt = exhbtList.value?.get(idx)!!
 }

@@ -29,15 +29,20 @@ import com.xemic.lazybird.util.thousandUnitFormatted
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+/************* ExhibitionDetailFragment ***************
+ * 메인화면(전시 탭) >> 전시 상세 전시 (Dialog)
+ * 전시 정보 자세히 보기
+ * Todo : 코드단에서 수동으로 안하고 ConstraintLayout 을 통해 비율 맞추도록 수정
+ ********************************************** ***/
 @AndroidEntryPoint
 class ExhibitionDetailFragment: Fragment(R.layout.fragment_exhibition_detail) {
 
     companion object {
-        const val TAG = "EarlyBirdDetailFragment"
+        const val TAG = "ExhibitionDetailFragment"
     }
 
-    private val THUMBNAIL_IMAGE_RATIO = 4 / 3f
-    private val DETAIL_IMAGE_LIMIT_HIGH = 500f
+    private val THUMBNAIL_IMAGE_RATIO = 4 / 3f  // Thumbnail 이미지의 세로 크기
+    private val DETAIL_IMAGE_LIMIT_HIGH = 500f // detail Image의 최대 Hegiht 값
 
     private lateinit var binding: FragmentExhibitionDetailBinding
     private val viewModel: ExhibitionDetailViewModel by viewModels()
@@ -53,21 +58,23 @@ class ExhibitionDetailFragment: Fragment(R.layout.fragment_exhibition_detail) {
         binding = FragmentExhibitionDetailBinding.bind(view)
 
         lifecycleScope.launchWhenStarted {
+            // argument 로 넘어오는 earlyBird 상세정보 ViewModel에 업데이트
             val exhbt = requireArguments().getParcelable<Exhbt>(ExhibitionDetailViewModel.EXHIBITION_INFO)
             if(exhbt!=null)
                 viewModel.updateExhibitionInfo(exhbt)
         }
 
         viewModel.exhibitionInfo.observe(viewLifecycleOwner) { exhibitionInfo ->
-            binding.exhibitionDetailDDay.text = "D - ${exhibitionInfo.dDay}"
-            binding.exhibitionDetailTitle.text = exhibitionInfo.title
-            binding.exhibitionDetailPlace.text = exhibitionInfo.place
+            // exhibitionInfo 정보 업데이트 완료
+            binding.exhibitionDetailDDay.text = "D - ${exhibitionInfo.dDay}" // 전시 시작까지 남은 기간
+            binding.exhibitionDetailTitle.text = exhibitionInfo.title // 전시 제목
+            binding.exhibitionDetailPlace.text = exhibitionInfo.place // 전시 장소
             binding.exhibitionDetailDate.text =
-                "${exhibitionInfo.startDate}~${exhibitionInfo.endDate}"
-            binding.exhibitionDetailPrice.text = exhibitionInfo.price.thousandUnitFormatted()
-            binding.exhibitionDetailPriceDc.text = exhibitionInfo.discountedPrice.thousandUnitFormatted()
-            binding.discount = exhibitionInfo.discount
-            binding.notice = exhibitionInfo.notice.applyEscapeSequence()
+                "${exhibitionInfo.startDate}~${exhibitionInfo.endDate}" // 전시 기간
+            binding.discount = exhibitionInfo.discount // 할인율
+            binding.exhibitionDetailPriceDc.text = exhibitionInfo.discountedPrice.thousandUnitFormatted() // 할인 가격
+            binding.exhibitionDetailPrice.text = exhibitionInfo.price.thousandUnitFormatted() // 가격
+            binding.notice = exhibitionInfo.notice.applyEscapeSequence() // 전시 공지사항
 
             // thumbnail Image
             Glide.with(this)
@@ -154,6 +161,7 @@ class ExhibitionDetailFragment: Fragment(R.layout.fragment_exhibition_detail) {
         }
 
         viewModel.exhibitionLike.observe(viewLifecycleOwner) { isLike ->
+            // 좋아요 상태 변경
             if(isLike) {
                 binding.exhibitionDetailLikeBtn.setImageResource(R.drawable.ic_fav_lg_on)
             } else {
@@ -162,7 +170,7 @@ class ExhibitionDetailFragment: Fragment(R.layout.fragment_exhibition_detail) {
         }
 
         binding.exhibitionDetailTicketingBtn.setOnClickListener {
-            // 티켓 예매 화면으로 넘어가기
+            // TicketingNoticeFragment 화면 이동
             val bundle = Bundle().apply {
                 putParcelable(TicketingViewModel.EXHIBITION_INFO, viewModel.exhibitionInfo.value!!)
             }

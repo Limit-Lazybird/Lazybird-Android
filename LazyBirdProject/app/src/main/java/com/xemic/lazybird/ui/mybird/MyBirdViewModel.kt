@@ -11,10 +11,15 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/************* MyBirdViewModel ***************
+ * 메인화면(마이버드 탭) (ViewModel)
+ * 마이버드 화면 (내 정보 보기)
+ ********************************************** ***/
 @HiltViewModel
 class MyBirdViewModel @Inject constructor(
     private val repository: MyBirdRepository
 ):ViewModel() {
+
     companion object {
         const val TAG = "MyBirdViewModel"
     }
@@ -74,14 +79,17 @@ class MyBirdViewModel @Inject constructor(
     }
 
     private fun initUserInfo() = viewModelScope.launch {
+        // UserInfo(사용자 정보) 초기화
         _userInfo.postValue(repository.getPreferenceUserInfoFlow().first())
     }
 
     private fun initToken() = viewModelScope.launch {
+        // Token 정보 초기화
         token = repository.getPreferenceTokenFlow().first()
     }
 
-    private fun getLikeExhbtList() =viewModelScope.launch {
+    private fun getLikeExhbtList() = viewModelScope.launch {
+        // 내가 찜한 전시 리스트 받기
         if(repository.getLikeExhibitionList(token).body() != null){
             val likeList = repository.getLikeExhibitionList(token).body()!!.exhbtList
             _likeExhbtList.postValue(likeList)
@@ -91,6 +99,7 @@ class MyBirdViewModel @Inject constructor(
     }
 
     private fun getReservationExhbtList() = viewModelScope.launch {
+        // 내가 예약한 전시 리스트 받기
         if(repository.getReservationExhibitionList(token).body() != null){
             val reservationList = repository.getReservationExhibitionList(token).body()!!.exhbtList
             _reservationExhbtList.postValue(reservationList)
@@ -99,7 +108,9 @@ class MyBirdViewModel @Inject constructor(
         }
     }
 
+    // 찜한 전시 리스트 정보 가져오기
     fun getLikeExhibitionInfo(idx: Int): Exhbt = likeExhbtList.value?.get(idx)!!
 
+    // 예약한 전시 리스트 정보 가져오기
     fun getReservationExhibitionInfo(idx: Int): Exhbt = reservationExhbtList.value?.get(idx)!!
 }

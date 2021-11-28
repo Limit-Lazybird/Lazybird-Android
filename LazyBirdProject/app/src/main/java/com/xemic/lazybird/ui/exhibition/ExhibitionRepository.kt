@@ -4,6 +4,10 @@ import com.xemic.lazybird.api.ApiHelper
 import com.xemic.lazybird.data.PreferenceDataStoreManager
 import javax.inject.Inject
 
+/************* ExhibitionRepository ***************
+ * 메인화면(전시 탭) (Repository)
+ * 전시 정보 전체 보기
+ ********************************************** ***/
 class ExhibitionRepository @Inject constructor(
     private val apiHelper: ApiHelper,
     private val dataStoreManager: PreferenceDataStoreManager

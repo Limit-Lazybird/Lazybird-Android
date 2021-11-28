@@ -6,13 +6,20 @@ import android.widget.ScrollView
 import androidx.fragment.app.Fragment
 import com.xemic.lazybird.R
 import com.xemic.lazybird.databinding.FragmentPrivacyBinding
-import com.xemic.lazybird.databinding.FragmentTermBinding
 import com.xemic.lazybird.ui.MainActivity
 import com.xemic.lazybird.util.applyEscapeSequence
 import dagger.hilt.android.AndroidEntryPoint
 
+/***************** PrivacyFragment *******************
+ * 메인화면(마이버드 탭) >> 옵션 >> 개인정보 처리방침 (Fragment)
+ * 개인정보처리방침 보기
+ ********************************************** ***/
 @AndroidEntryPoint
 class PrivacyFragment : Fragment(R.layout.fragment_privacy) {
+
+    companion object {
+        const val TAG = "PrivacyFragment"
+    }
 
     lateinit var binding: FragmentPrivacyBinding
     private val parentActivity: MainActivity by lazy {

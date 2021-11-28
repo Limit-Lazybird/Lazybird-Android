@@ -7,10 +7,19 @@ import com.xemic.lazybird.models.NoticeInfo
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
+/***************** NoticeViewModel *******************
+ * 메인화면(마이버드 탭) >> 옵션 >> 공지사항 (ViewModel)
+ * 공지사항 전체 보기
+ * Todo : 공지사항 서버에서 가져오기
+ ********************************************** ***/
 @HiltViewModel
 class NoticeViewModel @Inject constructor(
 
 ):ViewModel() {
+
+    companion object {
+        const val TAG = "NoticeViewModel"
+    }
 
     private val _noticeList = MutableLiveData<List<NoticeInfo>>()
     val noticeList: LiveData<List<NoticeInfo>> get() = _noticeList
