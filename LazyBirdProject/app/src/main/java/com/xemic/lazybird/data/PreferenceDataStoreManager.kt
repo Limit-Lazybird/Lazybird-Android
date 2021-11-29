@@ -27,7 +27,7 @@ class PreferenceDataStoreManager @Inject constructor(
         val LOGIN_TYPE = preferencesKey<String>("login_type") // 사용자의 이름
     }
 
-    private val dataStore = applicationContext.createDataStore("user_token")
+    val dataStore = applicationContext.createDataStore("user_token")
 
     // Token 제공받는 Flow
     val preferenceTokenFlow = dataStore.data

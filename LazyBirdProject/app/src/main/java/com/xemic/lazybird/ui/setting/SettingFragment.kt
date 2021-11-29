@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -22,6 +23,7 @@ import com.xemic.lazybird.ui.splashlogin.LoginFragment
 import com.xemic.lazybird.util.removeAllBackStack
 import com.xemic.lazybird.util.replaceFragment
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -39,6 +41,7 @@ class SettingFragment : Fragment(R.layout.fragment_setting) {
     }
 
     lateinit var binding: FragmentSettingBinding
+    private val viewModel: SettingViewModel by viewModels()
     private val parentActivity: MainActivity by lazy {
         activity as MainActivity
     }
@@ -109,9 +112,14 @@ class SettingFragment : Fragment(R.layout.fragment_setting) {
             when (bundle.getString(LogoutBSDialog.RESULT_CODE)) {
                 LogoutBSDialog.RESULT_OK -> {
                     // 로그아웃에서 OK 버튼 누름
-                    // Todo : 로그인 유형에 따라 로그아웃 하는 작업 필요
-//                    KakaoLoginHelper(requireContext()).logout()
-//                    googleLoginHelper.logout()
+                    lifecycleScope.launch {
+                        viewModel.userInfo.collect { userInfo ->
+                            when(userInfo.loginType){
+                                "google" -> googleLoginHelper.logout()
+                                "kakao" -> kakaoLoginHelper.logout()
+                            }
+                        }
+                    }
                     parentActivity.supportFragmentManager.removeAllBackStack()
                     parentActivity.supportFragmentManager.replaceFragment(LoginFragment(), false)
                 }

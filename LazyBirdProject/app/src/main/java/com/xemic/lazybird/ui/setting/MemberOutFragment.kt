@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.kakao.sdk.user.UserApiClient
 import com.xemic.lazybird.R
@@ -18,6 +19,7 @@ import com.xemic.lazybird.util.applyEscapeSequence
 import com.xemic.lazybird.util.removeAllBackStack
 import com.xemic.lazybird.util.replaceFragment
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -34,6 +36,7 @@ class MemberOutFragment : Fragment(R.layout.fragment_member_out) {
     }
 
     lateinit var binding: FragmentMemberOutBinding
+    private val viewModel: SettingViewModel by viewModels()
     private val parentActivity: MainActivity by lazy {
         activity as MainActivity
     }
@@ -63,9 +66,14 @@ class MemberOutFragment : Fragment(R.layout.fragment_member_out) {
         }
         binding.memberOutOk.setOnClickListener {
             // 탈퇴하기 버튼
-            // Todo : 로그인 유형에 따라 로그아웃 하는 작업 필요
-//            KakaoLoginHelper(requireContext()).memberOut()
-//            googleLoginHelper.memberOut()
+            lifecycleScope.launch {
+                viewModel.userInfo.collect { userInfo ->
+                    when(userInfo.loginType){
+                        "google" -> googleLoginHelper.memberOut()
+                        "kakao" -> kakaoLoginHelper.memberOut()
+                    }
+                }
+            }
             parentActivity.supportFragmentManager.removeAllBackStack()
             parentActivity.supportFragmentManager.replaceFragment(LoginFragment(), false)
         }
