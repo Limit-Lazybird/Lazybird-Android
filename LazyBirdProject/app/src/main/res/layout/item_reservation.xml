@@ -39,7 +39,7 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintWidth_percent="0.4"
-                tools:src="@drawable/ic_launcher_background" />
+                tools:src="@color/ic_launcher_background" />
 
 
             <TextView

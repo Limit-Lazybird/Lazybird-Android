@@ -8,7 +8,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/gray_200"
-    tools:context=".ui.onboarding.OnBoardingFragment">
+    tools:context=".ui.onboarding.OnbFragment">
 
     <RelativeLayout
         android:id="@+id/on_boarding_header_layout"

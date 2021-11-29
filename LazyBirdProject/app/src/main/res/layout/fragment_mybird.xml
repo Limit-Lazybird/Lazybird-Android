@@ -199,7 +199,7 @@
                     app:layout_constraintDimensionRatio="H,13:17"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:src="@drawable/ic_launcher_background"
+                    tools:src="@color/ic_launcher_background"
                     tools:visibility="visible" />
 
                 <TextView
@@ -273,7 +273,7 @@
                     app:layout_constraintDimensionRatio="H,13:17"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:src="@drawable/ic_launcher_background"
+                    tools:src="@color/ic_launcher_background"
                     tools:visibility="visible" />
 
                 <TextView
@@ -378,7 +378,7 @@
                     app:layout_constraintDimensionRatio="H,13:17"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:src="@drawable/ic_launcher_background"
+                    tools:src="@color/ic_launcher_background"
                     tools:visibility="visible" />
 
                 <TextView
@@ -433,7 +433,7 @@
                     app:layout_constraintDimensionRatio="H,13:17"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:src="@drawable/ic_launcher_background"
+                    tools:src="@color/ic_launcher_background"
                     tools:visibility="visible" />
 
                 <TextView
