@@ -24,6 +24,7 @@ class PreferenceDataStoreManager @Inject constructor(
         val TOKEN = preferencesKey<String>("token") // 사용자 토큰 정보
         val EMAIL = preferencesKey<String>("email") // 사용자의 이메일
         val NAME = preferencesKey<String>("name") // 사용자의 이름
+        val LOGIN_TYPE = preferencesKey<String>("login_type") // 사용자의 이름
     }
 
     private val dataStore = applicationContext.createDataStore("user_token")
@@ -52,9 +53,10 @@ class PreferenceDataStoreManager @Inject constructor(
             }
         }
         .map { preferences ->
+            val loginType = preferences[PreferenceKey.LOGIN_TYPE] ?: ""
             val email = preferences[PreferenceKey.EMAIL] ?: ""
             val name = preferences[PreferenceKey.NAME] ?: ""
-            UserInfo(email, name)
+            UserInfo(loginType, email, name)
         }
 
     // Token 정보 업데이트
@@ -65,8 +67,9 @@ class PreferenceDataStoreManager @Inject constructor(
     }
 
     // UserInfo(email, name) 정보 업데이트
-    suspend fun updateUserInfo(email:String, name:String){
+    suspend fun updateUserInfo(loginType:String, email:String, name:String){
         dataStore.edit { mutablePreferences ->
+            mutablePreferences[PreferenceKey.LOGIN_TYPE] = loginType
             mutablePreferences[PreferenceKey.EMAIL] = email
             mutablePreferences[PreferenceKey.NAME] = name
         }

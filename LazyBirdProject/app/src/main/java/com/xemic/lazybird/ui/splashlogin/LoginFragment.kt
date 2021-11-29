@@ -22,7 +22,9 @@ import com.kakao.sdk.common.model.KakaoSdkError
 import com.kakao.sdk.user.UserApiClient
 import com.kakao.sdk.user.model.User
 import com.xemic.lazybird.R
+import com.xemic.lazybird.api.KakaoLoginHelper
 import com.xemic.lazybird.databinding.FragmentLoginBinding
+import com.xemic.lazybird.models.UserInfo
 import com.xemic.lazybird.ui.MainActivity
 import com.xemic.lazybird.ui.MainFragment
 import com.xemic.lazybird.ui.onboarding.OnbStartFragment
@@ -30,6 +32,8 @@ import com.xemic.lazybird.util.removeAllBackStack
 import com.xemic.lazybird.util.replaceFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.launch
 
 /************* LoginFragment ***************
  * 로그인 화면 (Fragment)
@@ -49,8 +53,9 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
     }
 
     // for kakao login
-    private lateinit var callback: (OAuthToken?, Throwable?) -> Unit
-
+//    private lateinit var callback: (OAuthToken?, Throwable?) -> Unit
+    private lateinit var kakaoLoginHelper: KakaoLoginHelper
+    
     // for google login
     private lateinit var gso: GoogleSignInOptions
     private lateinit var mGoogleSignInClient: GoogleSignInClient
@@ -61,12 +66,13 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentLoginBinding.bind(view)
 
-        // Kakao Init
-        kakaoLoginInit()
+        // kakao 개체 구성
+        kakaoLoginHelper = KakaoLoginHelper(requireContext()).apply {
+            init()
+        }
 
         // GoogleSignInClient 개체 구성
         googleLoginInit()
-
 
         binding.loginGoogleBtn.setOnClickListener {
             // 구글로 로그인하기 버튼 클릭
@@ -80,49 +86,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
 
         binding.loginKakaoBtn.setOnClickListener {
             // 카카오로 로그인하기 버튼 클릭
-            if (AuthApiClient.instance.hasToken()) {
-                // 이미 로그인하여 토큰을 발급받았었음
-                UserApiClient.instance.accessTokenInfo { _, error ->
-                    if (error != null) {
-                        if (error is KakaoSdkError && error.isInvalidTokenError()) {
-                            // 로그인 필요
-                            UserApiClient.instance.loginWithKakaoAccount(
-                                requireContext(),
-                                callback = callback
-                            )
-                        } else {
-                            // 기타 에러
-                            Log.e("LoginActivity", "error occured")
-                            error.printStackTrace()
-                        }
-                    } else {
-                        // 토큰 유효성 체크 성공
-                        UserApiClient.instance.me { user, error ->
-                            when {
-                                error != null -> {
-                                    Log.e(TAG, "사용자 정보 요청 실패: $error")
-                                }
-                                user != null -> {
-                                    // MainActivity 로 이동
-                                    successKakaoLogin(
-                                        user,
-                                        AuthApiClient.instance.tokenManagerProvider.manager.getToken()!!
-                                    )
-                                }
-                                else -> {
-                                    Log.e(TAG, "user is null")
-                                }
-                            }
-                        }
-                    }
-                }
-            } else {
-                // 로그인 필요
-                UserApiClient.instance.loginWithKakaoAccount(
-                    requireContext(),
-                    callback = callback
-                )
-            }
+            kakaoLoginHelper.login()
         }
 
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
@@ -141,6 +105,16 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                         Log.e(TAG, "retrofit error : ${event.errorBody.string()}")
                     }
                 }
+            }
+        }
+
+        lifecycleScope.launch {
+            kakaoLoginHelper.loginInfo.collect {
+                viewModel.loginKakao(
+                    email = it.email,
+                    name = it.name,
+                    kakaoToken = it.token
+                )
             }
         }
     }
@@ -170,30 +144,6 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
             }
     }
 
-    private fun kakaoLoginInit() {
-        KakaoSdk.init(requireContext(), getString(R.string.native_app_key))
-        callback = { token, error ->
-            if (error != null) {
-                Log.e(TAG, "로그인 실패 : ${error}")
-            } else if (token != null) {
-                Log.e(TAG, "로그인 성공")
-                UserApiClient.instance.me { user, error ->
-                    when {
-                        error != null -> {
-                            Log.e(TAG, "사용자 정보 요청 실패: ${error}")
-                        }
-                        user != null -> {
-                            successKakaoLogin(user, token) // 로그인 성공
-                        }
-                        else -> {
-                            Log.e(TAG, "user is null")
-                        }
-                    }
-                }
-            }
-        }
-    }
-
     private fun successGoogleLogin(account: GoogleSignInAccount) {
         // 구글 로그인 성공
         /*** kakao API response ***
@@ -216,22 +166,22 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         )
     }
 
-    private fun successKakaoLogin(user: User, token: OAuthToken) {
-        // 카카오 로그인 성공
-        /*** kakao API response ***
-         * id : user?.id
-         * profileNickname : user?.kakaoAccount?.profile?.nickname
-         * accountEmail : user?.kakaoAccount?.gender
-         * birthday : user?.kakaoAccount?.ageRange
-         * accessToken : token.accessToken
-         * *** ***************** ***/
-
-        viewModel.loginKakao(
-            email = user?.kakaoAccount?.email.toString(),
-            name = user?.kakaoAccount?.profile?.nickname.toString(),
-            kakaoToken = token.accessToken
-        )
-    }
+//    private fun successKakaoLogin(user: User, token: OAuthToken) {
+//        // 카카오 로그인 성공
+//        /*** kakao API response ***
+//         * id : user?.id
+//         * profileNickname : user?.kakaoAccount?.profile?.nickname
+//         * accountEmail : user?.kakaoAccount?.gender
+//         * birthday : user?.kakaoAccount?.ageRange
+//         * accessToken : token.accessToken
+//         * *** ***************** ***/
+//
+//        viewModel.loginKakao(
+//            email = user?.kakaoAccount?.email.toString(),
+//            name = user?.kakaoAccount?.profile?.nickname.toString(),
+//            kakaoToken = token.accessToken
+//        )
+//    }
 
     private fun moveToOnBoarding() {
         // 온보딩 화면으로 이동

@@ -1,10 +1,17 @@
 package com.xemic.lazybird.ui.setting
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
+import androidx.lifecycle.lifecycleScope
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.kakao.sdk.user.UserApiClient
 import com.xemic.lazybird.R
+import com.xemic.lazybird.api.KakaoLoginHelper
+import com.xemic.lazybird.data.PreferenceDataStoreManager
 import com.xemic.lazybird.databinding.FragmentSettingBinding
 import com.xemic.lazybird.ui.MainActivity
 import com.xemic.lazybird.ui.exhibition.ExhibitionRefreshBSDialog
@@ -13,10 +20,14 @@ import com.xemic.lazybird.ui.splashlogin.LoginFragment
 import com.xemic.lazybird.util.removeAllBackStack
 import com.xemic.lazybird.util.replaceFragment
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 /***************** SettingFragment *******************
  * 메인화면(마이버드 탭) >> 옵션  (Fragment)
  * 옵션 화면
+ * Todo : google 로그아웃 구현하기
  ********************************************** ***/
 @AndroidEntryPoint
 class SettingFragment : Fragment(R.layout.fragment_setting) {
@@ -85,6 +96,7 @@ class SettingFragment : Fragment(R.layout.fragment_setting) {
             when (bundle.getString(LogoutBSDialog.RESULT_CODE)) {
                 LogoutBSDialog.RESULT_OK -> {
                     // 로그아웃에서 OK 버튼 누름
+                    KakaoLoginHelper(requireContext()).logout()
                     parentActivity.supportFragmentManager.removeAllBackStack()
                     parentActivity.supportFragmentManager.replaceFragment(LoginFragment(), false)
                 }

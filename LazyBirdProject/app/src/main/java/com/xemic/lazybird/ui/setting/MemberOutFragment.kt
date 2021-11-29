@@ -1,9 +1,15 @@
 package com.xemic.lazybird.ui.setting
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
+import com.kakao.sdk.user.UserApiClient
 import com.xemic.lazybird.R
+import com.xemic.lazybird.api.KakaoLoginHelper
+import com.xemic.lazybird.data.PreferenceDataStoreManager
 import com.xemic.lazybird.databinding.FragmentMemberOutBinding
 import com.xemic.lazybird.ui.MainActivity
 import com.xemic.lazybird.ui.splashlogin.LoginFragment
@@ -11,6 +17,9 @@ import com.xemic.lazybird.util.applyEscapeSequence
 import com.xemic.lazybird.util.removeAllBackStack
 import com.xemic.lazybird.util.replaceFragment
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 /************* MemberOutFragment ***************
  * 메인화면(마이버드 탭) >> 옵션 >> 회원탈퇴 (Fragment)
@@ -41,6 +50,7 @@ class MemberOutFragment : Fragment(R.layout.fragment_member_out) {
         }
         binding.memberOutOk.setOnClickListener {
             // 탈퇴하기 버튼
+            KakaoLoginHelper(requireContext()).memberOut()
             parentActivity.supportFragmentManager.removeAllBackStack()
             parentActivity.supportFragmentManager.replaceFragment(LoginFragment(), false)
         }

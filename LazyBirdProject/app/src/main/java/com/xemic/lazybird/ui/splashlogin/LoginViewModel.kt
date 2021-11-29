@@ -31,7 +31,7 @@ class LoginViewModel @Inject constructor(
         name: String
     ) = viewModelScope.launch {
         // LazyBird 서버에 카카오 로그인 요청
-        updateUserInfo(email, name)
+        updateUserInfo("kakao", email, name)
         val response = apiHelper.loginKakao(
             token = kakaoToken,
             name = name
@@ -49,7 +49,7 @@ class LoginViewModel @Inject constructor(
         name: String
     ) = viewModelScope.launch {
         // LazyBird 서버에 구글 로그인 요청
-        updateUserInfo(email, name)
+        updateUserInfo("google", email, name)
         val response = apiHelper.loginGoogle(
             token = googleToken,
             name = name
@@ -66,9 +66,9 @@ class LoginViewModel @Inject constructor(
         preferenceDataStoreManager.updateToken(token)
     }
 
-    fun updateUserInfo(email: String, name: String) = viewModelScope.launch {
+    fun updateUserInfo(loginType: String, email: String, name: String) = viewModelScope.launch {
         // dataStore 에서 유저정보 값 저장하기
-        preferenceDataStoreManager.updateUserInfo(email, name)
+        preferenceDataStoreManager.updateUserInfo(loginType, email, name)
     }
 
     sealed class LoginEvent {
