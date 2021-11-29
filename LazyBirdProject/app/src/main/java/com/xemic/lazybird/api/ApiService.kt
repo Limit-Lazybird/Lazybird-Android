@@ -104,18 +104,9 @@ interface ApiService {
 
     /********* Login *********/
     @FormUrlEncoded
-    @POST("/oauth/login/kakao")
-    suspend fun loginKakao(
+    @POST("/oauth/login")
+    suspend fun login(
         @Field("comp_cd") comp_cd: String,
-        @Field("token") token: String,
-        @Field("name") name: String
-    ):Response<LoginResponseBody>
-
-    @FormUrlEncoded
-    @POST("/oauth/login/google")
-    suspend fun loginGoogle(
-        @Field("comp_cd") comp_cd: String,
-        @Field("token") token: String,
-        @Field("name") name: String
+        @Field("token") token: String
     ):Response<LoginResponseBody>
 }

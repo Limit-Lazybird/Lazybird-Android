@@ -59,11 +59,6 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
     // for google login
     private lateinit var googleLoginHelper: GoogleLoginHelper
 
-//    private lateinit var gso: GoogleSignInOptions
-//    private lateinit var mGoogleSignInClient: GoogleSignInClient
-//    private lateinit var registerResult: ActivityResultLauncher<Intent>
-
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentLoginBinding.bind(view)
@@ -123,44 +118,6 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
             )
         }
     }
-
-    private fun googleLoginInit() {
-//        gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-//            .requestIdToken(getString(R.string.google_server_client_id))
-//            .requestEmail()
-//            .build()
-//        mGoogleSignInClient = GoogleSignIn.getClient(context, gso)
-//        registerResult =
-//            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-//                if (result.resultCode == Activity.RESULT_OK) {
-//                    // Result OK 일 때, SignIn 한 결과에서 account 가져오기
-//                    val data = result.data
-//                    googleLoginHelper.login(data)
-//                }
-//            }
-    }
-
-//    private fun successGoogleLogin(account: GoogleSignInAccount) {
-//        // 구글 로그인 성공
-//        /*** kakao API response ***
-//         * accountName : account.account.name
-//         * accountType : account.account.type
-//         * displayName : account.displayName
-//         * email : account.email
-//         * givenName : account.givenName
-//         * id : account.id
-//         * photoUrl : account.photoUrl
-//         * idToken : account.idToken
-//         * isExpired : account.isExpired
-//         * *** ***************** ***/
-//
-//        Log.e("test", "${account.email} ${account.displayName} ${account.idToken}")
-//        viewModel.loginGoogle(
-//            email = account.email,
-//            name = account.displayName,
-//            googleToken = account.idToken
-//        )
-//    }
 
     private fun moveToOnBoarding() {
         // 온보딩 화면으로 이동

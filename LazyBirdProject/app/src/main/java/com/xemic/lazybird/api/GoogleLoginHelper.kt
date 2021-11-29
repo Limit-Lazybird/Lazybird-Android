@@ -15,6 +15,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.common.api.GoogleApiClient
 import com.xemic.lazybird.R
 import com.xemic.lazybird.models.LoginInfo
 
@@ -107,11 +108,11 @@ class GoogleLoginHelper(
          * givenName : account.givenName
          * id : account.id
          * photoUrl : account.photoUrl
+         * serverAuthToken : account.serverAuthCode
          * idToken : account.idToken
          * isExpired : account.isExpired
          * *** ***************** ***/
-
-        Log.e(TAG, "update success: ${account.email} ${account.displayName} ${account.idToken}")
+        Log.e(TAG, "update success: ${account.email} ${account.displayName} ${account.serverAuthCode} ${account.idToken}")
         _loginInfo.postValue(
             LoginInfo(
                 "google",

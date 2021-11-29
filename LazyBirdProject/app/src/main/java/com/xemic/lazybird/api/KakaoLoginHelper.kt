@@ -143,6 +143,7 @@ class KakaoLoginHelper(
          * accessToken : token.accessToken
          * *** ***************** ***/
         Log.e(TAG, "updateUserInfo() called")
+        Log.e(TAG, "${user?.kakaoAccount?.email.toString()}, ${user?.kakaoAccount?.profile?.nickname.toString()}, ${token.accessToken}")
 
         _loginInfo.postValue(
             LoginInfo(

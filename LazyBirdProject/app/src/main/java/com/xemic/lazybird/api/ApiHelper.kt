@@ -75,12 +75,10 @@ interface ApiHelper {
 
     /********* Login *********/
     suspend fun loginKakao(
-        token: String,
-        name: String
+        token: String
     ): Response<LoginResponseBody>
 
     suspend fun loginGoogle(
-        token: String,
-        name: String
+        token: String
     ): Response<LoginResponseBody>
 }

@@ -33,8 +33,7 @@ class LoginViewModel @Inject constructor(
         // LazyBird 서버에 카카오 로그인 요청
         updateUserInfo("kakao", email, name)
         val response = apiHelper.loginKakao(
-            token = kakaoToken,
-            name = name
+            token = kakaoToken
         )
         if(response.isSuccessful) {
             loginEventChannel.send(LoginEvent.SuccessLogin(response.body()!!))
@@ -51,8 +50,7 @@ class LoginViewModel @Inject constructor(
         // LazyBird 서버에 구글 로그인 요청
         updateUserInfo("google", email, name)
         val response = apiHelper.loginGoogle(
-            token = googleToken,
-            name = name
+            token = googleToken
         )
         if(response.isSuccessful) {
             loginEventChannel.send(LoginEvent.SuccessLogin(response.body()!!))
