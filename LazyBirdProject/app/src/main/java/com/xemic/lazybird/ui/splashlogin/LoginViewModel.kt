@@ -33,7 +33,6 @@ class LoginViewModel @Inject constructor(
         // LazyBird 서버에 카카오 로그인 요청
         updateUserInfo(email, name)
         val response = apiHelper.loginKakao(
-            email = email,
             token = kakaoToken,
             name = name
         )
@@ -52,7 +51,6 @@ class LoginViewModel @Inject constructor(
         // LazyBird 서버에 구글 로그인 요청
         updateUserInfo(email, name)
         val response = apiHelper.loginGoogle(
-            email = email,
             token = googleToken,
             name = name
         )

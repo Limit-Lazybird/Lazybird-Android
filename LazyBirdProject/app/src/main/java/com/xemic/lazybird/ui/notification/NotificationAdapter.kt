@@ -3,6 +3,8 @@ package com.xemic.lazybird.ui.notification
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.xemic.lazybird.R
 import com.xemic.lazybird.databinding.ItemNotificationBinding
@@ -15,8 +17,8 @@ import com.xemic.lazybird.util.applyEscapeSequence
  * 나에게 온 알림 보기
  ********************************************** ***/
 class NotificationAdapter(
-    val list: List<NotificationInfo>
-): RecyclerView.Adapter<NotificationAdapter.ViewHolder>() {
+    val list: ArrayList<NotificationInfo>
+): ListAdapter<NotificationInfo, NotificationAdapter.ViewHolder>(DiffCallback()) {
 
     interface OnItemClickListener {
         fun onDeleteBtnClick(holder: NotificationAdapter.ViewHolder, view: View, position: Int)
@@ -51,4 +53,13 @@ class NotificationAdapter(
     }
 
     override fun getItemCount(): Int = list.size
+
+    class DiffCallback: DiffUtil.ItemCallback<NotificationInfo>() {
+        override fun areItemsTheSame(oldItem: NotificationInfo, newItem: NotificationInfo): Boolean =
+            oldItem.id == newItem.id
+
+        override fun areContentsTheSame(oldItem: NotificationInfo, newItem: NotificationInfo): Boolean =
+            oldItem == newItem
+
+    }
 }

@@ -23,6 +23,8 @@ class NotificationFragment: Fragment(R.layout.fragment_notification) {
         const val TAG = "NotificationFragment"
     }
 
+    private val CLAMP_WIDTH_RATIO = 0.2f // CLAMP 의 값이 화면의 가로길이의 몇 퍼센트인지
+    
     lateinit var binding: FragmentNotificationBinding
     private val viewModel: NotificationViewModel by viewModels()
     private val parentActivity: MainActivity by lazy {
@@ -46,11 +48,15 @@ class NotificationFragment: Fragment(R.layout.fragment_notification) {
                     ) {
                         if(holder.itemView.tag?.toString() == "true") {
                             // item 지우기
+                            viewModel.deleteNotification(position)
                         }
                     }
                 }
             }
-            val swipeHelperCallback = SwipeHelperCallback().apply { setClamp(200f) }
+
+            val swipeHelperCallback = SwipeHelperCallback().apply {
+                setClamp(binding.notificationRecyclerView.width * CLAMP_WIDTH_RATIO)
+            }
             ItemTouchHelper(swipeHelperCallback).attachToRecyclerView(binding.notificationRecyclerView)
 
             binding.notificationRecyclerView.apply {

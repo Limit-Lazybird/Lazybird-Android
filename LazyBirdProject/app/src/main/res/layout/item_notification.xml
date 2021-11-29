@@ -16,14 +16,13 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_gravity="right|center_vertical"
-            app:layout_constraintDimensionRatio="H,1:1"
+            app:layout_constraintWidth_percent="0.2"
             android:paddingTop="23.5dp"
             android:paddingBottom="23.5dp"
             android:src="@drawable/ic_close" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:visibility="visible"
         android:id="@+id/item_notification_swipe_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

@@ -65,22 +65,18 @@ class ApiHelperImpl @Inject constructor(
 
     /********* Login *********/
     override suspend fun loginKakao(
-        email: String,
         token: String,
         name: String
     ): Response<LoginResponseBody> = apiService.loginKakao(
         "01",
-        email,
         token,
         name
     )
     override suspend fun loginGoogle(
-        email: String,
         token: String,
         name: String
     ): Response<LoginResponseBody> = apiService.loginGoogle(
         "02",
-        email,
         token,
         name
     )

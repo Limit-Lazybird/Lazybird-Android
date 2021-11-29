@@ -1,5 +1,6 @@
 package com.xemic.lazybird.ui.notification
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -25,8 +26,8 @@ class NotificationViewModel @Inject constructor(
     }
 
     private lateinit var token: String
-    private val _notificationList = MutableLiveData<List<NotificationInfo>>()
-    val notificationList:LiveData<List<NotificationInfo>> get() = _notificationList
+    private val _notificationList = MutableLiveData<ArrayList<NotificationInfo>>()
+    val notificationList:LiveData<ArrayList<NotificationInfo>> get() = _notificationList
 
     init {
         initToken()
@@ -38,31 +39,44 @@ class NotificationViewModel @Inject constructor(
         token = repository.getPreferenceTokenFlow().first()
     }
 
+    fun deleteNotification(position:Int) = viewModelScope.launch {
+        _notificationList.postValue(
+            _notificationList.value?.apply {
+                removeAt(position)
+            }
+        )
+    }
+
     private fun initNotificationList() {
         // Todo : dummy data
         _notificationList.postValue(
-            listOf(
+            arrayListOf(
                 NotificationInfo(
+                    1,
                     "전시 일정",
                     "예매하신 어떤 전시가 이정도 남았어요",
                     "12시간 전"
                 ),
                 NotificationInfo(
+                    2,
                     "얼리버드",
                     "새로운 얼리버드 정보가 올라왔어요",
                     "12시간 전"
                 ),
                 NotificationInfo(
+                    3,
                     "전시 일정",
                     "알림에는 무슨 내용을 넣으면 좋을까",
                     "11월 24일"
                 ),
                 NotificationInfo(
+                    4,
                     "전시 일정",
                     "알림에는 무슨 내용을 넣으면 좋을까",
                     "11월 24일"
                 ),
                 NotificationInfo(
+                    5,
                     "전시 일정",
                     "알림에는 무슨 내용을 넣으면 좋을까",
                     "11월 24일"
