@@ -2,6 +2,8 @@ package com.xemic.lazybird.ui.calendar
 
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -13,10 +15,14 @@ import com.kizitonwose.calendarview.ui.MonthHeaderFooterBinder
 import com.xemic.lazybird.R
 import com.xemic.lazybird.custom.DayViewContainer
 import com.xemic.lazybird.custom.MonthViewContainer
+import com.xemic.lazybird.custom.ScheduleMarkContainer
 import com.xemic.lazybird.databinding.FragmentCalendarBinding
+import com.xemic.lazybird.util.parseDayOfWeek
+import com.xemic.lazybird.util.parseMonth
+import com.xemic.lazybird.util.toDate
 import dagger.hilt.android.AndroidEntryPoint
 import java.time.DayOfWeek
-import java.time.LocalDate
+import java.util.*
 
 @AndroidEntryPoint
 class CalendarFragment : Fragment(R.layout.fragment_calendar) {
@@ -28,23 +34,23 @@ class CalendarFragment : Fragment(R.layout.fragment_calendar) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentCalendarBinding.bind(view)
         calendarViewInit()
-        calendarViewModel.selectedLocalDateLiveData.observe(viewLifecycleOwner) { selectedDate ->
+        calendarViewModel.selectedDateLiveData.observe(viewLifecycleOwner) { selectedDate ->
             scheduleLayoutUpdate(selectedDate)
         }
     }
 
-    private fun scheduleLayoutUpdate(selectedDay: LocalDate) {
+    private fun scheduleLayoutUpdate(selectedDay: Date) {
         // selectedDay 에 해당하는 일정내용을 업데이트
         val scheduleListDict = calendarViewModel.scheduleListDict
         if (scheduleListDict.containsKey(selectedDay) && scheduleListDict[selectedDay]!!.isNotEmpty()) {
             // schedule 이 존재하고, 일정이 1개 이상
             binding.calendarScheduleLayout.visibility = View.VISIBLE // layout 보여주기
-            binding.calendarScheduleDay.text = selectedDay.dayOfMonth.toString()
-            if (selectedDay == calendarViewModel.selectedLocalDateLiveData.value)
+            binding.calendarScheduleDay.text = selectedDay.parseMonth().toString()
+            if (selectedDay == calendarViewModel.selectedDateLiveData.value)
                 binding.calendarScheduleIsToday.visibility = View.VISIBLE
             else
                 binding.calendarScheduleIsToday.visibility = View.INVISIBLE
-            binding.calendarScheduleDayOfWeek.text = DAY_OF_WEEK[selectedDay.dayOfWeek.value-1]
+            binding.calendarScheduleDayOfWeek.text = DAY_OF_WEEK[selectedDay.parseDayOfWeek()-1]
             binding.calendarScheduleCount.text = "${scheduleListDict[selectedDay]!!.size}개의 일정이 있습니다."
             binding.calendarScheduleItems.adapter =
                 CalendarScheduleAdapter(scheduleListDict[selectedDay]!!)
@@ -59,7 +65,7 @@ class CalendarFragment : Fragment(R.layout.fragment_calendar) {
             override fun bind(container: DayViewContainer, day: CalendarDay) {
                 if (day.owner == DayOwner.THIS_MONTH) {
                     // 이번달
-                    if(day.date == calendarViewModel.selectedLocalDateLiveData.value){
+                    if(day.toDate() == calendarViewModel.selectedDateLiveData.value){
                         // 오늘이 선택된 날짜 인 경우
                         container.isToday.visibility = View.VISIBLE // 선택 표시 생성
                         calendarViewModel.selectedDayViewContainer = container // container 업데이트
@@ -78,6 +84,12 @@ class CalendarFragment : Fragment(R.layout.fragment_calendar) {
                 container.textView.text = day.date.dayOfMonth.toString()
                 container.textView.setOnClickListener {
                     calendarViewModel.selectDay(container, day) // 날짜를 클릭 했을 때
+                }
+
+                repeat(calendarViewModel.getScheduleCount(day.toDate())){
+                    container.scheduleMark.addView(
+                        ScheduleMarkContainer(container.view.context, null)
+                    )
                 }
             }
 

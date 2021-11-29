@@ -1,9 +1,12 @@
 package com.xemic.lazybird.models
 
-import java.time.LocalDate
+import java.util.*
 
 data class Schedule(
-    val date: LocalDate,
+    val date: Date,
     val scheduleName: String,
+    val schedulePlace: String,
+    val startTime: String,
+    val endTime: String,
     val isVisited: Boolean = false
 )

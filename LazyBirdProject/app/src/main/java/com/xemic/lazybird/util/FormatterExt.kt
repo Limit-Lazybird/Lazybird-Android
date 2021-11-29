@@ -5,6 +5,8 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.math.ceil
 import android.view.View
+import com.kizitonwose.calendarview.model.CalendarDay
+import java.time.ZoneId
 
 // 12345 >> 12,345
 fun Int.thousandUnitFormatted(): String {
@@ -23,6 +25,9 @@ fun String.toDate(): Date = SimpleDateFormat("yyyy-MM-dd").parse(this)
 
 // "yyyy.MM.dd" to Date
 fun String.toDate2(): Date = SimpleDateFormat("yyyy.MM.dd").parse(this)
+
+// CalendarDay to Date
+fun CalendarDay.toDate(): Date = Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant())
 
 // \\n to \n
 fun String.applyEscapeSequence(): String {
@@ -49,3 +54,10 @@ fun Float.toDp(view: View) =
         20f,
         view.resources.displayMetrics
     ).toInt()
+
+fun Date.parseMonth() = getCalendar(this).get(Calendar.DAY_OF_MONTH)
+fun Date.parseDayOfWeek() = getCalendar(this).get(Calendar.DAY_OF_WEEK)
+
+fun getCalendar(date: Date) = Calendar.getInstance().apply {
+    time = date
+}

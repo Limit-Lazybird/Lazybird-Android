@@ -13,8 +13,7 @@
     <item
         android:id="@+id/bnv_calendar"
         android:icon="@drawable/ic_tap_calendar"
-        android:title="캘린더"
-        android:visible="false" />
+        android:title="캘린더"/>
 
     <item
         android:id="@+id/bnv_search"
