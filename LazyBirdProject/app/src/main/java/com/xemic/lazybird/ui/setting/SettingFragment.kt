@@ -7,9 +7,11 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.lifecycleScope
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.kakao.sdk.user.UserApiClient
 import com.xemic.lazybird.R
+import com.xemic.lazybird.api.GoogleLoginHelper
 import com.xemic.lazybird.api.KakaoLoginHelper
 import com.xemic.lazybird.data.PreferenceDataStoreManager
 import com.xemic.lazybird.databinding.FragmentSettingBinding
@@ -41,9 +43,20 @@ class SettingFragment : Fragment(R.layout.fragment_setting) {
         activity as MainActivity
     }
 
+    // for login
+    private lateinit var kakaoLoginHelper: KakaoLoginHelper
+    private lateinit var googleLoginHelper: GoogleLoginHelper
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentSettingBinding.bind(view)
+
+        kakaoLoginHelper = KakaoLoginHelper(requireContext()).apply {
+            init()
+        }
+        googleLoginHelper = GoogleLoginHelper(this).apply {
+            init()
+        }
 
         binding.settingBackBtn.setOnClickListener {
             // 뒤로가기 버튼 클릭
@@ -96,7 +109,9 @@ class SettingFragment : Fragment(R.layout.fragment_setting) {
             when (bundle.getString(LogoutBSDialog.RESULT_CODE)) {
                 LogoutBSDialog.RESULT_OK -> {
                     // 로그아웃에서 OK 버튼 누름
-                    KakaoLoginHelper(requireContext()).logout()
+                    // Todo : 로그인 유형에 따라 로그아웃 하는 작업 필요
+//                    KakaoLoginHelper(requireContext()).logout()
+//                    googleLoginHelper.logout()
                     parentActivity.supportFragmentManager.removeAllBackStack()
                     parentActivity.supportFragmentManager.replaceFragment(LoginFragment(), false)
                 }

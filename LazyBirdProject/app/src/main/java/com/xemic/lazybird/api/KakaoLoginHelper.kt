@@ -2,6 +2,7 @@ package com.xemic.lazybird.api
 
 import android.content.Context
 import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asFlow
 import com.kakao.sdk.auth.AuthApiClient
@@ -24,7 +25,7 @@ class KakaoLoginHelper(
     private lateinit var callback: (OAuthToken?, Throwable?) -> Unit
 
     private val _loginInfo = MutableLiveData<LoginInfo>()
-    val loginInfo = _loginInfo.asFlow()
+    val loginInfo: LiveData<LoginInfo> get() =  _loginInfo
 
 
     fun init() {

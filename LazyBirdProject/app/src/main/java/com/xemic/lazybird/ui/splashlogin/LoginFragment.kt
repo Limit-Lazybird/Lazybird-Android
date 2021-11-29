@@ -22,6 +22,7 @@ import com.kakao.sdk.common.model.KakaoSdkError
 import com.kakao.sdk.user.UserApiClient
 import com.kakao.sdk.user.model.User
 import com.xemic.lazybird.R
+import com.xemic.lazybird.api.GoogleLoginHelper
 import com.xemic.lazybird.api.KakaoLoginHelper
 import com.xemic.lazybird.databinding.FragmentLoginBinding
 import com.xemic.lazybird.models.UserInfo
@@ -53,13 +54,14 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
     }
 
     // for kakao login
-//    private lateinit var callback: (OAuthToken?, Throwable?) -> Unit
     private lateinit var kakaoLoginHelper: KakaoLoginHelper
     
     // for google login
-    private lateinit var gso: GoogleSignInOptions
-    private lateinit var mGoogleSignInClient: GoogleSignInClient
-    private lateinit var registerResult: ActivityResultLauncher<Intent>
+    private lateinit var googleLoginHelper: GoogleLoginHelper
+
+//    private lateinit var gso: GoogleSignInOptions
+//    private lateinit var mGoogleSignInClient: GoogleSignInClient
+//    private lateinit var registerResult: ActivityResultLauncher<Intent>
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -72,16 +74,13 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         }
 
         // GoogleSignInClient 개체 구성
-        googleLoginInit()
+        googleLoginHelper = GoogleLoginHelper(this).apply {
+            init()
+        }
 
         binding.loginGoogleBtn.setOnClickListener {
             // 구글로 로그인하기 버튼 클릭
-            var account = GoogleSignIn.getLastSignedInAccount(context)
-            if (account == null) {
-                registerResult.launch(mGoogleSignInClient.signInIntent) // 기존 로그인 사용자가 아닌 경우 (회원가입 진행)
-            } else {
-                successGoogleLogin(account) // 기존 사용자
-            }
+            googleLoginHelper.login()
         }
 
         binding.loginKakaoBtn.setOnClickListener {
@@ -108,78 +107,58 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
             }
         }
 
-        lifecycleScope.launch {
-            kakaoLoginHelper.loginInfo.collect {
-                viewModel.loginKakao(
-                    email = it.email,
-                    name = it.name,
-                    kakaoToken = it.token
-                )
-            }
+        kakaoLoginHelper.loginInfo.observe(viewLifecycleOwner) {
+            viewModel.loginKakao(
+                email = it.email,
+                name = it.name,
+                kakaoToken = it.token
+            )
+        }
+        googleLoginHelper.loginInfo.observe(viewLifecycleOwner) {
+            Log.e(TAG, "collect: ${it}")
+            viewModel.loginGoogle(
+                email = it.email,
+                name = it.name,
+                googleToken = it.token
+            )
         }
     }
 
     private fun googleLoginInit() {
-        gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken(getString(R.string.google_server_client_id))
-            .requestEmail()
-            .build()
-        mGoogleSignInClient = GoogleSignIn.getClient(context, gso)
-        registerResult =
-            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-                if (result.resultCode == Activity.RESULT_OK) {
-                    // Result OK 일 때, SignIn 한 결과에서 account 가져오기
-                    val data = result.data
-                    val task = GoogleSignIn.getSignedInAccountFromIntent(data)
-                    try {
-                        // success
-                            Log.e("test", "success login")
-                        val account = task.getResult(ApiException::class.java)
-                        successGoogleLogin(account)
-                    } catch (e: ApiException) {
-                        // fail
-                        Log.w(TAG, "signInResult:failed code= " + e.statusCode)
-                    }
-                }
-            }
+//        gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+//            .requestIdToken(getString(R.string.google_server_client_id))
+//            .requestEmail()
+//            .build()
+//        mGoogleSignInClient = GoogleSignIn.getClient(context, gso)
+//        registerResult =
+//            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+//                if (result.resultCode == Activity.RESULT_OK) {
+//                    // Result OK 일 때, SignIn 한 결과에서 account 가져오기
+//                    val data = result.data
+//                    googleLoginHelper.login(data)
+//                }
+//            }
     }
 
-    private fun successGoogleLogin(account: GoogleSignInAccount) {
-        // 구글 로그인 성공
-        /*** kakao API response ***
-         * accountName : account.account.name
-         * accountType : account.account.type
-         * displayName : account.displayName
-         * email : account.email
-         * givenName : account.givenName
-         * id : account.id
-         * photoUrl : account.photoUrl
-         * idToken : account.idToken
-         * isExpired : account.isExpired
-         * *** ***************** ***/
-
-        Log.e("test", "${account.email} ${account.displayName} ${account.idToken}")
-        viewModel.loginGoogle(
-            email = account.email,
-            name = account.displayName,
-            googleToken = account.idToken
-        )
-    }
-
-//    private fun successKakaoLogin(user: User, token: OAuthToken) {
-//        // 카카오 로그인 성공
+//    private fun successGoogleLogin(account: GoogleSignInAccount) {
+//        // 구글 로그인 성공
 //        /*** kakao API response ***
-//         * id : user?.id
-//         * profileNickname : user?.kakaoAccount?.profile?.nickname
-//         * accountEmail : user?.kakaoAccount?.gender
-//         * birthday : user?.kakaoAccount?.ageRange
-//         * accessToken : token.accessToken
+//         * accountName : account.account.name
+//         * accountType : account.account.type
+//         * displayName : account.displayName
+//         * email : account.email
+//         * givenName : account.givenName
+//         * id : account.id
+//         * photoUrl : account.photoUrl
+//         * idToken : account.idToken
+//         * isExpired : account.isExpired
 //         * *** ***************** ***/
 //
-//        viewModel.loginKakao(
-//            email = user?.kakaoAccount?.email.toString(),
-//            name = user?.kakaoAccount?.profile?.nickname.toString(),
-//            kakaoToken = token.accessToken
+//        Log.e("test", "${account.email} ${account.displayName} ${account.idToken}")
+//        viewModel.loginGoogle(
+//            email = account.email,
+//            name = account.displayName,
+//            googleToken = account.idToken
 //        )
 //    }
 
