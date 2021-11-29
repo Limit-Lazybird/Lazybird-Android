@@ -24,6 +24,7 @@
             app:tint="@color/orange_500" />
 
         <ImageView
+            android:visibility="invisible"
             android:id="@+id/earlybird_bell"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -35,6 +36,7 @@
         <ImageView
             android:id="@+id/earlybird_earlycard"
             android:layout_width="wrap_content"
+            android:visibility="invisible"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
