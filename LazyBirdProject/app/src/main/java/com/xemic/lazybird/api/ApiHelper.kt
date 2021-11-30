@@ -81,4 +81,8 @@ interface ApiHelper {
     suspend fun loginGoogle(
         token: String
     ): Response<LoginResponseBody>
+
+    suspend fun deleteUser(
+        token: String
+    ): Response<MemberOutResponseBody>
 }

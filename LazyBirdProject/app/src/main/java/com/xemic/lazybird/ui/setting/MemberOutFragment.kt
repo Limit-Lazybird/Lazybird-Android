@@ -66,6 +66,8 @@ class MemberOutFragment : Fragment(R.layout.fragment_member_out) {
         }
         binding.memberOutOk.setOnClickListener {
             // 탈퇴하기 버튼
+
+            // 클라이언트 단에서 끊어주기
             lifecycleScope.launch {
                 viewModel.userInfo.collect { userInfo ->
                     when(userInfo.loginType){
@@ -74,6 +76,10 @@ class MemberOutFragment : Fragment(R.layout.fragment_member_out) {
                     }
                 }
             }
+            // 서버단에서 끊어주기
+            viewModel.deleteUser()
+
+            // 로그인 화면으로 이동
             parentActivity.supportFragmentManager.removeAllBackStack()
             parentActivity.supportFragmentManager.replaceFragment(LoginFragment(), false)
         }

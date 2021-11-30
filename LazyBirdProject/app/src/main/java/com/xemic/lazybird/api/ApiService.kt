@@ -109,4 +109,10 @@ interface ApiService {
         @Field("comp_cd") comp_cd: String,
         @Field("token") token: String
     ):Response<LoginResponseBody>
+
+    @FormUrlEncoded
+    @POST("/oauth/deleteUser")
+    suspend fun deleteUser(
+        @Field("token") token: String
+    ):Response<MemberOutResponseBody>
 }
