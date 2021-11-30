@@ -10,6 +10,7 @@
         android:id="@+id/header_year"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="22dp"
         android:textSize="20dp"
         app:layout_constraintBottom_toBottomOf="@id/header_month"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -18,12 +19,11 @@
 
     <TextView
         android:id="@+id/header_month"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
+        android:gravity="center"
         android:textSize="20dp"
-        app:layout_constraintLeft_toRightOf="@id/header_year"
-        app:layout_constraintRight_toLeftOf="@id/btn_calendar_month_prev"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="10월" />
 
@@ -33,6 +33,7 @@
         android:layout_height="wrap_content"
         android:layout_alignTop="@id/header_year"
         android:layout_alignBottom="@id/header_year"
+        android:layout_marginRight="7dp"
         android:background="@android:color/transparent"
         android:src="@drawable/ic_left"
         app:layout_constraintBottom_toBottomOf="@id/header_month"
@@ -46,6 +47,7 @@
         android:layout_alignTop="@id/header_year"
         android:layout_alignBottom="@id/header_year"
         android:layout_alignParentRight="true"
+        android:layout_marginRight="18dp"
         android:layout_toLeftOf="@id/btn_calendar_month_prev"
         android:background="@android:color/transparent"
         android:src="@drawable/ic_right"
@@ -58,6 +60,7 @@
         android:id="@+id/header_day_of_week"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
         android:orientation="horizontal"
         app:layout_constraintTop_toBottomOf="@id/header_month">
 
@@ -67,7 +70,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="일" />
+            android:text="S" />
 
         <TextView
             style="@style/calendarDayOfWeekHeader"
@@ -75,7 +78,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="월" />
+            android:text="M" />
 
         <TextView
             style="@style/calendarDayOfWeekHeader"
@@ -83,7 +86,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="화" />
+            android:text="T" />
 
         <TextView
             style="@style/calendarDayOfWeekHeader"
@@ -91,7 +94,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="수" />
+            android:text="W" />
 
         <TextView
             style="@style/calendarDayOfWeekHeader"
@@ -99,7 +102,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="목" />
+            android:text="T" />
 
         <TextView
             style="@style/calendarDayOfWeekHeader"
@@ -107,7 +110,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="금" />
+            android:text="F" />
 
         <TextView
             style="@style/calendarDayOfWeekHeader"
@@ -115,7 +118,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="토" />
+            android:text="S" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

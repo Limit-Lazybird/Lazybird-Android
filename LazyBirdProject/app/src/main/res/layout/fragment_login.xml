@@ -51,7 +51,6 @@
 
         <RelativeLayout
             android:id="@+id/login_google_container"
-            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/login_tv_login"

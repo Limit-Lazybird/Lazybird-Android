@@ -5,8 +5,8 @@
 
     <ImageView
         android:id="@+id/item_mark"
-        android:layout_width="8dp"
-        android:layout_height="8dp"
+        android:layout_width="4dp"
+        android:layout_height="4dp"
         android:layout_margin="2dp"
         android:background="@drawable/circle"
         android:backgroundTint="@android:color/holo_blue_dark" />

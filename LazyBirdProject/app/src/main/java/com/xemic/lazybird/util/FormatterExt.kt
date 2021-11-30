@@ -55,7 +55,8 @@ fun Float.toDp(view: View) =
         view.resources.displayMetrics
     ).toInt()
 
-fun Date.parseMonth() = getCalendar(this).get(Calendar.DAY_OF_MONTH)
+fun Date.parseDay() = getCalendar(this).get(Calendar.DAY_OF_MONTH)
+fun Date.parseMonth() = getCalendar(this).get(Calendar.MONTH)
 fun Date.parseDayOfWeek() = getCalendar(this).get(Calendar.DAY_OF_WEEK)
 
 fun getCalendar(date: Date) = Calendar.getInstance().apply {

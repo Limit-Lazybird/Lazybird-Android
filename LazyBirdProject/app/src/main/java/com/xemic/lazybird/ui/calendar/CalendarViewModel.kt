@@ -10,9 +10,6 @@ import com.xemic.lazybird.models.Schedule
 import com.xemic.lazybird.util.toDate
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.time.DayOfWeek
-import java.time.LocalDate
-import java.time.YearMonth
-import java.time.ZoneId
 import java.time.temporal.WeekFields
 import java.util.*
 import javax.inject.Inject
@@ -27,11 +24,13 @@ class CalendarViewModel @Inject constructor(
     private val _selectedDateLiveData = MutableLiveData(today)
     var selectedDateLiveData: LiveData<Date> = _selectedDateLiveData
 
+    private val _isCalendarExpanded = MutableLiveData(true)
+    val isCalendarExpanded:LiveData<Boolean> get() = _isCalendarExpanded
+
     var selectedDayViewContainer: DayViewContainer? = null // 선택된 날짜의 DayViewContainer
     val firstDayOfWeek: DayOfWeek = WeekFields.of(Locale.getDefault()).firstDayOfWeek
-    var currentMonth = MutableLiveData(YearMonth.now()) // 현재 달
     var scheduleList = listOf<Schedule>()
-    var scheduleListDict: Map<Date, MutableList<Schedule>> = mapOf()
+    var scheduleListDict: Map<Long, MutableList<Schedule>> = mapOf()
 
     init {
         getDummyData()
@@ -57,6 +56,14 @@ class CalendarViewModel @Inject constructor(
                     false
                 ),
                 Schedule(
+                    "2021-11-28".toDate(),
+                    "라면먹어야하는 날",
+                    "우리집",
+                    "20:00",
+                    "21:00",
+                    false
+                ),
+                Schedule(
                     "2021-11-30".toDate(),
                     "나 밥먹으러 가는 날",
                     "건국대학교",
@@ -65,19 +72,21 @@ class CalendarViewModel @Inject constructor(
                     false
                 ),
             )
-        scheduleListDict = mutableMapOf<Date, MutableList<Schedule>>().also{
+        scheduleListDict = mutableMapOf<Long, MutableList<Schedule>>().also{
             for(schedule in scheduleList) {
-                if(!it.containsKey(schedule.date))
-                    it[schedule.date] = mutableListOf(schedule)
+                if(!it.containsKey(schedule.date.time))
+                    it[schedule.date.time] = mutableListOf(schedule)
                 else
-                    it[schedule.date]!!.add(schedule)
+                    it[schedule.date.time]!!.add(schedule)
             }
         }.toMap()
     }
 
+    fun getSchedule(date:Date) = scheduleListDict[date.time]!!.toList()
+
     fun getScheduleCount(date:Date): Int =
-        if(scheduleListDict.containsKey(date)){
-            scheduleListDict[date]!!.size
+        if(scheduleListDict.containsKey(date.time)){
+            scheduleListDict[date.time]!!.size
         } else {
             0
         }
@@ -91,12 +100,7 @@ class CalendarViewModel @Inject constructor(
         )
     }
 
-    fun clickNextMonthBtn() {
-        currentMonth.value = currentMonth.value!!.plusMonths(1)
+    fun calendarExpandedUpdate(isExpanded: Boolean){
+        _isCalendarExpanded.postValue(isExpanded)
     }
-
-    fun clickPrevMonthBtn() {
-        currentMonth.value = currentMonth.value!!.minusMonths(1)
-    }
-
 }
