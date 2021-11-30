@@ -12,6 +12,17 @@
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:background="@drawable/circle"
+        android:backgroundTint="@color/gray_400"
+        android:visibility="invisible"
+        tools:visibility="visible" />
+
+    <ImageView
+        android:id="@+id/calenadr_day_is_selected"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:background="@drawable/circle"
         android:backgroundTint="@color/or01"
         android:visibility="invisible"
         tools:visibility="visible" />
@@ -28,7 +39,7 @@
         android:id="@+id/calendar_day_schedule_marks"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/calenadr_day_is_today"
+        android:layout_below="@id/calenadr_day_is_selected"
         android:layout_centerHorizontal="true"
         android:orientation="horizontal" />
 

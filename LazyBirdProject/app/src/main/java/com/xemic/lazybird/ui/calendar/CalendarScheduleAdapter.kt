@@ -1,11 +1,8 @@
 package com.xemic.lazybird.ui.calendar
 
-import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.xemic.lazybird.R
 import com.xemic.lazybird.databinding.ItemScheduleBinding
@@ -13,6 +10,10 @@ import com.xemic.lazybird.models.Schedule
 import com.xemic.lazybird.util.parseDay
 import com.xemic.lazybird.util.parseDayOfWeek
 
+/**************** CalendarScheduleAdapter ******************
+ * 메인화면(캘린더 탭) (Recycler Adapter)
+ * 캘린더에서 (예약된 or 예약되지 않은)전시일정정보 확인
+ ********************************************** ***/
 class CalendarScheduleAdapter(
     private val items: List<Schedule>
 ):RecyclerView.Adapter<CalendarScheduleAdapter.ViewHolder>() {

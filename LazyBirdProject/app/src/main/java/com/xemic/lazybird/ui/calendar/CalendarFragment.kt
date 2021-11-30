@@ -2,17 +2,12 @@ package com.xemic.lazybird.ui.calendar
 
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.RecyclerView
 import com.kizitonwose.calendarview.model.*
 import com.kizitonwose.calendarview.ui.DayBinder
 import com.kizitonwose.calendarview.ui.MonthHeaderFooterBinder
-import com.kizitonwose.calendarview.ui.MonthScrollListener
 import com.kizitonwose.calendarview.utils.Size
 import com.kizitonwose.calendarview.utils.next
 import com.kizitonwose.calendarview.utils.previous
@@ -28,16 +23,17 @@ import java.time.LocalDate
 import java.time.YearMonth
 import java.util.*
 
+/**************** CalendarFragment ******************
+ * 메인화면(캘린더 탭) (Fragment)
+ * 캘린더에서 (예약된 or 예약되지 않은)전시일정정보 확인
+ ********************************************** ***/
 @AndroidEntryPoint
 class CalendarFragment : Fragment(R.layout.fragment_calendar) {
 
     private val DAY_VIEW_HEGIHT = 120
 
     private lateinit var binding: FragmentCalendarBinding
-    private val DAY_OF_WEEK = listOf("월", "화", "수", "목", "금", "토", "일")
     private val calendarViewModel: CalendarViewModel by viewModels()
-
-    private var tmp = true
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -73,11 +69,20 @@ class CalendarFragment : Fragment(R.layout.fragment_calendar) {
             override fun bind(container: DayViewContainer, day: CalendarDay) {
                 if (day.owner == DayOwner.THIS_MONTH) {
                     // 이번달
+                    // 오늘 날짜 인 경우
+                    if(day.date == LocalDate.now()){
+                        container.isToday.visibility = View.VISIBLE // 오늘인 경우
+                    } else {
+                        container.isToday.visibility = View.INVISIBLE // 오늘이 아닌 경우
+                    }
+
+                    // 선택된 날짜 인 경우
                     if (day.toDate() == calendarViewModel.selectedDateLiveData.value) {
-                        // 오늘이 선택된 날짜 인 경우
-                        container.isToday.visibility = View.VISIBLE // 선택 표시 생성
+                        container.isSelected.visibility = View.VISIBLE // 선택 표시 생성
                         calendarViewModel.selectedDayViewContainer = container // container 업데이트
                     }
+
+                    // 요일별 구분
                     when (day.date.dayOfWeek) {
                         DayOfWeek.SATURDAY ->
                             container.textView.setTextColor(Color.WHITE) // 토요일
@@ -132,24 +137,25 @@ class CalendarFragment : Fragment(R.layout.fragment_calendar) {
                 }
             }
 
-        binding.calendarHeader.setOnClickListener {
-            if (tmp) {
-                binding.calendarView.updateMonthConfiguration(
-                    InDateStyle.ALL_MONTHS,
-                    OutDateStyle.NONE,
-                    1,
-                    false
-                )
-            } else {
-                binding.calendarView.updateMonthConfiguration(
-                    InDateStyle.FIRST_MONTH,
-                    OutDateStyle.NONE,
-                    6,
-                    true
-                )
-            }
-            tmp = !tmp
-        }
+        // Todo : why error occured at here... TT
+//        binding.calendarHeader.setOnClickListener {
+//            if (tmp) {
+//                binding.calendarView.updateMonthConfiguration(
+//                    InDateStyle.ALL_MONTHS,
+//                    OutDateStyle.NONE,
+//                    1,
+//                    false
+//                )
+//            } else {
+//                binding.calendarView.updateMonthConfiguration(
+//                    InDateStyle.FIRST_MONTH,
+//                    OutDateStyle.NONE,
+//                    6,
+//                    true
+//                )
+//            }
+//            tmp = !tmp
+//        }
 
         val currentMonth = YearMonth.now()
         binding.calendarView.setup(

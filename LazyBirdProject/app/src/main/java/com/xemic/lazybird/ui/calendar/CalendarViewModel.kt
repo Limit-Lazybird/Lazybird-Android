@@ -14,6 +14,11 @@ import java.time.temporal.WeekFields
 import java.util.*
 import javax.inject.Inject
 
+/**************** CalendarViewModel ******************
+ * 메인화면(캘린더 탭) (ViewModel)
+ * 캘린더에서 (예약된 or 예약되지 않은)전시일정정보 확인
+ * Todo : 서버에서 API 받아오기
+ ********************************************** ***/
 @HiltViewModel
 class CalendarViewModel @Inject constructor(
     private val repository: CalendarRepository
@@ -23,9 +28,6 @@ class CalendarViewModel @Inject constructor(
     // 선택된 날짜 (default: 오늘)
     private val _selectedDateLiveData = MutableLiveData(today)
     var selectedDateLiveData: LiveData<Date> = _selectedDateLiveData
-
-    private val _isCalendarExpanded = MutableLiveData(true)
-    val isCalendarExpanded:LiveData<Boolean> get() = _isCalendarExpanded
 
     var selectedDayViewContainer: DayViewContainer? = null // 선택된 날짜의 DayViewContainer
     val firstDayOfWeek: DayOfWeek = WeekFields.of(Locale.getDefault()).firstDayOfWeek
@@ -92,15 +94,11 @@ class CalendarViewModel @Inject constructor(
         }
 
     fun selectDay(container: DayViewContainer, day: CalendarDay) {
-        selectedDayViewContainer?.isToday?.visibility = View.INVISIBLE // 기존 viewContainer 선택 표시 제거
+        selectedDayViewContainer?.isSelected?.visibility = View.INVISIBLE // 기존 viewContainer 선택 표시 제거
         selectedDayViewContainer = container // 선택한 viewContainer 로 저장
-        container.isToday.visibility = View.VISIBLE // viewContainer 선택 표시 생성
+        container.isSelected.visibility = View.VISIBLE // viewContainer 선택 표시 생성
         _selectedDateLiveData.postValue( // 선택된 날짜 업데이트
             day.toDate()
         )
-    }
-
-    fun calendarExpandedUpdate(isExpanded: Boolean){
-        _isCalendarExpanded.postValue(isExpanded)
     }
 }
