@@ -30,7 +30,6 @@ class SettingViewModel @Inject constructor(
         // dataStore 에서 토큰 값 가져오기
         token = preferenceDataStoreManager.preferenceTokenFlow.first()
     }
-
     private fun initUserInfo() = viewModelScope.launch {
         _userInfo.postValue(
             preferenceDataStoreManager.preferenceUserInfoFlow.first()

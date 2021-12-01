@@ -18,7 +18,6 @@ class ScheduleMarkContainer(context: Context, attrs: AttributeSet?): RelativeLay
     init {
         val view = inflate(context, R.layout.item_calendar_day_mark, this)
         binding = ItemCalendarDayMarkBinding.bind(view)
-
     }
 
     fun setColor(tint: ColorStateList) {

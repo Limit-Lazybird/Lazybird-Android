@@ -32,8 +32,7 @@
                 android:id="@+id/item_exhibition_thumbnail"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="centerCrop"
-                tools:src="@drawable/ic_launcher_background" />
+                android:scaleType="centerCrop" />
 
             <ImageButton
                 android:id="@+id/item_exhibition_like_btn"
