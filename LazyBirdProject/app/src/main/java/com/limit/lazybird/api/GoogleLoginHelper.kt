@@ -64,8 +64,8 @@ class GoogleLoginHelper(
 
         Log.e(TAG, "login() called")
         var account = GoogleSignIn.getLastSignedInAccount(fragment.context)
-        if (account == null) {
-            Log.e(TAG, "account is null")
+        if (account == null || account.isExpired) {
+            Log.e(TAG, "account is null or token is Expired")
             val intent = mGoogleSignInClient.signInIntent
             Log.e(TAG, "${intent}")
             registerResult.launch(intent)

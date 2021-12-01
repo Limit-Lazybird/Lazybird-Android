@@ -7,8 +7,19 @@
 
     <ImageView
         android:id="@+id/calenadr_day_is_today"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:background="@drawable/circle"
+        android:backgroundTint="@color/gray_400"
+        android:visibility="invisible"
+        tools:visibility="visible" />
+
+    <ImageView
+        android:id="@+id/calenadr_day_is_selected"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:background="@drawable/circle"
@@ -21,18 +32,15 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:textSize="16dp"
+        android:textSize="15dp"
         tools:text="22" />
 
-    <androidx.recyclerview.widget.RecyclerView
+    <LinearLayout
         android:id="@+id/calendar_day_schedule_marks"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/calenadr_day_is_today"
+        android:layout_below="@id/calenadr_day_is_selected"
         android:layout_centerHorizontal="true"
-        android:orientation="horizontal"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        tools:itemCount="2"
-        tools:listitem="@layout/item_calendar_day_mark" />
+        android:orientation="horizontal" />
 
 </RelativeLayout>

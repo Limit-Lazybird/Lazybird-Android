@@ -76,4 +76,9 @@ class ApiHelperImpl @Inject constructor(
         "02",
         token
     )
+    override suspend fun deleteUser(
+        token: String
+    ): Response<MemberOutResponseBody> = apiService.deleteUser(
+        token
+    )
 }

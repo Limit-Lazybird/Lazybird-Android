@@ -10,11 +10,15 @@ import com.limit.lazybird.models.Schedule
 import com.limit.lazybird.util.toDate
 import dagger.hilt.android.lifecycle.HiltViewModel
 import java.time.DayOfWeek
-import java.time.YearMonth
 import java.time.temporal.WeekFields
 import java.util.*
 import javax.inject.Inject
 
+/**************** CalendarViewModel ******************
+ * 메인화면(캘린더 탭) (ViewModel)
+ * 캘린더에서 (예약된 or 예약되지 않은)전시일정정보 확인
+ * Todo : 서버에서 API 받아오기
+ ********************************************** ***/
 @HiltViewModel
 class CalendarViewModel @Inject constructor(
     private val repository: CalendarRepository
@@ -27,9 +31,8 @@ class CalendarViewModel @Inject constructor(
 
     var selectedDayViewContainer: DayViewContainer? = null // 선택된 날짜의 DayViewContainer
     val firstDayOfWeek: DayOfWeek = WeekFields.of(Locale.getDefault()).firstDayOfWeek
-    var currentMonth = MutableLiveData(YearMonth.now()) // 현재 달
     var scheduleList = listOf<Schedule>()
-    var scheduleListDict: Map<Date, MutableList<Schedule>> = mapOf()
+    var scheduleListDict: Map<Long, MutableList<Schedule>> = mapOf()
 
     init {
         getDummyData()
@@ -55,6 +58,14 @@ class CalendarViewModel @Inject constructor(
                     false
                 ),
                 Schedule(
+                    "2021-11-28".toDate(),
+                    "라면먹어야하는 날",
+                    "우리집",
+                    "20:00",
+                    "21:00",
+                    false
+                ),
+                Schedule(
                     "2021-11-30".toDate(),
                     "나 밥먹으러 가는 날",
                     "건국대학교",
@@ -63,38 +74,31 @@ class CalendarViewModel @Inject constructor(
                     false
                 ),
             )
-        scheduleListDict = mutableMapOf<Date, MutableList<Schedule>>().also{
+        scheduleListDict = mutableMapOf<Long, MutableList<Schedule>>().also{
             for(schedule in scheduleList) {
-                if(!it.containsKey(schedule.date))
-                    it[schedule.date] = mutableListOf(schedule)
+                if(!it.containsKey(schedule.date.time))
+                    it[schedule.date.time] = mutableListOf(schedule)
                 else
-                    it[schedule.date]!!.add(schedule)
+                    it[schedule.date.time]!!.add(schedule)
             }
         }.toMap()
     }
 
+    fun getSchedule(date:Date) = scheduleListDict[date.time]!!.toList()
+
     fun getScheduleCount(date:Date): Int =
-        if(scheduleListDict.containsKey(date)){
-            scheduleListDict[date]!!.size
+        if(scheduleListDict.containsKey(date.time)){
+            scheduleListDict[date.time]!!.size
         } else {
             0
         }
 
     fun selectDay(container: DayViewContainer, day: CalendarDay) {
-        selectedDayViewContainer?.isToday?.visibility = View.INVISIBLE // 기존 viewContainer 선택 표시 제거
+        selectedDayViewContainer?.isSelected?.visibility = View.INVISIBLE // 기존 viewContainer 선택 표시 제거
         selectedDayViewContainer = container // 선택한 viewContainer 로 저장
-        container.isToday.visibility = View.VISIBLE // viewContainer 선택 표시 생성
+        container.isSelected.visibility = View.VISIBLE // viewContainer 선택 표시 생성
         _selectedDateLiveData.postValue( // 선택된 날짜 업데이트
             day.toDate()
         )
     }
-
-    fun clickNextMonthBtn() {
-        currentMonth.value = currentMonth.value!!.plusMonths(1)
-    }
-
-    fun clickPrevMonthBtn() {
-        currentMonth.value = currentMonth.value!!.minusMonths(1)
-    }
-
 }
