@@ -3,6 +3,7 @@ package com.limit.lazybird.ui.calendar
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.kizitonwose.calendarview.model.*
@@ -16,6 +17,7 @@ import com.limit.lazybird.custom.DayViewContainer
 import com.limit.lazybird.custom.MonthViewContainer
 import com.limit.lazybird.custom.ScheduleMarkContainer
 import com.limit.lazybird.databinding.FragmentCalendarBinding
+import com.limit.lazybird.ui.MainActivity
 import com.limit.lazybird.util.*
 import dagger.hilt.android.AndroidEntryPoint
 import java.time.DayOfWeek
@@ -30,10 +32,18 @@ import java.util.*
 @AndroidEntryPoint
 class CalendarFragment : Fragment(R.layout.fragment_calendar) {
 
+    companion object {
+        const val TAG = "CalendarFragment"
+    }
+
     private val DAY_VIEW_HEGIHT = 120
 
     private lateinit var binding: FragmentCalendarBinding
     private val calendarViewModel: CalendarViewModel by viewModels()
+    private val parentActivity: MainActivity by lazy {
+        activity as MainActivity
+    }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -42,6 +52,16 @@ class CalendarFragment : Fragment(R.layout.fragment_calendar) {
         calendarViewModel.selectedDateLiveData.observe(viewLifecycleOwner) { selectedDate ->
             scheduleLayoutUpdate(selectedDate)
         }
+        binding.calendarCustomBtn.setOnClickListener {
+            // 커스텀 일정 추가하기 버튼
+            moveToCalendarAdd()
+        }
+    }
+
+    private fun moveToCalendarAdd() {
+        parentActivity.supportFragmentManager.replaceFragment(CalendarAddFragment().apply {
+            arguments = bundleOf(CalendarAddFragment.ADD_TYPE to CalendarAddFragment.TYPE_CUSTOM)
+        })
     }
 
     private fun scheduleLayoutUpdate(selectedDay: Date) {

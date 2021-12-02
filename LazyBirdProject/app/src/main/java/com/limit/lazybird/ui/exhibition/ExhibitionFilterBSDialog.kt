@@ -30,7 +30,7 @@ class ExhibitionFilterBSDialog : BottomSheetDialogFragment() {
         const val RESULT_CANCEL = "bsd_result_cancel"
     }
 
-    lateinit var binding: DialogBsFilterExhibitionBinding
+    private lateinit var binding: DialogBsFilterExhibitionBinding
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val bottomSheetDialog = BottomSheetDialog(requireContext(), theme)

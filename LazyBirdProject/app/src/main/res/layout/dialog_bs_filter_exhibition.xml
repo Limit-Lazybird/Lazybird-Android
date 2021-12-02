@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/transparent"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/transparent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -48,9 +48,9 @@
             android:id="@+id/dialog_bs_filter_class"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingLeft="16dp"
             android:paddingTop="9dp"
             android:paddingBottom="16dp"
-            android:paddingLeft="16dp"
             app:flexWrap="wrap"
             app:layout_constraintTop_toBottomOf="@id/dialog_bs_filter_class_title" />
 
@@ -68,9 +68,9 @@
             android:id="@+id/dialog_bs_filter_etc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingLeft="16dp"
             android:paddingTop="9dp"
             android:paddingBottom="16dp"
-            android:paddingLeft="16dp"
             app:flexWrap="wrap"
             app:layout_constraintTop_toBottomOf="@id/dialog_bs_filter_etc_title" />
 
@@ -88,9 +88,9 @@
             android:id="@+id/dialog_bs_filter_place"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingLeft="16dp"
             android:paddingTop="9dp"
             android:paddingBottom="10dp"
-            android:paddingLeft="16dp"
             app:flexWrap="wrap"
             app:layout_constraintTop_toBottomOf="@id/dialog_bs_filter_place_title" />
 
