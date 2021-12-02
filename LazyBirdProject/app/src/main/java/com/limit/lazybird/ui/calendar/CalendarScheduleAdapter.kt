@@ -18,7 +18,7 @@ class CalendarScheduleAdapter(
     private val items: List<Schedule>
 ):RecyclerView.Adapter<CalendarScheduleAdapter.ViewHolder>() {
 
-    private val DAY_OF_WEEK = arrayOf("월", "화", "수", "목", "금", "토", "일")
+    private val DAY_OF_WEEK = arrayOf("MON", "TUE", "WED", "THR", "FRI", "SAT", "SUN")
     private lateinit var binding: ItemScheduleBinding
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
@@ -33,7 +33,8 @@ class CalendarScheduleAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        binding = ItemScheduleBinding.inflate(LayoutInflater.from(parent.context))
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_schedule, parent, false)
+        binding = ItemScheduleBinding.bind(view)
         return ViewHolder(binding.root)
     }
 

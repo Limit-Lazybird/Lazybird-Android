@@ -35,7 +35,7 @@
         android:layout_alignBottom="@id/header_year"
         android:layout_marginRight="7dp"
         android:background="@android:color/transparent"
-        android:src="@drawable/ic_left"
+        android:src="@drawable/ic_expand_light_l"
         app:layout_constraintBottom_toBottomOf="@id/header_month"
         app:layout_constraintRight_toLeftOf="@id/btn_calendar_month_next"
         app:layout_constraintTop_toTopOf="parent" />
@@ -50,7 +50,7 @@
         android:layout_marginRight="18dp"
         android:layout_toLeftOf="@id/btn_calendar_month_prev"
         android:background="@android:color/transparent"
-        android:src="@drawable/ic_right"
+        android:src="@drawable/ic_expand_light_r"
         app:layout_constraintBottom_toBottomOf="@id/header_month"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

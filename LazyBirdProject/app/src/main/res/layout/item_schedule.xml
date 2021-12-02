@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -41,7 +40,7 @@
         app:layout_constraintTop_toTopOf="@id/item_schedule_dayofweek" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="300dp"
+        android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginLeft="9dp"
         android:layout_marginRight="22dp"
@@ -118,4 +117,4 @@
             app:layout_constraintTop_toTopOf="@id/item_schedule_place"
             app:tint="@color/or01" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout >
