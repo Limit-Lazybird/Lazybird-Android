@@ -1,5 +1,6 @@
 package com.limit.lazybird.ui.calendaradd
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.limit.lazybird.api.ApiHelper
@@ -11,8 +12,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CalendarAddViewModel @Inject constructor(
-    private val apiHelper: ApiHelper,
-    private val dataStoreManager: PreferenceDataStoreManager
+    private val repository: CalendarAddRepository
 ) : ViewModel() {
 
     companion object {
@@ -26,6 +26,24 @@ class CalendarAddViewModel @Inject constructor(
     }
 
     private fun initToken() = viewModelScope.launch {
-        token = dataStoreManager.preferenceTokenFlow.first()
+        token = repository.getPreferenceFlow().first()
     }
+
+    fun saveCalendarInfo(
+        exhbt_cd: String,
+        reser_dt: String,
+        start_time: String,
+        end_time: String
+    ) = viewModelScope.launch {
+        repository.saveCalendarInfo(token, exhbt_cd, reser_dt, start_time, end_time)
+    }
+
+    fun deleteCalendarInfo(
+        exhbt_cd: String,
+    ) = viewModelScope.launch {
+        Log.e("test", token)
+        Log.e("test", exhbt_cd)
+        repository.deleteCalendarInfo(token, exhbt_cd)
+    }
+
 }

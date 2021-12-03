@@ -77,7 +77,7 @@ class ExhibitionFilterBSDialog : BottomSheetDialogFragment() {
             "부산・울산・경남",
             "대구・경북",
             "광주・전라",
-            "대전・출청・세종",
+            "대전・충청・세종",
             "제주"
         )
 

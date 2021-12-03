@@ -3,6 +3,7 @@ package com.limit.lazybird.ui.calendaradd
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
@@ -30,7 +31,8 @@ class CalendarAddFragment: Fragment(R.layout.fragment_calendar_add) {
         activity as MainActivity
     }
 
-    private var type = ""
+    private lateinit var type:String
+    private lateinit var calendarInfo: CalendarInfo
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -38,7 +40,7 @@ class CalendarAddFragment: Fragment(R.layout.fragment_calendar_add) {
 
         type = arguments?.getString(ADD_TYPE).toString() // custom or ticketed
         if(type == TYPE_TICKETED) {
-            val calendarInfo = arguments?.getParcelable<CalendarInfo>(TICKET_INFO)!!
+            calendarInfo = arguments?.getParcelable<CalendarInfo>(TICKET_INFO)!!
             binding.calendarAddExhibition.setText(calendarInfo.exhbt_nm)
             binding.calendarAddExhibition.isFocusable = false
             binding.calendarAddPlace.setText(calendarInfo.exhbt_lct)
@@ -80,15 +82,12 @@ class CalendarAddFragment: Fragment(R.layout.fragment_calendar_add) {
         binding.calendarAddDeleteBtn.setOnClickListener {
             // 삭제 버튼
             when(type){
-                TYPE_CUSTOM -> {
-                    // 뒤로가기
-                    parentActivity.supportFragmentManager.popBackStack()
-                }
                 TYPE_TICKETED -> {
                     // 예약일정 삭제
-
+                    viewModel.deleteCalendarInfo(calendarInfo.exhbt_cd.toString())
                 }
             }
+            parentActivity.supportFragmentManager.popBackStack()
         }
 
         binding.calendarAddOkBtn.setOnClickListener {
@@ -100,6 +99,22 @@ class CalendarAddFragment: Fragment(R.layout.fragment_calendar_add) {
                 }
                 TYPE_TICKETED -> {
                     // 예약일정 삭제
+                    if(binding.calendarAddExhibition.text.toString() != ""
+                        && binding.calendarAddPlace.text.toString() != ""
+                        && binding.calendarAddDate.text.toString() != ""
+                        && binding.calendarAddTimeStart.text.toString() != ""
+                        && binding.calendarAddTimeEnd.text.toString() != ""
+                    ) {
+                        viewModel.saveCalendarInfo(
+                            exhbt_cd = calendarInfo.exhbt_cd.toString(),
+                            reser_dt = binding.calendarAddDate.text.toString().replace("-", "").trim(),
+                            start_time = binding.calendarAddTimeStart.text.toString(),
+                            end_time = binding.calendarAddTimeEnd.text.toString()
+                        )
+                        parentActivity.supportFragmentManager.popBackStack()
+                    } else {
+                        Toast.makeText(context, "모든 내용을 입력해주세요", Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
         }
@@ -116,7 +131,6 @@ class CalendarAddFragment: Fragment(R.layout.fragment_calendar_add) {
 
         setFragmentResultListener(TimeSelectBSDialog.TYPE_START) { _, bundle ->
             // 시작 시간 선택 Dialog 결과 확인
-            Log.e("test", "1")
             when(bundle.getString(TimeSelectBSDialog.RESULT_CODE)){
                 TimeSelectBSDialog.RESULT_OK -> {
                     val timeString = bundle.getString(TimeSelectBSDialog.RESULT_CONTEXT)
@@ -126,7 +140,6 @@ class CalendarAddFragment: Fragment(R.layout.fragment_calendar_add) {
         }
         setFragmentResultListener(TimeSelectBSDialog.TYPE_END) { _, bundle ->
             // 시작 시간 선택 Dialog 결과 확인
-            Log.e("test", "2")
             when(bundle.getString(TimeSelectBSDialog.RESULT_CODE)){
                 TimeSelectBSDialog.RESULT_OK -> {
                     val timeString = bundle.getString(TimeSelectBSDialog.RESULT_CONTEXT)

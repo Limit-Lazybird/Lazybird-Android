@@ -17,6 +17,23 @@ interface ApiHelper {
         token: String
     ):Response<CalendarListResponseBody>
 
+    suspend fun saveCalendarInfo(
+        token: String,
+        exhbt_cd: String,
+        reser_dt: String,
+        start_time: String,
+        end_time: String
+    ):Response<CodeMsgResponseBody>
+
+    suspend fun deleteCalendarInfo(
+        token: String,
+        exhbt_cd: String
+    ):Response<CodeMsgResponseBody>
+
+    suspend fun getRegistListAll(
+        token: String
+    ):Response<CalendarListResponseBody>
+
     /********* Customized Question *********/
     suspend fun getCustomizedList(
         token: String

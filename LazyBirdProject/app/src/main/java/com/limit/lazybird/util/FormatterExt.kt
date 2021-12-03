@@ -26,6 +26,9 @@ fun String.toDate(): Date = SimpleDateFormat("yyyy-MM-dd").parse(this)
 // "yyyy.MM.dd" to Date
 fun String.toDate2(): Date = SimpleDateFormat("yyyy.MM.dd").parse(this)
 
+// "yyyy.MM.dd" to Date
+fun String.toDate3(): Date = SimpleDateFormat("yyyyMMdd").parse(this)
+
 // CalendarDay to Date
 fun CalendarDay.toDate(): Date = Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant())
 

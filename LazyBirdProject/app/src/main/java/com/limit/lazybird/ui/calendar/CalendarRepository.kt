@@ -15,4 +15,5 @@ class CalendarRepository @Inject constructor(
 ) {
     fun getPreferenceFlow() = dataStoreManager.preferenceTokenFlow
     suspend fun getUnRegistList(token: String) = apiHelper.getUnRegistList(token)
+    suspend fun getRegistList(token: String) = apiHelper.getRegistListAll(token)
 }

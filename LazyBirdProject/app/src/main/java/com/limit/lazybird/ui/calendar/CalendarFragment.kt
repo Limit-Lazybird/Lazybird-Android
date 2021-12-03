@@ -2,12 +2,13 @@ package com.limit.lazybird.ui.calendar
 
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import com.kizitonwose.calendarview.model.*
 import com.kizitonwose.calendarview.ui.DayBinder
 import com.kizitonwose.calendarview.ui.MonthHeaderFooterBinder
@@ -20,14 +21,14 @@ import com.limit.lazybird.custom.MonthViewContainer
 import com.limit.lazybird.custom.ScheduleMarkContainer
 import com.limit.lazybird.databinding.FragmentCalendarBinding
 import com.limit.lazybird.models.CalendarInfoList
-import com.limit.lazybird.models.UnregisteredItem
+import com.limit.lazybird.models.Schedule
 import com.limit.lazybird.models.retrofit.CalendarInfo
 import com.limit.lazybird.ui.MainActivity
 import com.limit.lazybird.ui.calendaradd.CalendarAddFragment
-import com.limit.lazybird.ui.exhibition.ExhibitionRefreshBSDialog
-import com.limit.lazybird.ui.onboarding.OnbFragment
 import com.limit.lazybird.util.*
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.first
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.YearMonth
@@ -53,17 +54,27 @@ class CalendarFragment : Fragment(R.layout.fragment_calendar) {
     }
 
     lateinit var unregisteredList: CalendarInfoList
+    lateinit var scheduleListDict: Map<Long, MutableList<Schedule>>
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentCalendarBinding.bind(view)
-        calendarViewInit()
-        viewModel.selectedDateLiveData.observe(viewLifecycleOwner) { selectedDate ->
-            scheduleLayoutUpdate(selectedDate)
+
+        viewModel.scheduleListDict.observe(viewLifecycleOwner) {
+            scheduleListDict = it
+
+            calendarViewInit()
+
+            lifecycleScope.launchWhenStarted {
+                viewModel.selectedDateLiveData.collect { date ->
+                    scheduleLayoutUpdate(date)
+                }
+            }
         }
+
         viewModel.unregisteredListLiveData.observe(viewLifecycleOwner) { calendarInfoList ->
             unregisteredList = CalendarInfoList(calendarInfoList)
-            binding.calendarNotAddedCount.text = calendarInfoList.size.toString()
+            binding.unregisterCount = calendarInfoList.size
         }
         binding.calendarCustomBtn.setOnClickListener {
             // 커스텀 일정 추가하기 버튼
@@ -110,8 +121,9 @@ class CalendarFragment : Fragment(R.layout.fragment_calendar) {
 
     private fun scheduleLayoutUpdate(selectedDay: Date) {
         // selectedDay 에 해당하는 일정내용을 업데이트
-        val scheduleListDict = viewModel.scheduleListDict
-        if (scheduleListDict.containsKey(selectedDay.time) && scheduleListDict[selectedDay.time]!!.isNotEmpty()) {
+        if (this::scheduleListDict.isInitialized
+            && scheduleListDict.containsKey(selectedDay.time)
+            && scheduleListDict[selectedDay.time]!!.isNotEmpty()) {
             // schedule 이 존재하고, 일정이 1개 이상
             binding.calendarScheduleRecyclerView.visibility = View.VISIBLE
             binding.calendarScheduleRecyclerView.adapter =
@@ -140,12 +152,6 @@ class CalendarFragment : Fragment(R.layout.fragment_calendar) {
                         container.isToday.visibility = View.INVISIBLE // 오늘이 아닌 경우
                     }
 
-                    // 선택된 날짜 인 경우
-                    if (day.toDate() == viewModel.selectedDateLiveData.value) {
-                        container.isSelected.visibility = View.VISIBLE // 선택 표시 생성
-                        viewModel.selectedDayViewContainer = container // container 업데이트
-                    }
-
                     // 요일별 구분
                     when (day.date.dayOfWeek) {
                         DayOfWeek.SATURDAY ->
@@ -164,9 +170,9 @@ class CalendarFragment : Fragment(R.layout.fragment_calendar) {
                 }
 
                 container.scheduleMark.removeAllViews()
-                if (day.owner == DayOwner.THIS_MONTH &&
-                    viewModel.getScheduleCount(day.toDate()) > 0) {
-                    for (schedule in viewModel.getSchedule(day.toDate())) {
+                if (day.owner == DayOwner.THIS_MONTH
+                    && scheduleListDict[day.toDate().time]?.size ?: 0 > 0) {
+                    for (schedule in scheduleListDict[day.toDate().time]!!) {
                         container.scheduleMark.addView(
                             ScheduleMarkContainer(container.view.context, null).apply {
                                 if (schedule.isVisited)

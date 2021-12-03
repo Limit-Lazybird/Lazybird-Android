@@ -18,6 +18,23 @@ class ApiHelperImpl @Inject constructor(
         token: String
     ): Response<CalendarListResponseBody> = apiService.getUnRegistList(token)
 
+    override suspend fun saveCalendarInfo(
+        token: String,
+        exhbt_cd: String,
+        reser_dt: String,
+        start_time: String,
+        end_time: String
+    ): Response<CodeMsgResponseBody> = apiService.saveCalendarInfo(token, exhbt_cd, reser_dt, start_time, end_time)
+
+    override suspend fun deleteCalendarInfo(
+        token: String,
+        exhbt_cd: String
+    ): Response<CodeMsgResponseBody> = apiService.deleteCalendarInfo(token, exhbt_cd)
+
+    override suspend fun getRegistListAll(
+        token: String
+    ): Response<CalendarListResponseBody> = apiService.getRegistListAll(token, "all")
+
     /********* Customized Question *********/
     override suspend fun getCustomizedList(
         token: String
