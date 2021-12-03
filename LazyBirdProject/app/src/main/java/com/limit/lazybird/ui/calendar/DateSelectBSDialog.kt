@@ -168,4 +168,7 @@ class DateSelectBSDialog : BottomSheetDialogFragment(){
             day.toDate()
         )
     }
+
+    // 모달창 배경 transparent 으로 지정
+    override fun getTheme(): Int = R.style.BottomSheetDialog
 }

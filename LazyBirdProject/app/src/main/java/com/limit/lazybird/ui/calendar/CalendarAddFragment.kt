@@ -44,7 +44,6 @@ class CalendarAddFragment: Fragment(R.layout.fragment_calendar_add) {
 
         binding.calendarAddDate.setOnClickListener { 
             // 날짜 버튼 클릭
-            // Todo : why transperent 적용 안되었지..?
             DateSelectBSDialog().show(
                 parentFragmentManager,
                 DateSelectBSDialog.TAG
