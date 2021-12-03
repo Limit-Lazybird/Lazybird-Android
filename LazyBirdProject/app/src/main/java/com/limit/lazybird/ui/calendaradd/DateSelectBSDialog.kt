@@ -1,4 +1,4 @@
-package com.limit.lazybird.ui.calendar
+package com.limit.lazybird.ui.calendaradd
 
 import android.app.Dialog
 import android.graphics.Color
@@ -25,9 +25,6 @@ import com.limit.lazybird.R
 import com.limit.lazybird.custom.DayViewContainer
 import com.limit.lazybird.custom.MonthViewContainer
 import com.limit.lazybird.databinding.DialogBsDateSelectBinding
-import com.limit.lazybird.util.parseDay
-import com.limit.lazybird.util.parseMonth
-import com.limit.lazybird.util.parseYear
 import com.limit.lazybird.util.toDate
 import java.text.SimpleDateFormat
 import java.time.DayOfWeek

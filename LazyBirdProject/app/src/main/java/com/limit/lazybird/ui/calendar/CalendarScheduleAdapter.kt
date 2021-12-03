@@ -55,7 +55,7 @@ class CalendarScheduleAdapter(
                 scheduleDay.visibility = View.INVISIBLE
             }
 
-            // 방문한 일정인가?ㄴ
+            // 방문한 일정인가?
             if(items[position].isVisited){
                 isVisited.setTextColor(holder.itemView.resources.getColor(R.color.or01, null))
                 isVisitedIcon.setColorFilter(holder.itemView.resources.getColor(R.color.or01, null))

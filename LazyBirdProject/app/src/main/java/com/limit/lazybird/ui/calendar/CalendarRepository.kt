@@ -1,5 +1,7 @@
 package com.limit.lazybird.ui.calendar
 
+import com.limit.lazybird.api.ApiHelper
+import com.limit.lazybird.data.PreferenceDataStoreManager
 import javax.inject.Inject
 
 /**************** CalendarRepository ******************
@@ -8,7 +10,9 @@ import javax.inject.Inject
  * Todo : 서버에서 API 받아오기
  ********************************************** ***/
 class CalendarRepository @Inject constructor(
-
+    private val apiHelper: ApiHelper,
+    private val dataStoreManager: PreferenceDataStoreManager
 ) {
-
+    fun getPreferenceFlow() = dataStoreManager.preferenceTokenFlow
+    suspend fun getUnRegistList(token: String) = apiHelper.getUnRegistList(token)
 }

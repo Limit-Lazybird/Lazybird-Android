@@ -12,6 +12,12 @@ import javax.inject.Inject
 class ApiHelperImpl @Inject constructor(
     private val apiService: ApiService
 ) : ApiHelper {
+
+    /********* Calendar *********/
+    override suspend fun getUnRegistList(
+        token: String
+    ): Response<CalendarListResponseBody> = apiService.getUnRegistList(token)
+
     /********* Customized Question *********/
     override suspend fun getCustomizedList(
         token: String

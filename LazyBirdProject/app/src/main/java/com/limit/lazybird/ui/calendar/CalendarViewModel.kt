@@ -1,20 +1,27 @@
 package com.limit.lazybird.ui.calendar
 
+import android.util.Log
 import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.kizitonwose.calendarview.model.CalendarDay
 import com.limit.lazybird.custom.DayViewContainer
 import com.limit.lazybird.models.Schedule
+import com.limit.lazybird.models.UnregisteredItem
+import com.limit.lazybird.models.retrofit.CalendarInfo
+import com.limit.lazybird.ui.exhibition.ExhibitionViewModel
 import com.limit.lazybird.util.toDate
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 import java.time.DayOfWeek
 import java.time.temporal.WeekFields
 import java.util.*
 import javax.inject.Inject
 
-/**************** CalendarViewModel ******************
+/**************** CalendarAddViewModel ******************
  * 메인화면(캘린더 탭) (ViewModel)
  * 캘린더에서 (예약된 or 예약되지 않은)전시일정정보 확인
  * Todo : 서버에서 API 받아오기
@@ -23,20 +30,48 @@ import javax.inject.Inject
 class CalendarViewModel @Inject constructor(
     private val repository: CalendarRepository
 ) : ViewModel() {
+
+    companion object {
+        const val TAG = "CalendarViewModel"
+    }
+
     private val today = Calendar.getInstance().time
 
     // 선택된 날짜 (default: 오늘)
     private val _selectedDateLiveData = MutableLiveData(today)
-    var selectedDateLiveData: LiveData<Date> = _selectedDateLiveData
+    val selectedDateLiveData: LiveData<Date> = _selectedDateLiveData
+
+    private val _unregisteredListLiveData = MutableLiveData<List<CalendarInfo>>()
+    val unregisteredListLiveData:LiveData<List<CalendarInfo>> get() = _unregisteredListLiveData
+
 
     var selectedDayViewContainer: DayViewContainer? = null // 선택된 날짜의 DayViewContainer
     val firstDayOfWeek: DayOfWeek = WeekFields.of(Locale.getDefault()).firstDayOfWeek
     var scheduleList = listOf<Schedule>()
     var scheduleListDict: Map<Long, MutableList<Schedule>> = mapOf()
 
+    private lateinit var token: String
+
     init {
-        getDummyData()
+        initToken()
+        initUnregisteredList()
     }
+
+    private fun initToken() = viewModelScope.launch {
+        token = repository.getPreferenceFlow().first()
+    }
+
+    private fun initUnregisteredList() = viewModelScope.launch {
+        // 전시리스트 받기
+        repository.getUnRegistList(token).let { response ->
+            if (response.body() != null) {
+                _unregisteredListLiveData.postValue(response.body()!!.calList)
+            } else {
+                Log.e(TAG, "response.body() is null")
+            }
+        }
+    }
+
 
     private fun getDummyData() {
         scheduleList =
@@ -101,4 +136,6 @@ class CalendarViewModel @Inject constructor(
             day.toDate()
         )
     }
+
+    fun getUnregisteredInfo(position: Int) = unregisteredListLiveData.value!![position]
 }

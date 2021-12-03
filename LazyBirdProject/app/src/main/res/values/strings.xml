@@ -92,4 +92,6 @@
     <string name="main_exit_title">레이지버드를 종료하시겠습니까?</string>
     <string name="main_exit_yes">종료</string>
     <string name="main_exit_no">취소</string>
+    <string name="dialog_bs_time_select_title">시간 선택하기</string>
+    <string name="dialog_bs_unregistered_list_title">전시 일정 추가</string>
 </resources>

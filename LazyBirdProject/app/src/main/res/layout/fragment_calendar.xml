@@ -118,6 +118,7 @@
             app:cv_scrollMode="paged" />
 
         <View
+            android:visibility="gone"
             android:layout_width="70dp"
             android:layout_height="4dp"
             android:layout_below="@id/calendar_view"

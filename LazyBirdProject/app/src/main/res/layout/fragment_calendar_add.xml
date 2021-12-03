@@ -51,7 +51,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="24dp"
                 android:layout_marginBottom="23dp"
-                android:text="일정 등로을 위해\n전시회 정보를 입력해주세요."
+                android:text="일정 등록을 위해\n전시회 정보를 입력해주세요."
                 android:textColor="@color/white"
                 android:textSize="20dp" />
 
@@ -203,6 +203,7 @@
                     android:layout_marginTop="8dp"
                     android:background="@drawable/button_rounded_5"
                     android:backgroundTint="@color/gray_200"
+                    android:focusable="false"
                     android:hint="선택"
                     android:padding="15dp"
                     android:textColorHint="@color/gray_600"
@@ -215,7 +216,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="8dp"
-                    android:focusable="false"
                     android:src="@drawable/ic_expand_light_d"
                     app:layout_constraintBottom_toBottomOf="@id/calendar_add_time_start"
                     app:layout_constraintRight_toRightOf="@id/calendar_add_time_start"
