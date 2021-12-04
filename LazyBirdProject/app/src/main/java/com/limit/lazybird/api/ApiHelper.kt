@@ -2,6 +2,9 @@ package com.limit.lazybird.api
 
 import com.limit.lazybird.models.retrofit.*
 import retrofit2.Response
+import retrofit2.http.Field
+import retrofit2.http.FormUrlEncoded
+import retrofit2.http.POST
 
 /****************** ApiHelper *********************
  * API 연결에 사용하기 위한 interface 파일
@@ -9,6 +12,28 @@ import retrofit2.Response
 ********************************************** ***/
 
 interface ApiHelper {
+    /********* Calendar *********/
+    suspend fun getUnRegistList(
+        token: String
+    ):Response<CalendarListResponseBody>
+
+    suspend fun saveCalendarInfo(
+        token: String,
+        exhbt_cd: String,
+        reser_dt: String,
+        start_time: String,
+        end_time: String
+    ):Response<CodeMsgResponseBody>
+
+    suspend fun deleteCalendarInfo(
+        token: String,
+        exhbt_cd: String
+    ):Response<CodeMsgResponseBody>
+
+    suspend fun getRegistListAll(
+        token: String
+    ):Response<CalendarListResponseBody>
+
     /********* Customized Question *********/
     suspend fun getCustomizedList(
         token: String

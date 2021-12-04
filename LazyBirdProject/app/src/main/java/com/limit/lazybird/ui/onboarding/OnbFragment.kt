@@ -114,10 +114,10 @@ class OnbFragment : Fragment(R.layout.fragment_onb) {
             createCancelDialog()
         }
 
-        setFragmentResultListener(OnbCancelDialogFragment.TAG) { _, bundle ->
+        setFragmentResultListener(CustomDialogFragment.TAG) { _, bundle ->
             when (bundle.getString("resultCode")) {
-                OnbCancelDialogFragment.RESULT_OK -> {
-                    // OnbCancelDialogFragment 에서 종료 버튼 클릭 시
+                CustomDialogFragment.RESULT_OK -> {
+                    // CustomDialogFragment 에서 종료 버튼 클릭 시
                     moveToStartFragment()
                 }
             }
@@ -132,14 +132,14 @@ class OnbFragment : Fragment(R.layout.fragment_onb) {
             positiveBtnTitle = resources.getString(R.string.onb_cancel_yes),
             negativeBtnTitle = resources.getString(R.string.onb_cancel_no)
         )
-       OnbCancelDialogFragment().apply {
+       CustomDialogFragment().apply {
             // dialog 정보 보내주기
             arguments = bundleOf().apply {
-                putParcelable(OnbCancelDialogFragment.DIALOG_INFO, dialogInfo)
+                putParcelable(CustomDialogFragment.DIALOG_INFO, dialogInfo)
             }
         }.show(
             parentActivity.supportFragmentManager,
-            OnbCancelDialogFragment.TAG
+            CustomDialogFragment.TAG
         )
     }
 

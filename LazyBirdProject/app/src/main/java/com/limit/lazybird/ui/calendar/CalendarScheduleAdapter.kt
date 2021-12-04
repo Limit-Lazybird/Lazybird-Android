@@ -18,7 +18,7 @@ class CalendarScheduleAdapter(
     private val items: List<Schedule>
 ):RecyclerView.Adapter<CalendarScheduleAdapter.ViewHolder>() {
 
-    private val DAY_OF_WEEK = arrayOf("월", "화", "수", "목", "금", "토", "일")
+    private val DAY_OF_WEEK = arrayOf("MON", "TUE", "WED", "THR", "FRI", "SAT", "SUN")
     private lateinit var binding: ItemScheduleBinding
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
@@ -33,7 +33,8 @@ class CalendarScheduleAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        binding = ItemScheduleBinding.inflate(LayoutInflater.from(parent.context))
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_schedule, parent, false)
+        binding = ItemScheduleBinding.bind(view)
         return ViewHolder(binding.root)
     }
 
@@ -54,7 +55,7 @@ class CalendarScheduleAdapter(
                 scheduleDay.visibility = View.INVISIBLE
             }
 
-            // 방문한 일정인가?ㄴ
+            // 방문한 일정인가?
             if(items[position].isVisited){
                 isVisited.setTextColor(holder.itemView.resources.getColor(R.color.or01, null))
                 isVisitedIcon.setColorFilter(holder.itemView.resources.getColor(R.color.or01, null))

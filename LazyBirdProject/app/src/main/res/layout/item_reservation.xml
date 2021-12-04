@@ -114,7 +114,6 @@
                     android:textColor="@color/gray04"
                     android:textSize="10dp"
                     android:visibility="@{discount == 0 ? View.GONE : View.VISIBLE}"
-
                     tools:text="20,200" />
 
                 <TextView

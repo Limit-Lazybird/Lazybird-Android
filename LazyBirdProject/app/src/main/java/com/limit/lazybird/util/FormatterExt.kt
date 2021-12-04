@@ -26,6 +26,9 @@ fun String.toDate(): Date = SimpleDateFormat("yyyy-MM-dd").parse(this)
 // "yyyy.MM.dd" to Date
 fun String.toDate2(): Date = SimpleDateFormat("yyyy.MM.dd").parse(this)
 
+// "yyyy.MM.dd" to Date
+fun String.toDate3(): Date = SimpleDateFormat("yyyyMMdd").parse(this)
+
 // CalendarDay to Date
 fun CalendarDay.toDate(): Date = Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant())
 
@@ -57,6 +60,7 @@ fun Float.toDp(view: View) =
 
 fun Date.parseDay() = getCalendar(this).get(Calendar.DAY_OF_MONTH)
 fun Date.parseMonth() = getCalendar(this).get(Calendar.MONTH)
+fun Date.parseYear() = getCalendar(this).get(Calendar.YEAR)
 fun Date.parseDayOfWeek() = getCalendar(this).get(Calendar.DAY_OF_WEEK)
 
 fun getCalendar(date: Date) = Calendar.getInstance().apply {

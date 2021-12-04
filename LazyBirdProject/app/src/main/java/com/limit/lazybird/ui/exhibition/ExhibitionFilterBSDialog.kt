@@ -30,7 +30,7 @@ class ExhibitionFilterBSDialog : BottomSheetDialogFragment() {
         const val RESULT_CANCEL = "bsd_result_cancel"
     }
 
-    lateinit var binding: DialogBsFilterExhibitionBinding
+    private lateinit var binding: DialogBsFilterExhibitionBinding
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val bottomSheetDialog = BottomSheetDialog(requireContext(), theme)
@@ -77,7 +77,7 @@ class ExhibitionFilterBSDialog : BottomSheetDialogFragment() {
             "부산・울산・경남",
             "대구・경북",
             "광주・전라",
-            "대전・출청・세종",
+            "대전・충청・세종",
             "제주"
         )
 

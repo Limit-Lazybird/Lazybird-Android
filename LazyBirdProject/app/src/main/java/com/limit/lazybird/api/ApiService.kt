@@ -9,6 +9,37 @@ import retrofit2.http.*
  ********************************************** ***/
 
 interface ApiService {
+    /********* Calendar *********/
+    @FormUrlEncoded
+    @POST("/calender/unRegistList")
+    suspend fun getUnRegistList(
+        @Field("token") token: String
+    ):Response<CalendarListResponseBody>
+
+    @FormUrlEncoded
+    @POST("/calender/infoSave")
+    suspend fun saveCalendarInfo(
+        @Field("token") token: String,
+        @Field("exhbt_cd") exhbt_cd: String,
+        @Field("reser_dt") reser_dt: String,
+        @Field("start_time") start_time: String,
+        @Field("end_time") end_time: String,
+    ):Response<CodeMsgResponseBody>
+
+    @FormUrlEncoded
+    @POST("/calender/infoSave")
+    suspend fun deleteCalendarInfo(
+        @Field("token") token: String,
+        @Field("exhbt_cd") exhbt_cd: String
+    ):Response<CodeMsgResponseBody>
+
+    @FormUrlEncoded
+    @POST("/calender/registList")
+    suspend fun getRegistListAll(
+        @Field("token") token: String,
+        @Field("reser_dt") reser_dt: String
+    ):Response<CalendarListResponseBody>
+
     /********* Customized Question *********/
     @FormUrlEncoded
     @POST("/customized/list")

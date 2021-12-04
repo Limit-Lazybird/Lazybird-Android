@@ -9,29 +9,29 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.setFragmentResult
 import com.limit.lazybird.R
-import com.limit.lazybird.databinding.DialogOnbCancelBinding
+import com.limit.lazybird.databinding.DialogCustomBinding
 import com.limit.lazybird.models.DialogInfo
+import android.view.View
 
-/************* OnbCancelDialogFragment ***************
- * 온보딩 화면 >> 온보딩 취소하기 Dialog (DialogFragment)
- * 진행중인 온보딩을 취소할지에 대한 Dialog
+/************* CustomDialogFragment ***************
+ * 확인/취소 선택버튼을 가진 Custom 모달창 (DialogFragment)
  ********************************************** ***/
-class OnbCancelDialogFragment : DialogFragment() {
+class CustomDialogFragment : DialogFragment() {
 
     companion object {
-        const val TAG = "OnbCancelDialogFragment"
+        const val TAG = "CustomDialogFragment"
         const val DIALOG_INFO = "DIALOG_INFO"
         const val RESULT_CANCEL = "result_cancel"
         const val RESULT_OK = "result_ok"
     }
 
-    private lateinit var binding: DialogOnbCancelBinding
+    private lateinit var binding: DialogCustomBinding
     private var alertDialog: AlertDialog? = null
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val dialogInfo = requireArguments().getParcelable<DialogInfo>(DIALOG_INFO)!!
-        val layout = layoutInflater.inflate(R.layout.dialog_onb_cancel, null).apply {
-            binding = DialogOnbCancelBinding.bind(this)
+        val layout = layoutInflater.inflate(R.layout.dialog_custom, null).apply {
+            binding = DialogCustomBinding.bind(this)
         }
         binding.apply {
             onbCancelTitle.text = dialogInfo.title
@@ -43,6 +43,9 @@ class OnbCancelDialogFragment : DialogFragment() {
             }
             onbCancelButtonYes.setOnClickListener {
                 cancelOnb()
+            }
+            if(dialogInfo.message == ""){
+                onbCancelMessage.visibility = View.GONE
             }
         }
 

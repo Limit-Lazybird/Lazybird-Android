@@ -1,103 +1,173 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    tools:context=".ui.calendar.CalendarFragment">
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="unregisterCount"
+            type="int" />
+    </data>
 
     <RelativeLayout
-        android:id="@+id/calendar_layout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/button_rounded_bottom_20"
-        android:backgroundTint="@color/gray_150">
-
-        <!-- calendar_header -->
-        <RelativeLayout
-            android:id="@+id/calendar_header"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:paddingTop="14dp"
-            android:paddingBottom="14dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                android:text="@string/calendar_title"
-                android:textColor="@color/white"
-                android:textSize="17dp" />
-
-            <ImageView
-                android:id="@+id/calendar_custom_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="16dp"
-                android:src="@drawable/ic_custom" />
-
-        </RelativeLayout>
-
-        <View
-            android:id="@+id/calendar_line_1"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_below="@id/calendar_header"
-            android:layout_marginLeft="16dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginBottom="16dp"
-            android:background="@color/gray_200" />
-
-        <com.kizitonwose.calendarview.CalendarView
-            android:id="@+id/calendar_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/calendar_line_1"
-            app:cv_dayViewResource="@layout/calendar_day_layout"
-            app:cv_monthHeaderResource="@layout/calendar_month_header_layout"
-            app:cv_orientation="horizontal"
-            app:cv_scrollMode="paged" />
-
-        <View
-            android:layout_width="70dp"
-            android:layout_height="4dp"
-            android:layout_below="@id/calendar_view"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="16dp"
-            android:background="@color/gray_300" />
-    </RelativeLayout>
-
-    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/calendar_layout"
-        android:orientation="vertical"
-        android:paddingTop="16dp">
+        tools:context=".ui.calendar.CalendarFragment">
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <RelativeLayout
+            android:id="@+id/calendar_layout"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:background="@drawable/button_rounded_bottom_20"
+            android:backgroundTint="@color/gray_150">
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/calendar_schedule_recycler_view"
+
+            <!-- calendar_header -->
+            <RelativeLayout
+                android:id="@+id/calendar_header"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:overScrollMode="never"
-                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                tools:itemCount="3"
-                tools:listitem="@layout/item_schedule" />
+                android:layout_alignParentTop="true"
+                android:paddingTop="14dp"
+                android:paddingBottom="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:text="@string/calendar_title"
+                    android:textColor="@color/white"
+                    android:textSize="17dp" />
+
+                <ImageView
+                    android:id="@+id/calendar_custom_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="16dp"
+                    android:src="@drawable/ic_custom" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/calendar_sub_header"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/calendar_header"
+                android:layout_marginLeft="15dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginRight="15dp"
+                android:background="@drawable/button_rounded_10"
+                android:backgroundTint="@color/gray_200"
+                android:orientation="horizontal"
+                android:paddingLeft="8dp"
+                android:paddingTop="12dp"
+                android:paddingRight="8dp"
+                android:paddingBottom="12dp"
+                android:visibility="@{unregisterCount == 0 ? View.GONE : View.VISIBLE}">
+
+                <TextView
+                    android:id="@+id/calendar_not_added_title1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:text="@string/calendar_not_added_title1"
+                    android:textColor="@color/white"
+                    android:textSize="13dp" />
+
+                <TextView
+                    android:id="@+id/calendar_not_added_count"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/calendar_not_added_title1"
+                    android:paddingLeft="4dp"
+                    android:paddingRight="2dp"
+                    android:textColor="@color/or01"
+                    android:textSize="13dp"
+                    android:text='@{unregisterCount+""}'
+                    tools:text="2" />
+
+                <TextView
+                    android:id="@+id/calendar_not_added_title2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@id/calendar_not_added_count"
+                    android:text="@string/calendar_not_added_title2"
+                    android:textColor="@color/white"
+                    android:textSize="13dp" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:src="@drawable/ic_expand_bold_r" />
+            </RelativeLayout>
+
 
             <View
+                android:id="@+id/calendar_line_1"
                 android:layout_width="match_parent"
-                android:layout_height="50dp" />
-        </LinearLayout>
-    </androidx.core.widget.NestedScrollView>
-</RelativeLayout>
+                android:layout_height="1dp"
+                android:layout_below="@id/calendar_sub_header"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="16dp"
+                android:background="@color/gray_200" />
+
+            <com.kizitonwose.calendarview.CalendarView
+                android:id="@+id/calendar_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/calendar_line_1"
+                app:cv_dayViewResource="@layout/calendar_day_layout"
+                app:cv_monthHeaderResource="@layout/calendar_month_header_layout"
+                app:cv_orientation="horizontal"
+                app:cv_scrollMode="paged" />
+
+            <View
+                android:layout_width="70dp"
+                android:layout_height="4dp"
+                android:layout_below="@id/calendar_view"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:background="@color/gray_300"
+                android:visibility="visible" />
+        </RelativeLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/calendar_layout"
+            android:orientation="vertical"
+            android:paddingTop="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/calendar_schedule_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:overScrollMode="never"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                    tools:itemCount="3"
+                    tools:listitem="@layout/item_schedule" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp" />
+            </LinearLayout>
+        </androidx.core.widget.NestedScrollView>
+    </RelativeLayout>
+</layout>
+

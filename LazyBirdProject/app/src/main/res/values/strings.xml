@@ -85,4 +85,13 @@
     </string>
     <string name="notification_title">알림</string>
     <string name="calendar_title">캘린더</string>
+    <string name="calendar_not_added_title1">추가되지 않은 전시 일정이 </string>
+    <string name="calendar_not_added_title2">개 있습니다.</string>
+    <string name="calendar_add_title">전시 일정 추가</string>
+    <string name="dialog_bs_date_select_title">날짜 선택하기</string>
+    <string name="main_exit_title">레이지버드를 종료하시겠습니까?</string>
+    <string name="main_exit_yes">종료</string>
+    <string name="main_exit_no">취소</string>
+    <string name="dialog_bs_time_select_title">시간 선택하기</string>
+    <string name="dialog_bs_unregistered_list_title">전시 일정 추가</string>
 </resources>
