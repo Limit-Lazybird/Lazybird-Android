@@ -22,4 +22,13 @@ class CalendarAddRepository @Inject constructor(
         token:String,
         exhbt_cd: String
     ) = apiHelper.deleteCalendarInfo(token, exhbt_cd)
+
+    suspend fun saveCustomInfo(
+        token:String,
+        exhbt_nm: String,
+        exhbt_lct: String,
+        reser_dt: String,
+        start_time: String,
+        end_time: String
+    ) = apiHelper.saveCustomInfo(token, exhbt_nm, exhbt_lct, reser_dt, start_time, end_time)
 }

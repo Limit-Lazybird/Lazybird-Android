@@ -16,4 +16,15 @@ class CalendarRepository @Inject constructor(
     fun getPreferenceFlow() = dataStoreManager.preferenceTokenFlow
     suspend fun getUnRegistList(token: String) = apiHelper.getUnRegistList(token)
     suspend fun getRegistList(token: String) = apiHelper.getRegistListAll(token)
+    suspend fun getCustomList(token: String) = apiHelper.getCustomListAll(token)
+    suspend fun visitUpdateExhbt(
+        token: String,
+        exhbt_cd: String,
+        visit_yn: String
+    ) = apiHelper.visitUpdateExhbt(token, exhbt_cd, visit_yn)
+    suspend fun visitUpdateCustom(
+        token: String,
+        exhbt_cd: String,
+        visit_yn: String
+    ) = apiHelper.visitUpdateCustom(token, exhbt_cd, visit_yn)
 }

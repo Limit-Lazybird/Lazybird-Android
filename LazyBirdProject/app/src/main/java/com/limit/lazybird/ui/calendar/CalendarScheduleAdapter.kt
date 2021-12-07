@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.limit.lazybird.R
 import com.limit.lazybird.databinding.ItemScheduleBinding
 import com.limit.lazybird.models.Schedule
+import com.limit.lazybird.ui.earlybird.EarlyBirdAdapter
 import com.limit.lazybird.util.parseDay
 import com.limit.lazybird.util.parseDayOfWeek
 
@@ -18,7 +19,13 @@ class CalendarScheduleAdapter(
     private val items: List<Schedule>
 ):RecyclerView.Adapter<CalendarScheduleAdapter.ViewHolder>() {
 
-    private val DAY_OF_WEEK = arrayOf("MON", "TUE", "WED", "THR", "FRI", "SAT", "SUN")
+    interface OnItemClickListener {
+        fun onIsVisitedClick(holder: CalendarScheduleAdapter.ViewHolder, view: View, position: Int)
+    }
+
+    var itemClickListener: OnItemClickListener? = null
+
+    private val DAY_OF_WEEK = arrayOf("SUN", "MON", "TUE", "WED", "THR", "FRI", "SAT")
     private lateinit var binding: ItemScheduleBinding
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
@@ -30,6 +37,7 @@ class CalendarScheduleAdapter(
         val schedulePlace = binding.itemSchedulePlace
         val isVisited = binding.itemScheduleIsVisited
         val isVisitedIcon = binding.itemScheduleIsVisitedImg
+        val isVisitedConatiner = binding.itemScheduleIsVisitedContainer
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -65,6 +73,10 @@ class CalendarScheduleAdapter(
                 isVisitedIcon.setColorFilter(holder.itemView.resources.getColor(R.color.gray_600, null))
                 scheduleMark.setBackgroundColor(holder.itemView.resources.getColor(R.color.white, null))
             }
+
+            isVisitedConatiner.setOnClickListener {
+                itemClickListener?.onIsVisitedClick(holder, it, position)
+            }
         }
     }
 
@@ -72,4 +84,7 @@ class CalendarScheduleAdapter(
         return items.size
     }
 
+    fun notifyIsVisitedChanged() {
+        notifyDataSetChanged()
+    }
 }

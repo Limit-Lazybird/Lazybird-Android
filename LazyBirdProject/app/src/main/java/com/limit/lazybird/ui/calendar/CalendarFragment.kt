@@ -21,6 +21,7 @@ import com.limit.lazybird.custom.MonthViewContainer
 import com.limit.lazybird.custom.ScheduleMarkContainer
 import com.limit.lazybird.databinding.FragmentCalendarBinding
 import com.limit.lazybird.models.CalendarInfoList
+import com.limit.lazybird.models.DialogInfo
 import com.limit.lazybird.models.Schedule
 import com.limit.lazybird.models.retrofit.CalendarInfo
 import com.limit.lazybird.ui.MainActivity
@@ -95,10 +96,25 @@ class CalendarFragment : Fragment(R.layout.fragment_calendar) {
 
         setFragmentResultListener(UnregisteredListBSDialog.TAG) { _, bundle ->
             // 전시성향분석 재설정 Dialog 선택 결과 확인
-            when(bundle.getString(UnregisteredListBSDialog.RESULT_CODE)){
+            when (bundle.getString(UnregisteredListBSDialog.RESULT_CODE)) {
                 UnregisteredListBSDialog.RESULT_OK -> {
                     val position = bundle.getInt(UnregisteredListBSDialog.SELECTED_POSITION)
                     moveToCalendarAdd(viewModel.getUnregisteredInfo(position))
+                }
+            }
+        }
+
+        setFragmentResultListener(IsVisitedDialogFragment.TAG) { _, bundle ->
+            // Todo : 아니 왜 ResultListener가 인식을 못하지??
+            when (bundle.getString(IsVisitedDialogFragment.RESULT_CODE)) {
+                IsVisitedDialogFragment.RESULT_OK -> {
+                    val exhbt_cd = bundle.getString(IsVisitedDialogFragment.EXHBT_CD)
+                    val is_custom = bundle.getBoolean(IsVisitedDialogFragment.IS_CUSTOM)
+                    if(is_custom && exhbt_cd!=null)
+                        viewModel.visitUpdateCustomYes(exhbt_cd)
+                    else if(!is_custom && exhbt_cd!=null)
+                        viewModel.visitUpdateExhbtYes(exhbt_cd)
+                    resetView()
                 }
             }
         }
@@ -123,15 +139,63 @@ class CalendarFragment : Fragment(R.layout.fragment_calendar) {
         // selectedDay 에 해당하는 일정내용을 업데이트
         if (this::scheduleListDict.isInitialized
             && scheduleListDict.containsKey(selectedDay.time)
-            && scheduleListDict[selectedDay.time]!!.isNotEmpty()) {
+            && scheduleListDict[selectedDay.time]!!.isNotEmpty()
+        ) {
             // schedule 이 존재하고, 일정이 1개 이상
             binding.calendarScheduleRecyclerView.visibility = View.VISIBLE
             binding.calendarScheduleRecyclerView.adapter =
-                CalendarScheduleAdapter(scheduleListDict[selectedDay.time]!!)
+                CalendarScheduleAdapter(scheduleListDict[selectedDay.time]!!).apply {
+                    itemClickListener = object : CalendarScheduleAdapter.OnItemClickListener {
+                        override fun onIsVisitedClick(
+                            holder: CalendarScheduleAdapter.ViewHolder,
+                            view: View,
+                            position: Int
+                        ) {
+                            with(scheduleListDict[selectedDay.time]!![position]) {
+                                if(!isVisited){
+                                    showDialog(
+                                        exhbt_cd = id.toString(),
+                                        is_custom = isCustom
+                                    )
+                                } else {
+                                    if(isCustom)
+                                        viewModel.visitUpdateCustomNo(
+                                            exhbt_cd = id.toString()
+                                        )
+                                    else
+                                        viewModel.visitUpdateExhbtNo(
+                                            exhbt_cd = id.toString()
+                                        )
+                                    resetView()
+                                }
+                            }
+                        }
+                    }
+                }
         } else {
             // schedule 이 존재하지 않음
             binding.calendarScheduleRecyclerView.visibility = View.GONE
         }
+    }
+
+    private fun showDialog(exhbt_cd: String, is_custom:Boolean) {
+        val dialogInfo = DialogInfo(
+            title = "전시회는 잘 방문하셨나요?",
+            message = "방문 확인을 하시면 캘린더에 표시됩니다.",
+            positiveBtnTitle = "다녀왔어요",
+            negativeBtnTitle = "아니오"
+        )
+        IsVisitedDialogFragment().apply {
+            // dialog 정보 보내주기
+            arguments = bundleOf().apply {
+                putParcelable(IsVisitedDialogFragment.DIALOG_INFO, dialogInfo)
+                putString(IsVisitedDialogFragment.EXHBT_CD, exhbt_cd)
+                putBoolean(IsVisitedDialogFragment.IS_CUSTOM, is_custom)
+            }
+        }.show(
+            parentActivity.supportFragmentManager,
+            IsVisitedDialogFragment.TAG
+        )
     }
 
     private fun calendarViewInit() {
@@ -146,7 +210,7 @@ class CalendarFragment : Fragment(R.layout.fragment_calendar) {
                 if (day.owner == DayOwner.THIS_MONTH) {
                     // 이번달
                     // 오늘 날짜 인 경우
-                    if(day.date == LocalDate.now()){
+                    if (day.date == LocalDate.now()) {
                         container.isToday.visibility = View.VISIBLE // 오늘인 경우
                     } else {
                         container.isToday.visibility = View.INVISIBLE // 오늘이 아닌 경우
@@ -171,7 +235,8 @@ class CalendarFragment : Fragment(R.layout.fragment_calendar) {
 
                 container.scheduleMark.removeAllViews()
                 if (day.owner == DayOwner.THIS_MONTH
-                    && scheduleListDict[day.toDate().time]?.size ?: 0 > 0) {
+                    && scheduleListDict[day.toDate().time]?.size ?: 0 > 0
+                ) {
                     for (schedule in scheduleListDict[day.toDate().time]!!) {
                         container.scheduleMark.addView(
                             ScheduleMarkContainer(container.view.context, null).apply {
@@ -234,5 +299,11 @@ class CalendarFragment : Fragment(R.layout.fragment_calendar) {
             viewModel.firstDayOfWeek
         )
         binding.calendarView.scrollToMonth(currentMonth)
+    }
+    
+    private fun resetView(){
+        // Todo : liveData로 변경시 해당 부분이 자동으로 바뀌도록 변경하기
+        viewModel.initCustomList()
+        viewModel.initRegisteredList()
     }
 }

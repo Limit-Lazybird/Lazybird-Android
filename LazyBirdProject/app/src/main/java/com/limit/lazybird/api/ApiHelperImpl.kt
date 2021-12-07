@@ -35,6 +35,31 @@ class ApiHelperImpl @Inject constructor(
         token: String
     ): Response<CalendarListResponseBody> = apiService.getRegistListAll(token, "all")
 
+    override suspend fun saveCustomInfo(
+        token: String,
+        exhbt_nm: String,
+        exhbt_lct: String,
+        reser_dt: String,
+        start_time: String,
+        end_time: String
+    ): Response<CodeMsgResponseBody> = apiService.saveCustomInfo(token, exhbt_nm, exhbt_lct, reser_dt, start_time, end_time)
+
+    override suspend fun getCustomListAll(
+        token: String
+    ): Response<CalendarListResponseBody> = apiService.getCustomListAll(token, "all")
+
+    override suspend fun visitUpdateExhbt(
+        token: String,
+        exhbt_nm: String,
+        visit_yn: String
+    ): Response<CodeMsgResponseBody> = apiService.visitUpdateExhbt(token, exhbt_nm, visit_yn)
+
+    override suspend fun visitUpdateCustom(
+        token: String,
+        exhbt_nm: String,
+        visit_yn: String
+    ): Response<CodeMsgResponseBody> = apiService.visitUpdateCustom(token, exhbt_nm, visit_yn, "custom")
+
     /********* Customized Question *********/
     override suspend fun getCustomizedList(
         token: String

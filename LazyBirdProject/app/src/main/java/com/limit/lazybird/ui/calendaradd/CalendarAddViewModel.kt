@@ -46,4 +46,14 @@ class CalendarAddViewModel @Inject constructor(
         repository.deleteCalendarInfo(token, exhbt_cd)
     }
 
+    fun saveCustomInfo(
+        exhbt_nm: String,
+        exhbt_lct: String,
+        reser_dt: String,
+        start_time: String,
+        end_time: String
+    ) = viewModelScope.launch {
+        repository.saveCustomInfo(token, exhbt_nm, exhbt_lct, reser_dt, start_time, end_time)
+    }
+
 }

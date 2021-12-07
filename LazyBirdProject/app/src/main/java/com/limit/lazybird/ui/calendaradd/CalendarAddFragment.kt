@@ -40,9 +40,11 @@ class CalendarAddFragment: Fragment(R.layout.fragment_calendar_add) {
 
         type = arguments?.getString(ADD_TYPE).toString() // custom or ticketed
         if(type == TYPE_TICKETED) {
-            calendarInfo = arguments?.getParcelable<CalendarInfo>(TICKET_INFO)!!
+            calendarInfo = arguments?.getParcelable(TICKET_INFO)!!
+            // 전시회 이름 고정
             binding.calendarAddExhibition.setText(calendarInfo.exhbt_nm)
             binding.calendarAddExhibition.isFocusable = false
+            // 전시회 장소 고정
             binding.calendarAddPlace.setText(calendarInfo.exhbt_lct)
             binding.calendarAddPlace.isFocusable = false
         }
@@ -95,7 +97,23 @@ class CalendarAddFragment: Fragment(R.layout.fragment_calendar_add) {
             when(type){
                 TYPE_CUSTOM -> {
                     // CUSTOM 전용
-
+                    if(binding.calendarAddExhibition.text.toString() != ""
+                        && binding.calendarAddPlace.text.toString() != ""
+                        && binding.calendarAddDate.text.toString() != ""
+                        && binding.calendarAddTimeStart.text.toString() != ""
+                        && binding.calendarAddTimeEnd.text.toString() != ""
+                    ) {
+                        viewModel.saveCustomInfo(
+                            exhbt_nm = binding.calendarAddExhibition.text.toString(),
+                            exhbt_lct = binding.calendarAddPlace.text.toString(),
+                            reser_dt = binding.calendarAddDate.text.toString().replace("-", "").trim(),
+                            start_time = binding.calendarAddTimeStart.text.toString(),
+                            end_time = binding.calendarAddTimeEnd.text.toString()
+                        )
+                        parentActivity.supportFragmentManager.popBackStack()
+                    } else {
+                        Toast.makeText(context, "모든 내용을 입력해주세요", Toast.LENGTH_SHORT).show()
+                    }
                 }
                 TYPE_TICKETED -> {
                     // 예약일정 삭제

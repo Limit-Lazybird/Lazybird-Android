@@ -34,6 +34,31 @@ interface ApiHelper {
         token: String
     ):Response<CalendarListResponseBody>
 
+    suspend fun saveCustomInfo(
+        token: String,
+        exhbt_nm: String,
+        exhbt_lct: String,
+        reser_dt: String,
+        start_time: String,
+        end_time: String
+    ): Response<CodeMsgResponseBody>
+
+    suspend fun getCustomListAll(
+        token: String
+    ):Response<CalendarListResponseBody>
+
+    suspend fun visitUpdateExhbt(
+        token: String,
+        exhbt_nm: String,
+        visit_yn: String
+    ):Response<CodeMsgResponseBody>
+
+    suspend fun visitUpdateCustom(
+        token: String,
+        exhbt_nm: String,
+        visit_yn: String
+    ):Response<CodeMsgResponseBody>
+
     /********* Customized Question *********/
     suspend fun getCustomizedList(
         token: String

@@ -1,10 +1,11 @@
-package com.limit.lazybird.ui.onboarding
+package com.limit.lazybird.ui.calendar
 
 import android.app.AlertDialog
 import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
 import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.setFragmentResult
@@ -16,14 +17,16 @@ import android.view.View
 /************* CustomDialogFragment ***************
  * 확인/취소 선택버튼을 가진 Custom 모달창 (DialogFragment)
  ********************************************** ***/
-class CustomDialogFragment : DialogFragment() {
+class IsVisitedDialogFragment : DialogFragment() {
 
     companion object {
-        const val TAG = "CustomDialogFragment"
-        const val RESULT_CODE = "result_code"
-        const val DIALOG_INFO = "DIALOG_INFO"
-        const val RESULT_CANCEL = "result_cancel"
-        const val RESULT_OK = "result_ok"
+        const val TAG = "IsVisitedDialogFragment"
+        const val DIALOG_INFO = "isvisted_dialog_info"
+        const val RESULT_CODE = "isvisited_result_code"
+        const val RESULT_CANCEL = "isvisted_result_cancel"
+        const val RESULT_OK = "isvisted_result_ok"
+        const val EXHBT_CD = "exhbt_cd"
+        const val IS_CUSTOM = "is_custom"
     }
 
     private lateinit var binding: DialogCustomBinding
@@ -40,10 +43,10 @@ class CustomDialogFragment : DialogFragment() {
             onbCancelButtonNo.text = dialogInfo.negativeBtnTitle
             onbCancelButtonYes.text = dialogInfo.positiveBtnTitle
             onbCancelButtonNo.setOnClickListener {
-                cancelDialog()
+                clickNo()
             }
             onbCancelButtonYes.setOnClickListener {
-                cancelOnb()
+                clickYes()
             }
             if(dialogInfo.message == ""){
                 onbCancelMessage.visibility = View.GONE
@@ -58,17 +61,19 @@ class CustomDialogFragment : DialogFragment() {
         return alertDialog!!
     }
 
-    private fun cancelOnb() {
+    private fun clickYes() {
         // 확인 버튼 클릭 시
         setFragmentResult(
             TAG, bundleOf(
-                RESULT_CODE to RESULT_OK
+                RESULT_CODE to RESULT_OK,
+                EXHBT_CD to requireArguments().getString(EXHBT_CD),
+                IS_CUSTOM to requireArguments().getBoolean(IS_CUSTOM)
             )
         )
         dismiss()
     }
 
-    private fun cancelDialog() {
+    private fun clickNo() {
         // 취소 버튼 클릭 시
         setFragmentResult(
             TAG, bundleOf(
