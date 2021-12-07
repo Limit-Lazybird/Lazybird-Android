@@ -72,6 +72,10 @@ class ApiHelperImpl @Inject constructor(
         token: String
     ): Response<MsgResponseBody> = apiService.deleteCustomizedList(token)
 
+    /********* Etc *********/
+
+    override suspend fun getNoticeList(): Response<NoticeListResponseBody> = apiService.getNoticeList()
+
     /********* Exhibit Info *********/
     override suspend fun getExhbtList(
         token: String

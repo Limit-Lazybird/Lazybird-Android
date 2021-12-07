@@ -73,6 +73,9 @@ interface ApiHelper {
         token: String
     ): Response<MsgResponseBody>
 
+    /********* Exhibit Info *********/
+    suspend fun getNoticeList(
+    ): Response<NoticeListResponseBody>
 
     /********* Exhibit Info *********/
     suspend fun getExhbtList(

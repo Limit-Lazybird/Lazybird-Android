@@ -1,54 +1,51 @@
 package com.limit.lazybird.ui.setting
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import android.util.Log
+import androidx.lifecycle.*
 import com.limit.lazybird.models.NoticeInfo
+import com.limit.lazybird.models.retrofit.Notice
+import com.limit.lazybird.ui.exhibition.ExhibitionViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /***************** NoticeViewModel *******************
  * 메인화면(마이버드 탭) >> 옵션 >> 공지사항 (ViewModel)
  * 공지사항 전체 보기
- * Todo : 공지사항 서버에서 가져오기
+ * Todo : 서버 연결
  ********************************************** ***/
 @HiltViewModel
 class NoticeViewModel @Inject constructor(
-
+    private val repository: NoticeRepository
 ):ViewModel() {
 
     companion object {
         const val TAG = "NoticeViewModel"
     }
 
-    private val _noticeList = MutableLiveData<List<NoticeInfo>>()
-    val noticeList: LiveData<List<NoticeInfo>> get() = _noticeList
-
-    init {
-        initNoticeListDummy()
+    private val _noticeList = MutableLiveData<List<Notice>>()
+    val noticeInfoList: LiveData<List<NoticeInfo>> get() = _noticeList.map { noticeList ->
+        noticeList.map { notice ->
+            NoticeInfo(
+                date = notice.NOTICE_START_DATE,
+                title = notice.NOTICE_TITLE,
+                context = notice.NOTICE_CONTENT
+            )
+        }
     }
 
-    private fun initNoticeListDummy() {
-        _noticeList.postValue(
-            listOf(
-                NoticeInfo(
-                    "2021년 11월 23일",
-                    "레이지버드 1.0.1 버전 출시",
-                    "안녕하세요 레이지버드에서 알립니다.\n" +
-                            "레이지버드 어플의 1.0.1 버전이 앱스토어와 플레이스토어에 정식 출시되었습니다.\n" +
-                            "편리한 어떤 기능과 그런 기능을 추가했습니다.\n" +
-                            "지금 바로 다운받아보실 수 있습니다.\n" +
-                            "꼭 다운받아보세요.\n" +
-                            "잘부탁드립니다.\n" +
-                            "언제나 화이팅입니다\n" +
-                            "아자아자 화이팅 ~"
-                ),
-                NoticeInfo(
-                    "2021년 11월 21일",
-                    "공지사항이니까 꼭 보세요",
-                    "보셨군요 아주 좋아요 ^_________^"
-                )
-            )
-        )
+    init {
+        initNoticeList()
+    }
+
+    private fun initNoticeList() = viewModelScope.launch {
+        repository.getNoticeList().let { response ->
+            if (response.body() != null) {
+//                _noticeList.postValue(response.body()!!.noticeList)
+                // Todo : 서버쪽에서 현재 NoticeList 를 안내려줘서 에러발생중..
+            } else {
+                Log.e(ExhibitionViewModel.TAG, "response.body() is null")
+            }
+        }
     }
 }

@@ -95,6 +95,10 @@ interface ApiService {
         @Field("token") token: String
     ):Response<MsgResponseBody>
 
+    /********* Etc *********/
+    @GET("/notice/list")
+    suspend fun getNoticeList(
+    ):Response<NoticeListResponseBody>
 
     /********* Exhibit Info *********/
     @FormUrlEncoded
