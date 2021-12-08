@@ -27,22 +27,22 @@
         <ImageView
             android:id="@+id/exhibition_bell"
             android:layout_width="wrap_content"
-            android:visibility="invisible"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginRight="7dp"
             android:layout_toLeftOf="@id/exhibition_earlycard"
-            android:src="@drawable/ic_bell_point" />
+            android:src="@drawable/ic_bell_point"
+            android:visibility="invisible" />
 
         <ImageView
             android:id="@+id/exhibition_earlycard"
-            android:visibility="invisible"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="25dp"
-            android:src="@drawable/ic_earlycard" />
+            android:src="@drawable/ic_earlycard"
+            android:visibility="invisible" />
 
     </RelativeLayout>
 
@@ -68,10 +68,13 @@
 
         <TextView
             android:id="@+id/exhibition_custom_reset_btn"
-            android:layout_toLeftOf="@id/exhibition_custom_switch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignTop="@id/exhibition_custom_switch"
+            android:layout_alignBottom="@id/exhibition_custom_switch"
             android:layout_marginRight="15dp"
+            android:layout_toLeftOf="@id/exhibition_custom_switch"
+            android:gravity="center"
             android:text="@string/exhibition_reset_title"
             android:textColor="@color/white"
             android:textSize="11dp" />
@@ -131,7 +134,6 @@
         android:paddingLeft="12dp"
         android:paddingTop="5dp"
         android:paddingRight="12dp"
-        android:paddingBottom="5dp"
         app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         app:spanCount="2"
         tools:itemCount="4"

@@ -1,6 +1,7 @@
 package com.limit.lazybird.ui.exhibition
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.core.view.allViews
 import androidx.fragment.app.Fragment
@@ -38,6 +39,9 @@ class ExhibitionFragment : Fragment(R.layout.fragment_exhibition) {
     private val parentActivity: MainActivity by lazy {
         activity as MainActivity
     }
+
+    // detailFilter 어떤 것 선택했는지 가지고 있는 리스트
+    private var currentDetailFilterSelectedList:List<Int> = listOf()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -92,6 +96,7 @@ class ExhibitionFragment : Fragment(R.layout.fragment_exhibition) {
                             if(!isSelected){
                                 resetSwitch()
                                 resetShortFilter()
+                                resetDetailSelectedList()
                                 viewModel.getFilterExhbtList("${idx+1}")
                             } else {
                                 viewModel.getExhbtList()
@@ -105,7 +110,12 @@ class ExhibitionFragment : Fragment(R.layout.fragment_exhibition) {
 
         binding.exhibitionDetailOptionBtn.setOnClickListener {
             // 상세 필터링 버튼 클릭
-            ExhibitionFilterBSDialog().show(
+            val bundle = Bundle().apply {
+                putIntegerArrayList(ExhibitionFilterBSDialog.SELECTED_LIST, currentDetailFilterSelectedList.toCollection(ArrayList()))
+            }
+            ExhibitionFilterBSDialog().apply {
+                arguments = bundle
+            }.show(
                 parentFragmentManager,
                 ExhibitionFilterBSDialog.TAG
             )
@@ -123,6 +133,7 @@ class ExhibitionFragment : Fragment(R.layout.fragment_exhibition) {
             // 스위치 클릭
             if(isOn){
                 resetShortFilter()
+                resetDetailSelectedList()
                 viewModel.getCustomExhbtList()
             } else {
                 viewModel.getExhbtList()
@@ -138,7 +149,6 @@ class ExhibitionFragment : Fragment(R.layout.fragment_exhibition) {
             }
         }
 
-
         setFragmentResultListener(ExhibitionFilterBSDialog.TAG) { _, bundle ->
             // 상세필터 결과 확인
             when(bundle.getString(ExhibitionFilterBSDialog.RESULT_CODE)){
@@ -151,16 +161,22 @@ class ExhibitionFragment : Fragment(R.layout.fragment_exhibition) {
                     if(!(exhibitionFilterList.exhibitionClassSelectedList +
                         exhibitionFilterList.exhibitionEtcSelectedList +
                         exhibitionFilterList.exhibitionPlaceSelectedList).isNullOrEmpty()){
-                        viewModel.getFilterExhbtList((
-                                exhibitionFilterList.exhibitionClassSelectedList +
-                                        exhibitionFilterList.exhibitionEtcSelectedList.map { it+400 } +
-                                        exhibitionFilterList.exhibitionPlaceSelectedList.map { it+300 }
-                                ).joinToString(",")
-                        )
+                        currentDetailFilterSelectedList = exhibitionFilterList.exhibitionClassSelectedList +
+                                exhibitionFilterList.exhibitionEtcSelectedList.map { it+400 } +
+                                exhibitionFilterList.exhibitionPlaceSelectedList.map { it+300 }
+                        viewModel.getFilterExhbtList(currentDetailFilterSelectedList.joinToString(","))
+                    } else {
+                        // 아무것도 선택 안했을 경우, 전체 검색
+                        resetDetailSelectedList()
+                        viewModel.getExhbtList()
                     }
                 }
             }
         }
+    }
+
+    private fun resetDetailSelectedList(){
+        currentDetailFilterSelectedList = listOf()
     }
 
     private fun resetSwitch() {

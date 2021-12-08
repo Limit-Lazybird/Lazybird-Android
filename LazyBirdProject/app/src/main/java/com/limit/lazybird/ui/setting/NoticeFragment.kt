@@ -42,8 +42,10 @@ class NoticeFragment : Fragment(R.layout.fragment_notice) {
                         position: Int
                     ) {
                         if(holder.noticeContext.visibility == View.VISIBLE){
+                            holder.noticeExpandBtn.setImageResource(R.drawable.ic_expand_light_d)
                             holder.noticeContext.visibility = View.GONE
                         } else {
+                            holder.noticeExpandBtn.setImageResource(R.drawable.ic_expand_light_u)
                             holder.noticeContext.visibility = View.VISIBLE
                         }
                     }

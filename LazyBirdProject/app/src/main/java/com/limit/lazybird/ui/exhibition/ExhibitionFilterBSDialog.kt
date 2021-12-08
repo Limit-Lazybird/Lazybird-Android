@@ -24,6 +24,7 @@ class ExhibitionFilterBSDialog : BottomSheetDialogFragment() {
 
     companion object {
         const val TAG = "ExhibitionFilterBSDialog"
+        const val SELECTED_LIST = "exhibition_filter_selected_list"
         const val FILTER_LIST = "exhibition_filter_list"
         const val RESULT_CODE = "bsd_result_code"
         const val RESULT_OK = "bsd_result_ok"
@@ -52,6 +53,8 @@ class ExhibitionFilterBSDialog : BottomSheetDialogFragment() {
     ): View? {
         val view = inflater.inflate(R.layout.dialog_bs_filter_exhibition, container, false)
         binding = DialogBsFilterExhibitionBinding.bind(view)
+
+        val selectedArrayList = arguments?.getIntegerArrayList(SELECTED_LIST)?: arrayListOf()
 
         val exhibitionClassList = listOf(
             "회화",
@@ -92,6 +95,10 @@ class ExhibitionFilterBSDialog : BottomSheetDialogFragment() {
                         isSelected = !isSelected
                         exhibitionClassSelectedList[idx] = isSelected
                     }
+                    if(selectedArrayList.contains(idx+1)){
+                        isSelected = true
+                        exhibitionClassSelectedList[idx] = isSelected
+                    }
                 }
             )
         }
@@ -103,6 +110,10 @@ class ExhibitionFilterBSDialog : BottomSheetDialogFragment() {
                         isSelected = !isSelected
                         exhibitionEtcSelectedList[idx] = isSelected
                     }
+                    if(selectedArrayList.contains(idx+400+1)){
+                        isSelected = true
+                        exhibitionEtcSelectedList[idx] = isSelected
+                    }
                 }
             )
         }
@@ -112,6 +123,10 @@ class ExhibitionFilterBSDialog : BottomSheetDialogFragment() {
                 OptionItemView(view.context, viewLifecycleOwner, name).apply {
                     setOnClickListener {
                         isSelected = !isSelected
+                        exhibitionPlaceSelectedList[idx] = isSelected
+                    }
+                    if(selectedArrayList.contains(idx+300+1)){
+                        isSelected = true
                         exhibitionPlaceSelectedList[idx] = isSelected
                     }
                 }

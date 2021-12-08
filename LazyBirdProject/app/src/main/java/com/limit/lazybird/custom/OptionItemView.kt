@@ -36,6 +36,7 @@ class OptionItemView(
             bottomMargin = 25
         }
         setLayoutParams(layoutParams)
+        isSingleLine = true
 
         isSelectedLiveData.observe(viewLifecycleOwner) { is_selected ->
             if (is_selected) {
