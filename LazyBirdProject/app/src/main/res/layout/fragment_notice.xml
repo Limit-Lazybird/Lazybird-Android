@@ -15,7 +15,8 @@
         android:background="@color/transparent"
         android:src="@drawable/ic_left_arrow"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="@color/white" />
 
     <TextView
         android:id="@+id/notice_title"
@@ -34,9 +35,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        tools:listitem="@layout/item_notice"
-        tools:itemCount="2"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintTop_toBottomOf="@id/notice_title" />
+        app:layout_constraintTop_toBottomOf="@id/notice_title"
+        tools:itemCount="2"
+        tools:listitem="@layout/item_notice" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

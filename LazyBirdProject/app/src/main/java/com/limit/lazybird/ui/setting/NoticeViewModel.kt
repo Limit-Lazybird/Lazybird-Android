@@ -12,7 +12,6 @@ import javax.inject.Inject
 /***************** NoticeViewModel *******************
  * 메인화면(마이버드 탭) >> 옵션 >> 공지사항 (ViewModel)
  * 공지사항 전체 보기
- * Todo : 서버 연결
  ********************************************** ***/
 @HiltViewModel
 class NoticeViewModel @Inject constructor(
@@ -41,8 +40,7 @@ class NoticeViewModel @Inject constructor(
     private fun initNoticeList() = viewModelScope.launch {
         repository.getNoticeList().let { response ->
             if (response.body() != null) {
-//                _noticeList.postValue(response.body()!!.noticeList)
-                // Todo : 서버쪽에서 현재 NoticeList 를 안내려줘서 에러발생중..
+                _noticeList.postValue(response.body()!!.noticeList)
             } else {
                 Log.e(ExhibitionViewModel.TAG, "response.body() is null")
             }
