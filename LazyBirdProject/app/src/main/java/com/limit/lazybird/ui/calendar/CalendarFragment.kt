@@ -26,6 +26,7 @@ import com.limit.lazybird.models.Schedule
 import com.limit.lazybird.models.retrofit.CalendarInfo
 import com.limit.lazybird.ui.MainActivity
 import com.limit.lazybird.ui.calendaradd.CalendarAddFragment
+import com.limit.lazybird.ui.onboarding.CustomDialogFragment
 import com.limit.lazybird.util.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
@@ -104,16 +105,16 @@ class CalendarFragment : Fragment(R.layout.fragment_calendar) {
             }
         }
 
-        setFragmentResultListener(IsVisitedDialogFragment.TAG) { _, bundle ->
-            // Todo : 아니 왜 ResultListener가 인식을 못하지??
+        childFragmentManager.setFragmentResultListener(IsVisitedDialogFragment.TAG, viewLifecycleOwner) { _, bundle ->
             when (bundle.getString(IsVisitedDialogFragment.RESULT_CODE)) {
                 IsVisitedDialogFragment.RESULT_OK -> {
                     val exhbt_cd = bundle.getString(IsVisitedDialogFragment.EXHBT_CD)
                     val is_custom = bundle.getBoolean(IsVisitedDialogFragment.IS_CUSTOM)
-                    if(is_custom && exhbt_cd!=null)
+                    if(is_custom && exhbt_cd!=null){
                         viewModel.visitUpdateCustomYes(exhbt_cd)
-                    else if(!is_custom && exhbt_cd!=null)
+                    } else if(!is_custom && exhbt_cd!=null){
                         viewModel.visitUpdateExhbtYes(exhbt_cd)
+                    }
                     resetView()
                 }
             }
@@ -158,14 +159,15 @@ class CalendarFragment : Fragment(R.layout.fragment_calendar) {
                                         is_custom = isCustom
                                     )
                                 } else {
-                                    if(isCustom)
+                                    if(isCustom) {
                                         viewModel.visitUpdateCustomNo(
                                             exhbt_cd = id.toString()
                                         )
-                                    else
+                                    } else {
                                         viewModel.visitUpdateExhbtNo(
                                             exhbt_cd = id.toString()
                                         )
+                                    }
                                     resetView()
                                 }
                             }
@@ -193,7 +195,7 @@ class CalendarFragment : Fragment(R.layout.fragment_calendar) {
                 putBoolean(IsVisitedDialogFragment.IS_CUSTOM, is_custom)
             }
         }.show(
-            parentActivity.supportFragmentManager,
+            childFragmentManager,
             IsVisitedDialogFragment.TAG
         )
     }
@@ -271,26 +273,6 @@ class CalendarFragment : Fragment(R.layout.fragment_calendar) {
                     }
                 }
             }
-
-        // Todo : why error occured at here... TT
-//        binding.calendarHeader.setOnClickListener {
-//            if (tmp) {
-//                binding.calendarView.updateMonthConfiguration(
-//                    InDateStyle.ALL_MONTHS,
-//                    OutDateStyle.NONE,
-//                    1,
-//                    false
-//                )
-//            } else {
-//                binding.calendarView.updateMonthConfiguration(
-//                    InDateStyle.FIRST_MONTH,
-//                    OutDateStyle.NONE,
-//                    6,
-//                    true
-//                )
-//            }
-//            tmp = !tmp
-//        }
 
         val currentMonth = YearMonth.now()
         binding.calendarView.setup(
