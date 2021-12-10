@@ -2,14 +2,20 @@ package com.limit.lazybird.ui.earlycard
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.limit.lazybird.R
 import com.limit.lazybird.databinding.FragmentEarlycardBinding
+import com.limit.lazybird.models.EarlycardInfo
 import com.limit.lazybird.ui.MainActivity
-import com.limit.lazybird.ui.search.SearchAdapter
+import com.limit.lazybird.ui.onboarding.CustomDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 
+/************* EarlycardFragment ***************
+ * 메인화면(?? 탭) >> 얼리카드 화면 (Fragment)
+ * 얼리카드 정보 리스트로 보기
+ ********************************************** ***/
 @AndroidEntryPoint
 class EarlycardFragment : Fragment(R.layout.fragment_earlycard) {
 
@@ -32,7 +38,7 @@ class EarlycardFragment : Fragment(R.layout.fragment_earlycard) {
                         position: Int
                     ) {
                         // 아이템 클릭했을 때
-
+                        showDialog(earlycardInfoList[position])
                     }
                 }
             }
@@ -42,5 +48,17 @@ class EarlycardFragment : Fragment(R.layout.fragment_earlycard) {
             // 뒤로가기 버튼 클릭
             parentActivity.supportFragmentManager.popBackStack()
         }
+    }
+
+    private fun showDialog(earlycardInfo: EarlycardInfo) {
+        EarlycardDetailDialogFragment().apply {
+            // dialog 정보 보내주기
+            arguments = bundleOf().apply {
+                putParcelable(EarlycardDetailDialogFragment.EARLYCARD_INFO, earlycardInfo)
+            }
+        }.show(
+            parentActivity.supportFragmentManager,
+            EarlycardDetailDialogFragment.TAG
+        )
     }
 }

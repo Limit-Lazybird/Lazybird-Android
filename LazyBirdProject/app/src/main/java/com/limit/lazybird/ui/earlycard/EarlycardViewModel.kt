@@ -10,6 +10,10 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/************* EarlycardFragment ***************
+ * 메인화면(?? 탭) >> 얼리카드 화면 (ViewModel)
+ * 얼리카드 정보 리스트로 보기
+ ********************************************** ***/
 @HiltViewModel
 class EarlycardViewModel @Inject constructor(
     private val repository: EarlycardRepository
@@ -58,7 +62,7 @@ class EarlycardViewModel @Inject constructor(
                 EarlycardInfo(
                     no = 5,
                     title = "영국 테이트 미술관 특별전5",
-                    visitDate = "2021.12.17",
+                    visitDate = "N",
                     imgUrl = "https://file.mk.co.kr/meet/neds/2012/11/image_readtop_2012_761907_1353239300779199.jpg"
                 )
             )
