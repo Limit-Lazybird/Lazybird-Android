@@ -15,6 +15,7 @@ import com.limit.lazybird.models.retrofit.Exhbt
 import com.limit.lazybird.ui.MainActivity
 import com.limit.lazybird.ui.earilybirdDetail.EarlyBirdDetailViewModel
 import com.limit.lazybird.ui.earlybirdDetail.EarlyBirdDetailFragment
+import com.limit.lazybird.ui.earlycard.EarlycardFragment
 import com.limit.lazybird.ui.exhibitionDetail.ExhibitionDetailFragment
 import com.limit.lazybird.ui.exhibitionDetail.ExhibitionDetailViewModel
 import com.limit.lazybird.ui.onboarding.OnbFragment
@@ -140,6 +141,11 @@ class ExhibitionFragment : Fragment(R.layout.fragment_exhibition) {
             }
         }
 
+        binding.exhibitionEarlycard.setOnClickListener {
+            // 얼리카드 버튼 클릭
+            moveToEarlyCard()
+        }
+
         setFragmentResultListener(ExhibitionRefreshBSDialog.TAG) { _, bundle ->
             // 전시성향분석 재설정 Dialog 선택 결과 확인
             when(bundle.getString(ExhibitionRefreshBSDialog.RESULT_CODE)){
@@ -218,6 +224,11 @@ class ExhibitionFragment : Fragment(R.layout.fragment_exhibition) {
                 )
             }
         }
-
     }
+
+    private fun moveToEarlyCard() {
+        // Earlycard Fragment 로 이동
+        parentActivity.supportFragmentManager.replaceFragment(EarlycardFragment())
+    }
+
 }

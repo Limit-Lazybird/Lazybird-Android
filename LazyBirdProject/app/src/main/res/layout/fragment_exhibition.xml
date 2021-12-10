@@ -42,7 +42,7 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="25dp"
             android:src="@drawable/ic_earlycard"
-            android:visibility="invisible" />
+            android:visibility="visible" />
 
     </RelativeLayout>
 

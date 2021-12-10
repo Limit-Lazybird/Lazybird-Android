@@ -78,10 +78,12 @@ class CalendarFragment : Fragment(R.layout.fragment_calendar) {
             unregisteredList = CalendarInfoList(calendarInfoList)
             binding.unregisterCount = calendarInfoList.size
         }
+
         binding.calendarCustomBtn.setOnClickListener {
             // 커스텀 일정 추가하기 버튼
             moveToCalendarAdd()
         }
+
         binding.calendarSubHeader.setOnClickListener {
             // 추가되지 않은 전시 일정이 N개 있습니다 버튼
             val bundle = Bundle().apply {

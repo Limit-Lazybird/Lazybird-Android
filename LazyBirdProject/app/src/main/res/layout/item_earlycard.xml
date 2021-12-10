@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:item="http://schemas.android.com/tools"
+    android:layout_marginLeft="6dp"
+    android:layout_marginRight="6dp"
+    android:layout_marginBottom="15.67dp"
+    android:layout_width="match_parent"
+    android:layout_height="277dp">
+
+    <ImageView
+        android:id="@+id/item_earlycard_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitXY"
+        android:src="@drawable/ic_cv_earlycard" />
+
+    <ImageView
+        android:id="@+id/item_earlycard_img"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:src="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHeight_percent="0.61"
+        app:layout_constraintLeft_toLeftOf="@id/item_earlycard_background"
+        app:layout_constraintRight_toRightOf="@id/item_earlycard_background"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.1"
+        app:layout_constraintWidth_percent="0.852" />
+
+    <TextView
+        android:id="@+id/item_earlycard_number"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textColor="@color/or01"
+        android:textSize="10dp"
+        app:layout_constraintWidth_percent="0.85"
+        app:layout_constraintVertical_bias="0.83"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        item:text="No.3" />
+
+    <TextView
+        android:id="@+id/item_earlycard_title"
+        item:text="영국 테이트미술관 특별전"
+        android:textSize="10dp"
+        android:textColor="@color/gray_100"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintWidth_percent="0.85"
+        app:layout_constraintVertical_bias="0.89"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
