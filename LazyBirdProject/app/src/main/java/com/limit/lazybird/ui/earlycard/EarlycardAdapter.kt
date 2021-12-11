@@ -32,6 +32,7 @@ class EarlycardAdapter(
         val earlyCardTitle = binding.itemEarlycardTitle
         val earlyCardNumber = binding.itemEarlycardNumber
         val earlyCardImage = binding.itemEarlycardImg
+        val earlyCardVisitedDate = binding.itemEarlycardVisitedDate
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -44,6 +45,7 @@ class EarlycardAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.earlyCardTitle.text = list[position].title
         holder.earlyCardNumber.text = "No. ${list[position].no}"
+        holder.earlyCardVisitedDate.text = "관람  ${if(list[position].visitDate!="N") list[position].visitDate else "-"}"
         Glide.with(holder.itemView)
             .load(list[position].imgUrl)
             .apply(RequestOptions().transform(CenterCrop(), RoundedCorners(20)))

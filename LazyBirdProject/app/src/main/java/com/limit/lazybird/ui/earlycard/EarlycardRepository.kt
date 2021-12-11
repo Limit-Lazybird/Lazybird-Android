@@ -13,4 +13,5 @@ class EarlycardRepository @Inject constructor(
     private val dataStoreManager: PreferenceDataStoreManager
 ) {
     fun getPreferenceTokenFlow() = dataStoreManager.preferenceTokenFlow
+    suspend fun getEarlyCardList(token: String) = apiHelper.getEarlyCardList(token)
 }

@@ -171,6 +171,11 @@ interface ApiService {
         @Field("state_cd") state_cd: String
     ):Response<ExhbtResponseBody>
 
+    @FormUrlEncoded
+    @POST("/status/earlyCardList")
+    suspend fun getEarlyCardList(
+        @Field("token") token: String
+    ):Response<EarlyCardResponseBody>
 
     /********* Login *********/
     @FormUrlEncoded

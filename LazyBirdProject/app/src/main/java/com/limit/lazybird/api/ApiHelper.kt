@@ -125,6 +125,9 @@ interface ApiHelper {
         token: String
     ): Response<ExhbtResponseBody>
 
+    suspend fun getEarlyCardList(
+        token: String
+    ): Response<EarlyCardResponseBody>
 
     /********* Login *********/
     suspend fun loginKakao(

@@ -114,6 +114,9 @@ class ApiHelperImpl @Inject constructor(
     override suspend fun getExhbtReservationList(
         token: String
     ): Response<ExhbtResponseBody> = apiService.getExhbtReservationList(token, "20")
+    override suspend fun getEarlyCardList(
+        token: String
+    ): Response<EarlyCardResponseBody> = apiService.getEarlyCardList(token)
 
     /********* Login *********/
     override suspend fun loginKakao(

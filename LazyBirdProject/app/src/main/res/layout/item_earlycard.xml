@@ -2,11 +2,11 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:item="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="277dp"
     android:layout_marginLeft="6dp"
     android:layout_marginRight="6dp"
-    android:layout_marginBottom="15.67dp"
-    android:layout_width="match_parent"
-    android:layout_height="277dp">
+    android:layout_marginBottom="15.67dp">
 
     <ImageView
         android:id="@+id/item_earlycard_background"
@@ -34,27 +34,45 @@
         android:layout_height="wrap_content"
         android:textColor="@color/or01"
         android:textSize="10dp"
-        app:layout_constraintWidth_percent="0.85"
-        app:layout_constraintVertical_bias="0.83"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.83"
+        app:layout_constraintWidth_percent="0.85"
         item:text="No.3" />
 
     <TextView
         android:id="@+id/item_earlycard_title"
-        item:text="영국 테이트미술관 특별전"
-        android:textSize="10dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:singleLine="true"
         android:textColor="@color/gray_100"
+        android:textSize="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintWidth_percent="0.85"
         app:layout_constraintVertical_bias="0.89"
+        app:layout_constraintWidth_percent="0.85"
+        item:text="영국 테이트미술관 특별전" />
+
+    <TextView
+        android:id="@+id/item_earlycard_visited_date"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:textColor="@color/gray_100"
+        android:textSize="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.95"
+        app:layout_constraintWidth_percent="0.85"
+        item:text="관람 2021-12-05" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
