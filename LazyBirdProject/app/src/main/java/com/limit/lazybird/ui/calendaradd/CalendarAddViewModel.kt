@@ -38,12 +38,13 @@ class CalendarAddViewModel @Inject constructor(
         repository.saveCalendarInfo(token, exhbt_cd, reser_dt, start_time, end_time)
     }
 
-    fun deleteCalendarInfo(
+    fun updateCalendarInfo(
         exhbt_cd: String,
+        reser_dt: String,
+        start_time: String,
+        end_time: String
     ) = viewModelScope.launch {
-        Log.e("test", token)
-        Log.e("test", exhbt_cd)
-        repository.deleteCalendarInfo(token, exhbt_cd)
+        repository.updateCalendarInfo(token, exhbt_cd, reser_dt, start_time, end_time)
     }
 
     fun saveCustomInfo(
@@ -56,4 +57,14 @@ class CalendarAddViewModel @Inject constructor(
         repository.saveCustomInfo(token, exhbt_nm, exhbt_lct, reser_dt, start_time, end_time)
     }
 
+    fun updateCustomInfo(
+        exhbt_cd: String,
+        exhbt_nm: String,
+        exhbt_lct: String,
+        reser_dt: String,
+        start_time: String,
+        end_time: String
+    ) = viewModelScope.launch {
+        repository.updateCustomInfo(token, exhbt_cd, exhbt_nm, exhbt_lct, reser_dt, start_time, end_time)
+    }
 }

@@ -52,6 +52,18 @@ interface ApiService {
     ):Response<CodeMsgResponseBody>
 
     @FormUrlEncoded
+    @POST("/calender/customInfoUpdate")
+    suspend fun updateCustomInfo(
+        @Field("token") token: String,
+        @Field("exhbt_cd") exhbt_cd: String,
+        @Field("exhbt_nm") exhbt_nm: String,
+        @Field("exhbt_lct") exhbt_lct: String,
+        @Field("reser_dt") reser_dt: String,
+        @Field("start_time") start_time: String,
+        @Field("end_time") end_time: String,
+    ):Response<CodeMsgResponseBody>
+
+    @FormUrlEncoded
     @POST("/calender/customInfoDel")
     suspend fun delCustomInfo(
         @Field("token") token: String,

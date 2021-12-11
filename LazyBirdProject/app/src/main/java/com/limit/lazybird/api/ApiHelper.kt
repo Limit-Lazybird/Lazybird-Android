@@ -43,6 +43,16 @@ interface ApiHelper {
         end_time: String
     ): Response<CodeMsgResponseBody>
 
+    suspend fun updateCustomInfo(
+        token: String,
+        exhbt_cd: String,
+        exhbt_nm: String,
+        exhbt_lct: String,
+        reser_dt: String,
+        start_time: String,
+        end_time: String
+    ): Response<CodeMsgResponseBody>
+
     suspend fun delCustomInfo(
         token: String,
         exhbt_cd: String

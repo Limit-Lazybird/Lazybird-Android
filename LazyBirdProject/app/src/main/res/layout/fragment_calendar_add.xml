@@ -273,30 +273,16 @@
                 android:layout_marginBottom="25dp">
 
                 <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/calendar_add_delete_btn"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/button_rounded_10"
-                    android:backgroundTint="@color/gray_300"
-                    android:text="삭제"
-                    android:textColor="@color/white"
-                    android:textSize="17dp"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintWidth_percent="0.36" />
-
-                <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/calendar_add_ok_btn"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/button_rounded_10"
                     android:backgroundTint="@color/or01"
-                    android:text="추가"
+                    android:text="등록"
                     android:textColor="@color/white"
                     android:textSize="17dp"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintWidth_percent="0.615" />
+                    app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </LinearLayout>
     </ScrollView>

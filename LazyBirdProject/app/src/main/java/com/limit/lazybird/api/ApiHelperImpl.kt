@@ -44,6 +44,16 @@ class ApiHelperImpl @Inject constructor(
         end_time: String
     ): Response<CodeMsgResponseBody> = apiService.saveCustomInfo(token, exhbt_nm, exhbt_lct, reser_dt, start_time, end_time)
 
+    override suspend fun updateCustomInfo(
+        token: String,
+        exhbt_cd: String,
+        exhbt_nm: String,
+        exhbt_lct: String,
+        reser_dt: String,
+        start_time: String,
+        end_time: String
+    ): Response<CodeMsgResponseBody> = apiService.updateCustomInfo(token, exhbt_cd, exhbt_nm, exhbt_lct, reser_dt, start_time, end_time)
+
     override suspend fun delCustomInfo(
         token: String,
         exhbt_cd: String

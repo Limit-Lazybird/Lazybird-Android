@@ -103,17 +103,27 @@ class CalendarFragment : Fragment(R.layout.fragment_calendar) {
             }
         }
 
-        childFragmentManager.setFragmentResultListener(UpdateDeleteDialogFragment.TAG, viewLifecycleOwner) { _, bundle ->
+        childFragmentManager.setFragmentResultListener(
+            UpdateDeleteDialogFragment.TAG,
+            viewLifecycleOwner
+        ) { _, bundle ->
             // 캘린더 수정/삭제 dialog 선택 결과 확인
             when (bundle.getString(UpdateDeleteDialogFragment.RESULT_CODE)) {
                 UpdateDeleteDialogFragment.RESULT_UPDATE -> {
                     // 수정 버튼 클릭
-                    val schedule:Schedule = bundle.getParcelable(UpdateDeleteDialogFragment.SCHEDULE_INFO)!!
+                    val schedule: Schedule =
+                        bundle.getParcelable(UpdateDeleteDialogFragment.SCHEDULE_INFO)!!
+                    if (schedule.isCustom) {
+                        moveToCalendarUpdate(schedule, true)
+                    } else {
+                        moveToCalendarUpdate(schedule, false)
+                    }
                 }
                 UpdateDeleteDialogFragment.RESULT_DELETE -> {
                     // 삭제 버튼 클릭
-                    val schedule:Schedule = bundle.getParcelable(UpdateDeleteDialogFragment.SCHEDULE_INFO)!!
-                    if(schedule.isCustom){
+                    val schedule: Schedule =
+                        bundle.getParcelable(UpdateDeleteDialogFragment.SCHEDULE_INFO)!!
+                    if (schedule.isCustom) {
                         viewModel.deleteCustomCalendarInfo(schedule.id.toString())
                     } else {
                         viewModel.deleteCalendarInfo(schedule.id.toString())
@@ -123,15 +133,18 @@ class CalendarFragment : Fragment(R.layout.fragment_calendar) {
             }
         }
 
-        childFragmentManager.setFragmentResultListener(IsVisitedDialogFragment.TAG, viewLifecycleOwner) { _, bundle ->
+        childFragmentManager.setFragmentResultListener(
+            IsVisitedDialogFragment.TAG,
+            viewLifecycleOwner
+        ) { _, bundle ->
             // 전시 방문 확인했음 dialog 선택 결과 확인
             when (bundle.getString(IsVisitedDialogFragment.RESULT_CODE)) {
                 IsVisitedDialogFragment.RESULT_OK -> {
                     val exhbt_cd = bundle.getString(IsVisitedDialogFragment.EXHBT_CD)
                     val is_custom = bundle.getBoolean(IsVisitedDialogFragment.IS_CUSTOM)
-                    if(is_custom && exhbt_cd!=null){
+                    if (is_custom && exhbt_cd != null) {
                         viewModel.visitUpdateCustomYes(exhbt_cd)
-                    } else if(!is_custom && exhbt_cd!=null){
+                    } else if (!is_custom && exhbt_cd != null) {
                         viewModel.visitUpdateExhbtYes(exhbt_cd)
                     }
                     resetView()
@@ -142,15 +155,31 @@ class CalendarFragment : Fragment(R.layout.fragment_calendar) {
 
     private fun moveToCalendarAdd() {
         parentActivity.supportFragmentManager.replaceFragment(CalendarAddFragment().apply {
-            arguments = bundleOf(CalendarAddFragment.ADD_TYPE to CalendarAddFragment.TYPE_CUSTOM)
+            arguments = bundleOf(
+                CalendarAddFragment.ADD_TYPE to CalendarAddFragment.TYPE_CUSTOM,
+                CalendarAddFragment.IS_ADD to true,
+            )
         })
     }
 
     private fun moveToCalendarAdd(calendarInfo: CalendarInfo) {
+        // 캘린더 일정 추가하기
         parentActivity.supportFragmentManager.replaceFragment(CalendarAddFragment().apply {
             arguments = bundleOf(
                 CalendarAddFragment.ADD_TYPE to CalendarAddFragment.TYPE_TICKETED,
+                CalendarAddFragment.IS_ADD to true,
                 CalendarAddFragment.TICKET_INFO to calendarInfo
+            )
+        })
+    }
+
+    private fun moveToCalendarUpdate(schedule: Schedule, isCustom: Boolean) {
+        // 캘린더 일정 수정하기
+        parentActivity.supportFragmentManager.replaceFragment(CalendarAddFragment().apply {
+            arguments = bundleOf(
+                CalendarAddFragment.ADD_TYPE to if (isCustom) CalendarAddFragment.TYPE_CUSTOM else CalendarAddFragment.TYPE_TICKETED,
+                CalendarAddFragment.IS_ADD to false,
+                CalendarAddFragment.TICKET_INFO to schedule
             )
         })
     }
@@ -173,13 +202,13 @@ class CalendarFragment : Fragment(R.layout.fragment_calendar) {
                         ) {
                             // 방문했음 버튼 클릭
                             with(scheduleListDict[selectedDay.time]!![position]) {
-                                if(!isVisited){
+                                if (!isVisited) {
                                     showDialog(
                                         exhbt_cd = id.toString(),
                                         is_custom = isCustom
                                     )
                                 } else {
-                                    if(isCustom) {
+                                    if (isCustom) {
                                         viewModel.visitUpdateCustomNo(
                                             exhbt_cd = id.toString()
                                         )
@@ -220,7 +249,7 @@ class CalendarFragment : Fragment(R.layout.fragment_calendar) {
         )
     }
 
-    private fun showDialog(exhbt_cd: String, is_custom:Boolean) {
+    private fun showDialog(exhbt_cd: String, is_custom: Boolean) {
         val dialogInfo = DialogInfo(
             title = "전시회는 잘 방문하셨나요?",
             message = "방문 확인을 하시면 캘린더에 표시됩니다.",
@@ -322,8 +351,8 @@ class CalendarFragment : Fragment(R.layout.fragment_calendar) {
         )
         binding.calendarView.scrollToMonth(currentMonth)
     }
-    
-    private fun resetView(){
+
+    private fun resetView() {
         // Todo : liveData로 변경시 해당 부분이 자동으로 바뀌도록 변경하기
         viewModel.initCustomList()
         viewModel.initRegisteredList()
