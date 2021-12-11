@@ -17,10 +17,11 @@ import com.limit.lazybird.util.parseDayOfWeek
  ********************************************** ***/
 class CalendarScheduleAdapter(
     private val items: List<Schedule>
-):RecyclerView.Adapter<CalendarScheduleAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<CalendarScheduleAdapter.ViewHolder>() {
 
     interface OnItemClickListener {
         fun onIsVisitedClick(holder: CalendarScheduleAdapter.ViewHolder, view: View, position: Int)
+        fun onItemClick(holder: CalendarScheduleAdapter.ViewHolder, view: View, position: Int)
     }
 
     var itemClickListener: OnItemClickListener? = null
@@ -28,7 +29,8 @@ class CalendarScheduleAdapter(
     private val DAY_OF_WEEK = arrayOf("SUN", "MON", "TUE", "WED", "THR", "FRI", "SAT")
     private lateinit var binding: ItemScheduleBinding
 
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
+    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val scheduleContainer = binding.itemScheduleContainer
         val scheduleDayofweek = binding.itemScheduleDayofweek
         val scheduleDay = binding.itemScheduleDay
         val scheduleMark = binding.itemScheduleMark
@@ -41,21 +43,22 @@ class CalendarScheduleAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_schedule, parent, false)
+        val view =
+            LayoutInflater.from(parent.context).inflate(R.layout.item_schedule, parent, false)
         binding = ItemScheduleBinding.bind(view)
         return ViewHolder(binding.root)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.apply {
-            scheduleDayofweek.text = DAY_OF_WEEK[items[position].date.parseDayOfWeek()-1]
+            scheduleDayofweek.text = DAY_OF_WEEK[items[position].date.parseDayOfWeek() - 1]
             scheduleDay.text = items[position].date.parseDay().toString()
             scheduleName.text = items[position].scheduleName
             scheduleTime.text = "${items[position].startTime} - ${items[position].endTime}"
             schedulePlace.text = items[position].schedulePlace
-            
+
             // 첫번째 일정인가?
-            if(position == 0){
+            if (position == 0) {
                 scheduleDayofweek.visibility = View.VISIBLE
                 scheduleDay.visibility = View.VISIBLE
             } else {
@@ -64,18 +67,39 @@ class CalendarScheduleAdapter(
             }
 
             // 방문한 일정인가?
-            if(items[position].isVisited){
+            if (items[position].isVisited) {
                 isVisited.setTextColor(holder.itemView.resources.getColor(R.color.or01, null))
                 isVisitedIcon.setColorFilter(holder.itemView.resources.getColor(R.color.or01, null))
-                scheduleMark.setBackgroundColor(holder.itemView.resources.getColor(R.color.green, null))
+                scheduleMark.setBackgroundColor(
+                    holder.itemView.resources.getColor(
+                        R.color.green,
+                        null
+                    )
+                )
             } else {
                 isVisited.setTextColor(holder.itemView.resources.getColor(R.color.gray_600, null))
-                isVisitedIcon.setColorFilter(holder.itemView.resources.getColor(R.color.gray_600, null))
-                scheduleMark.setBackgroundColor(holder.itemView.resources.getColor(R.color.white, null))
+                isVisitedIcon.setColorFilter(
+                    holder.itemView.resources.getColor(
+                        R.color.gray_600,
+                        null
+                    )
+                )
+                scheduleMark.setBackgroundColor(
+                    holder.itemView.resources.getColor(
+                        R.color.white,
+                        null
+                    )
+                )
             }
 
             isVisitedConatiner.setOnClickListener {
+                // 방문 버튼 클릭
                 itemClickListener?.onIsVisitedClick(holder, it, position)
+            }
+
+            scheduleContainer.setOnClickListener {
+                // 아이템 클릭
+                itemClickListener?.onItemClick(holder, it, position)
             }
         }
     }

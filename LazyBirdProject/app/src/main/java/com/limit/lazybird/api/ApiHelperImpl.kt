@@ -44,6 +44,12 @@ class ApiHelperImpl @Inject constructor(
         end_time: String
     ): Response<CodeMsgResponseBody> = apiService.saveCustomInfo(token, exhbt_nm, exhbt_lct, reser_dt, start_time, end_time)
 
+    override suspend fun delCustomInfo(
+        token: String,
+        exhbt_cd: String
+    ): Response<CodeMsgResponseBody> = apiService.delCustomInfo(token, exhbt_cd)
+
+
     override suspend fun getCustomListAll(
         token: String
     ): Response<CalendarListResponseBody> = apiService.getCustomListAll(token, "all")

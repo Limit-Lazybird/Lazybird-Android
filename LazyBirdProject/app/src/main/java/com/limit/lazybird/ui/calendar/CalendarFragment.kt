@@ -26,11 +26,9 @@ import com.limit.lazybird.models.Schedule
 import com.limit.lazybird.models.retrofit.CalendarInfo
 import com.limit.lazybird.ui.MainActivity
 import com.limit.lazybird.ui.calendaradd.CalendarAddFragment
-import com.limit.lazybird.ui.onboarding.CustomDialogFragment
 import com.limit.lazybird.util.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.first
 import java.time.DayOfWeek
 import java.time.LocalDate
 import java.time.YearMonth
@@ -47,7 +45,7 @@ class CalendarFragment : Fragment(R.layout.fragment_calendar) {
         const val TAG = "CalendarFragment"
     }
 
-    private val DAY_VIEW_HEGIHT = 120
+    private val DAY_VIEW_HEGIHT = 120 // "일" Container 의 높이
 
     private lateinit var binding: FragmentCalendarBinding
     private val viewModel: CalendarViewModel by viewModels()
@@ -64,9 +62,7 @@ class CalendarFragment : Fragment(R.layout.fragment_calendar) {
 
         viewModel.scheduleListDict.observe(viewLifecycleOwner) {
             scheduleListDict = it
-
             calendarViewInit()
-
             lifecycleScope.launchWhenStarted {
                 viewModel.selectedDateLiveData.collect { date ->
                     scheduleLayoutUpdate(date)
@@ -98,7 +94,7 @@ class CalendarFragment : Fragment(R.layout.fragment_calendar) {
         }
 
         setFragmentResultListener(UnregisteredListBSDialog.TAG) { _, bundle ->
-            // 전시성향분석 재설정 Dialog 선택 결과 확인
+            // 추가되지 않은 전시 일정 N개 추가하는 BottomSheetDialog
             when (bundle.getString(UnregisteredListBSDialog.RESULT_CODE)) {
                 UnregisteredListBSDialog.RESULT_OK -> {
                     val position = bundle.getInt(UnregisteredListBSDialog.SELECTED_POSITION)
@@ -107,7 +103,28 @@ class CalendarFragment : Fragment(R.layout.fragment_calendar) {
             }
         }
 
+        childFragmentManager.setFragmentResultListener(UpdateDeleteDialogFragment.TAG, viewLifecycleOwner) { _, bundle ->
+            // 캘린더 수정/삭제 dialog 선택 결과 확인
+            when (bundle.getString(UpdateDeleteDialogFragment.RESULT_CODE)) {
+                UpdateDeleteDialogFragment.RESULT_UPDATE -> {
+                    // 수정 버튼 클릭
+                    val schedule:Schedule = bundle.getParcelable(UpdateDeleteDialogFragment.SCHEDULE_INFO)!!
+                }
+                UpdateDeleteDialogFragment.RESULT_DELETE -> {
+                    // 삭제 버튼 클릭
+                    val schedule:Schedule = bundle.getParcelable(UpdateDeleteDialogFragment.SCHEDULE_INFO)!!
+                    if(schedule.isCustom){
+                        viewModel.deleteCustomCalendarInfo(schedule.id.toString())
+                    } else {
+                        viewModel.deleteCalendarInfo(schedule.id.toString())
+                    }
+                    resetView()
+                }
+            }
+        }
+
         childFragmentManager.setFragmentResultListener(IsVisitedDialogFragment.TAG, viewLifecycleOwner) { _, bundle ->
+            // 전시 방문 확인했음 dialog 선택 결과 확인
             when (bundle.getString(IsVisitedDialogFragment.RESULT_CODE)) {
                 IsVisitedDialogFragment.RESULT_OK -> {
                     val exhbt_cd = bundle.getString(IsVisitedDialogFragment.EXHBT_CD)
@@ -154,6 +171,7 @@ class CalendarFragment : Fragment(R.layout.fragment_calendar) {
                             view: View,
                             position: Int
                         ) {
+                            // 방문했음 버튼 클릭
                             with(scheduleListDict[selectedDay.time]!![position]) {
                                 if(!isVisited){
                                     showDialog(
@@ -174,12 +192,32 @@ class CalendarFragment : Fragment(R.layout.fragment_calendar) {
                                 }
                             }
                         }
+
+                        override fun onItemClick(
+                            holder: CalendarScheduleAdapter.ViewHolder,
+                            view: View,
+                            position: Int
+                        ) {
+                            // 아이템 클릭
+                            showUpdDelDialog(scheduleListDict[selectedDay.time]!![position])
+                        }
                     }
                 }
         } else {
             // schedule 이 존재하지 않음
             binding.calendarScheduleRecyclerView.visibility = View.GONE
         }
+    }
+
+    private fun showUpdDelDialog(schedule: Schedule) {
+        UpdateDeleteDialogFragment().apply {
+            arguments = bundleOf().apply {
+                putParcelable(UpdateDeleteDialogFragment.SCHEDULE_INFO, schedule)
+            }
+        }.show(
+            childFragmentManager,
+            UpdateDeleteDialogFragment.TAG
+        )
     }
 
     private fun showDialog(exhbt_cd: String, is_custom:Boolean) {
@@ -289,5 +327,6 @@ class CalendarFragment : Fragment(R.layout.fragment_calendar) {
         // Todo : liveData로 변경시 해당 부분이 자동으로 바뀌도록 변경하기
         viewModel.initCustomList()
         viewModel.initRegisteredList()
+        viewModel.initUnregisteredList()
     }
 }

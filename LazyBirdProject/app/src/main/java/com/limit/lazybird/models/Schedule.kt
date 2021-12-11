@@ -1,7 +1,10 @@
 package com.limit.lazybird.models
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
 import java.util.*
 
+@Parcelize
 data class Schedule(
     val id: Int,
     val date: Date,
@@ -11,4 +14,4 @@ data class Schedule(
     val endTime: String,
     val isCustom: Boolean,
     val isVisited: Boolean = false
-)
+): Parcelable

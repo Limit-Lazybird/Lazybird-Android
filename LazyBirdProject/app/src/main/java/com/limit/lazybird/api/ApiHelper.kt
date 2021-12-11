@@ -43,6 +43,11 @@ interface ApiHelper {
         end_time: String
     ): Response<CodeMsgResponseBody>
 
+    suspend fun delCustomInfo(
+        token: String,
+        exhbt_cd: String
+    ): Response<CodeMsgResponseBody>
+
     suspend fun getCustomListAll(
         token: String
     ):Response<CalendarListResponseBody>
@@ -77,7 +82,6 @@ interface ApiHelper {
     suspend fun getNoticeList(
     ): Response<NoticeListResponseBody>
 
-    /********* Exhibit Info *********/
     suspend fun getExhbtList(
         token: String
     ): Response<ExhbtResponseBody>

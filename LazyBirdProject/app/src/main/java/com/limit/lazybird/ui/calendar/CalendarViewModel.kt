@@ -123,7 +123,7 @@ class CalendarViewModel @Inject constructor(
         }
     }
 
-    private fun initUnregisteredList() = viewModelScope.launch {
+    fun initUnregisteredList() = viewModelScope.launch {
         // 전시리스트 받기
         repository.getUnRegistList(token).let { response ->
             if (response.body() != null) {
@@ -145,25 +145,27 @@ class CalendarViewModel @Inject constructor(
 
     fun getUnregisteredInfo(position: Int) = unregisteredListLiveData.value!![position]
 
-    fun getSchedule(date:Date) = scheduleListDict.value!![date.time]!!.toList()
-
-    fun getScheduleCount(date:Date): Int =
-        if(scheduleListDict.value != null && scheduleListDict.value!!.containsKey(date.time)){
-            scheduleListDict.value!![date.time]!!.size
-        } else {
-            0
-        }
-
     fun visitUpdateExhbtYes(exhbt_cd: String) = viewModelScope.launch {
         repository.visitUpdateExhbt(token, exhbt_cd, "Y")
     }
+
     fun visitUpdateExhbtNo(exhbt_cd: String) = viewModelScope.launch {
         repository.visitUpdateExhbt(token, exhbt_cd, "N")
     }
+
     fun visitUpdateCustomYes(exhbt_cd: String) = viewModelScope.launch {
         repository.visitUpdateCustom(token, exhbt_cd, "Y")
     }
+
     fun visitUpdateCustomNo(exhbt_cd: String) = viewModelScope.launch {
         repository.visitUpdateCustom(token, exhbt_cd, "N")
+    }
+
+    fun deleteCustomCalendarInfo(exhbt_cd: String) = viewModelScope.launch {
+        repository.deleteCustomCalendarInfo(token, exhbt_cd)
+    }
+
+    fun deleteCalendarInfo(exhbt_cd: String) = viewModelScope.launch {
+        repository.deleteCalendarInfo(token, exhbt_cd)
     }
 }
