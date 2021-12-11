@@ -29,6 +29,7 @@ class ReservationDetailAdapter(
 
     interface OnItemClickListener {
         fun onItemClick(holder: ViewHolder, view: View, position: Int)
+        fun onItemLongClick(holder: ViewHolder, view: View, position: Int)
     }
 
     var itemClickListener: OnItemClickListener? = null
@@ -79,6 +80,11 @@ class ReservationDetailAdapter(
 
         holder.itemView.setOnClickListener {
             itemClickListener?.onItemClick(holder, it, position)
+        }
+
+        holder.itemView.setOnLongClickListener {
+            itemClickListener?.onItemLongClick(holder, it, position)
+            return@setOnLongClickListener true
         }
     }
 

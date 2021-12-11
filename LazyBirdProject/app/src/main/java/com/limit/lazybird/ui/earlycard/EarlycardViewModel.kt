@@ -29,7 +29,7 @@ class EarlycardViewModel @Inject constructor(
         get() = _earlycardList.map { earlyCardList ->
             earlyCardList.map { earlyCard ->
                 EarlycardInfo(
-                    no = 1,
+                    no = earlyCard.early_num,
                     title = earlyCard.exhbt_nm,
                     visitDate = if (earlyCard.reser_dt != "N") earlyCard.reser_dt else "-",
                     imgUrl = earlyCard.exhbt_sn

@@ -50,9 +50,18 @@ class ReservationDetailFragment: Fragment(R.layout.fragment_reservation_detail) 
                         view: View,
                         position: Int
                     ) {
-                        // 아이템 클릭 시
+                        // 아이템 클릭 시 (상세페이지 이동)
                         val exhibitionInfo = viewModel.getReservationExhibitionInfo(position)
                         moveToExhibitionDetail(exhibitionInfo)
+                    }
+
+                    override fun onItemLongClick(
+                        holder: ReservationDetailAdapter.ViewHolder,
+                        view: View,
+                        position: Int
+                    ) {
+                        // 아이템 길게 클릭 시 (삭제 할 지)
+                        // Todo : 추가하기 (CustomDialogFragment 추가하면 될 듯)
                     }
                 }
             }
