@@ -2,6 +2,7 @@ package com.limit.lazybird.ui.calendar
 
 import android.app.Dialog
 import android.os.Bundle
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,6 +20,7 @@ import com.limit.lazybird.models.UnregisteredItem
 import com.limit.lazybird.ui.calendaradd.DateSelectBSDialog
 import com.limit.lazybird.ui.calendaradd.TimeSelectBSDialog
 import java.text.SimpleDateFormat
+import kotlin.math.max
 
 /************* UnregisteredListBSDialog ***************
  * 메인화면(캘린더 탭) >> 전시 일정 추가 (Dialog)
@@ -67,31 +69,51 @@ class UnregisteredListBSDialog  : BottomSheetDialogFragment(){
             // 취소버튼 클릭 시
             dismiss()
         }
-        binding.dialogBsUnregisteredListRecyclerView.adapter = UnregisteredListAdapter(
-            calendarInfoList.calendarInfoList.map {
-                UnregisteredItem(
-                    exhibitionId = it.exhbt_cd,
-                    exhibitionName = it.exhbt_nm
-                )
-            }
-        ).apply {
-            itemClickListener = object : UnregisteredListAdapter.OnItemClickListener {
-                override fun onItemClick(
-                    holder: UnregisteredListAdapter.ViewHolder,
-                    view: View,
-                    position: Int
-                ) {
-                    // item click 시
-                    setFragmentResult(
-                        TAG, bundleOf(
-                            RESULT_CODE to RESULT_OK,
-                            SELECTED_POSITION to position
-                        )
-                    )
-                    dismiss()
-                }
-            }
+
+        binding.dialogBsUnregisteredListPicker.apply {
+            val nameArray:Array<String> = calendarInfoList.calendarInfoList.map {
+                it.exhbt_nm
+            }.toTypedArray()
+            displayedValues = nameArray
+            minValue = 0
+            maxValue = nameArray.size-1
         }
+
+        binding.dialogBsUnregisteredOkBtn.setOnClickListener {
+            setFragmentResult(
+                TAG, bundleOf(
+                    RESULT_CODE to RESULT_OK,
+                    SELECTED_POSITION to binding.dialogBsUnregisteredListPicker.value
+                )
+            )
+            dismiss()
+        }
+
+//        binding.dialogBsUnregisteredListRecyclerView.adapter = UnregisteredListAdapter(
+//            calendarInfoList.calendarInfoList.map {
+//                UnregisteredItem(
+//                    exhibitionId = it.exhbt_cd,
+//                    exhibitionName = it.exhbt_nm
+//                )
+//            }
+//        ).apply {
+//            itemClickListener = object : UnregisteredListAdapter.OnItemClickListener {
+//                override fun onItemClick(
+//                    holder: UnregisteredListAdapter.ViewHolder,
+//                    view: View,
+//                    position: Int
+//                ) {
+//                    // item click 시
+//                    setFragmentResult(
+//                        TAG, bundleOf(
+//                            RESULT_CODE to RESULT_OK,
+//                            SELECTED_POSITION to position
+//                        )
+//                    )
+//                    dismiss()
+//                }
+//            }
+//        }
         return binding.root
     }
 

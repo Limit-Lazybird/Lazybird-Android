@@ -2,6 +2,7 @@ package com.limit.lazybird.ui
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.core.os.bundleOf
@@ -84,9 +85,9 @@ class MainFragment: Fragment(R.layout.fragment_main) {
         }
 
         setFragmentResultListener(CustomDialogFragment.TAG) { _, bundle ->
-            when (bundle.getString("resultCode")) {
+            when (bundle.getString(CustomDialogFragment.RESULT_CODE)) {
                 CustomDialogFragment.RESULT_OK -> {
-                    parentActivity.supportFragmentManager.popBackStack()
+                    parentActivity.finish()
                 }
             }
         }

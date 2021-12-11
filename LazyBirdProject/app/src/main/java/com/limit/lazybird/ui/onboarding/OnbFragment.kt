@@ -115,7 +115,7 @@ class OnbFragment : Fragment(R.layout.fragment_onb) {
         }
 
         setFragmentResultListener(CustomDialogFragment.TAG) { _, bundle ->
-            when (bundle.getString("resultCode")) {
+            when (bundle.getString(CustomDialogFragment.RESULT_CODE)) {
                 CustomDialogFragment.RESULT_OK -> {
                     // CustomDialogFragment 에서 종료 버튼 클릭 시
                     moveToStartFragment()

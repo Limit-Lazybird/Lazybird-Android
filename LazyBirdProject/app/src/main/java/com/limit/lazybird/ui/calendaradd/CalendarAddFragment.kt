@@ -10,8 +10,12 @@ import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import com.limit.lazybird.R
 import com.limit.lazybird.databinding.FragmentCalendarAddBinding
+import com.limit.lazybird.models.Schedule
 import com.limit.lazybird.models.retrofit.CalendarInfo
 import com.limit.lazybird.ui.MainActivity
+import com.limit.lazybird.util.parseDay
+import com.limit.lazybird.util.parseMonth
+import com.limit.lazybird.util.parseYear
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -23,6 +27,7 @@ class CalendarAddFragment: Fragment(R.layout.fragment_calendar_add) {
         const val TYPE_CUSTOM = "custom"
         const val TYPE_TICKETED = "ticketed"
         const val TICKET_INFO = "ticket_info"
+        const val IS_ADD = "ticket_is_add"
     }
 
     private lateinit var binding: FragmentCalendarAddBinding
@@ -31,35 +36,65 @@ class CalendarAddFragment: Fragment(R.layout.fragment_calendar_add) {
         activity as MainActivity
     }
 
+    private var isAdd: Boolean = false
     private lateinit var type:String
-    private lateinit var calendarInfo: CalendarInfo
+    private lateinit var exhbtCd: String
+    private lateinit var scheduleInfo: Schedule
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentCalendarAddBinding.bind(view)
 
         type = arguments?.getString(ADD_TYPE).toString() // custom or ticketed
-        if(type == TYPE_TICKETED) {
-            calendarInfo = arguments?.getParcelable<CalendarInfo>(TICKET_INFO)!!
-            binding.calendarAddExhibition.setText(calendarInfo.exhbt_nm)
-            binding.calendarAddExhibition.isFocusable = false
-            binding.calendarAddPlace.setText(calendarInfo.exhbt_lct)
-            binding.calendarAddPlace.isFocusable = false
+        isAdd = requireArguments().getBoolean(IS_ADD)
+
+        if(isAdd){
+            // 추가하기 모드 일 때
+            if(type == TYPE_TICKETED) {
+                val calendarInfo:CalendarInfo = arguments?.getParcelable(TICKET_INFO)!!
+                exhbtCd = calendarInfo.exhbt_cd.toString()
+                // 전시회 이름 고정
+                binding.calendarAddExhibition.setText(calendarInfo.exhbt_nm)
+                binding.calendarAddExhibition.isFocusable = false
+                // 전시회 장소 고정
+                binding.calendarAddPlace.setText(calendarInfo.exhbt_lct)
+                binding.calendarAddPlace.isFocusable = false
+            }
+        } else {
+            // 수정하기 모드 일 때
+            val schedule:Schedule = arguments?.getParcelable(TICKET_INFO)!!
+            exhbtCd = schedule.id.toString()
+            binding.calendarAddContext.visibility = View.GONE
+            binding.calendarAddOkBtn.text = "수정"
+            binding.calendarAddExhibition.setText(schedule.scheduleName)
+            binding.calendarAddPlace.setText(schedule.schedulePlace)
+            binding.calendarAddDate.setText("${schedule.date.parseYear()}-" +
+                    "${String.format("%02d", schedule.date.parseMonth())}-" +
+                    "${String.format("%02d", schedule.date.parseDay())}")
+            binding.calendarAddTimeStart.setText(schedule.startTime)
+            binding.calendarAddTimeEnd.setText(schedule.endTime)
+
+            if(type == TYPE_TICKETED) {
+                // 전시회 이름 고정
+                binding.calendarAddExhibition.isFocusable = false
+                // 전시회 장소 고정
+                binding.calendarAddPlace.isFocusable = false
+            }
         }
 
         binding.calendarAddBackBtn.setOnClickListener {
             parentActivity.supportFragmentManager.popBackStack()
         }
 
-        binding.calendarAddDate.setOnClickListener { 
+        binding.calendarAddDate.setOnClickListener {
             // 날짜 버튼 클릭
             DateSelectBSDialog().show(
                 parentFragmentManager,
                 DateSelectBSDialog.TAG
             )
         }
-        
-        binding.calendarAddTimeStart.setOnClickListener { 
+
+        binding.calendarAddTimeStart.setOnClickListener {
             // 시작시간 버튼 클릭
             TimeSelectBSDialog().apply {
                 arguments = bundleOf(TimeSelectBSDialog.TIME_TYPE to  TimeSelectBSDialog.TYPE_START)
@@ -68,8 +103,8 @@ class CalendarAddFragment: Fragment(R.layout.fragment_calendar_add) {
                 TimeSelectBSDialog.TAG
             )
         }
-        
-        binding.calendarAddTimeEnd.setOnClickListener { 
+
+        binding.calendarAddTimeEnd.setOnClickListener {
             // 끝시간 버튼 클릭
             TimeSelectBSDialog().apply {
                 arguments = bundleOf(TimeSelectBSDialog.TIME_TYPE to  TimeSelectBSDialog.TYPE_END)
@@ -79,44 +114,95 @@ class CalendarAddFragment: Fragment(R.layout.fragment_calendar_add) {
             )
         }
 
-        binding.calendarAddDeleteBtn.setOnClickListener {
-            // 삭제 버튼
-            when(type){
-                TYPE_TICKETED -> {
-                    // 예약일정 삭제
-                    viewModel.deleteCalendarInfo(calendarInfo.exhbt_cd.toString())
-                }
-            }
-            parentActivity.supportFragmentManager.popBackStack()
-        }
-
         binding.calendarAddOkBtn.setOnClickListener {
-            // 추가 버튼
-            when(type){
-                TYPE_CUSTOM -> {
-                    // CUSTOM 전용
-
+            if(isAdd){
+                // 추가 버튼
+                when(type){
+                    TYPE_CUSTOM -> {
+                        // CUSTOM 전용
+                        if(binding.calendarAddExhibition.text.toString() != ""
+                            && binding.calendarAddPlace.text.toString() != ""
+                            && binding.calendarAddDate.text.toString() != ""
+                            && binding.calendarAddTimeStart.text.toString() != ""
+                            && binding.calendarAddTimeEnd.text.toString() != ""
+                        ) {
+                            viewModel.saveCustomInfo(
+                                exhbt_nm = binding.calendarAddExhibition.text.toString(),
+                                exhbt_lct = binding.calendarAddPlace.text.toString(),
+                                reser_dt = binding.calendarAddDate.text.toString().replace("-", "").trim(),
+                                start_time = binding.calendarAddTimeStart.text.toString(),
+                                end_time = binding.calendarAddTimeEnd.text.toString()
+                            )
+                            parentActivity.supportFragmentManager.popBackStack()
+                        } else {
+                            Toast.makeText(context, "모든 내용을 입력해주세요", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                    TYPE_TICKETED -> {
+                        // 예약일정 삭제
+                        if(binding.calendarAddExhibition.text.toString() != ""
+                            && binding.calendarAddPlace.text.toString() != ""
+                            && binding.calendarAddDate.text.toString() != ""
+                            && binding.calendarAddTimeStart.text.toString() != ""
+                            && binding.calendarAddTimeEnd.text.toString() != ""
+                        ) {
+                            viewModel.saveCalendarInfo(
+                                exhbt_cd = exhbtCd,
+                                reser_dt = binding.calendarAddDate.text.toString().replace("-", "").trim(),
+                                start_time = binding.calendarAddTimeStart.text.toString(),
+                                end_time = binding.calendarAddTimeEnd.text.toString()
+                            )
+                            parentActivity.supportFragmentManager.popBackStack()
+                        } else {
+                            Toast.makeText(context, "모든 내용을 입력해주세요", Toast.LENGTH_SHORT).show()
+                        }
+                    }
                 }
-                TYPE_TICKETED -> {
-                    // 예약일정 삭제
-                    if(binding.calendarAddExhibition.text.toString() != ""
-                        && binding.calendarAddPlace.text.toString() != ""
-                        && binding.calendarAddDate.text.toString() != ""
-                        && binding.calendarAddTimeStart.text.toString() != ""
-                        && binding.calendarAddTimeEnd.text.toString() != ""
-                    ) {
-                        viewModel.saveCalendarInfo(
-                            exhbt_cd = calendarInfo.exhbt_cd.toString(),
-                            reser_dt = binding.calendarAddDate.text.toString().replace("-", "").trim(),
-                            start_time = binding.calendarAddTimeStart.text.toString(),
-                            end_time = binding.calendarAddTimeEnd.text.toString()
-                        )
-                        parentActivity.supportFragmentManager.popBackStack()
-                    } else {
-                        Toast.makeText(context, "모든 내용을 입력해주세요", Toast.LENGTH_SHORT).show()
+            } else {
+                // 수정 버튼
+                when(type){
+                    TYPE_CUSTOM -> {
+                        // CUSTOM 전용
+                        if(binding.calendarAddExhibition.text.toString() != ""
+                            && binding.calendarAddPlace.text.toString() != ""
+                            && binding.calendarAddDate.text.toString() != ""
+                            && binding.calendarAddTimeStart.text.toString() != ""
+                            && binding.calendarAddTimeEnd.text.toString() != ""
+                        ) {
+                            viewModel.updateCustomInfo(
+                                exhbt_cd = exhbtCd,
+                                exhbt_nm = binding.calendarAddExhibition.text.toString(),
+                                exhbt_lct = binding.calendarAddPlace.text.toString(),
+                                reser_dt = binding.calendarAddDate.text.toString().replace("-", "").trim(),
+                                start_time = binding.calendarAddTimeStart.text.toString(),
+                                end_time = binding.calendarAddTimeEnd.text.toString()
+                            )
+                            parentActivity.supportFragmentManager.popBackStack()
+                        } else {
+                            Toast.makeText(context, "모든 내용을 입력해주세요", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                    TYPE_TICKETED -> {
+                        if(binding.calendarAddExhibition.text.toString() != ""
+                            && binding.calendarAddPlace.text.toString() != ""
+                            && binding.calendarAddDate.text.toString() != ""
+                            && binding.calendarAddTimeStart.text.toString() != ""
+                            && binding.calendarAddTimeEnd.text.toString() != ""
+                        ) {
+                            viewModel.updateCalendarInfo(
+                                exhbt_cd = exhbtCd,
+                                reser_dt = binding.calendarAddDate.text.toString().replace("-", "").trim(),
+                                start_time = binding.calendarAddTimeStart.text.toString(),
+                                end_time = binding.calendarAddTimeEnd.text.toString()
+                            )
+                            parentActivity.supportFragmentManager.popBackStack()
+                        } else {
+                            Toast.makeText(context, "모든 내용을 입력해주세요", Toast.LENGTH_SHORT).show()
+                        }
                     }
                 }
             }
+
         }
 
         setFragmentResultListener(DateSelectBSDialog.TAG) { _, bundle ->

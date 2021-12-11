@@ -40,6 +40,60 @@ interface ApiService {
         @Field("reser_dt") reser_dt: String
     ):Response<CalendarListResponseBody>
 
+    @FormUrlEncoded
+    @POST("/calender/customInfoSave")
+    suspend fun saveCustomInfo(
+        @Field("token") token: String,
+        @Field("exhbt_nm") exhbt_nm: String,
+        @Field("exhbt_lct") exhbt_lct: String,
+        @Field("reser_dt") reser_dt: String,
+        @Field("start_time") start_time: String,
+        @Field("end_time") end_time: String,
+    ):Response<CodeMsgResponseBody>
+
+    @FormUrlEncoded
+    @POST("/calender/customInfoUpdate")
+    suspend fun updateCustomInfo(
+        @Field("token") token: String,
+        @Field("exhbt_cd") exhbt_cd: String,
+        @Field("exhbt_nm") exhbt_nm: String,
+        @Field("exhbt_lct") exhbt_lct: String,
+        @Field("reser_dt") reser_dt: String,
+        @Field("start_time") start_time: String,
+        @Field("end_time") end_time: String,
+    ):Response<CodeMsgResponseBody>
+
+    @FormUrlEncoded
+    @POST("/calender/customInfoDel")
+    suspend fun delCustomInfo(
+        @Field("token") token: String,
+        @Field("exhbt_cd") exhbt_nm: String
+    ):Response<CodeMsgResponseBody>
+
+    @FormUrlEncoded
+    @POST("/calender/visitUpdate")
+    suspend fun visitUpdateExhbt(
+        @Field("token") token: String,
+        @Field("exhbt_cd") exhbt_nm: String,
+        @Field("visit_yn") visit_yn: String
+    ):Response<CodeMsgResponseBody>
+
+    @FormUrlEncoded
+    @POST("/calender/visitUpdate")
+    suspend fun visitUpdateCustom(
+        @Field("token") token: String,
+        @Field("exhbt_cd") exhbt_nm: String,
+        @Field("visit_yn") visit_yn: String,
+        @Field("exhbt_type") exhbt_type: String
+    ):Response<CodeMsgResponseBody>
+
+    @FormUrlEncoded
+    @POST("/calender/registCustomList")
+    suspend fun getCustomListAll(
+        @Field("token") token: String,
+        @Field("reser_dt") reser_dt: String
+    ):Response<CalendarListResponseBody>
+
     /********* Customized Question *********/
     @FormUrlEncoded
     @POST("/customized/list")
@@ -60,6 +114,10 @@ interface ApiService {
         @Field("token") token: String
     ):Response<MsgResponseBody>
 
+    /********* Etc *********/
+    @GET("/notice/list")
+    suspend fun getNoticeList(
+    ):Response<NoticeListResponseBody>
 
     /********* Exhibit Info *********/
     @FormUrlEncoded
@@ -132,6 +190,11 @@ interface ApiService {
         @Field("state_cd") state_cd: String
     ):Response<ExhbtResponseBody>
 
+    @FormUrlEncoded
+    @POST("/status/earlyCardList")
+    suspend fun getEarlyCardList(
+        @Field("token") token: String
+    ):Response<EarlyCardResponseBody>
 
     /********* Login *********/
     @FormUrlEncoded

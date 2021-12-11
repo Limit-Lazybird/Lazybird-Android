@@ -65,24 +65,25 @@ class TicketingConfirmFragment : Fragment(R.layout.fragment_ticketing_confirm) {
             // 예매 완료 버튼 클릭 시
             binding.ticketingConfirmOkBtn.isClickable = false // 중복클릭 차단
             viewLifecycleOwner.lifecycle.coroutineScope.launch {
-                if(binding.ticketingConfirmAddCalendar.isChecked){
-                    // 캘린더에 추가하기
-                    // Todo : 전시 일정 추가 Switch가 ON 되어있으면 캘린더에 일정 추가하기
-                }
                 viewModel.updateExhibitionReservation()
-                moveToMain()
+                moveToBack() // Todo : 얼리카드 발급 화면 이동
             }
         }
 
         binding.ticketingConfirmCancelBtn.setOnClickListener {
             // 돌아가기 버튼 클릭 시
-            moveToMain()
+            moveToBack()
+        }
+
+        binding.ticketingConfirmBackBtn.setOnClickListener {
+            // 뒤로가기 버튼 클릭 시
+            moveToBack()
         }
     }
 
-    private fun moveToMain() {
+    private fun moveToBack() {
         // 메인화면으로 되돌아가기
-        repeat(2){
+        repeat(1){
             parentActivity.supportFragmentManager.popBackStack()
         }
     }

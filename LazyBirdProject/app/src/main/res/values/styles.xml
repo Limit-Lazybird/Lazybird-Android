@@ -45,4 +45,12 @@
         <item name="android:textColorSecondary">@color/gray04</item>
     </style>
 
+    <style name="NumberPickerTheme">
+        <item name="android:ellipsize">end</item>
+        <item name="android:textSize">17dp</item>
+        <item name="android:gravity">left</item>
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:textColorSecondary">@color/gray04</item>
+    </style>
+
 </resources>

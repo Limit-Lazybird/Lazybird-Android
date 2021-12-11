@@ -35,6 +35,47 @@ class ApiHelperImpl @Inject constructor(
         token: String
     ): Response<CalendarListResponseBody> = apiService.getRegistListAll(token, "all")
 
+    override suspend fun saveCustomInfo(
+        token: String,
+        exhbt_nm: String,
+        exhbt_lct: String,
+        reser_dt: String,
+        start_time: String,
+        end_time: String
+    ): Response<CodeMsgResponseBody> = apiService.saveCustomInfo(token, exhbt_nm, exhbt_lct, reser_dt, start_time, end_time)
+
+    override suspend fun updateCustomInfo(
+        token: String,
+        exhbt_cd: String,
+        exhbt_nm: String,
+        exhbt_lct: String,
+        reser_dt: String,
+        start_time: String,
+        end_time: String
+    ): Response<CodeMsgResponseBody> = apiService.updateCustomInfo(token, exhbt_cd, exhbt_nm, exhbt_lct, reser_dt, start_time, end_time)
+
+    override suspend fun delCustomInfo(
+        token: String,
+        exhbt_cd: String
+    ): Response<CodeMsgResponseBody> = apiService.delCustomInfo(token, exhbt_cd)
+
+
+    override suspend fun getCustomListAll(
+        token: String
+    ): Response<CalendarListResponseBody> = apiService.getCustomListAll(token, "all")
+
+    override suspend fun visitUpdateExhbt(
+        token: String,
+        exhbt_nm: String,
+        visit_yn: String
+    ): Response<CodeMsgResponseBody> = apiService.visitUpdateExhbt(token, exhbt_nm, visit_yn)
+
+    override suspend fun visitUpdateCustom(
+        token: String,
+        exhbt_nm: String,
+        visit_yn: String
+    ): Response<CodeMsgResponseBody> = apiService.visitUpdateCustom(token, exhbt_nm, visit_yn, "custom")
+
     /********* Customized Question *********/
     override suspend fun getCustomizedList(
         token: String
@@ -46,6 +87,10 @@ class ApiHelperImpl @Inject constructor(
     override suspend fun deleteCustomizedList(
         token: String
     ): Response<MsgResponseBody> = apiService.deleteCustomizedList(token)
+
+    /********* Etc *********/
+
+    override suspend fun getNoticeList(): Response<NoticeListResponseBody> = apiService.getNoticeList()
 
     /********* Exhibit Info *********/
     override suspend fun getExhbtList(
@@ -85,6 +130,9 @@ class ApiHelperImpl @Inject constructor(
     override suspend fun getExhbtReservationList(
         token: String
     ): Response<ExhbtResponseBody> = apiService.getExhbtReservationList(token, "20")
+    override suspend fun getEarlyCardList(
+        token: String
+    ): Response<EarlyCardResponseBody> = apiService.getEarlyCardList(token)
 
     /********* Login *********/
     override suspend fun loginKakao(

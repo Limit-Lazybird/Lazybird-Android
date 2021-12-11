@@ -11,6 +11,7 @@ import com.limit.lazybird.util.toDate
 import com.limit.lazybird.util.toDate3
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import java.time.DayOfWeek
@@ -44,17 +45,36 @@ class CalendarViewModel @Inject constructor(
     var selectedDayViewContainer: DayViewContainer? = null // 선택된 날짜의 DayViewContainer
     val firstDayOfWeek: DayOfWeek = WeekFields.of(Locale.getDefault()).firstDayOfWeek
 
+    private val _customListLiveData = MutableLiveData<List<CalendarInfo>>()
+    val customListLiveData:LiveData<List<CalendarInfo>> get() =  _customListLiveData
+
     private val _registeredListLiveData = MutableLiveData<List<CalendarInfo>>()
     val registeredListLiveData:LiveData<List<CalendarInfo>> get() =  _registeredListLiveData
     val scheduleListDict: LiveData<Map<Long, MutableList<Schedule>>> get() =
-        registeredListLiveData.map { calendarInfoList ->
-            val scheduleList = calendarInfoList.map { calendarInfo ->
+        combine(
+            customListLiveData.asFlow(),
+            registeredListLiveData.asFlow()
+        ) { customList, registeredList ->
+            val scheduleList = registeredList.map { calendarInfo ->
                 Schedule(
+                    id = calendarInfo.exhbt_cd,
                     date = calendarInfo.reser_dt.toDate3(),
                     scheduleName = calendarInfo.exhbt_nm,
                     schedulePlace = calendarInfo.exhbt_lct,
                     startTime = calendarInfo.start_time,
                     endTime = calendarInfo.end_time,
+                    isCustom = false,
+                    isVisited = calendarInfo.visit_yn == "Y"
+                )
+            } + customList.map { calendarInfo ->
+                Schedule(
+                    id = calendarInfo.exhbt_cd,
+                    date = calendarInfo.reser_dt.toDate3(),
+                    scheduleName = calendarInfo.exhbt_nm,
+                    schedulePlace = calendarInfo.exhbt_lct,
+                    startTime = calendarInfo.start_time,
+                    endTime = calendarInfo.end_time,
+                    isCustom = true,
                     isVisited = calendarInfo.visit_yn == "Y"
                 )
             }
@@ -66,13 +86,14 @@ class CalendarViewModel @Inject constructor(
                         it[schedule.date.time]!!.add(schedule)
                 }
             }.toMap()
-        }
+        }.asLiveData()
 
     private lateinit var token: String
 
     init {
         initToken()
         initRegisteredList()
+        initCustomList()
         initUnregisteredList()
     }
 
@@ -80,7 +101,18 @@ class CalendarViewModel @Inject constructor(
         token = repository.getPreferenceFlow().first()
     }
 
-    private fun initRegisteredList() = viewModelScope.launch {
+    fun initCustomList() = viewModelScope.launch {
+        // 예약된 커스텀 전시리스트 받기
+        repository.getCustomList(token).let { response ->
+            if (response.body() != null) {
+                _customListLiveData.postValue(response.body()!!.calList)
+            } else {
+                Log.e(TAG, "response.body() is null")
+            }
+        }
+    }
+
+    fun initRegisteredList() = viewModelScope.launch {
         // 예약된 전시리스트 받기
         repository.getRegistList(token).let { response ->
             if (response.body() != null) {
@@ -91,7 +123,7 @@ class CalendarViewModel @Inject constructor(
         }
     }
 
-    private fun initUnregisteredList() = viewModelScope.launch {
+    fun initUnregisteredList() = viewModelScope.launch {
         // 전시리스트 받기
         repository.getUnRegistList(token).let { response ->
             if (response.body() != null) {
@@ -101,15 +133,6 @@ class CalendarViewModel @Inject constructor(
             }
         }
     }
-
-    fun getSchedule(date:Date) = scheduleListDict.value!![date.time]!!.toList()
-
-    fun getScheduleCount(date:Date): Int =
-        if(scheduleListDict.value != null && scheduleListDict.value!!.containsKey(date.time)){
-            scheduleListDict.value!![date.time]!!.size
-        } else {
-            0
-        }
 
     fun selectDay(container: DayViewContainer, day: CalendarDay) {
         selectedDayViewContainer?.isSelected?.visibility = View.INVISIBLE // 기존 viewContainer 선택 표시 제거
@@ -121,4 +144,28 @@ class CalendarViewModel @Inject constructor(
     }
 
     fun getUnregisteredInfo(position: Int) = unregisteredListLiveData.value!![position]
+
+    fun visitUpdateExhbtYes(exhbt_cd: String) = viewModelScope.launch {
+        repository.visitUpdateExhbt(token, exhbt_cd, "Y")
+    }
+
+    fun visitUpdateExhbtNo(exhbt_cd: String) = viewModelScope.launch {
+        repository.visitUpdateExhbt(token, exhbt_cd, "N")
+    }
+
+    fun visitUpdateCustomYes(exhbt_cd: String) = viewModelScope.launch {
+        repository.visitUpdateCustom(token, exhbt_cd, "Y")
+    }
+
+    fun visitUpdateCustomNo(exhbt_cd: String) = viewModelScope.launch {
+        repository.visitUpdateCustom(token, exhbt_cd, "N")
+    }
+
+    fun deleteCustomCalendarInfo(exhbt_cd: String) = viewModelScope.launch {
+        repository.deleteCustomCalendarInfo(token, exhbt_cd)
+    }
+
+    fun deleteCalendarInfo(exhbt_cd: String) = viewModelScope.launch {
+        repository.deleteCalendarInfo(token, exhbt_cd)
+    }
 }

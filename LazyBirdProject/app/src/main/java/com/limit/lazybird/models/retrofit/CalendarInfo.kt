@@ -11,5 +11,5 @@ data class CalendarInfo(
     val reser_dt: String,
     val start_time: String,
     val end_time: String,
-    val visit_yn: String,
+    val visit_yn: String
 ): Parcelable

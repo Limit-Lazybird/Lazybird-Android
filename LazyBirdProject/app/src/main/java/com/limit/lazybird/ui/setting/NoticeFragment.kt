@@ -33,7 +33,7 @@ class NoticeFragment : Fragment(R.layout.fragment_notice) {
             // 뒤로가기 버튼
             parentActivity.supportFragmentManager.popBackStack()
         }
-        viewModel.noticeList.observe(viewLifecycleOwner) { noticeInfoList ->
+        viewModel.noticeInfoList.observe(viewLifecycleOwner) { noticeInfoList ->
             binding.noticeRecyclerView.adapter = NoticeAdapter(noticeInfoList).apply {
                 itemClickListener = object : NoticeAdapter.OnItemClickListener {
                     override fun onExpandBtnClick(
@@ -42,8 +42,10 @@ class NoticeFragment : Fragment(R.layout.fragment_notice) {
                         position: Int
                     ) {
                         if(holder.noticeContext.visibility == View.VISIBLE){
+                            holder.noticeExpandBtn.setImageResource(R.drawable.ic_expand_light_d)
                             holder.noticeContext.visibility = View.GONE
                         } else {
+                            holder.noticeExpandBtn.setImageResource(R.drawable.ic_expand_light_u)
                             holder.noticeContext.visibility = View.VISIBLE
                         }
                     }

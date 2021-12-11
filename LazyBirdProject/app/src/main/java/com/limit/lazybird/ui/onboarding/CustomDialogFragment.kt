@@ -20,6 +20,7 @@ class CustomDialogFragment : DialogFragment() {
 
     companion object {
         const val TAG = "CustomDialogFragment"
+        const val RESULT_CODE = "result_code"
         const val DIALOG_INFO = "DIALOG_INFO"
         const val RESULT_CANCEL = "result_cancel"
         const val RESULT_OK = "result_ok"
@@ -61,7 +62,7 @@ class CustomDialogFragment : DialogFragment() {
         // 확인 버튼 클릭 시
         setFragmentResult(
             TAG, bundleOf(
-                "resultCode" to RESULT_OK
+                RESULT_CODE to RESULT_OK
             )
         )
         dismiss()
@@ -71,7 +72,7 @@ class CustomDialogFragment : DialogFragment() {
         // 취소 버튼 클릭 시
         setFragmentResult(
             TAG, bundleOf(
-                "resultCode" to RESULT_CANCEL
+                RESULT_CODE to RESULT_CANCEL
             )
         )
         dismiss()

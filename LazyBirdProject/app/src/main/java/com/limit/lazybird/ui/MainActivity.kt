@@ -3,12 +3,7 @@ package com.limit.lazybird.ui
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import androidx.core.os.bundleOf
-import androidx.fragment.app.setFragmentResultListener
-import com.limit.lazybird.R
 import com.limit.lazybird.databinding.ActivityMainBinding
-import com.limit.lazybird.models.DialogInfo
-import com.limit.lazybird.ui.onboarding.CustomDialogFragment
 import com.limit.lazybird.ui.splashlogin.SplashFragment
 import com.limit.lazybird.util.replaceFragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -32,7 +27,5 @@ class MainActivity : AppCompatActivity() {
             SplashFragment(),
             false
         )
-
-        // 레이지버드 종료 다이얼로그
     }
 }
