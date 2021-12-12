@@ -135,6 +135,11 @@ interface ApiHelper {
         exhbt_cd: String
     ): Response<MsgResponseBody>
 
+    suspend fun exhbtReservationDelete(
+        token: String,
+        exhbt_cd: String
+    ): Response<CodeMsgResponseBody>
+
     suspend fun getExhbtReservationList(
         token: String
     ): Response<ExhbtResponseBody>

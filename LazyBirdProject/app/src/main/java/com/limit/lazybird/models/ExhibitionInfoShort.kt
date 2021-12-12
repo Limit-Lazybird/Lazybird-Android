@@ -5,6 +5,7 @@ import kotlinx.android.parcel.Parcelize
 
 @Parcelize
 data class ExhibitionInfoShort(
+    val id: String,
     val title: String,
     val place: String,
     val startDate: String,
