@@ -43,6 +43,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
+                        android:fontFamily="@font/roboto_700"
                         android:layout_centerVertical="true"
                         android:text="@string/calendar_title"
                         android:textColor="@color/white"
@@ -79,6 +80,7 @@
                     <TextView
                         android:id="@+id/calendar_not_added_title1"
                         android:layout_width="wrap_content"
+                        android:fontFamily="@font/roboto_500"
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
                         android:text="@string/calendar_not_added_title1"
@@ -89,6 +91,7 @@
                         android:id="@+id/calendar_not_added_count"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/montserrat_700"
                         android:layout_toRightOf="@id/calendar_not_added_title1"
                         android:paddingLeft="4dp"
                         android:paddingRight="2dp"
@@ -102,6 +105,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_toRightOf="@id/calendar_not_added_count"
+                        android:fontFamily="@font/roboto_500"
                         android:text="@string/calendar_not_added_title2"
                         android:textColor="@color/white"
                         android:textSize="13dp" />

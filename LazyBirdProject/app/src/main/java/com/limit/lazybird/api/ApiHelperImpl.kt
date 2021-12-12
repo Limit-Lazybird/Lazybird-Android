@@ -127,6 +127,12 @@ class ApiHelperImpl @Inject constructor(
         token: String,
         exhbt_cd: String
     ): Response<MsgResponseBody> = apiService.exhbtReservationSave(token, exhbt_cd, "20")
+
+    override suspend fun exhbtReservationDelete(
+        token: String,
+        exhbt_cd: String
+    ): Response<CodeMsgResponseBody>  = apiService.exhbtReservationDelete(token, exhbt_cd)
+
     override suspend fun getExhbtReservationList(
         token: String
     ): Response<ExhbtResponseBody> = apiService.getExhbtReservationList(token, "20")

@@ -184,6 +184,13 @@ interface ApiService {
     ):Response<MsgResponseBody>
 
     @FormUrlEncoded
+    @POST("/status/reservationDel")
+    suspend fun exhbtReservationDelete(
+        @Field("token") token: String,
+        @Field("exhbt_cd") exhbt_cd: String
+    ):Response<CodeMsgResponseBody>
+
+    @FormUrlEncoded
     @POST("/status/reservationList")
     suspend fun getExhbtReservationList(
         @Field("token") token: String,

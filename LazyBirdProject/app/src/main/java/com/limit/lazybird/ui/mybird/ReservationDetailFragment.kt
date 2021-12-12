@@ -2,16 +2,20 @@ package com.limit.lazybird.ui.mybird
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import com.limit.lazybird.R
 import com.limit.lazybird.databinding.FragmentReservationDetailBinding
+import com.limit.lazybird.models.DialogInfo
 import com.limit.lazybird.models.retrofit.Exhbt
 import com.limit.lazybird.ui.MainActivity
 import com.limit.lazybird.ui.earilybirdDetail.EarlyBirdDetailViewModel
 import com.limit.lazybird.ui.earlybirdDetail.EarlyBirdDetailFragment
 import com.limit.lazybird.ui.exhibitionDetail.ExhibitionDetailFragment
 import com.limit.lazybird.ui.exhibitionDetail.ExhibitionDetailViewModel
+import com.limit.lazybird.ui.onboarding.CustomDialogFragment
 import com.limit.lazybird.util.replaceFragment
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -61,7 +65,7 @@ class ReservationDetailFragment: Fragment(R.layout.fragment_reservation_detail) 
                         position: Int
                     ) {
                         // 아이템 길게 클릭 시 (삭제 할 지)
-                        // Todo : 추가하기 (CustomDialogFragment 추가하면 될 듯)
+                        showDeleteDialog(exhibitList[position].id)
                     }
                 }
             }
@@ -71,6 +75,21 @@ class ReservationDetailFragment: Fragment(R.layout.fragment_reservation_detail) 
             // 뒤로가기 버튼 클릭
             parentActivity.supportFragmentManager.popBackStack()
         }
+
+        setFragmentResultListener(DeleteExhbtDialogFragment.TAG) { _, bundle ->
+            // 정말로 예매를 취소 하시겠습니까? Dialog 결과
+            when (bundle.getString(DeleteExhbtDialogFragment.RESULT_CODE)) {
+                DeleteExhbtDialogFragment.RESULT_OK -> {
+                    val exhbtCd = bundle.getString(DeleteExhbtDialogFragment.EXHBT_CD)!!
+                    viewModel.deleteReservationExhibition(exhbtCd)
+                    resetView()
+                }
+            }
+        }
+    }
+
+    private fun resetView() {
+        viewModel.getReservationExhbtList()
     }
 
     private fun moveToExhibitionDetail(exhibitionInfo: Exhbt) {
@@ -100,5 +119,24 @@ class ReservationDetailFragment: Fragment(R.layout.fragment_reservation_detail) 
                 )
             }
         }
+    }
+
+    private fun showDeleteDialog(exhbtCd: String) {
+        val dialogInfo = DialogInfo(
+            title = "예매취소",
+            message = "정말로 예매를 취소하시겠습니까?",
+            positiveBtnTitle = "예매취소",
+            negativeBtnTitle = "돌아가기"
+        )
+        DeleteExhbtDialogFragment().apply {
+            // dialog 정보 보내주기
+            arguments = bundleOf().apply {
+                putParcelable(DeleteExhbtDialogFragment.DIALOG_INFO, dialogInfo)
+                putString(DeleteExhbtDialogFragment.EXHBT_CD, exhbtCd)
+            }
+        }.show(
+            parentActivity.supportFragmentManager,
+            CustomDialogFragment.TAG
+        )
     }
 }

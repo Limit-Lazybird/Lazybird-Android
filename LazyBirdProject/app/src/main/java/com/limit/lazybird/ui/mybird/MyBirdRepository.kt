@@ -16,4 +16,5 @@ class MyBirdRepository @Inject constructor(
     fun getPreferenceUserInfoFlow() = dataStoreManager.preferenceUserInfoFlow
     suspend fun getLikeExhibitionList(token:String) = apiHelper.getExhbtLikeList(token)
     suspend fun getReservationExhibitionList(token:String) = apiHelper.getExhbtReservationList(token)
+    suspend fun deleteReservationExhibition(token: String, exhbt_cd: String) = apiHelper.exhbtReservationDelete(token, exhbt_cd)
 }

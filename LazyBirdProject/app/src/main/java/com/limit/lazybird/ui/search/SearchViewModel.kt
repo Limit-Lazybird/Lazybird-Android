@@ -34,6 +34,7 @@ class SearchViewModel @Inject constructor(
         exhbtList.map { exhibitionList ->
             exhibitionList.map { exhbt ->
                 ExhibitionInfoShort(
+                    id = exhbt.exhbt_cd,
                     title = exhbt.exhbt_nm,
                     place = exhbt.exhbt_lct,
                     startDate = exhbt.exhbt_from_dt.dateFormatted(),

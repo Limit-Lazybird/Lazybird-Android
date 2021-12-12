@@ -10,6 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
+        android:fontFamily="@font/roboto_700"
         android:text="@string/ticketing_title"
         android:textColor="@color/white"
         android:textSize="17dp"
@@ -44,6 +45,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            android:fontFamily="@font/roboto_700"
             android:text="@string/ticketing_notice_title"
             android:textColor="@color/white"
             android:textSize="17dp" />
@@ -53,8 +55,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            android:fontFamily="@font/roboto_400"
             android:textColor="@color/white"
-            android:textSize="13dp"
+            android:textSize="12dp"
             tools:text=" - 주의사항이 무엇인가요?\n - 주의사항을 채워야합니다." />
     </LinearLayout>
 
@@ -63,6 +66,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="12dp"
+        android:fontFamily="@font/roboto_500"
         android:text="@string/ticketing_notice"
         android:textColor="@color/white"
         android:textSize="14dp"
@@ -79,6 +83,7 @@
         android:layout_marginBottom="24dp"
         android:background="@drawable/button_rounded_10"
         android:backgroundTint="@color/or01"
+        android:fontFamily="@font/roboto_700"
         android:text="@string/ticketing_next_btn_title"
         android:textColor="@color/white"
         android:textSize="16dp"

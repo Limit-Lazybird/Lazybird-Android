@@ -61,38 +61,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/earlybird_todayearlybird_icon"
-        android:layout_marginLeft="24dp"
         android:layout_marginTop="14dp"
         android:layout_marginRight="4dp"
-        android:layout_marginBottom="14dp"/>
-
-    <!-- deprecated -->
-    <!--    <HorizontalScrollView-->
-    <!--        android:layout_width="wrap_content"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_below="@id/earlybird_header"-->
-    <!--        android:scrollbars="none">-->
-
-    <!--        <LinearLayout-->
-    <!--            android:id="@+id/flexbox_layout"-->
-    <!--            android:layout_width="wrap_content"-->
-    <!--            android:layout_height="wrap_content"-->
-    <!--            android:orientation="horizontal">-->
-
-    <!--            <ImageView-->
-    <!--                android:id="@+id/earlybird_detail_filter_button"-->
-    <!--                android:layout_width="wrap_content"-->
-    <!--                android:layout_height="wrap_content"-->
-    <!--                android:layout_marginRight="10px"-->
-    <!--                android:background="@drawable/option_item_rounded"-->
-    <!--                android:backgroundTint="@color/gray_400"-->
-    <!--                android:paddingLeft="10dp"-->
-    <!--                android:paddingTop="5dp"-->
-    <!--                android:paddingRight="10dp"-->
-    <!--                android:paddingBottom="5dp"-->
-    <!--                android:src="@drawable/ic_filter"-->
-    <!--                app:tint="@color/white" />-->
-    <!--        </LinearLayout>-->
-    <!--    </HorizontalScrollView>-->
+        android:layout_marginBottom="5dp"/>
 
 </RelativeLayout>

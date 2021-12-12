@@ -18,7 +18,6 @@ import kotlinx.coroutines.launch
 /************* ExhibitionFragment ***************
  * ??? >> 전시 상세정보 >> 예약하기 전 확인 >> 예약 완료화면 (Fragment)
  * 예약 완료 후 확인하는 화면
- * Todo : Calendar 일정에 추가하는 기능 업데이트 
  ********************************************** ***/
 @AndroidEntryPoint
 class TicketingConfirmFragment : Fragment(R.layout.fragment_ticketing_confirm) {

@@ -32,7 +32,8 @@
             android:id="@+id/onb_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="17dp"
+            android:fontFamily="@font/roboto_700"
             android:text="@string/onb_title"
             android:textColor="@color/white"
             android:textSize="17dp"
@@ -54,12 +55,15 @@
             app:layout_constraintTop_toTopOf="@id/onb_title" />
 
 
-        <ImageView
+        <TextView
             android:id="@+id/onb_q"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/montserrat_300"
+            android:text="Q."
             android:layout_marginTop="50dp"
-            android:src="@drawable/ic_q"
+            android:textColor="@color/white"
+            android:textSize="25dp"
             app:layout_constraintLeft_toLeftOf="@id/onb_answer_container"
             app:layout_constraintTop_toBottomOf="@id/onb_title" />
 
@@ -69,6 +73,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="9dp"
             android:layout_marginBottom="9dp"
+            android:fontFamily="@font/roboto_500"
             android:textColor="@color/white"
             android:textSize="15dp"
             app:layout_constraintLeft_toLeftOf="@id/onb_answer_container"

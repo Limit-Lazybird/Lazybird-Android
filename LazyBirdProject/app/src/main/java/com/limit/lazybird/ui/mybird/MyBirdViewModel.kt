@@ -38,6 +38,7 @@ class MyBirdViewModel @Inject constructor(
         likeExhbtList.map { exhibitionList ->
             exhibitionList.map { exhbt ->
                 ExhibitionInfoShort(
+                    id = exhbt.exhbt_cd,
                     title = exhbt.exhbt_nm,
                     place = exhbt.exhbt_lct,
                     startDate = exhbt.exhbt_from_dt.dateFormatted(),
@@ -55,6 +56,7 @@ class MyBirdViewModel @Inject constructor(
         reservationExhbtList.map { exhibitionList ->
             exhibitionList.map { exhbt ->
                 ExhibitionInfoShort(
+                    id = exhbt.exhbt_cd,
                     title = exhbt.exhbt_nm,
                     place = exhbt.exhbt_lct,
                     startDate = exhbt.exhbt_from_dt.dateFormatted(),
@@ -98,7 +100,7 @@ class MyBirdViewModel @Inject constructor(
         }
     }
 
-    private fun getReservationExhbtList() = viewModelScope.launch {
+    fun getReservationExhbtList() = viewModelScope.launch {
         // 내가 예약한 전시 리스트 받기
         if(repository.getReservationExhibitionList(token).body() != null){
             val reservationList = repository.getReservationExhibitionList(token).body()!!.exhbtList
@@ -113,4 +115,9 @@ class MyBirdViewModel @Inject constructor(
 
     // 예약한 전시 리스트 정보 가져오기
     fun getReservationExhibitionInfo(idx: Int): Exhbt = reservationExhbtList.value?.get(idx)!!
+
+    // 예약한 전시 취소하기
+    fun deleteReservationExhibition(exhbt_cd: String) = viewModelScope.launch {
+        repository.deleteReservationExhibition(token, exhbt_cd)
+    }
 }
