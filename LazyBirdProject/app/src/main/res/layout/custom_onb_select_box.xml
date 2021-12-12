@@ -29,8 +29,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
+            android:fontFamily="@font/roboto_700"
             android:textColor="@color/white"
-            android:textSize="14dp"
+            android:textSize="16dp"
             tools:text="안녕 클레오파트라" />
 
     </RelativeLayout>

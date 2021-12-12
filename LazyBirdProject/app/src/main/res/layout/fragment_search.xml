@@ -40,6 +40,7 @@
                 android:layout_alignBottom="@id/search_sb_icon"
                 android:layout_toRightOf="@id/search_sb_icon"
                 android:background="@color/transparent"
+                android:fontFamily="@font/roboto_300"
                 android:hint="@string/search_hint"
                 android:lines="1"
                 android:textColor="@color/white"
@@ -53,6 +54,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/search_view_layout"
             android:layout_marginTop="24dp"
+            android:fontFamily="@font/roboto_700"
             android:text="@string/search_recommend_title"
             android:textColor="@color/white"
             android:textSize="13dp" />
@@ -80,6 +82,7 @@
         android:id="@+id/search_no_item"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_700"
         android:text="@string/mybird_no_search"
         android:textColor="@color/gray_600"
         android:textSize="17dp"

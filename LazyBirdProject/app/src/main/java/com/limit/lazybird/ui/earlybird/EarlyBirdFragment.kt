@@ -15,6 +15,7 @@ import com.limit.lazybird.ui.earlybirdDetail.EarlyBirdDetailFragment
 import com.limit.lazybird.ui.earlycard.EarlycardFragment
 import com.limit.lazybird.ui.notification.NotificationFragment
 import com.limit.lazybird.util.replaceFragment
+import com.limit.lazybird.util.toDp
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.math.abs
 
@@ -66,19 +67,19 @@ class EarlyBirdFragment : Fragment(R.layout.fragment_earlybird) {
             binding.earlybirdViewpager2.setPageTransformer(
                 // page 변환 시 애니메이션 적용
                 CompositePageTransformer().apply {
-                    addTransformer { view: View, position: Float ->
+                    addTransformer { pageView: View, position: Float ->
                         var v = 1 - abs(position)
                         if (position < 0) {
                             // 왼쪽에 있는 페이지
-                            view.transitionAlpha = 1f // 투명도 100%로 고정
+                            pageView.transitionAlpha = 1f // 투명도 100%로 고정
                         } else {
                             // 오른쪽에 있는 페이지
-                            view.x = -50 * v // N+i 번째는 오른쪽으로 (50 x i) 만큼 이동
-                            view.elevation = v // i 가 작을 수록 윗 장으로 올라오도록 하기, // Todo : 이걸 v+1로 바꾸면 뒤에서 앞으로 오는것도 올라오게 할 수 있을까
-                            view.scaleX = SCREEN_PAGE_RATIO
-                            view.scaleY =
+                            pageView.x = -50 * v + 50f.toDp(view) // N+i 번째는 오른쪽으로 (50 x i) 만큼 이동
+                            pageView.elevation = v // i 가 작을 수록 윗 장으로 올라오도록 하기
+                            pageView.scaleX = SCREEN_PAGE_RATIO
+                            pageView.scaleY =
                                 (OFF_SCREEN_PAGE_RATIO + (1 - OFF_SCREEN_PAGE_RATIO) * v) // 뒷 장을 갈수록 크기의 비율
-                            view.transitionAlpha =
+                            pageView.transitionAlpha =
                                 OFF_SCREEN_PAGE_LIMIT + v // 제일 끝 장 없어질 때 fade out 으로 없어지기
                             binding.earlybirdViewpager2.offscreenPageLimit =
                                 OFF_SCREEN_PAGE_LIMIT // LIMIT 개수 제외 나머지 안보이게 하기

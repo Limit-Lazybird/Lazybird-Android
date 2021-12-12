@@ -26,7 +26,7 @@ class CalendarScheduleAdapter(
 
     var itemClickListener: OnItemClickListener? = null
 
-    private val DAY_OF_WEEK = arrayOf("SUN", "MON", "TUE", "WED", "THR", "FRI", "SAT")
+    private val DAY_OF_WEEK = arrayOf("Sun", "Mon", "Tue", "Wed", "Thr", "Fri", "Sat")
     private lateinit var binding: ItemScheduleBinding
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

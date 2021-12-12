@@ -23,6 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:layout_marginTop="30dp"
+        android:fontFamily="@font/roboto_700"
         android:text="@string/like_detail_title"
         android:textColor="@color/white"
         android:textSize="24dp"
@@ -33,6 +34,7 @@
         android:id="@+id/like_detail_no_item"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/roboto_700"
         android:text="@string/mybird_no_like"
         android:textColor="@color/gray_600"
         android:textSize="17dp"
@@ -51,9 +53,9 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/like_detail_recycler_view"
-            android:paddingBottom="150dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingBottom="150dp"
             app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             app:spanCount="2"
             tools:itemCount="3"

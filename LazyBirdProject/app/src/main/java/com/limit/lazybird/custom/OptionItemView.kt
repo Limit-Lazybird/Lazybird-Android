@@ -1,6 +1,7 @@
 package com.limit.lazybird.custom
 
 import android.content.Context
+import android.graphics.Typeface
 import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.lifecycle.LifecycleOwner
@@ -35,6 +36,7 @@ class OptionItemView(
             rightMargin = 25
             bottomMargin = 25
         }
+        typeface = context.resources.getFont(R.font.roboto_500)
         setLayoutParams(layoutParams)
         isSingleLine = true
 

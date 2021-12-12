@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp"
+        android:fontFamily="@font/roboto_700"
         android:text="@string/onb_title"
         android:textColor="@color/white"
         android:textSize="17dp" />
@@ -36,6 +37,7 @@
             android:id="@+id/onb_end_context"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="@font/roboto_700"
             android:textColor="@color/white"
             android:textSize="20dp"
             tools:text="선택한 답변으로 당신의 취향에\n꼭 맞는 전시회를 추천해드릴 준비가\n끝났습니다." />
@@ -51,8 +53,9 @@
         android:layout_marginBottom="90dp"
         android:background="@drawable/button_rounded_10"
         android:backgroundTint="@color/or01"
+        android:fontFamily="@font/roboto_700"
         android:text="@string/splash_start_button"
         android:textColor="@color/white"
-        android:textSize="17dp" />
+        android:textSize="16dp" />
 
 </RelativeLayout>
