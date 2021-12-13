@@ -40,7 +40,7 @@ class EarlycardDetailDialogFragment : DialogFragment() {
         binding.apply {
             visitedDate = if(earlycardInfo.visitDate!="N") earlycardInfo.visitDate else "-"
             earlycardDetailTitle.text = earlycardInfo.title
-            earlycardDetailNumber.text = "No. ${earlycardInfo.no}"
+            earlycardDetailNumber.text = "NO. ${earlycardInfo.no}"
             Glide.with(layout)
                 .load(earlycardInfo.imgUrl)
                 .apply(RequestOptions().transform(CenterCrop(), RoundedCorners(30)))

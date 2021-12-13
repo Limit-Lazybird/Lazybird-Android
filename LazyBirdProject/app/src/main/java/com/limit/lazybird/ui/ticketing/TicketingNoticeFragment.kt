@@ -57,7 +57,8 @@ class TicketingNoticeFragment : Fragment(R.layout.fragment_ticketing_notice) {
         )
 
         viewModel.exhibitionInfo.observe(viewLifecycleOwner) { exhibitionInfo ->
-            binding.ticketingNoticeContext.text = getString(R.string.ticketing_notice_context).applyEscapeSequence()
+            binding.ticketingNoticeContext.text =
+                getString(R.string.ticketing_notice_context).applyEscapeSequence()
             moveToUrlPostDelayed(exhibitionInfo.exhibitionUrl, DELAY_MILLIS)
         }
 
@@ -97,17 +98,19 @@ class TicketingNoticeFragment : Fragment(R.layout.fragment_ticketing_notice) {
         }
         parentActivity.supportFragmentManager.replaceFragment(
             TicketingConfirmFragment().apply {
-                 arguments = bundle
+                arguments = bundle
             },
-            false)
+            false
+        )
     }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         // activityResult init
-        activityResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            moveToTicketingConfirm()
-        }
+        activityResult =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+                moveToTicketingConfirm()
+            }
 
         // backPressed callback init
         callback = object : OnBackPressedCallback(true) {
