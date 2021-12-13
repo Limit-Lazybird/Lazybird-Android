@@ -18,6 +18,7 @@ import com.limit.lazybird.R
 import com.limit.lazybird.databinding.FragmentGetEarlycardBinding
 import com.limit.lazybird.ui.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.android.synthetic.main.dialog_bs_date_select.*
 
 @AndroidEntryPoint
 class GetEarlyCardFragment:Fragment(R.layout.fragment_get_earlycard) {
@@ -37,16 +38,19 @@ class GetEarlyCardFragment:Fragment(R.layout.fragment_get_earlycard) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentGetEarlycardBinding.bind(view)
+
+        initDetector(view)
+
         viewModel.updateExhibitionInfo(
             requireArguments().getParcelable(
                 TicketingViewModel.EXHIBITION_INFO
             )!!
         )
+        
         viewModel.exhibitionInfo.observe(viewLifecycleOwner) { exhibitionInfo ->
+            // main earlycard, sub earlycard 모두 초기화하기
             binding.getEarlycardMainTitle.text = exhibitionInfo.title
             binding.getEarlycardSubTitle.text = exhibitionInfo.title
-            binding.getEarlycardMainNumber.text = "NO. X"
-            binding.getEarlycardSubNumber.text = "NO. X"
             Glide.with(this)
                 .load(exhibitionInfo.thumbnailImageUrl)
                 .centerCrop()
@@ -56,7 +60,20 @@ class GetEarlyCardFragment:Fragment(R.layout.fragment_get_earlycard) {
                 .centerCrop()
                 .into(binding.getEarlycardSubImg)
         }
-        initDetector(view)
+
+        viewModel.earlycardList.observe(viewLifecycleOwner) { earlycardList ->
+            // No 값 가져오기
+            var currentNumber = 0
+            earlycardList.forEach {
+                currentNumber = maxOf(currentNumber, it.no)
+            }
+            binding.getEarlycardMainNumber.text = "NO. $currentNumber"
+            binding.getEarlycardSubNumber.text = "NO. $currentNumber"
+        }
+        binding.getEarlycardBackBtn.setOnClickListener {
+            // 뒤로가기 버튼 클릭 시
+            parentActivity.supportFragmentManager.popBackStack()
+        }
     }
 
 
