@@ -26,6 +26,7 @@ import com.limit.lazybird.ui.earilybirdDetail.EarlyBirdDetailViewModel
 import com.limit.lazybird.ui.ticketing.TicketingNoticeFragment
 import com.limit.lazybird.ui.ticketing.TicketingViewModel
 import com.limit.lazybird.util.applyEscapeSequence
+import com.limit.lazybird.util.applyEscapeSequenceWithDot
 import com.limit.lazybird.util.replaceFragment
 import com.limit.lazybird.util.thousandUnitFormatted
 import dagger.hilt.android.AndroidEntryPoint
@@ -79,7 +80,7 @@ class EarlyBirdDetailFragment : Fragment(R.layout.fragment_earlybird_detail) {
                 "<strike>${exhibitionInfo.price.thousandUnitFormatted()}</strike>", // 가격
                 HtmlCompat.FROM_HTML_MODE_LEGACY
             )
-            binding.notice = exhibitionInfo.notice.applyEscapeSequence() // 전시 공지사항
+            binding.notice = exhibitionInfo.notice.applyEscapeSequenceWithDot() // 전시 공지사항
 
             // thumbnail Image
             Glide.with(this)

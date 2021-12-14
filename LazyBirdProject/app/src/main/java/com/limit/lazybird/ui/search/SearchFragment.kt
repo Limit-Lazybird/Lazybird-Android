@@ -52,8 +52,6 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
                         // 추천검색어 클릭
                         viewModel.searchExhibition(text.toString()) // 해당 키워드로 검색
                         imm.hideSoftInputFromWindow(binding.searchEditText.windowToken, 0) // 키보드 내리기
-                        binding.searchRecommendList.visibility = View.GONE
-                        binding.searchRecommendTitle.visibility = View.GONE
                         binding.searchEditText.text = null // 검색어 초기화
                     }
                 }

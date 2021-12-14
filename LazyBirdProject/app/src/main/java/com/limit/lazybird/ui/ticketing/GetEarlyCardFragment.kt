@@ -1,27 +1,28 @@
 package com.limit.lazybird.ui.ticketing
 
 import android.os.Bundle
+import android.util.Log
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
-import androidx.activity.OnBackPressedCallback
+import android.widget.TextView
 import androidx.core.view.GestureDetectorCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.bitmap.CenterCrop
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import com.bumptech.glide.request.RequestOptions
+import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.snackbar.Snackbar.SnackbarLayout
 import com.limit.lazybird.R
 import com.limit.lazybird.databinding.FragmentGetEarlycardBinding
 import com.limit.lazybird.ui.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.dialog_bs_date_select.*
 
+
 @AndroidEntryPoint
-class GetEarlyCardFragment:Fragment(R.layout.fragment_get_earlycard) {
+class GetEarlyCardFragment : Fragment(R.layout.fragment_get_earlycard) {
 
     companion object {
         const val TAG = "TicketingConfirmFragment"
@@ -46,7 +47,7 @@ class GetEarlyCardFragment:Fragment(R.layout.fragment_get_earlycard) {
                 TicketingViewModel.EXHIBITION_INFO
             )!!
         )
-        
+
         viewModel.exhibitionInfo.observe(viewLifecycleOwner) { exhibitionInfo ->
             // main earlycard, sub earlycard 모두 초기화하기
             binding.getEarlycardMainTitle.text = exhibitionInfo.title
@@ -77,42 +78,43 @@ class GetEarlyCardFragment:Fragment(R.layout.fragment_get_earlycard) {
     }
 
 
-    private fun initDetector(view:View) {
-        mDetector = GestureDetectorCompat(requireContext(), object : GestureDetector.OnGestureListener {
-            override fun onDown(p0: MotionEvent?): Boolean {
-                return true
-            }
+    private fun initDetector(view: View) {
+        mDetector =
+            GestureDetectorCompat(requireContext(), object : GestureDetector.OnGestureListener {
+                override fun onDown(p0: MotionEvent?): Boolean {
+                    return true
+                }
 
-            override fun onShowPress(p0: MotionEvent?) {
-            }
+                override fun onShowPress(p0: MotionEvent?) {
+                }
 
-            override fun onSingleTapUp(p0: MotionEvent?): Boolean {
-                return true
-            }
+                override fun onSingleTapUp(p0: MotionEvent?): Boolean {
+                    return true
+                }
 
-            override fun onScroll(
-                p0: MotionEvent?,
-                p1: MotionEvent?,
-                p2: Float,
-                p3: Float
-            ): Boolean {
-                return true
-            }
+                override fun onScroll(
+                    p0: MotionEvent?,
+                    p1: MotionEvent?,
+                    p2: Float,
+                    p3: Float
+                ): Boolean {
+                    return true
+                }
 
-            override fun onLongPress(p0: MotionEvent?) {
-            }
+                override fun onLongPress(p0: MotionEvent?) {
+                }
 
-            override fun onFling(
-                p0: MotionEvent?,
-                p1: MotionEvent?,
-                p2: Float,
-                p3: Float
-            ): Boolean {
-                startAnimation()
-                isSwipe = true
-                return true
-            }
-        })
+                override fun onFling(
+                    p0: MotionEvent?,
+                    p1: MotionEvent?,
+                    p2: Float,
+                    p3: Float
+                ): Boolean {
+                    startAnimation()
+                    isSwipe = true
+                    return true
+                }
+            })
         view.setOnTouchListener { view, motionEvent ->
             !isSwipe && mDetector.onTouchEvent(motionEvent)
         }
@@ -124,15 +126,33 @@ class GetEarlyCardFragment:Fragment(R.layout.fragment_get_earlycard) {
                 setAnimationListener(object : Animation.AnimationListener {
                     override fun onAnimationStart(p0: Animation?) {
                     }
+
                     override fun onAnimationRepeat(p0: Animation?) {
                     }
+
                     override fun onAnimationEnd(p0: Animation?) {
                         binding.getEarlycardMainContainer.visibility = View.VISIBLE // 메인 보이기
                         binding.getEarlycardSubContainer.visibility = View.INVISIBLE // 서브 숨기기
                         binding.getEarlycardSubContainer.clearAnimation() // 서브 animation 설정 제거
+                        showSnackbar()
                     }
                 })
             }
         )
     }
+
+    private fun showSnackbar() {
+        val snackbar = Snackbar.make(requireView(),  "얼리카드가 추가되었어요", 10000)
+        snackbar.setAction("보러가기 >") {
+            moveToMain()
+        }
+        snackbar.show()
+    }
+
+    private fun moveToMain(){
+        repeat(2) {
+            parentActivity.supportFragmentManager.popBackStack()
+        }
+    }
+
 }

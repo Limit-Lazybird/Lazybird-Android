@@ -77,6 +77,7 @@ class UnregisteredListBSDialog  : BottomSheetDialogFragment(){
             displayedValues = nameArray
             minValue = 0
             maxValue = nameArray.size-1
+            wrapSelectorWheel = false // 반복 제거
         }
 
         binding.dialogBsUnregisteredOkBtn.setOnClickListener {
