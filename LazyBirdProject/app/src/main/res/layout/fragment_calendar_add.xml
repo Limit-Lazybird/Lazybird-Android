@@ -88,6 +88,7 @@
                     android:fontFamily="@font/roboto_500"
                     android:hint="전시회 이름"
                     android:padding="15dp"
+                    android:singleLine="true"
                     android:textColor="@color/white"
                     android:textColorHint="@color/gray_600"
                     android:textSize="15dp" />
@@ -124,6 +125,7 @@
                     android:fontFamily="@font/roboto_500"
                     android:hint="전시회 장소"
                     android:padding="15dp"
+                    android:singleLine="true"
                     android:textColor="@color/white"
                     android:textColorHint="@color/gray_600"
                     android:textSize="15dp" />
@@ -156,7 +158,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="1dp"
                     android:fontFamily="@font/roboto_500"
-                    android:text="날자"
+                    android:text="날짜"
                     android:textColor="@color/white"
                     android:textSize="11dp" />
 

@@ -1,5 +1,5 @@
-<resources>
-    <string name="app_name">LazyBirdProject</string>
+    <resources>
+    <string name="app_name">LazyBird</string>
     <string name="splash_start_button">시작하기</string>
     <string name="sign_in">회원가입</string>
     <string name="sign_in_u"><u>회원가입</u></string>

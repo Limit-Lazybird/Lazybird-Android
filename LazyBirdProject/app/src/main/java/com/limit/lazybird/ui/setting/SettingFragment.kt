@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import com.limit.lazybird.BuildConfig
 import com.limit.lazybird.R
 import com.limit.lazybird.api.GoogleLoginHelper
 import com.limit.lazybird.api.KakaoLoginHelper
@@ -52,6 +53,8 @@ class SettingFragment : Fragment(R.layout.fragment_setting) {
         googleLoginHelper = GoogleLoginHelper(this).apply {
             init()
         }
+
+        binding.settingOnbAppVersionText.text = "${BuildConfig.VERSION_NAME}v"
 
         binding.settingBackBtn.setOnClickListener {
             // 뒤로가기 버튼 클릭

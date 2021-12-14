@@ -23,6 +23,7 @@ import com.limit.lazybird.ui.MainActivity
 import com.limit.lazybird.ui.ticketing.TicketingNoticeFragment
 import com.limit.lazybird.ui.ticketing.TicketingViewModel
 import com.limit.lazybird.util.applyEscapeSequence
+import com.limit.lazybird.util.applyEscapeSequenceWithDot
 import com.limit.lazybird.util.replaceFragment
 import com.limit.lazybird.util.thousandUnitFormatted
 import dagger.hilt.android.AndroidEntryPoint
@@ -72,7 +73,7 @@ class ExhibitionDetailFragment: Fragment(R.layout.fragment_exhibition_detail) {
             binding.discount = exhibitionInfo.discount // 할인율
             binding.exhibitionDetailPriceDc.text = exhibitionInfo.discountedPrice.thousandUnitFormatted() // 할인 가격
             binding.exhibitionDetailPrice.text = exhibitionInfo.price.thousandUnitFormatted() // 가격
-            binding.notice = exhibitionInfo.notice.applyEscapeSequence() // 전시 공지사항
+            binding.notice = exhibitionInfo.notice.applyEscapeSequenceWithDot() // 전시 공지사항
 
             // thumbnail Image
             Glide.with(this)

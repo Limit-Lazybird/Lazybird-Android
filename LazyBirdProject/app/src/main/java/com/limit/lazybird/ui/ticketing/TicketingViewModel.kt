@@ -1,12 +1,14 @@
 package com.limit.lazybird.ui.ticketing
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import android.util.Log
+import androidx.lifecycle.*
 import com.limit.lazybird.api.ApiHelper
 import com.limit.lazybird.data.PreferenceDataStoreManager
+import com.limit.lazybird.models.EarlycardInfo
 import com.limit.lazybird.models.ExhibitionInfo
+import com.limit.lazybird.models.retrofit.EarlyCard
+import com.limit.lazybird.ui.earlycard.EarlycardRepository
+import com.limit.lazybird.ui.earlycard.EarlycardViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -18,6 +20,7 @@ import javax.inject.Inject
  ********************************************** ***/
 @HiltViewModel
 class TicketingViewModel @Inject constructor(
+    private val repository: EarlycardRepository, // Todo : legacy
     private val apiHelper: ApiHelper,
     private val dataStoreManager: PreferenceDataStoreManager
 ):ViewModel() {
@@ -32,8 +35,22 @@ class TicketingViewModel @Inject constructor(
     private val _exhibitionInfo = MutableLiveData<ExhibitionInfo>()
     val exhibitionInfo: LiveData<ExhibitionInfo> get() = _exhibitionInfo
 
+    private var _earlycardList = MutableLiveData<List<EarlyCard>>()
+    val earlycardList: LiveData<List<EarlycardInfo>>
+        get() = _earlycardList.map { earlyCardList ->
+            earlyCardList.map { earlyCard ->
+                EarlycardInfo(
+                    no = earlyCard.early_num,
+                    title = earlyCard.exhbt_nm,
+                    visitDate = if (earlyCard.reser_dt != "N") earlyCard.reser_dt else "-",
+                    imgUrl = earlyCard.exhbt_sn
+                )
+            }
+        }
+
     init {
         initToken()
+        initEarlyCardList()
     }
 
     private fun initToken() = viewModelScope.launch {
@@ -41,6 +58,15 @@ class TicketingViewModel @Inject constructor(
         token = dataStoreManager.preferenceTokenFlow.first()
     }
 
+    private fun initEarlyCardList() = viewModelScope.launch {
+        repository.getEarlyCardList(token).let { response ->
+            if (response.body() != null) {
+                _earlycardList.postValue(response.body()!!.earlyCardList)
+            } else {
+                Log.e(TAG, "response.body() is null")
+            }
+        }
+    }
     fun updateExhibitionInfo(exhibitionInfo: ExhibitionInfo){
         // 전시정보 업데이트
         _exhibitionInfo.postValue(exhibitionInfo)

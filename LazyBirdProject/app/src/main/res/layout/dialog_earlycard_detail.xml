@@ -70,7 +70,7 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.82"
                     app:layout_constraintWidth_percent="0.85"
-                    tools:text="No.3" />
+                    tools:text="NO.3" />
 
                 <TextView
                     android:id="@+id/earlycard_detail_title"

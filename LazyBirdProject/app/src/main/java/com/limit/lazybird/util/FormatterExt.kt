@@ -37,6 +37,10 @@ fun String.applyEscapeSequence(): String {
     return this.replace("\\n", "\n")
 }
 
+fun String.applyEscapeSequenceWithDot(): String {
+    return this.replace("\\n", "\nㆍ")
+}
+
 // "yyyy.MM.dd" to "yyyy-MM-dd"
 fun String.dateFormatted(): String = SimpleDateFormat("yyyy.MM.dd").format(
     SimpleDateFormat("yyyy-MM-dd").parse(this)
