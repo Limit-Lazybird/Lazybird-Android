@@ -1,5 +1,6 @@
 package com.limit.lazybird.ui.earlycard
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -45,7 +46,8 @@ class EarlycardAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.earlyCardTitle.text = list[position].title
         holder.earlyCardNumber.text = "NO. ${list[position].no}"
-        holder.earlyCardVisitedDate.text = "${if(list[position].visitDate!="N") list[position].visitDate else "-"}"
+        Log.e("test", "${list[position].visitDate}")
+        holder.earlyCardVisitedDate.text = list[position].visitDate
         Glide.with(holder.itemView)
             .load(list[position].imgUrl)
             .apply(RequestOptions().transform(CenterCrop(), RoundedCorners(20)))

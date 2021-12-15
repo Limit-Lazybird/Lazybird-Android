@@ -31,7 +31,7 @@ class EarlycardViewModel @Inject constructor(
                 EarlycardInfo(
                     no = earlyCard.early_num,
                     title = earlyCard.exhbt_nm,
-                    visitDate = if (earlyCard.reser_dt != "N") earlyCard.reser_dt else "-",
+                    visitDate = if (earlyCard.reser_dt != "N") earlyCard.reser_dt.substring(0, 4)+"-"+earlyCard.reser_dt.substring(4, 6)+"-"+earlyCard.reser_dt.substring(6, 8) else "-",
                     imgUrl = earlyCard.exhbt_sn
                 )
             }

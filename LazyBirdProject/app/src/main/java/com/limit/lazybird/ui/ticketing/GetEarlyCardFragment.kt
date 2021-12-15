@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.snackbar.Snackbar.SnackbarLayout
 import com.limit.lazybird.R
+import com.limit.lazybird.custom.CustomSnackBar
 import com.limit.lazybird.databinding.FragmentGetEarlycardBinding
 import com.limit.lazybird.ui.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
@@ -134,19 +135,22 @@ class GetEarlyCardFragment : Fragment(R.layout.fragment_get_earlycard) {
                         binding.getEarlycardMainContainer.visibility = View.VISIBLE // 메인 보이기
                         binding.getEarlycardSubContainer.visibility = View.INVISIBLE // 서브 숨기기
                         binding.getEarlycardSubContainer.clearAnimation() // 서브 animation 설정 제거
-                        showSnackbar()
+                        showSnackBar()
                     }
                 })
             }
         )
     }
 
-    private fun showSnackbar() {
-        val snackbar = Snackbar.make(requireView(),  "얼리카드가 추가되었어요", 10000)
-        snackbar.setAction("보러가기 >") {
-            moveToMain()
-        }
-        snackbar.show()
+    private fun showSnackBar() {
+        CustomSnackBar.make(requireView(), "얼리카드가 추가되었어요", "보러가기").apply {
+            clickListener = object : CustomSnackBar.OnClickListener {
+                override fun onClick(view: View) {
+                    moveToMain()
+                    dismiss()
+                }
+            }
+        }.show()
     }
 
     private fun moveToMain(){
