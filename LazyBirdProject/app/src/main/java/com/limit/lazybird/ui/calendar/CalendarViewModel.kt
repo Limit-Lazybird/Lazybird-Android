@@ -147,25 +147,37 @@ class CalendarViewModel @Inject constructor(
 
     fun visitUpdateExhbtYes(exhbt_cd: String) = viewModelScope.launch {
         repository.visitUpdateExhbt(token, exhbt_cd, "Y")
+        notifyDateChanged()
     }
 
     fun visitUpdateExhbtNo(exhbt_cd: String) = viewModelScope.launch {
         repository.visitUpdateExhbt(token, exhbt_cd, "N")
+        notifyDateChanged()
     }
 
     fun visitUpdateCustomYes(exhbt_cd: String) = viewModelScope.launch {
         repository.visitUpdateCustom(token, exhbt_cd, "Y")
+        notifyDateChanged()
     }
 
     fun visitUpdateCustomNo(exhbt_cd: String) = viewModelScope.launch {
         repository.visitUpdateCustom(token, exhbt_cd, "N")
+        notifyDateChanged()
     }
 
     fun deleteCustomCalendarInfo(exhbt_cd: String) = viewModelScope.launch {
         repository.deleteCustomCalendarInfo(token, exhbt_cd)
+        notifyDateChanged()
     }
 
     fun deleteCalendarInfo(exhbt_cd: String) = viewModelScope.launch {
         repository.deleteCalendarInfo(token, exhbt_cd)
+        notifyDateChanged()
+    }
+
+    fun notifyDateChanged(){
+        initCustomList()
+        initRegisteredList()
+        initUnregisteredList()
     }
 }

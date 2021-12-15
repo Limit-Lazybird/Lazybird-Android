@@ -128,7 +128,6 @@ class CalendarFragment : Fragment(R.layout.fragment_calendar) {
                     } else {
                         viewModel.deleteCalendarInfo(schedule.id.toString())
                     }
-                    resetView()
                 }
             }
         }
@@ -147,7 +146,6 @@ class CalendarFragment : Fragment(R.layout.fragment_calendar) {
                     } else if (!is_custom && exhbt_cd != null) {
                         viewModel.visitUpdateExhbtYes(exhbt_cd)
                     }
-                    resetView()
                 }
             }
         }
@@ -217,7 +215,6 @@ class CalendarFragment : Fragment(R.layout.fragment_calendar) {
                                             exhbt_cd = id.toString()
                                         )
                                     }
-                                    resetView()
                                 }
                             }
                         }
@@ -352,10 +349,4 @@ class CalendarFragment : Fragment(R.layout.fragment_calendar) {
         binding.calendarView.scrollToMonth(currentMonth)
     }
 
-    private fun resetView() {
-        // Todo : liveData로 변경시 해당 부분이 자동으로 바뀌도록 변경하기
-        viewModel.initCustomList()
-        viewModel.initRegisteredList()
-        viewModel.initUnregisteredList()
-    }
 }
