@@ -69,7 +69,7 @@ class CalendarAddFragment: Fragment(R.layout.fragment_calendar_add) {
             binding.calendarAddExhibition.setText(schedule.scheduleName)
             binding.calendarAddPlace.setText(schedule.schedulePlace)
             binding.calendarAddDate.setText("${schedule.date.parseYear()}-" +
-                    "${String.format("%02d", schedule.date.parseMonth())}-" +
+                    "${String.format("%02d", schedule.date.parseMonth()+1)}-" +
                     "${String.format("%02d", schedule.date.parseDay())}")
             binding.calendarAddTimeStart.setText(schedule.startTime)
             binding.calendarAddTimeEnd.setText(schedule.endTime)
@@ -139,7 +139,7 @@ class CalendarAddFragment: Fragment(R.layout.fragment_calendar_add) {
                         }
                     }
                     TYPE_TICKETED -> {
-                        // 예약일정 삭제
+                        // 예약일정
                         if(binding.calendarAddExhibition.text.toString() != ""
                             && binding.calendarAddPlace.text.toString() != ""
                             && binding.calendarAddDate.text.toString() != ""
@@ -183,6 +183,7 @@ class CalendarAddFragment: Fragment(R.layout.fragment_calendar_add) {
                         }
                     }
                     TYPE_TICKETED -> {
+                        // 예약일정
                         if(binding.calendarAddExhibition.text.toString() != ""
                             && binding.calendarAddPlace.text.toString() != ""
                             && binding.calendarAddDate.text.toString() != ""
