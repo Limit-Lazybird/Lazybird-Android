@@ -17,6 +17,7 @@ import com.limit.lazybird.databinding.FragmentTicketingNoticeBinding
 import com.limit.lazybird.ui.MainActivity
 import com.limit.lazybird.util.applyEscapeSequence
 import com.limit.lazybird.util.replaceFragment
+import com.limit.lazybird.viewmodel.TicketingViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 /************* TicketingNoticeFragment ***************

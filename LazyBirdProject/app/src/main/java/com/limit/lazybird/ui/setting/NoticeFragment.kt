@@ -7,6 +7,7 @@ import androidx.fragment.app.viewModels
 import com.limit.lazybird.R
 import com.limit.lazybird.databinding.FragmentNoticeBinding
 import com.limit.lazybird.ui.MainActivity
+import com.limit.lazybird.viewmodel.NoticeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 /***************** NoticeFragment *******************

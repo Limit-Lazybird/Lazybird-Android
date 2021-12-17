@@ -8,6 +8,8 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import com.limit.lazybird.R
 import com.limit.lazybird.databinding.FragmentNotificationBinding
 import com.limit.lazybird.ui.MainActivity
+import com.limit.lazybird.ui.custom.SwipeHelperCallback
+import com.limit.lazybird.viewmodel.NotificationViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 /************** NotificationFragment ****************

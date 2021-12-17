@@ -1,13 +1,9 @@
 package com.limit.lazybird.ui
 
-import android.Manifest
 import android.content.Context
-import android.content.pm.PackageManager
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.activity.OnBackPressedCallback
-import androidx.core.app.ActivityCompat
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
@@ -20,7 +16,7 @@ import com.limit.lazybird.ui.calendar.CalendarFragment
 import com.limit.lazybird.ui.earlybird.EarlyBirdFragment
 import com.limit.lazybird.ui.exhibition.ExhibitionFragment
 import com.limit.lazybird.ui.mybird.MyBirdFragment
-import com.limit.lazybird.ui.onboarding.CustomDialogFragment
+import com.limit.lazybird.ui.custom.dialog.CustomDialogFragment
 import com.limit.lazybird.ui.search.SearchFragment
 import com.limit.lazybird.util.replaceChildFragment
 

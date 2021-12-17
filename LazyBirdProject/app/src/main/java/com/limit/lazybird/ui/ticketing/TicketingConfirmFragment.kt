@@ -3,7 +3,6 @@ package com.limit.lazybird.ui.ticketing
 import android.os.Bundle
 import android.text.Html
 import android.view.View
-import androidx.core.os.bundleOf
 import androidx.core.text.HtmlCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -14,6 +13,7 @@ import com.limit.lazybird.databinding.FragmentTicketingConfirmBinding
 import com.limit.lazybird.ui.MainActivity
 import com.limit.lazybird.util.replaceFragment
 import com.limit.lazybird.util.thousandUnitFormatted
+import com.limit.lazybird.viewmodel.TicketingViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 

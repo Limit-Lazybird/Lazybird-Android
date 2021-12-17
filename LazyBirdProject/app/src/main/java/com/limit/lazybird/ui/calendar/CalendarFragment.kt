@@ -2,7 +2,6 @@ package com.limit.lazybird.ui.calendar
 
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
@@ -16,17 +15,20 @@ import com.kizitonwose.calendarview.utils.Size
 import com.kizitonwose.calendarview.utils.next
 import com.kizitonwose.calendarview.utils.previous
 import com.limit.lazybird.R
-import com.limit.lazybird.custom.DayViewContainer
-import com.limit.lazybird.custom.MonthViewContainer
-import com.limit.lazybird.custom.ScheduleMarkContainer
+import com.limit.lazybird.ui.custom.DayViewContainer
+import com.limit.lazybird.ui.custom.MonthViewContainer
+import com.limit.lazybird.ui.custom.ScheduleMarkContainer
 import com.limit.lazybird.databinding.FragmentCalendarBinding
 import com.limit.lazybird.models.CalendarInfoList
 import com.limit.lazybird.models.DialogInfo
 import com.limit.lazybird.models.Schedule
 import com.limit.lazybird.models.retrofit.CalendarInfo
 import com.limit.lazybird.ui.MainActivity
-import com.limit.lazybird.ui.calendaradd.CalendarAddFragment
+import com.limit.lazybird.ui.custom.dialog.IsVisitedDialogFragment
+import com.limit.lazybird.ui.custom.dialog.UnregisteredListBSDialog
+import com.limit.lazybird.ui.custom.dialog.UpdateDeleteDialogFragment
 import com.limit.lazybird.util.*
+import com.limit.lazybird.viewmodel.CalendarViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import java.time.DayOfWeek

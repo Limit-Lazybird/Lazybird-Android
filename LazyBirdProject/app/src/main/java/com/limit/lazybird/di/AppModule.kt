@@ -5,7 +5,7 @@ import com.google.gson.GsonBuilder
 import com.limit.lazybird.api.ApiHelper
 import com.limit.lazybird.api.ApiHelperImpl
 import com.limit.lazybird.api.ApiService
-import com.limit.lazybird.data.PreferenceDataStoreManager
+import com.limit.lazybird.datastore.PreferenceDataStoreManager
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

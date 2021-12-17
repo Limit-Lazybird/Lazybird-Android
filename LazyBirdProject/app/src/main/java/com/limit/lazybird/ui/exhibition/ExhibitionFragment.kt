@@ -1,25 +1,26 @@
 package com.limit.lazybird.ui.exhibition
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.core.view.allViews
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import com.limit.lazybird.R
-import com.limit.lazybird.custom.OptionItemView
+import com.limit.lazybird.ui.custom.OptionItemView
 import com.limit.lazybird.databinding.FragmentExhibitionBinding
 import com.limit.lazybird.models.ExhibitionFilterList
 import com.limit.lazybird.models.retrofit.Exhbt
 import com.limit.lazybird.ui.MainActivity
-import com.limit.lazybird.ui.earilybirdDetail.EarlyBirdDetailViewModel
-import com.limit.lazybird.ui.earlybirdDetail.EarlyBirdDetailFragment
-import com.limit.lazybird.ui.earlycard.EarlycardFragment
-import com.limit.lazybird.ui.exhibitionDetail.ExhibitionDetailFragment
-import com.limit.lazybird.ui.exhibitionDetail.ExhibitionDetailViewModel
+import com.limit.lazybird.ui.custom.dialog.ExhibitionFilterBSDialog
+import com.limit.lazybird.ui.custom.dialog.ExhibitionRefreshBSDialog
+import com.limit.lazybird.viewmodel.EarlyBirdDetailViewModel
+import com.limit.lazybird.ui.earlybird.EarlyBirdDetailFragment
+import com.limit.lazybird.ui.earlycard.EarlyCardFragment
+import com.limit.lazybird.viewmodel.ExhibitionDetailViewModel
 import com.limit.lazybird.ui.onboarding.OnbFragment
 import com.limit.lazybird.util.replaceFragment
+import com.limit.lazybird.viewmodel.ExhibitionViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 /************* ExhibitionFragment ***************
@@ -228,7 +229,7 @@ class ExhibitionFragment : Fragment(R.layout.fragment_exhibition) {
 
     private fun moveToEarlyCard() {
         // Earlycard Fragment 로 이동
-        parentActivity.supportFragmentManager.replaceFragment(EarlycardFragment())
+        parentActivity.supportFragmentManager.replaceFragment(EarlyCardFragment())
     }
 
 }

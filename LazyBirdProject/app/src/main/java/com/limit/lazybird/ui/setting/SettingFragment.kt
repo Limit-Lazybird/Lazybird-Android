@@ -12,11 +12,13 @@ import com.limit.lazybird.api.GoogleLoginHelper
 import com.limit.lazybird.api.KakaoLoginHelper
 import com.limit.lazybird.databinding.FragmentSettingBinding
 import com.limit.lazybird.ui.MainActivity
-import com.limit.lazybird.ui.exhibition.ExhibitionRefreshBSDialog
+import com.limit.lazybird.ui.custom.dialog.ExhibitionRefreshBSDialog
+import com.limit.lazybird.ui.custom.dialog.LogoutBSDialog
 import com.limit.lazybird.ui.onboarding.OnbFragment
 import com.limit.lazybird.ui.splashlogin.LoginFragment
 import com.limit.lazybird.util.removeAllBackStack
 import com.limit.lazybird.util.replaceFragment
+import com.limit.lazybird.viewmodel.SettingViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch

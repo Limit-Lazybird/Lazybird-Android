@@ -10,13 +10,15 @@ import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.coroutineScope
 import com.limit.lazybird.R
-import com.limit.lazybird.custom.OnbSelectBox
+import com.limit.lazybird.ui.custom.OnbSelectBox
 import com.limit.lazybird.databinding.FragmentOnbBinding
 import com.limit.lazybird.models.Answer
 import com.limit.lazybird.models.DialogInfo
 import com.limit.lazybird.models.Survey
 import com.limit.lazybird.ui.MainActivity
+import com.limit.lazybird.ui.custom.dialog.CustomDialogFragment
 import com.limit.lazybird.util.replaceFragment
+import com.limit.lazybird.viewmodel.OnbViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 

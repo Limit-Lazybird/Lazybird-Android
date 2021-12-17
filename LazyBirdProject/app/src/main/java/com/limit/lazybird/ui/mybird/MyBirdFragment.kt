@@ -13,6 +13,7 @@ import com.limit.lazybird.databinding.FragmentMybirdBinding
 import com.limit.lazybird.ui.MainActivity
 import com.limit.lazybird.ui.setting.SettingFragment
 import com.limit.lazybird.util.*
+import com.limit.lazybird.viewmodel.MyBirdViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 

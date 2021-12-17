@@ -8,11 +8,12 @@ import com.limit.lazybird.R
 import com.limit.lazybird.databinding.FragmentLikeDetailBinding
 import com.limit.lazybird.models.retrofit.Exhbt
 import com.limit.lazybird.ui.MainActivity
-import com.limit.lazybird.ui.earilybirdDetail.EarlyBirdDetailViewModel
-import com.limit.lazybird.ui.earlybirdDetail.EarlyBirdDetailFragment
-import com.limit.lazybird.ui.exhibitionDetail.ExhibitionDetailFragment
-import com.limit.lazybird.ui.exhibitionDetail.ExhibitionDetailViewModel
+import com.limit.lazybird.viewmodel.EarlyBirdDetailViewModel
+import com.limit.lazybird.ui.earlybird.EarlyBirdDetailFragment
+import com.limit.lazybird.ui.exhibition.ExhibitionDetailFragment
+import com.limit.lazybird.viewmodel.ExhibitionDetailViewModel
 import com.limit.lazybird.util.replaceFragment
+import com.limit.lazybird.viewmodel.MyBirdViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 /************* LikeDetailFragment ***************

@@ -10,12 +10,12 @@ import com.limit.lazybird.R
 import com.limit.lazybird.databinding.FragmentEarlybirdBinding
 import com.limit.lazybird.models.retrofit.Exhbt
 import com.limit.lazybird.ui.MainActivity
-import com.limit.lazybird.ui.earilybirdDetail.EarlyBirdDetailViewModel
-import com.limit.lazybird.ui.earlybirdDetail.EarlyBirdDetailFragment
-import com.limit.lazybird.ui.earlycard.EarlycardFragment
+import com.limit.lazybird.viewmodel.EarlyBirdDetailViewModel
+import com.limit.lazybird.ui.earlycard.EarlyCardFragment
 import com.limit.lazybird.ui.notification.NotificationFragment
 import com.limit.lazybird.util.replaceFragment
 import com.limit.lazybird.util.toDp
+import com.limit.lazybird.viewmodel.EarlyBirdViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlin.math.abs
 
@@ -118,6 +118,6 @@ class EarlyBirdFragment : Fragment(R.layout.fragment_earlybird) {
 
     private fun moveToEarlyCard() {
         // Earlycard Fragment 로 이동
-        parentActivity.supportFragmentManager.replaceFragment(EarlycardFragment())
+        parentActivity.supportFragmentManager.replaceFragment(EarlyCardFragment())
     }
 }

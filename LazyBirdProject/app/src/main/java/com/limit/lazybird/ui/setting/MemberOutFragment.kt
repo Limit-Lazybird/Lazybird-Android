@@ -14,6 +14,7 @@ import com.limit.lazybird.ui.splashlogin.LoginFragment
 import com.limit.lazybird.util.applyEscapeSequence
 import com.limit.lazybird.util.removeAllBackStack
 import com.limit.lazybird.util.replaceFragment
+import com.limit.lazybird.viewmodel.SettingViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch

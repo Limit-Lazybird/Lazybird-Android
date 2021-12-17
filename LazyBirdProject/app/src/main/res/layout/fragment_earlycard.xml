@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.earlycard.EarlycardFragment">
+    tools:context=".ui.earlycard.EarlyCardFragment">
 
     <ImageButton
         android:id="@+id/earlycard_back_btn"

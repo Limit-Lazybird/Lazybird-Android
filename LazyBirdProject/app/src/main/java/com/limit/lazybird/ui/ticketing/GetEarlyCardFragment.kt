@@ -1,25 +1,21 @@
 package com.limit.lazybird.ui.ticketing
 
 import android.os.Bundle
-import android.util.Log
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
-import android.widget.TextView
 import androidx.core.view.GestureDetectorCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.bumptech.glide.Glide
-import com.google.android.material.snackbar.Snackbar
-import com.google.android.material.snackbar.Snackbar.SnackbarLayout
 import com.limit.lazybird.R
-import com.limit.lazybird.custom.CustomSnackBar
+import com.limit.lazybird.ui.custom.CustomSnackBar
 import com.limit.lazybird.databinding.FragmentGetEarlycardBinding
 import com.limit.lazybird.ui.MainActivity
+import com.limit.lazybird.viewmodel.TicketingViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.dialog_bs_date_select.*
 
 
 @AndroidEntryPoint
