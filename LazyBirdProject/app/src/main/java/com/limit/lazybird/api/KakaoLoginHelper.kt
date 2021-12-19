@@ -10,6 +10,7 @@ import com.kakao.sdk.common.KakaoSdk
 import com.kakao.sdk.common.model.KakaoSdkError
 import com.kakao.sdk.user.UserApiClient
 import com.kakao.sdk.user.model.User
+import com.limit.lazybird.BuildConfig
 import com.limit.lazybird.R
 import com.limit.lazybird.models.LoginInfo
 import com.limit.lazybird.ui.splashlogin.LoginFragment
@@ -29,7 +30,7 @@ class KakaoLoginHelper(
 
     fun init() {
         Log.e(TAG, "init() called")
-        KakaoSdk.init(context, context.getString(R.string.native_app_key))
+        KakaoSdk.init(context, BuildConfig.KAKAO_NATIVE_APP_KEY)
         callback = { token, error ->
             if (error != null) {
                 Log.e(LoginFragment.TAG, "로그인 실패 : ${error}")

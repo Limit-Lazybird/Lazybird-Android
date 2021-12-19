@@ -13,6 +13,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
+import com.limit.lazybird.BuildConfig
 import com.limit.lazybird.R
 import com.limit.lazybird.models.LoginInfo
 
@@ -33,7 +34,7 @@ class GoogleLoginHelper(
     fun init() {
         Log.e(TAG, "init() called")
         gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken(fragment.getString(R.string.google_server_client_id))
+            .requestIdToken(BuildConfig.GOOGLE_SERVER_CLIENT_ID)
             .requestEmail()
             .build()
         mGoogleSignInClient = GoogleSignIn.getClient(fragment.context, gso)

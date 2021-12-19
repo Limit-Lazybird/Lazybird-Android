@@ -2,6 +2,7 @@ package com.limit.lazybird.di
 
 import android.content.Context
 import com.google.gson.GsonBuilder
+import com.limit.lazybird.BuildConfig
 import com.limit.lazybird.api.ApiHelper
 import com.limit.lazybird.api.ApiHelperImpl
 import com.limit.lazybird.api.ApiService
@@ -25,7 +26,7 @@ object AppModule {
     @Singleton
     fun provideRetrofit(): Retrofit = Retrofit.Builder()
         .addConverterFactory(GsonConverterFactory.create(GsonBuilder().setLenient().create()))
-        .baseUrl("https://limit-lazybird.com")
+        .baseUrl(BuildConfig.LAZYBIRD_SERVER_URL)
         .build()
 
     @Provides
