@@ -9,23 +9,23 @@
 ## 화면 구성
 
 ### 얼리버드 화면
-<img src="/images/1.gif" width=600 />
+<img src="/images/1.gif" width=400 />
 <br><br>
 
 ### 전시 화면
-<img src="/images/2.gif" width=600 />
+<img src="/images/2.gif" width=400 />
 <br><br>
 
 ### 캘린더 화면
-<img src="/images/3.gif" width=600 />
+<img src="/images/3.gif" width=400 />
 <br><br>
 
 ### 검색 화면
-<img src="/images/4.gif" width=600 />
+<img src="/images/4.gif" width=400 />
 <br><br>
 
 ### 마이버드 화면
-<img src="/images/5.gif" width=600 />
+<img src="/images/5.gif" width=400 />
 <br><br>
 
 <br><br>
