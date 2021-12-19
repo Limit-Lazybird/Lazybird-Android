@@ -1,6 +1,7 @@
 package com.limit.lazybird.ui.ticketing
 
 import android.os.Bundle
+import android.util.Log
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
@@ -150,9 +151,8 @@ class GetEarlyCardFragment : Fragment(R.layout.fragment_get_earlycard) {
     }
 
     private fun moveToMain(){
-        repeat(2) {
+        repeat(parentActivity.supportFragmentManager.backStackEntryCount) {
             parentActivity.supportFragmentManager.popBackStack()
         }
     }
-
 }
