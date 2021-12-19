@@ -29,7 +29,7 @@
 <br><br>
 
 <br><br>
-## 개발일지 (Language: Korean)
+## 개발일지
 - <a href="https://blog.naver.com/ponson1017/222533130703"> Select Button Group </a><br>
 - <a href="https://blog.naver.com/ponson1017/222534837499"> Custom Calendar </a><br>
 - <a href="https://blog.naver.com/ponson1017/222554342327"> Custom Select Box View </a><br>
