@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="visitedDate"
+            type="String" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/earlycard_detail_background"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/black_trans_80">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/earlycard_detail_container"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginLeft="6dp"
+                android:layout_marginRight="6dp"
+                android:layout_marginBottom="9dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintDimensionRatio="H,51:29"
+                app:layout_constraintHeight_percent="0.73"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent">
+
+                <ImageView
+                    android:id="@+id/earlycard_detail_card_background"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/ic_cv_earlycard" />
+
+                <ImageView
+                    android:id="@+id/earlycard_detail_img"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:src="@color/black"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintHeight_percent="0.61"
+                    app:layout_constraintLeft_toLeftOf="@id/earlycard_detail_card_background"
+                    app:layout_constraintRight_toRightOf="@id/earlycard_detail_card_background"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.1"
+                    app:layout_constraintWidth_percent="0.852" />
+
+                <TextView
+                    android:id="@+id/earlycard_detail_number"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/montserrat_700"
+                    android:textColor="@color/or01"
+                    android:textSize="20dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.82"
+                    app:layout_constraintWidth_percent="0.85"
+                    tools:text="NO.3" />
+
+                <TextView
+                    android:id="@+id/earlycard_detail_title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:fontFamily="@font/roboto_700"
+                    android:singleLine="true"
+                    android:textColor="@color/gray_100"
+                    android:textSize="20dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.89"
+                    app:layout_constraintWidth_percent="0.85"
+                    tools:text="영국 테이트미술관 특별전" />
+
+
+                <TextView
+                    android:id="@+id/earlycard_detail_visited_date_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:text="관람"
+                    android:textColor="@color/gray_100"
+                    android:textSize="20dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="@id/earlycard_detail_title"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.96"/>
+
+                <TextView
+                    android:id="@+id/earlycard_detail_visited_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="12dp"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:text='@{visitedDate}'
+                    android:textColor="@color/gray_100"
+                    android:textSize="20dp"
+                    app:layout_constraintBottom_toBottomOf="@id/earlycard_detail_visited_date_title"
+                    app:layout_constraintLeft_toRightOf="@id/earlycard_detail_visited_date_title"
+                    app:layout_constraintTop_toTopOf="@id/earlycard_detail_visited_date_title"
+                    app:layout_constraintVertical_bias="0.96"
+                    tools:text="2021-12-05" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <ImageButton
+                android:id="@+id/earlycard_detail_close_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="4dp"
+                android:layout_marginBottom="20dp"
+                android:background="@color/transparent"
+                android:src="@drawable/ic_close"
+                app:layout_constraintBottom_toTopOf="@id/earlycard_detail_container"
+                app:layout_constraintRight_toRightOf="@id/earlycard_detail_container" />
+
+            <ImageButton
+                android:id="@+id/earlycard_detail_save_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="8dp"
+                android:layout_marginBottom="20dp"
+                android:background="@color/transparent"
+                android:src="@drawable/ic_save"
+                app:layout_constraintBottom_toTopOf="@id/earlycard_detail_container"
+                app:layout_constraintRight_toLeftOf="@id/earlycard_detail_close_btn" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="10dp"
+                android:src="@drawable/ic_cv_earlycard_save"
+                app:layout_constraintBottom_toBottomOf="@id/earlycard_detail_save_btn"
+                app:layout_constraintRight_toRightOf="@id/earlycard_detail_close_btn" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </RelativeLayout>
+
+</layout>

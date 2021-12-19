@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/bnv_earlybird"
+        android:icon="@drawable/ic_tap_earlybird"
+        android:title="얼리버드" />
+
+    <item
+        android:id="@+id/bnv_exhibition"
+        android:icon="@drawable/ic_tap_exhibit"
+        android:title="전시" />
+
+    <item
+        android:id="@+id/bnv_calendar"
+        android:icon="@drawable/ic_tap_calendar"
+        android:title="캘린더"/>
+
+    <item
+        android:id="@+id/bnv_search"
+        android:icon="@drawable/ic_tap_search"
+        android:title="검색" />
+
+    <item
+        android:id="@+id/bnv_mybird"
+        android:icon="@drawable/ic_tap_mybird"
+        android:title="마이버드" />
+</menu>

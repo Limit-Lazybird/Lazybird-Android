@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="8dp">
+
+    <TextView
+        android:id="@+id/item_notice_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:fontFamily="@font/roboto_400"
+        android:textColor="@color/gray04"
+        android:textSize="11dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="2021년 11월 23일" />
+
+    <ImageButton
+        android:id="@+id/item_notice_expand_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginRight="22dp"
+        android:background="@color/transparent"
+        android:paddingBottom="16dp"
+        android:src="@drawable/ic_expand_light_d"
+        app:layout_constraintBottom_toBottomOf="@id/item_notice_title"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/item_notice_title"
+        app:tint="@color/white" />
+
+    <TextView
+        android:id="@+id/item_notice_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="7dp"
+        android:fontFamily="@font/roboto_500"
+        android:paddingBottom="16dp"
+        android:textColor="@color/white"
+        android:textSize="13dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/item_notice_expand_btn"
+        app:layout_constraintTop_toBottomOf="@id/item_notice_date"
+        tools:text="레이지버드 1.0.1 버전 출시" />
+
+    <TextView
+        android:id="@+id/item_notice_context"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/gray_150"
+        android:fontFamily="@font/roboto_300"
+        android:paddingLeft="18dp"
+        android:paddingTop="16dp"
+        android:paddingRight="18dp"
+        android:paddingBottom="16dp"
+        android:textColor="@color/white"
+        android:textSize="9dp"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/item_notice_title"
+        tools:text="@string/notice_context"
+        tools:visibility="visible" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

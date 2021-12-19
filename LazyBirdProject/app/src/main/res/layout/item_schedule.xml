@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/item_schedule_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="10dp">
+
+    <TextView
+        android:id="@+id/item_schedule_dayofweek"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/montserrat_400"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:textSize="16dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.18"
+        tools:text="Tue" />
+
+    <TextView
+        android:id="@+id/item_schedule_day"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/montserrat_600"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:textSize="24dp"
+        app:layout_constraintBottom_toBottomOf="@id/item_schedule_right_container"
+        app:layout_constraintLeft_toLeftOf="@id/item_schedule_dayofweek"
+        app:layout_constraintRight_toRightOf="@id/item_schedule_dayofweek"
+        app:layout_constraintTop_toBottomOf="@id/item_schedule_dayofweek"
+        tools:text="16" />
+
+    <View
+        android:id="@+id/item_schedule_mark"
+        android:layout_width="2dp"
+        android:layout_height="0dp"
+        android:background="@color/green"
+        app:layout_constraintBottom_toBottomOf="@id/item_schedule_right_container"
+        app:layout_constraintRight_toRightOf="@id/item_schedule_dayofweek"
+        app:layout_constraintTop_toTopOf="@id/item_schedule_right_container" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/item_schedule_right_container"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="9dp"
+        android:layout_marginRight="22dp"
+        android:background="@drawable/button_rounded_10"
+        android:backgroundTint="@color/gray_200"
+        android:paddingBottom="12dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/item_schedule_mark"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/item_schedule_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="6dp"
+            android:ellipsize="end"
+            android:fontFamily="@font/roboto_700"
+            android:singleLine="true"
+            android:textColor="@color/white"
+            android:textSize="15dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/item_schedule_time"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="요시고 사진전" />
+
+        <TextView
+            android:id="@+id/item_schedule_time"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginRight="8dp"
+            android:fontFamily="@font/roboto_500"
+            android:gravity="center"
+            android:textColor="@color/gray04"
+            android:textSize="14dp"
+            app:layout_constraintBottom_toBottomOf="@id/item_schedule_name"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/item_schedule_name"
+            tools:text="11:00 ~ 12:00" />
+
+        <TextView
+            android:id="@+id/item_schedule_place"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="8dp"
+            android:ellipsize="end"
+            android:fontFamily="@font/roboto_500"
+            android:singleLine="true"
+            android:textColor="@color/white"
+            android:textSize="14dp"
+            app:layout_constraintLeft_toLeftOf="@id/item_schedule_name"
+            app:layout_constraintTop_toBottomOf="@id/item_schedule_name"
+            tools:text="그라운드 시소 서촌" />
+
+        <RelativeLayout
+            android:id="@+id/item_schedule_is_visited_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@id/item_schedule_place"
+            app:layout_constraintRight_toRightOf="@id/item_schedule_time"
+            app:layout_constraintTop_toTopOf="@id/item_schedule_place">
+
+            <TextView
+                android:id="@+id/item_schedule_is_visited"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="3dp"
+                android:fontFamily="@font/roboto_500"
+                android:gravity="center"
+                android:text="방문"
+                android:textColor="@color/or01"
+                android:textSize="14dp"
+                app:layout_constraintRight_toLeftOf="@id/item_schedule_is_visited_img" />
+
+            <ImageView
+                android:id="@+id/item_schedule_is_visited_img"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/item_schedule_is_visited"
+                android:src="@drawable/ic_check"
+                app:tint="@color/or01" />
+
+        </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

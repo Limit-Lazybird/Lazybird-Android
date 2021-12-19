@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <style name="Custom_OptionItemView">
+        <item name="android:textSize">20dp</item>
+    </style>
+
+    <style name="DialogThemeFullScreen" parent="android:Theme.Material.Dialog">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <!-- No backgrounds, titles or window float -->
+        <item name="windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">false</item>
+    </style>
+
+    <style name="DialogPopUp">
+        <item name="android:windowEnterAnimation">@anim/slide_up_in</item>
+        <item name="android:windowExitAnimation">@anim/slide_down_out</item>
+    </style>
+
+    <style name="calendarDayOfWeekHeader">
+        <item name="android:fontFamily">@font/montserrat_600</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">17dp</item>
+    </style>
+
+    <style name="bnvTextStyle">
+        <item name="fontFamily">@font/roboto_400</item>
+        <item name="android:textSize">10dp</item>
+    </style>
+
+    <style name="BottomSheetDialog" parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="bottomSheetStyle">@style/bottomSheetStyleWrapper</item>
+    </style>
+
+    <style name="bottomSheetStyleWrapper" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+
+    <style name="AppSearchView" parent="Widget.AppCompat.SearchView">
+        <item name="android:textSize">15dp</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textColorHint">@color/gray04</item>
+    </style>
+
+    <style name="TimePickerTheme">
+        <item name="android:fontFamily">@font/roboto_700</item>
+        <item name="android:textSize">17dp</item>
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:textColorSecondary">@color/gray04</item>
+    </style>
+
+    <style name="NumberPickerTheme">
+        <item name="android:ellipsize">end</item>
+        <item name="android:fontFamily">@font/roboto_700</item>
+        <item name="android:textSize">17dp</item>
+        <item name="android:gravity">left</item>
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:textColorSecondary">@color/gray04</item>
+    </style>
+
+</resources>

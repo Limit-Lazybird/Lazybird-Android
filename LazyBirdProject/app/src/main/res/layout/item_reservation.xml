@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="discount"
+            type="int" />
+    </data>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/transparent"
+        android:paddingBottom="16dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_rounded_10"
+            android:backgroundTint="@color/gray_150"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:paddingBottom="16dp">
+
+            <ImageView
+                android:id="@+id/item_reservation_thumbnail"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginTop="16dp"
+                android:scaleType="centerCrop"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintDimensionRatio="H,3:4"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintWidth_percent="0.4"
+                tools:src="@color/ic_launcher_background" />
+
+
+            <TextView
+                android:id="@+id/item_reservation_dday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:background="@drawable/button_rounded_10"
+                android:backgroundTint="@color/or01"
+                android:fontFamily="@font/montserrat_700"
+                android:paddingLeft="8dp"
+                android:paddingTop="4dp"
+                android:paddingRight="8dp"
+                android:paddingBottom="4dp"
+                android:textColor="@color/white"
+                android:textSize="11dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="D - 10" />
+
+            <TextView
+                android:id="@+id/item_reservation_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="14dp"
+                android:layout_marginRight="8dp"
+                android:ellipsize="end"
+                android:fontFamily="@font/roboto_700"
+                android:maxLines="1"
+                android:textColor="@color/white"
+                android:textSize="13dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@id/item_reservation_thumbnail"
+                app:layout_constraintTop_toBottomOf="@id/item_reservation_dday"
+                tools:text="앨리스 달튼 브라운" />
+
+            <TextView
+                android:id="@+id/item_reservation_place"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
+                android:ellipsize="end"
+                android:fontFamily="@font/roboto_500"
+                android:maxLines="1"
+                android:textColor="@color/white"
+                android:textSize="11dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/item_reservation_title"
+                tools:text="마이아트뮤지엄" />
+
+            <TextView
+                android:id="@+id/item_reservation_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/roboto_500"
+                android:textColor="@color/white"
+                android:textSize="11dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/item_reservation_place"
+                tools:text="2021.07.24 ~ 2021.11.07" />
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/item_reservation_date">
+
+                <TextView
+                    android:id="@+id/item_reservation_price"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginLeft="2dp"
+                    android:fontFamily="@font/roboto_300"
+                    android:textColor="@color/gray04"
+                    android:textSize="11dp"
+                    android:visibility="@{discount == 0 ? View.GONE : View.VISIBLE}"
+                    tools:text="20,200" />
+
+                <TextView
+                    android:id="@+id/item_reservation_price_unit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="2dp"
+                    android:layout_toRightOf="@id/item_reservation_price"
+                    android:fontFamily="@font/roboto_300"
+                    android:text="원"
+                    android:textColor="@color/gray04"
+                    android:textSize="9dp"
+                    android:visibility="@{discount == 0 ? View.GONE : View.VISIBLE}" />
+
+                <TextView
+                    android:id="@+id/item_reservation_discount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@id/item_reservation_price_dc"
+                    android:layout_alignBottom="@id/item_reservation_price_dc"
+                    android:fontFamily="@font/montserrat_600"
+                    android:paddingRight="4dp"
+                    android:text='@{discount + "%"}'
+                    android:textColor="@color/red01"
+                    android:textSize="12dp"
+                    android:visibility="@{discount == 0 ? View.GONE : View.VISIBLE}"
+                    tools:text="30%" />
+
+                <TextView
+                    android:id="@+id/item_reservation_price_dc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/item_reservation_price"
+                    android:layout_toRightOf="@id/item_reservation_discount"
+                    android:fontFamily="@font/montserrat_700"
+                    android:textColor="@color/white"
+                    android:textSize="12dp"
+                    tools:text="16,200" />
+
+                <TextView
+                    android:id="@+id/item_reservation_price_dc_unit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignTop="@id/item_reservation_price_dc"
+                    android:layout_alignBottom="@id/item_reservation_price_dc"
+                    android:layout_marginLeft="2dp"
+                    android:layout_toRightOf="@id/item_reservation_price_dc"
+                    android:fontFamily="@font/roboto_500"
+                    android:gravity="center"
+                    android:text="원"
+                    android:textColor="@color/gray_1000"
+                    android:textSize="9dp" />
+            </RelativeLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </RelativeLayout>
+</layout>

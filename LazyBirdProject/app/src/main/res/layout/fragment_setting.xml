@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray_100">
+
+    <ImageButton
+        android:id="@+id/setting_back_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:background="@color/transparent"
+        android:src="@drawable/ic_left_arrow"
+        app:layout_constraintBottom_toBottomOf="@id/setting_title"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="@id/setting_title" />
+
+    <TextView
+        android:id="@+id/setting_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:fontFamily="@font/roboto_700"
+        android:gravity="center"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
+        android:text="@string/setting_title"
+        android:textColor="@color/white"
+        android:textSize="17dp"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/setting_onb_reset"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/gray_150"
+        android:fontFamily="@font/roboto_500"
+        android:padding="16dp"
+        android:text="@string/setting_onb_reset_title"
+        android:textColor="@color/white"
+        android:textSize="13dp"
+        app:layout_constraintTop_toBottomOf="@id/setting_title" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="28dp"
+        android:fontFamily="@font/roboto_500"
+        android:src="@drawable/ic_expand_light_r"
+        app:layout_constraintBottom_toBottomOf="@id/setting_onb_reset"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/setting_onb_reset" />
+
+
+    <TextView
+        android:id="@+id/setting_onb_notice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@color/gray_150"
+        android:fontFamily="@font/roboto_500"
+        android:padding="16dp"
+        android:text="@string/setting_onb_notice_title"
+        android:textColor="@color/white"
+        android:textSize="13dp"
+        app:layout_constraintTop_toBottomOf="@id/setting_onb_reset" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="28dp"
+        android:src="@drawable/ic_expand_light_r"
+        app:layout_constraintBottom_toBottomOf="@id/setting_onb_notice"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/setting_onb_notice" />
+
+    <TextView
+        android:id="@+id/setting_onb_term"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/gray_150"
+        android:fontFamily="@font/roboto_500"
+        android:padding="16dp"
+        android:text="@string/setting_onb_term_title"
+        android:textColor="@color/white"
+        android:textSize="13dp"
+        app:layout_constraintTop_toBottomOf="@id/setting_onb_notice" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="28dp"
+        android:src="@drawable/ic_expand_light_r"
+        app:layout_constraintBottom_toBottomOf="@id/setting_onb_term"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/setting_onb_term" />
+
+    <TextView
+        android:id="@+id/setting_onb_privacy_rule"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/gray_150"
+        android:fontFamily="@font/roboto_500"
+        android:padding="16dp"
+        android:text="@string/setting_onb_privacy_rule_title"
+        android:textColor="@color/white"
+        android:textSize="13dp"
+        app:layout_constraintTop_toBottomOf="@id/setting_onb_term" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="28dp"
+        android:src="@drawable/ic_expand_light_r"
+        app:layout_constraintBottom_toBottomOf="@id/setting_onb_privacy_rule"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/setting_onb_privacy_rule" />
+
+
+    <TextView
+        android:id="@+id/setting_onb_logout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@color/gray_150"
+        android:fontFamily="@font/roboto_500"
+        android:padding="16dp"
+        android:text="@string/setting_onb_logout_title"
+        android:textColor="@color/white"
+        android:textSize="13dp"
+        app:layout_constraintTop_toBottomOf="@id/setting_onb_privacy_rule" />
+
+    <TextView
+        android:id="@+id/setting_onb_member_out"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/gray_150"
+        android:fontFamily="@font/roboto_500"
+        android:padding="16dp"
+        android:text="@string/setting_onb_privacy_member_out_title"
+        android:textColor="@color/white"
+        android:textSize="13dp"
+        app:layout_constraintTop_toBottomOf="@id/setting_onb_logout" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="28dp"
+        android:src="@drawable/ic_expand_light_r"
+        app:layout_constraintBottom_toBottomOf="@id/setting_onb_member_out"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/setting_onb_member_out" />
+
+
+    <TextView
+        android:id="@+id/setting_onb_app_version"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@color/gray_150"
+        android:fontFamily="@font/roboto_500"
+        android:padding="16dp"
+        android:text="@string/setting_onb_app_version_title"
+        android:textColor="@color/white"
+        android:textSize="13dp"
+        app:layout_constraintTop_toBottomOf="@id/setting_onb_member_out" />
+
+    <TextView
+        android:id="@+id/setting_onb_app_version_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="25dp"
+        android:fontFamily="@font/roboto_500"
+        android:text="@string/setting_onb_app_version_recent"
+        android:textColor="@color/gray04"
+        android:textSize="13dp"
+        app:layout_constraintBottom_toBottomOf="@id/setting_onb_app_version"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/setting_onb_app_version" />
+</androidx.constraintlayout.widget.ConstraintLayout>

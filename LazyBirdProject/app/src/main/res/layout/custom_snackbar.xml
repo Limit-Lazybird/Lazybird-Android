@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/snackbar_container"
+        android:layout_width="match_parent"
+        app:cardBackgroundColor="@color/transparent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/button_rounded_10"
+            android:backgroundTint="@color/or01_80"
+            >
+
+            <TextView
+                android:id="@+id/snackbar_main_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_700"
+                android:padding="16dp"
+                android:text="얼리카드가 추가되었어요"
+                android:textColor="@color/white"
+                android:textSize="15dp" />
+
+            <TextView
+                android:id="@+id/snackbar_action_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@id/snackbar_main_text"
+                android:layout_alignBottom="@id/snackbar_main_text"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="44dp"
+                android:fontFamily="@font/roboto_700"
+                android:gravity="center_vertical"
+                android:text="보러가기"
+                android:textColor="@color/white"
+                android:textSize="15dp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@id/snackbar_main_text"
+                android:layout_alignBottom="@id/snackbar_main_text"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="15dp"
+                android:src="@drawable/ic_expand_bold_r" />
+
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
+</layout>

@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="discount"
+            type="int" />
+    </data>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageButton
+            android:id="@+id/ticketing_confirm_back_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="13dp"
+            android:background="@color/transparent"
+            android:src="@drawable/ic_left_arrow"
+            app:layout_constraintBottom_toBottomOf="@id/ticketing_confirm_title"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="@id/ticketing_confirm_title" />
+
+        <TextView
+            android:id="@+id/ticketing_confirm_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:fontFamily="@font/roboto_700"
+            android:text="@string/ticketing_confirm_title"
+            android:textColor="@color/white"
+            android:textSize="17dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/ticketing_confirm_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toTopOf="@id/ticketing_confirm_ok_btn"
+            app:layout_constraintTop_toBottomOf="@id/ticketing_confirm_title"
+            app:layout_constraintVertical_bias="0.25">
+
+            <TextView
+                android:id="@+id/ticketing_confirm_ticket_title1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat_500"
+                android:text="Today's earlybird"
+                android:textColor="@color/or01"
+                android:textSize="13dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="@id/ticketing_confirm_container" />
+
+            <TextView
+                android:id="@+id/ticketing_confirm_ticket_title2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
+                android:fontFamily="@font/roboto_700"
+                android:text="예매가 완료되었습니다."
+                android:textColor="@color/white"
+                android:textSize="17dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ticketing_confirm_ticket_title1" />
+
+            <View
+                android:id="@+id/ticketing_confirm_line"
+                android:layout_width="match_parent"
+                android:layout_height="3dp"
+                android:layout_marginTop="12dp"
+                android:background="@color/or01_90"
+                app:layout_constraintTop_toBottomOf="@id/ticketing_confirm_ticket_title2" />
+
+            <TextView
+                android:id="@+id/ticketing_confirm_mall_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/roboto_500"
+                android:paddingTop="8dp"
+                android:text="@string/ticketing_confirm_mall_name"
+                android:textColor="@color/white"
+                android:textSize="11dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="@id/ticketing_confirm_exhbt_title"
+                app:layout_constraintTop_toBottomOf="@id/ticketing_confirm_line" />
+
+            <TextView
+                android:id="@+id/ticketing_confirm_exhbt_title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="11dp"
+                android:fontFamily="@font/roboto_700"
+                android:textColor="@color/or01"
+                android:textSize="13dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@id/ticketing_confirm_exhbt_img"
+                app:layout_constraintTop_toBottomOf="@id/ticketing_confirm_mall_name"
+                app:layout_constraintWidth_percent="0.45"
+                tools:text="미구엘 슈발리에 특별전" />
+
+            <TextView
+                android:id="@+id/ticketing_confirm_exhbt_date"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="21dp"
+                android:fontFamily="@font/roboto_500"
+                android:textColor="@color/white"
+                android:textSize="10dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="@id/ticketing_confirm_exhbt_title"
+                app:layout_constraintTop_toBottomOf="@id/ticketing_confirm_exhbt_title"
+                tools:text="2021.11.8 ~ 2021.11.6" />
+
+            <TextView
+                android:id="@+id/ticketing_confirm_exhbt_place"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:fontFamily="@font/roboto_500"
+                android:textColor="@color/white"
+                android:textSize="10dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="@id/ticketing_confirm_exhbt_title"
+                app:layout_constraintTop_toBottomOf="@id/ticketing_confirm_exhbt_date"
+                tools:text="아쿠아플라넷 제주 특별 전시관" />
+
+            <TextView
+                android:id="@+id/ticketing_confirm_exhbt_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="2dp"
+                android:fontFamily="@font/montserrat_400"
+                android:textColor="@color/gray04"
+                android:textSize="11dp"
+                android:visibility="@{discount == 0 ? View.GONE : View.VISIBLE}"
+                app:layout_constraintBottom_toTopOf="@id/ticketing_confirm_exhbt_price_dc"
+                app:layout_constraintLeft_toLeftOf="parent"
+                tools:text="20,000" />
+
+            <TextView
+                android:id="@+id/ticketing_confirm_exhbt_price_unit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_500"
+                android:text="원"
+                android:textColor="@color/gray04"
+                android:textSize="9dp"
+                android:visibility="@{discount == 0 ? View.GONE : View.VISIBLE}"
+                app:layout_constraintBottom_toBottomOf="@id/ticketing_confirm_exhbt_price"
+                app:layout_constraintLeft_toRightOf="@id/ticketing_confirm_exhbt_price" />
+
+            <TextView
+                android:id="@+id/ticketing_confirm_exhbt_discount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat_600"
+                android:paddingRight="5dp"
+                android:text='@{discount + "%"}'
+                android:textColor="@color/pink"
+                android:textSize="11dp"
+                android:visibility="@{discount == 0 ? View.GONE : View.VISIBLE}"
+                app:layout_constraintBottom_toBottomOf="@id/ticketing_confirm_exhbt_price_dc"
+                app:layout_constraintLeft_toLeftOf="parent"
+                tools:text="53%" />
+
+            <TextView
+                android:id="@+id/ticketing_confirm_exhbt_price_dc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="54dp"
+                android:fontFamily="@font/montserrat_600"
+                android:text="10,000"
+                android:textColor="@color/white"
+                android:textSize="11dp"
+                app:layout_constraintLeft_toRightOf="@id/ticketing_confirm_exhbt_discount"
+                app:layout_constraintTop_toBottomOf="@id/ticketing_confirm_exhbt_place" />
+
+            <TextView
+                android:id="@+id/ticketing_confirm_exhbt_price_dc_unit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_500"
+                android:text="원"
+                android:textColor="@color/gray_900"
+                android:textSize="11dp"
+                app:layout_constraintBottom_toBottomOf="@id/ticketing_confirm_exhbt_price_dc"
+                app:layout_constraintLeft_toRightOf="@id/ticketing_confirm_exhbt_price_dc" />
+
+            <ImageView
+                android:id="@+id/ticketing_confirm_exhbt_img"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:scaleType="centerCrop"
+                app:layout_constraintBottom_toBottomOf="@id/ticketing_confirm_exhbt_price_dc"
+                app:layout_constraintHorizontal_weight="0.5"
+                app:layout_constraintLeft_toRightOf="@id/ticketing_confirm_exhbt_title"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@id/ticketing_confirm_mall_name"
+                tools:src="@color/ic_launcher_background" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_cv_ticketing_confirm_message"
+            app:layout_constraintBottom_toTopOf="@id/ticketing_confirm_ok_btn"
+            app:layout_constraintLeft_toLeftOf="@id/ticketing_confirm_ok_btn"
+            app:layout_constraintRight_toRightOf="@id/ticketing_confirm_ok_btn" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/ticketing_confirm_ok_btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="28dp"
+            android:layout_marginBottom="30dp"
+            android:background="@drawable/button_rounded_10"
+            android:backgroundTint="@color/or01"
+            android:fontFamily="@font/roboto_700"
+            android:text="@string/ticketing_confirm_next_btn_title"
+            android:textColor="@color/white"
+            android:textSize="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintWidth_percent="0.4" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/ticketing_confirm_cancel_btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="28dp"
+            android:layout_marginBottom="30dp"
+            android:background="@drawable/button_rounded_10"
+            android:backgroundTint="@color/gray_300"
+            android:fontFamily="@font/roboto_700"
+            android:text="@string/ticketing_confirm_prev_btn_title"
+            android:textColor="@color/white"
+            android:textSize="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@id/ticketing_confirm_ok_btn"
+            app:layout_constraintWidth_percent="0.4" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

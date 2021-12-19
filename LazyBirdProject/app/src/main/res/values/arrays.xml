@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="fast_search_list">
+        <item>회화</item>
+        <item>조형</item>
+        <item>사진</item>
+        <item>특별전</item>
+        <item>아동전시</item>
+    </string-array>
+</resources>

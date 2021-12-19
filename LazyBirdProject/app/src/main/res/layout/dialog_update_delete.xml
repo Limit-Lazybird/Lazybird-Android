@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?><!-- deprecated -->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/transparent"
+    android:gravity="center">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/button_rounded_20"
+        android:backgroundTint="@color/gray_150"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/dialog_upd_del_update_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_rounded_10"
+            android:backgroundTint="@color/gray_250"
+            android:fontFamily="@font/roboto_700"
+            android:paddingTop="16dp"
+            android:paddingBottom="15dp"
+            android:text="수정"
+            android:textColor="@color/white"
+            android:textSize="17dp" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/dialog_upd_del_delete_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/button_rounded_10"
+            android:backgroundTint="@color/gray_250"
+            android:fontFamily="@font/roboto_700"
+            android:paddingTop="16dp"
+            android:paddingBottom="15dp"
+            android:text="삭제"
+            android:textColor="@color/white"
+            android:textSize="17dp" />
+
+    </LinearLayout>
+
+</RelativeLayout>
