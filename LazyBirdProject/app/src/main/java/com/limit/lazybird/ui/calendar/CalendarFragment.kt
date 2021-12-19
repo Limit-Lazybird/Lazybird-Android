@@ -272,7 +272,7 @@ class CalendarFragment : Fragment(R.layout.fragment_calendar) {
         // 세로 크기 조절
         binding.calendarView.daySize = Size(
             binding.calendarView.daySize.width,
-            DAY_VIEW_HEGIHT
+            DAY_VIEW_HEGIHT.toFloat().toDp(requireView())
         )
         binding.calendarView.dayBinder = object : DayBinder<DayViewContainer> {
             override fun create(view: View): DayViewContainer = DayViewContainer(view)

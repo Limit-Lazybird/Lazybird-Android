@@ -5,12 +5,10 @@
     <string name="sign_in_u"><u>회원가입</u></string>
     <string name="login">로그인</string>
     <string name="login_u"><u>로그인</u></string>
-    <string name="google_server_client_id">377487106171-0oreikaf41a5hete6us9pp3hdv1v86ea.apps.googleusercontent.com</string>
     <string name="login_google">Google로 시작하기</string>
     <string name="sign_in_google">Google로 시작하기</string>
     <string name="login_kakao">카카오로 시작하기</string>
     <string name="sign_in_kakao">카카오로 시작하기</string>
-    <string name="native_app_key">ed1671c07f7f99c3ad5e2640429b8dab</string>
     <string name="on_boarding_start_button">전시 성향 분석하러 가기</string>
     <string name="on_boarding_to_be_next">다음에 할래요</string>
     <string name="on_boarding_to_be_next_u"><u>다음에 할래요</u></string>
