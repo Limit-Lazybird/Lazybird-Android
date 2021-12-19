@@ -39,6 +39,7 @@ class CustomSnackBar(
         initData()
     }
 
+    // snackbar Custom 하게 만들어주기
     private fun initView() {
         with(snackbarLayout){
             removeAllViews()
@@ -48,6 +49,7 @@ class CustomSnackBar(
         }
     }
 
+    // snackbar 내용 채워주기
     private fun initData() {
         snackbarBinding.snackbarMainText.text = message
         snackbarBinding.snackbarActionText.text = actionName
@@ -56,10 +58,12 @@ class CustomSnackBar(
         }
     }
 
+    // snackbar show
     fun show() {
         snackbar.show()
     }
 
+    // snackbar dismiss
     fun dismiss() {
         snackbar.dismiss()
     }

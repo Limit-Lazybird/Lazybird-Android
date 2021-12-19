@@ -20,10 +20,9 @@ import java.time.temporal.WeekFields
 import java.util.*
 import javax.inject.Inject
 
-/**************** CalendarAddViewModel ******************
+/**************** CalendarViewModel ******************
  * 메인화면(캘린더 탭) (ViewModel)
  * 캘린더에서 (예약된 or 예약되지 않은)전시일정정보 확인
- * Todo : 서버에서 API 받아오기
  ********************************************** ***/
 @HiltViewModel
 class CalendarViewModel @Inject constructor(

@@ -106,16 +106,17 @@ class OnbFragment : Fragment(R.layout.fragment_onb) {
             }
         }
 
+        // 이전 문항 이동 버튼
         binding.onbBack.setOnClickListener {
-            // 이전 문항 이동 버튼
             viewModel.movePrevPage()
         }
 
+        // 닫기 버튼 클릭 시
         binding.onbClose.setOnClickListener {
-            // 닫기 버튼 클릭 시
             createCancelDialog()
         }
 
+        // 온보딩 중도 종료 Dialog 선택 결과
         setFragmentResultListener(CustomDialogFragment.TAG) { _, bundle ->
             when (bundle.getString(CustomDialogFragment.RESULT_CODE)) {
                 CustomDialogFragment.RESULT_OK -> {
@@ -126,8 +127,8 @@ class OnbFragment : Fragment(R.layout.fragment_onb) {
         }
     }
 
+    // 종료 재확인 dialog 생성
     private fun createCancelDialog() {
-        // 종료 재확인 dialog 생성
         val dialogInfo = DialogInfo(
             title = resources.getString(R.string.onb_cancel_title),
             message = resources.getString(R.string.onb_cancel_message),
@@ -146,13 +147,13 @@ class OnbFragment : Fragment(R.layout.fragment_onb) {
     }
 
 
+    // OnbStartFragment 로 이동
     private fun moveToStartFragment() {
-        // OnbStartFragment 로 이동
         parentActivity.supportFragmentManager.popBackStack()
     }
 
+    // 설문조사 결과 서버에 업데이트
     private fun updateResultToServer() {
-        // 설문조사 결과 서버에 업데이트
         viewLifecycleOwner.lifecycle.coroutineScope.launch {
             viewModel.deleteCustomizedList()
             viewModel.insertCustomizedList(
@@ -163,8 +164,8 @@ class OnbFragment : Fragment(R.layout.fragment_onb) {
         }
     }
 
+    // OnbEndFragment로 이동
     private fun moveToEndFragment() {
-        // OnbEndFragment로 이동
         parentActivity.supportFragmentManager.replaceFragment(OnbEndFragment(), false)
     }
 

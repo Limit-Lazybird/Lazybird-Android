@@ -45,6 +45,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         val imm =
             parentActivity.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
 
+        // 추천검색 리스트 업데이트
         val recommendList = resources.getStringArray(R.array.fast_search_list)
         recommendList.forEach { name ->
             binding.searchRecommendList.addView(
@@ -59,7 +60,6 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
             )
         }
 
-
         binding.searchEditText.setOnEditorActionListener { textView, actionId, keyEvent ->
             if (actionId == EditorInfo.IME_ACTION_DONE || keyEvent.action == KeyEvent.ACTION_DOWN) {
                 // Done or Enter 눌렀을 시
@@ -72,6 +72,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
             return@setOnEditorActionListener false
         }
 
+        // 검색 결과 리스트 업데이트
         viewModel.exhibitionList.observe(viewLifecycleOwner) { exhibitionList ->
             if (exhibitionList.isEmpty()) {
                 binding.searchNoItem.visibility = View.VISIBLE
@@ -107,6 +108,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         // ExhibitionDetail Fragment 로 이동
         when (exhibitionInfo.eb_yn) {
             "Y" -> {
+                // 얼리버드 전시 디테일 화면
                 val bundle = Bundle().apply {
                     putParcelable(EarlyBirdDetailViewModel.EARLYBIRD_INFO, exhibitionInfo)
                 }
@@ -119,6 +121,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
             }
 
             "N" -> {
+                // 일반 전시 디테일 화면
                 val bundle = Bundle().apply {
                     putParcelable(ExhibitionDetailViewModel.EXHIBITION_INFO, exhibitionInfo)
                 }

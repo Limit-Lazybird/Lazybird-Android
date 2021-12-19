@@ -8,6 +8,10 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/**************** CalendarAddViewModel ******************
+ * 메인화면(캘린더 탭) >> 일정추가 (ViewModel)
+ * 캘린더에서 (예약된 or 예약되지 않은)전시일정정보 확인
+ ********************************************** ***/
 @HiltViewModel
 class CalendarAddViewModel @Inject constructor(
     private val repository: CalendarRepository

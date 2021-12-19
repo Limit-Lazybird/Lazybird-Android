@@ -14,9 +14,11 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.limit.lazybird.BuildConfig
-import com.limit.lazybird.R
 import com.limit.lazybird.models.LoginInfo
 
+/************** GoogleLoginHelper *****************
+ * 반복되는 Google Login 작업을 정리하기 위한 Google Login 전용 객체
+ ********************************************** ***/
 class GoogleLoginHelper(
     private val fragment: Fragment
 ) {
@@ -28,9 +30,11 @@ class GoogleLoginHelper(
     lateinit var mGoogleSignInClient: GoogleSignInClient
     private lateinit var registerResult: ActivityResultLauncher<Intent>
 
+    // 사용자 로그인정보
     private val _loginInfo = MutableLiveData<LoginInfo>()
     val loginInfo : LiveData<LoginInfo> get() =  _loginInfo
 
+    // GoogleLogin 을 위한 초기화
     fun init() {
         Log.e(TAG, "init() called")
         gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -59,6 +63,7 @@ class GoogleLoginHelper(
             }
     }
 
+    // 로그인
     fun login() {
         if(!this::gso.isInitialized)
             init()
@@ -76,6 +81,7 @@ class GoogleLoginHelper(
         }
     }
 
+    // 로그아웃
     fun logout() {
         if(!this::gso.isInitialized)
             init()
@@ -86,6 +92,7 @@ class GoogleLoginHelper(
             }
     }
 
+    // 회원탈퇴
     fun memberOut() {
         if(!this::gso.isInitialized)
             init()
@@ -96,8 +103,8 @@ class GoogleLoginHelper(
             }
     }
 
+    // 구글 로그인 성공
     fun updateUserInfo(account: GoogleSignInAccount){
-        // 구글 로그인 성공
         /*** kakao API response ***
          * accountName : account.account.name
          * accountType : account.account.type

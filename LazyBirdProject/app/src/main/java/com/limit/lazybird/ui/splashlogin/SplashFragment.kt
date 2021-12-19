@@ -32,8 +32,8 @@ class SplashFragment : Fragment(R.layout.fragment_splash) {
         }, SPLASH_DELAY_MILLIS)
     }
 
+    // 로그인 화면으로 이동
     private fun moveToLogin() {
-        // 로그인 화면으로 이동
         parentActivity.supportFragmentManager.replaceFragment(LoginFragment(), false)
     }
 }

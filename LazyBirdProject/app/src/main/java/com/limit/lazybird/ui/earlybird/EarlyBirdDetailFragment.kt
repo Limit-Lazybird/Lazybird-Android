@@ -58,15 +58,15 @@ class EarlyBirdDetailFragment : Fragment(R.layout.fragment_earlybird_detail) {
 
         binding = FragmentEarlybirdDetailBinding.bind(view)
 
+        // argument 로 넘어오는 earlyBird 상세정보 ViewModel에 업데이트
         lifecycleScope.launchWhenStarted {
-            // argument 로 넘어오는 earlyBird 상세정보 ViewModel에 업데이트
             val exhbt = requireArguments().getParcelable<Exhbt>(EarlyBirdDetailViewModel.EARLYBIRD_INFO)
             if(exhbt!=null)
                 viewModel.updateExhibitionInfo(exhbt)
         }
 
+        // exhibitionInfo 정보 업데이트 완료
         viewModel.exhibitionInfo.observe(viewLifecycleOwner) { exhibitionInfo ->
-            // exhibitionInfo 정보 업데이트 완료
             binding.earlybirdDetailDDay.text = "D - ${exhibitionInfo.dDay}" // 전시 시작까지 남은 기간
             binding.earlybirdDetailTitle.text = exhibitionInfo.title // 전시 제목
             binding.earlybirdDetailPlace.text = exhibitionInfo.place // 전시 장소
@@ -145,8 +145,8 @@ class EarlyBirdDetailFragment : Fragment(R.layout.fragment_earlybird_detail) {
                 })
                 .into(binding.earlybirdDetailImg)
 
+            // 상세정보 더보기 버튼 클릭 시
             binding.earlybirdDetailMoreBtn.setOnClickListener {
-                // 상세정보 더보기 버튼 클릭 시
                 binding.earlybirdDetailMoreBtn.visibility = View.INVISIBLE // 상세보기 버튼 안보이게 처리
 
                 // 상세 이미지 높이값 WRAP_CONTENT 로 바꾸고, 다시 Image 가져오기
@@ -157,14 +157,15 @@ class EarlyBirdDetailFragment : Fragment(R.layout.fragment_earlybird_detail) {
                     .override(Target.SIZE_ORIGINAL) // 이미지 깨짐 방지
                     .into(binding.earlybirdDetailImg)
             }
+
+            // 좋아요 버튼 클릭
             binding.earlybirdDetailLikeBtn.setOnClickListener {
-                // 좋아요 버튼 클릭
                 viewModel.clickLike()
             }
         }
 
+        // 좋아요 상태 변경
         viewModel.exhibitionLike.observe(viewLifecycleOwner) { isLike ->
-            // 좋아요 상태 변경
             if (isLike) {
                 binding.earlybirdDetailLikeBtn.setImageResource(R.drawable.ic_fav_lg_on)
             } else {
@@ -172,8 +173,8 @@ class EarlyBirdDetailFragment : Fragment(R.layout.fragment_earlybird_detail) {
             }
         }
 
+        // TicketingNoticeFragment 화면 이동
         binding.earlybirdDetailTicketingBtn.setOnClickListener {
-            // TicketingNoticeFragment 화면 이동
             val bundle = Bundle().apply {
                 putParcelable(TicketingViewModel.EXHIBITION_INFO, viewModel.exhibitionInfo.value!!)
             }

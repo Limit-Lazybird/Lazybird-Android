@@ -9,6 +9,11 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/************* SettingViewModel ***************
+ * 메인화면(마이버드 탭) >> 옵션  (ViewModel)
+ * 옵션 화면
+ * Todo : Repository 뽑기
+ ********************************************** ***/
 @HiltViewModel
 class SettingViewModel @Inject constructor(
     private val apiHelper: ApiHelper,

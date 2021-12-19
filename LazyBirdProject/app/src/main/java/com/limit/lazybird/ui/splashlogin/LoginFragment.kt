@@ -56,13 +56,13 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
             init()
         }
 
+        // 구글로 로그인하기 버튼 클릭
         binding.loginGoogleBtn.setOnClickListener {
-            // 구글로 로그인하기 버튼 클릭
             googleLoginHelper.login()
         }
 
+        // 카카오로 로그인하기 버튼 클릭
         binding.loginKakaoBtn.setOnClickListener {
-            // 카카오로 로그인하기 버튼 클릭
             kakaoLoginHelper.login()
         }
 
@@ -85,6 +85,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
             }
         }
 
+        // 카카오 로그인결과 업데이트
         kakaoLoginHelper.loginInfo.observe(viewLifecycleOwner) {
             viewModel.loginKakao(
                 email = it.email,
@@ -92,6 +93,8 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                 kakaoToken = it.token
             )
         }
+
+        // 구글 로그인결과 업데이트
         googleLoginHelper.loginInfo.observe(viewLifecycleOwner) {
             Log.e(TAG, "collect: ${it}")
             viewModel.loginGoogle(
@@ -102,13 +105,13 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         }
     }
 
+    // 온보딩 화면으로 이동
     private fun moveToOnBoarding() {
-        // 온보딩 화면으로 이동
         parentActivity.supportFragmentManager.replaceFragment(OnbStartFragment(), false)
     }
 
+    // 얼리버드 화면(메인화면)으로 이동
     private fun moveToEarlyBird() {
-        // 얼리버드 화면(메인화면)으로 이동
         parentActivity.supportFragmentManager.removeAllBackStack()
         parentActivity.supportFragmentManager.replaceFragment(MainFragment(), false)
     }

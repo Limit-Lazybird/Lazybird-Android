@@ -30,7 +30,7 @@ class NotificationViewModel @Inject constructor(
 
     init {
         initToken()
-        initNotificationList()
+        initDummyData()
     }
 
     private fun initToken() = viewModelScope.launch {
@@ -46,8 +46,7 @@ class NotificationViewModel @Inject constructor(
         )
     }
 
-    private fun initNotificationList() {
-        // Todo : dummy data
+    private fun initDummyData() {
         _notificationList.postValue(
             arrayListOf(
                 NotificationInfo(
@@ -83,5 +82,4 @@ class NotificationViewModel @Inject constructor(
             )
         )
     }
-
 }

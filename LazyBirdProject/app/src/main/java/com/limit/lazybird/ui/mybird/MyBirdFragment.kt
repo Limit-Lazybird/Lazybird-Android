@@ -39,11 +39,13 @@ class MyBirdFragment : Fragment(R.layout.fragment_mybird) {
 
         binding = FragmentMybirdBinding.bind(view)
 
+        // 사용자 정보 업데이트
         viewModel.userInfo.observe(viewLifecycleOwner) { userInfo ->
             binding.mybirdEmail.text = userInfo.email
             binding.mybirdName.text = userInfo.name
         }
 
+        // 좋아요 누른 전시 정보 업데이트
         viewModel.likeExhbtList.observe(viewLifecycleOwner) { exhbtList ->
             if (exhbtList.isNullOrEmpty()){
                 binding.mybirdNoLikeText.visibility = View.VISIBLE
@@ -72,7 +74,7 @@ class MyBirdFragment : Fragment(R.layout.fragment_mybird) {
                     )
                     .into(binding.mybirdLike1Image)
             }
-            
+
             if (!exhbtList.isNullOrEmpty() && exhbtList.size >= 2) {
                 binding.mybirdLike2Title.visibility = View.VISIBLE
                 binding.mybirdLike2Date.visibility = View.VISIBLE
@@ -95,7 +97,8 @@ class MyBirdFragment : Fragment(R.layout.fragment_mybird) {
                     .into(binding.mybirdLike2Image)
             }
         }
-        
+
+        // 예약한 누른 전시 정보 업데이트
         viewModel.reservationExhbtList.observe(viewLifecycleOwner) { exhbtList ->
             if (exhbtList.isNullOrEmpty()){
                 binding.mybirdNoReservationText.visibility = View.VISIBLE
@@ -154,18 +157,18 @@ class MyBirdFragment : Fragment(R.layout.fragment_mybird) {
             }
         }
 
+        // 예매한 전시 클릭 (내가 예매한 전시 화면으로 넘어감)
         binding.mybirdReservationContainer.setOnClickListener {
-            // 예매한 전시 클릭 >> 내가 예매한 전시 화면으로 넘어감
             parentActivity.supportFragmentManager.replaceFragment(ReservationDetailFragment())
         }
 
+        // 찜한 전시 클릭 (내가 찜한 전시 화면으로 넘어감)
         binding.mybirdLikeContainer.setOnClickListener {
-            // 찜한 전시 클릭 >> 내가 찜한 전시 화면으로 넘어감
             parentActivity.supportFragmentManager.replaceFragment(LikeDetailFragment())
         }
 
+        // 옵션 버튼 클릭 (세팅 화면으로 넘어감)
         binding.mybirdSetting.setOnClickListener {
-            // 옵션 버튼 클릭 >> 세팅 화면으로 넘어감
             parentActivity.supportFragmentManager.replaceFragment(SettingFragment())
         }
     }

@@ -34,10 +34,13 @@ class NotificationFragment: Fragment(R.layout.fragment_notification) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentNotificationBinding.bind(view)
+
+        // 뒤로가기 버튼
         binding.notificationBackBtn.setOnClickListener {
-            // 뒤로가기 버튼
             parentActivity.supportFragmentManager.popBackStack()
         }
+
+        // 공지사항 리스트 업데이트
         viewModel.notificationList.observe(viewLifecycleOwner) { notificationList ->
             binding.notificationRecyclerView.adapter = NotificationAdapter(notificationList).apply {
                 itemClickListener = object : NotificationAdapter.OnItemClickListener {

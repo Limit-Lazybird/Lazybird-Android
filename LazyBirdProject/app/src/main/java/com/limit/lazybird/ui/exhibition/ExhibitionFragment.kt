@@ -50,8 +50,8 @@ class ExhibitionFragment : Fragment(R.layout.fragment_exhibition) {
 
         binding = FragmentExhibitionBinding.bind(view)
 
+        // RecyclerView 업데이트
         viewModel.exhibitionList.observe(viewLifecycleOwner) { exhibitionList ->
-            // RecyclerView 업데이트
             binding.exhibitionRecyclerView.adapter = ExhibitionAdapter(exhibitionList).apply {
                 itemClickListener = object : ExhibitionAdapter.OnItemClickListener {
                     override fun onItemClick(
@@ -88,8 +88,8 @@ class ExhibitionFragment : Fragment(R.layout.fragment_exhibition) {
             }
         }
 
+        // 상단 빠른 필터링 옵션버튼 그려주기
         viewModel.optionItemList.observe(viewLifecycleOwner) { optionList ->
-            // 상단 빠른 필터링 옵션버튼 그려주기
             for (idx in optionList.indices) {
                 val optionName =  optionList[idx]
                 binding.exhibitionOptionItemLayout.addView(
@@ -110,8 +110,8 @@ class ExhibitionFragment : Fragment(R.layout.fragment_exhibition) {
             }
         }
 
+        // 상세 필터링 버튼 클릭
         binding.exhibitionDetailOptionBtn.setOnClickListener {
-            // 상세 필터링 버튼 클릭
             val bundle = Bundle().apply {
                 putIntegerArrayList(ExhibitionFilterBSDialog.SELECTED_LIST, currentDetailFilterSelectedList.toCollection(ArrayList()))
             }
@@ -123,16 +123,16 @@ class ExhibitionFragment : Fragment(R.layout.fragment_exhibition) {
             )
         }
 
+        // 맞춤전시 리셋버튼 클릭
         binding.exhibitionCustomResetBtn.setOnClickListener {
-            // 맞춤전시 리셋버튼 클릭
             ExhibitionRefreshBSDialog().show(
                 parentFragmentManager,
                 ExhibitionRefreshBSDialog.TAG
             )
         }
 
+        // 스위치 클릭
         binding.exhibitionCustomSwitch.setOnCheckedChangeListener { _, isOn ->
-            // 스위치 클릭
             if(isOn){
                 resetShortFilter()
                 resetDetailSelectedList()
@@ -142,13 +142,13 @@ class ExhibitionFragment : Fragment(R.layout.fragment_exhibition) {
             }
         }
 
+        // 얼리카드 버튼 클릭
         binding.exhibitionEarlycard.setOnClickListener {
-            // 얼리카드 버튼 클릭
             moveToEarlyCard()
         }
 
+        // 전시성향분석 재설정 Dialog 선택 결과 확인
         setFragmentResultListener(ExhibitionRefreshBSDialog.TAG) { _, bundle ->
-            // 전시성향분석 재설정 Dialog 선택 결과 확인
             when(bundle.getString(ExhibitionRefreshBSDialog.RESULT_CODE)){
                 ExhibitionRefreshBSDialog.RESULT_OK -> {
                     parentActivity.supportFragmentManager.replaceFragment(OnbFragment()) // 전시성향분석 Dialog 이동
@@ -156,8 +156,8 @@ class ExhibitionFragment : Fragment(R.layout.fragment_exhibition) {
             }
         }
 
+        // 상세필터 결과 확인
         setFragmentResultListener(ExhibitionFilterBSDialog.TAG) { _, bundle ->
-            // 상세필터 결과 확인
             when(bundle.getString(ExhibitionFilterBSDialog.RESULT_CODE)){
                 ExhibitionFilterBSDialog.RESULT_OK -> {
                     val exhibitionFilterList = bundle.getParcelable<ExhibitionFilterList>(
@@ -182,26 +182,28 @@ class ExhibitionFragment : Fragment(R.layout.fragment_exhibition) {
         }
     }
 
+    // 현재 선택된 detail filter 목록 초기화
     private fun resetDetailSelectedList(){
         currentDetailFilterSelectedList = listOf()
     }
 
+    // 스위치 초기화 하기
     private fun resetSwitch() {
-        // 스위치 초기화 하기
         binding.exhibitionCustomSwitch.isChecked = false
     }
 
+    // 빠른 필터링 옵션버튼 초기화 하기
     private fun resetShortFilter() {
-        // 빠른 필터링 옵션버튼 초기화 하기
         binding.exhibitionOptionItemLayout.allViews.forEach { optionView ->
             optionView.isSelected = false
         }
     }
 
+    // ExhibitionDetail Fragment 로 이동
     private fun moveToExhibitionDetail(exhibitionInfo: Exhbt) {
-        // ExhibitionDetail Fragment 로 이동
         when (exhibitionInfo.eb_yn) {
             "Y" -> {
+                // 얼리버드 전시 디테일 화면
                 val bundle = Bundle().apply {
                     putParcelable(EarlyBirdDetailViewModel.EARLYBIRD_INFO, exhibitionInfo)
                 }
@@ -214,6 +216,7 @@ class ExhibitionFragment : Fragment(R.layout.fragment_exhibition) {
             }
 
             "N" -> {
+                // 일반 전시 디테일 화면
                 val bundle = Bundle().apply {
                     putParcelable(ExhibitionDetailViewModel.EXHIBITION_INFO, exhibitionInfo)
                 }

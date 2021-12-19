@@ -60,14 +60,14 @@ class OnbEndFragment : Fragment(R.layout.fragment_onb_end) {
                 )
             }
 
+        // 시작하기 버튼 클릭
         binding.orbEndStartBtn.setOnClickListener {
-            // 시작하기 버튼 클릭
             moveToEarlyBird()
         }
     }
 
+    // 얼리버드 화면(메인화면)으로 이동
     private fun moveToEarlyBird() {
-        // 얼리버드 화면(메인화면)으로 이동
         parentActivity.supportFragmentManager.removeAllBackStack()
         parentActivity.supportFragmentManager.replaceFragment(MainFragment(), false)
     }

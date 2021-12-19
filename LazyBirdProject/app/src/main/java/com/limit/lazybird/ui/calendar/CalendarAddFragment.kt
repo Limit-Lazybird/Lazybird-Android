@@ -20,6 +20,10 @@ import com.limit.lazybird.util.parseYear
 import com.limit.lazybird.viewmodel.CalendarAddViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
+/**************** CalendarFragment ******************
+ * 메인화면(캘린더 탭) (Fragment)
+ * 캘린더에서 (예약된 or 예약되지 않은)전시일정정보 확인
+ ********************************************** ***/
 @AndroidEntryPoint
 class CalendarAddFragment: Fragment(R.layout.fragment_calendar_add) {
 
@@ -41,7 +45,6 @@ class CalendarAddFragment: Fragment(R.layout.fragment_calendar_add) {
     private var isAdd: Boolean = false
     private lateinit var type:String
     private lateinit var exhbtCd: String
-    private lateinit var scheduleInfo: Schedule
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -84,20 +87,21 @@ class CalendarAddFragment: Fragment(R.layout.fragment_calendar_add) {
             }
         }
 
+        // 뒤로가기 버튼 클릭
         binding.calendarAddBackBtn.setOnClickListener {
             parentActivity.supportFragmentManager.popBackStack()
         }
 
+        // 날짜 버튼 클릭
         binding.calendarAddDate.setOnClickListener {
-            // 날짜 버튼 클릭
             DateSelectBSDialog().show(
                 parentFragmentManager,
                 DateSelectBSDialog.TAG
             )
         }
 
+        // 시작시간 버튼 클릭
         binding.calendarAddTimeStart.setOnClickListener {
-            // 시작시간 버튼 클릭
             TimeSelectBSDialog().apply {
                 arguments = bundleOf(TimeSelectBSDialog.TIME_TYPE to  TimeSelectBSDialog.TYPE_START)
             }.show(
@@ -106,8 +110,8 @@ class CalendarAddFragment: Fragment(R.layout.fragment_calendar_add) {
             )
         }
 
+        // 끝시간 버튼 클릭
         binding.calendarAddTimeEnd.setOnClickListener {
-            // 끝시간 버튼 클릭
             TimeSelectBSDialog().apply {
                 arguments = bundleOf(TimeSelectBSDialog.TIME_TYPE to  TimeSelectBSDialog.TYPE_END)
             }.show(
@@ -116,9 +120,10 @@ class CalendarAddFragment: Fragment(R.layout.fragment_calendar_add) {
             )
         }
 
+        // 추가하기/수정하기 버튼 클릭
         binding.calendarAddOkBtn.setOnClickListener {
             if(isAdd){
-                // 추가 버튼
+                // 추가하기 일 때
                 when(type){
                     TYPE_CUSTOM -> {
                         // CUSTOM 전용
@@ -161,7 +166,7 @@ class CalendarAddFragment: Fragment(R.layout.fragment_calendar_add) {
                     }
                 }
             } else {
-                // 수정 버튼
+                // 수정하기 일 때
                 when(type){
                     TYPE_CUSTOM -> {
                         // CUSTOM 전용
@@ -208,8 +213,8 @@ class CalendarAddFragment: Fragment(R.layout.fragment_calendar_add) {
 
         }
 
+        // 날짜 선택 Dialog 결과 확인
         setFragmentResultListener(DateSelectBSDialog.TAG) { _, bundle ->
-            // 날짜 선택 Dialog 결과 확인
             when(bundle.getString(DateSelectBSDialog.RESULT_CODE)){
                 DateSelectBSDialog.RESULT_OK -> {
                     val dateString = bundle.getString(DateSelectBSDialog.RESULT_DATE)
@@ -218,8 +223,8 @@ class CalendarAddFragment: Fragment(R.layout.fragment_calendar_add) {
             }
         }
 
+        // 시작 시간 선택 Dialog 결과 확인
         setFragmentResultListener(TimeSelectBSDialog.TYPE_START) { _, bundle ->
-            // 시작 시간 선택 Dialog 결과 확인
             when(bundle.getString(TimeSelectBSDialog.RESULT_CODE)){
                 TimeSelectBSDialog.RESULT_OK -> {
                     val timeString = bundle.getString(TimeSelectBSDialog.RESULT_CONTEXT)
@@ -227,8 +232,8 @@ class CalendarAddFragment: Fragment(R.layout.fragment_calendar_add) {
                 }
             }
         }
+        // 시작 시간 선택 Dialog 결과 확인
         setFragmentResultListener(TimeSelectBSDialog.TYPE_END) { _, bundle ->
-            // 시작 시간 선택 Dialog 결과 확인
             when(bundle.getString(TimeSelectBSDialog.RESULT_CODE)){
                 TimeSelectBSDialog.RESULT_OK -> {
                     val timeString = bundle.getString(TimeSelectBSDialog.RESULT_CONTEXT)

@@ -56,15 +56,15 @@ class ExhibitionDetailFragment: Fragment(R.layout.fragment_exhibition_detail) {
 
         binding = FragmentExhibitionDetailBinding.bind(view)
 
+        // argument 로 넘어오는 earlyBird 상세정보 ViewModel에 업데이트
         lifecycleScope.launchWhenStarted {
-            // argument 로 넘어오는 earlyBird 상세정보 ViewModel에 업데이트
             val exhbt = requireArguments().getParcelable<Exhbt>(ExhibitionDetailViewModel.EXHIBITION_INFO)
             if(exhbt!=null)
                 viewModel.updateExhibitionInfo(exhbt)
         }
 
+        // exhibitionInfo 정보 업데이트 완료
         viewModel.exhibitionInfo.observe(viewLifecycleOwner) { exhibitionInfo ->
-            // exhibitionInfo 정보 업데이트 완료
             binding.exhibitionDetailDDay.text = "D - ${exhibitionInfo.dDay}" // 전시 시작까지 남은 기간
             binding.exhibitionDetailTitle.text = exhibitionInfo.title // 전시 제목
             binding.exhibitionDetailPlace.text = exhibitionInfo.place // 전시 장소
@@ -139,26 +139,28 @@ class ExhibitionDetailFragment: Fragment(R.layout.fragment_exhibition_detail) {
                 })
                 .into(binding.exhibitionDetailImg)
 
+            // 상세정보 더보기 버튼 클릭 시
             binding.exhibitionDetailMoreBtn.setOnClickListener {
-                // 상세정보 더보기 버튼 클릭 시
                 binding.exhibitionDetailMoreBtn.visibility = View.INVISIBLE // 상세보기 버튼 안보이게 처리
 
                 // 상세 이미지 높이값 WRAP_CONTENT 로 바꾸고, 다시 Image 가져오기
                 binding.exhibitionDetailImg.layoutParams.height =
                     ViewGroup.LayoutParams.WRAP_CONTENT
+
                 Glide.with(this)
                     .load(exhibitionInfo.exhibitionDetailImgUrl)
                     .override(Target.SIZE_ORIGINAL) // 이미지 깨짐 방지
                     .into(binding.exhibitionDetailImg)
             }
+
+            // 좋아요 버튼 클릭
             binding.exhibitionDetailLikeBtn.setOnClickListener {
-                // 좋아요 버튼 클릭
                 viewModel.clickLike()
             }
         }
 
+        // 좋아요 상태 변경
         viewModel.exhibitionLike.observe(viewLifecycleOwner) { isLike ->
-            // 좋아요 상태 변경
             if(isLike) {
                 binding.exhibitionDetailLikeBtn.setImageResource(R.drawable.ic_fav_lg_on)
             } else {
@@ -166,8 +168,8 @@ class ExhibitionDetailFragment: Fragment(R.layout.fragment_exhibition_detail) {
             }
         }
 
+        // TicketingNoticeFragment 화면 이동
         binding.exhibitionDetailTicketingBtn.setOnClickListener {
-            // TicketingNoticeFragment 화면 이동
             val bundle = Bundle().apply {
                 putParcelable(TicketingViewModel.EXHIBITION_INFO, viewModel.exhibitionInfo.value!!)
             }

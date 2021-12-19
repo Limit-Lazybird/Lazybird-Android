@@ -51,17 +51,18 @@ class MemberOutFragment : Fragment(R.layout.fragment_member_out) {
             init()
         }
 
+        // 뒤로가기 버튼
         binding.memberOutBackBtn.setOnClickListener {
-            // 뒤로가기 버튼
             parentActivity.supportFragmentManager.popBackStack()
         }
-        binding.memberOutCancel.setOnClickListener {
-            // 취소버튼
-            parentActivity.supportFragmentManager.popBackStack()
-        }
-        binding.memberOutOk.setOnClickListener {
-            // 탈퇴하기 버튼
 
+        // 취소버튼
+        binding.memberOutCancel.setOnClickListener {
+            parentActivity.supportFragmentManager.popBackStack()
+        }
+
+        // 탈퇴하기 버튼
+        binding.memberOutOk.setOnClickListener {
             // 클라이언트 단에서 끊어주기
             lifecycleScope.launch {
                 viewModel.userInfo.collect { userInfo ->
@@ -71,6 +72,7 @@ class MemberOutFragment : Fragment(R.layout.fragment_member_out) {
                     }
                 }
             }
+
             // 서버단에서 끊어주기
             viewModel.deleteUser()
 
@@ -78,6 +80,7 @@ class MemberOutFragment : Fragment(R.layout.fragment_member_out) {
             parentActivity.supportFragmentManager.removeAllBackStack()
             parentActivity.supportFragmentManager.replaceFragment(LoginFragment(), false)
         }
+
         binding.memberOutContext.text = getString(R.string.member_out_context).applyEscapeSequence()
     }
 }

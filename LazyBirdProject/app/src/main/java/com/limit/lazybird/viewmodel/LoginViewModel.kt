@@ -15,6 +15,7 @@ import javax.inject.Inject
 /************* LoginViewModel ***************
  * 로그인 화면 (ViewModel)
  * 로그인 화면 (카카오 로그인, 구글 로그인)
+ * Todo : Repository 뽑기
  ********************************************** ***/
 @HiltViewModel
 class LoginViewModel @Inject constructor(

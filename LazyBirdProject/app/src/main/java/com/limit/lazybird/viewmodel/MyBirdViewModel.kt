@@ -26,6 +26,7 @@ class MyBirdViewModel @Inject constructor(
     }
 
     private lateinit var token: String
+
     private val _likeExhbtList = MutableLiveData<List<Exhbt>>()
     val likeExhbtList: LiveData<List<Exhbt>> get() = _likeExhbtList
 

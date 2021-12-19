@@ -3,8 +3,8 @@ package com.limit.lazybird.ui.custom
 import android.graphics.Canvas
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.item_notification.view.*
 import android.view.View
+import com.limit.lazybird.R
 import com.limit.lazybird.ui.notification.NotificationAdapter
 import kotlin.math.max
 import kotlin.math.min
@@ -36,7 +36,7 @@ class SwipeHelperCallback: ItemTouchHelper.Callback() {
     ) = false
 
     private fun getView(viewHolder: RecyclerView.ViewHolder): View {
-        return (viewHolder as NotificationAdapter.ViewHolder).itemView.item_notification_swipe_layout
+        return (viewHolder as NotificationAdapter.ViewHolder).itemView.findViewById(R.id.item_notification_swipe_layout)
     }
 
 

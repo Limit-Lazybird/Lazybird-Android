@@ -2,8 +2,7 @@ plugins {
     id 'com.android.application'
     id 'dagger.hilt.android.plugin' // dagger hilt
     id 'kotlin-android'
-    id 'kotlin-android-extensions' // Todo : Disabled when Code Cleanup
-//    id 'kotlin-parcelize' // Todo : Activation when extensions Disabled
+    id 'kotlin-parcelize'
     id 'kotlin-kapt'
     id 'com.google.secrets_gradle_plugin' version '0.6.1'
 }
@@ -61,33 +60,36 @@ dependencies {
     implementation "com.github.kizitonwose:CalendarView:$calendarview_version"
     coreLibraryDesugaring "com.android.tools:desugar_jdk_libs:$desugar_version"
 
-    // dagger hilt
+    // Dagger hilt
     implementation "com.google.dagger:hilt-android:$hilt_version"
     kapt "com.google.dagger:hilt-compiler:$hilt_version"
     implementation "androidx.hilt:hilt-lifecycle-viewmodel:$hiltviewmodel_version"
     kapt "androidx.hilt:hilt-compiler:$hiltviewmodel_version"
 
-    // flexbox
+    // DataStore
+    implementation "androidx.datastore:datastore-preferences:$datastore_version"
+
+    // Flexbox
     implementation "com.google.android.flexbox:flexbox:$flexbox_version"
 
-    // fragment for fragmentResult
+    // Fragment for fragmentResult
     implementation "androidx.fragment:fragment-ktx:$fragment_version"
 
     // Glide
     implementation "com.github.bumptech.glide:glide:$glide_version"
     annotationProcessor "com.github.bumptech.glide:compiler:$glide_version"
 
-    // google login
+    // Google login
     implementation "com.google.android.gms:play-services-auth:$google_ps_version"
 
-    // kakao login
+    // Kakao login
     implementation "com.kakao.sdk:v2-user:$kakao_version"
 
-    // lifecycle
+    // Lifecycle
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
 
-    // navigation fragment
+    // Navigation fragment
     implementation "androidx.navigation:navigation-fragment-ktx:$navigation_version"
 
     // Retrofit
@@ -97,8 +99,5 @@ dependencies {
     // ViewPager
     implementation "androidx.cardview:cardview:$cardview_version"
     implementation "androidx.viewpager2:viewpager2:$viewpager2_version"
-
-    // DataStore
-    implementation "androidx.datastore:datastore-preferences:$datastore_version"
 
 }

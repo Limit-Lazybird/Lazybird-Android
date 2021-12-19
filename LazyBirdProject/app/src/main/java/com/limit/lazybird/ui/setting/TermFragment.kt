@@ -29,10 +29,12 @@ class TermFragment:Fragment(R.layout.fragment_term) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentTermBinding.bind(view)
+
+        // 뒤로가기 버튼
         binding.termBackBtn.setOnClickListener {
-            // 뒤로가기 버튼
             parentActivity.supportFragmentManager.popBackStack()
         }
+
         binding.termContext.text = getString(R.string.term_context).applyEscapeSequence()
         binding.termScrollView.fullScroll(ScrollView.FOCUS_DOWN) // 끝까지 스크롤 되도록 설정
     }

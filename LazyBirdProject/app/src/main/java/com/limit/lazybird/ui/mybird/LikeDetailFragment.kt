@@ -37,6 +37,7 @@ class LikeDetailFragment :Fragment(R.layout.fragment_like_detail) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentLikeDetailBinding.bind(view)
 
+        // 좋아요 누른 전시 업데이트 완료
         viewModel.likeExhibitionShortList.observe(viewLifecycleOwner) { exhibitList ->
             if(exhibitList.isEmpty()){
                 binding.likeDetailNoItem.visibility = View.VISIBLE
@@ -66,16 +67,17 @@ class LikeDetailFragment :Fragment(R.layout.fragment_like_detail) {
             }
         }
 
-        binding.likeDetailBackBtn.setOnClickListener { 
-            // 뒤로가기 버튼 클릭
+        // 뒤로가기 버튼 클릭
+        binding.likeDetailBackBtn.setOnClickListener {
             parentActivity.supportFragmentManager.popBackStack()
         }
     }
 
+    // ExhibitionDetail 화면으로 이동
     private fun moveToExhibitionDetail(exhibitionInfo: Exhbt) {
-        // ExhibitionDetail 화면으로 이동
         when (exhibitionInfo.eb_yn) {
             "Y" -> {
+                // 얼리버드 전시 디테일 화면
                 val bundle = Bundle().apply {
                     putParcelable(EarlyBirdDetailViewModel.EARLYBIRD_INFO, exhibitionInfo)
                 }
@@ -88,6 +90,7 @@ class LikeDetailFragment :Fragment(R.layout.fragment_like_detail) {
             }
 
             "N" -> {
+                // 일반 전시 디테일 화면
                 val bundle = Bundle().apply {
                     putParcelable(ExhibitionDetailViewModel.EXHIBITION_INFO, exhibitionInfo)
                 }

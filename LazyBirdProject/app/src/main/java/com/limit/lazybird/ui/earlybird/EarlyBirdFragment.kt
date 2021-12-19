@@ -44,9 +44,10 @@ class EarlyBirdFragment : Fragment(R.layout.fragment_earlybird) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentEarlybirdBinding.bind(view)
 
+        // earlybirdList 업데이트
         earlyBirdViewModel.todayEarlyBirdList.observe(viewLifecycleOwner) { earlybirdInfoList ->
+            // adapter 적용
             binding.earlybirdViewpager2.adapter = EarlyBirdAdapter(earlybirdInfoList).apply {
-                // adapter 적용
                 itemClickListener = object : EarlyBirdAdapter.OnItemClickListener {
                     override fun onItemClick(
                         holder: EarlyBirdAdapter.PageViewHolder,
@@ -59,13 +60,15 @@ class EarlyBirdFragment : Fragment(R.layout.fragment_earlybird) {
                     }
                 }
             }
+
+            // 첫 페이지, 마지막페이지 overScroll 효과 차단
             binding.earlybirdViewpager2.apply {
-                // 첫 페이지, 마지막페이지 overScroll 효과 차단
                 (getChildAt(0) as RecyclerView).overScrollMode = RecyclerView.OVER_SCROLL_NEVER
                 (getChildAt(childCount-1) as RecyclerView).overScrollMode = RecyclerView.OVER_SCROLL_NEVER
             }
+
+            // page 변환 시 애니메이션 적용
             binding.earlybirdViewpager2.setPageTransformer(
-                // page 변환 시 애니메이션 적용
                 CompositePageTransformer().apply {
                     addTransformer { pageView: View, position: Float ->
                         var v = 1 - abs(position)
@@ -88,18 +91,20 @@ class EarlyBirdFragment : Fragment(R.layout.fragment_earlybird) {
                 }
             )
         }
+
+        // 알림 버튼 클릭
         binding.earlybirdBell.setOnClickListener {
-            // 알림 버튼 클릭
             moveToNotification()
         }
+
+        // 얼리카드 버튼 클릭
         binding.earlybirdEarlycard.setOnClickListener {
-            // 얼리카드 버튼 클릭
             moveToEarlyCard()
         }
     }
 
+    // EarlyBirdDetail Fragment 로 이동
     private fun moveToEarlyBirdDetail(earlyBirdInfo: Exhbt) {
-        // EarlyBirdDetail Fragment 로 이동
         val bundle = Bundle().apply {
             putParcelable(EarlyBirdDetailViewModel.EARLYBIRD_INFO, earlyBirdInfo)
         }
@@ -111,13 +116,13 @@ class EarlyBirdFragment : Fragment(R.layout.fragment_earlybird) {
         )
     }
 
+    // Notification Fragment 로 이동
     private fun moveToNotification() {
-        // Notification Fragment 로 이동
         parentActivity.supportFragmentManager.replaceFragment(NotificationFragment())
     }
 
+    // Earlycard Fragment 로 이동
     private fun moveToEarlyCard() {
-        // Earlycard Fragment 로 이동
         parentActivity.supportFragmentManager.replaceFragment(EarlyCardFragment())
     }
 }

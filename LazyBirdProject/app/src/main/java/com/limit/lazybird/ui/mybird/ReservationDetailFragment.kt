@@ -43,6 +43,7 @@ class ReservationDetailFragment: Fragment(R.layout.fragment_reservation_detail) 
 
         binding = FragmentReservationDetailBinding.bind(view)
 
+        // 예매한 전시 리스트 업데이트
         viewModel.reservationExhibitionShortList.observe(viewLifecycleOwner) { exhibitList ->
             if(exhibitList.isEmpty()){
                 binding.reservationDetailNoItem.visibility = View.VISIBLE
@@ -73,13 +74,13 @@ class ReservationDetailFragment: Fragment(R.layout.fragment_reservation_detail) 
             }
         }
 
+        // 뒤로가기 버튼 클릭
         binding.reservationDetailBackBtn.setOnClickListener {
-            // 뒤로가기 버튼 클릭
             parentActivity.supportFragmentManager.popBackStack()
         }
 
+        // 정말로 예매를 취소 하시겠습니까? Dialog 결과 반환
         setFragmentResultListener(DeleteExhbtDialogFragment.TAG) { _, bundle ->
-            // 정말로 예매를 취소 하시겠습니까? Dialog 결과
             when (bundle.getString(DeleteExhbtDialogFragment.RESULT_CODE)) {
                 DeleteExhbtDialogFragment.RESULT_OK -> {
                     val exhbtCd = bundle.getString(DeleteExhbtDialogFragment.EXHBT_CD)!!
@@ -90,12 +91,13 @@ class ReservationDetailFragment: Fragment(R.layout.fragment_reservation_detail) 
         }
     }
 
+    // 예매한 전시 리스트 재 업데이트
     private fun resetView() {
         viewModel.getReservationExhbtList()
     }
 
+    // ExhibitionDetail 화면으로 이동
     private fun moveToExhibitionDetail(exhibitionInfo: Exhbt) {
-        // ExhibitionDetail 화면으로 이동
         when (exhibitionInfo.eb_yn) {
             "Y" -> {
                 val bundle = Bundle().apply {
@@ -123,6 +125,7 @@ class ReservationDetailFragment: Fragment(R.layout.fragment_reservation_detail) 
         }
     }
 
+    // 정말로 삭제할 지 dialog 보여주기
     private fun showDeleteDialog(exhbtCd: String) {
         val dialogInfo = DialogInfo(
             title = "예매취소",

@@ -26,7 +26,6 @@ import kotlinx.coroutines.launch
 /***************** SettingFragment *******************
  * 메인화면(마이버드 탭) >> 옵션  (Fragment)
  * 옵션 화면
- * Todo : google 로그아웃 구현하기
  ********************************************** ***/
 @AndroidEntryPoint
 class SettingFragment : Fragment(R.layout.fragment_setting) {
@@ -58,53 +57,54 @@ class SettingFragment : Fragment(R.layout.fragment_setting) {
 
         binding.settingOnbAppVersionText.text = "${BuildConfig.VERSION_NAME}v"
 
+        // 뒤로가기 버튼 클릭
         binding.settingBackBtn.setOnClickListener {
-            // 뒤로가기 버튼 클릭
             parentActivity.supportFragmentManager.popBackStack()
         }
 
+        // 성향분석 재설정 버튼 클릭
         binding.settingOnbReset.setOnClickListener {
-            // 성향분석 재설정 버튼 클릭
             ExhibitionRefreshBSDialog().show(
                 parentFragmentManager,
                 ExhibitionRefreshBSDialog.TAG
             )
         }
 
+        // 공지사항 버튼 클릭
         binding.settingOnbNotice.setOnClickListener {
-            // 공지사항 버튼 클릭
             parentActivity.supportFragmentManager.replaceFragment(NoticeFragment())
         }
 
+        // 이용약관 버튼 클릭
         binding.settingOnbTerm.setOnClickListener {
-            // 이용약관 버튼 클릭
             parentActivity.supportFragmentManager.replaceFragment(TermFragment())
         }
 
+        // 개인정보 처리방침 버튼 클릭
         binding.settingOnbPrivacyRule.setOnClickListener {
-            // 개인정보 처리방침 버튼 클릭
             parentActivity.supportFragmentManager.replaceFragment(PrivacyFragment())
         }
 
+        // 로그아웃 버튼 클릭
         binding.settingOnbLogout.setOnClickListener {
-            // 로그아웃 버튼 클릭
             LogoutBSDialog().show(parentFragmentManager, LogoutBSDialog.TAG)
         }
 
+        // 회원탈퇴 버튼 클릭
         binding.settingOnbMemberOut.setOnClickListener {
-            // 회원탈퇴 버튼 클릭
             parentActivity.supportFragmentManager.replaceFragment(MemberOutFragment())
         }
 
+        // 성향 분석 재설정에서 Dialog 결과 반환
         setFragmentResultListener(ExhibitionRefreshBSDialog.TAG) { _, bundle ->
             when (bundle.getString(ExhibitionRefreshBSDialog.RESULT_CODE)) {
                 ExhibitionRefreshBSDialog.RESULT_OK -> {
-                    // 성향 분석 재설정에서 OK 버튼 누름
                     parentActivity.supportFragmentManager.replaceFragment(OnbFragment())
                 }
             }
         }
 
+        // 로그아웃 Dialog 결과 반환
         setFragmentResultListener(LogoutBSDialog.TAG) { _, bundle ->
             when (bundle.getString(LogoutBSDialog.RESULT_CODE)) {
                 LogoutBSDialog.RESULT_OK -> {

@@ -15,6 +15,9 @@ import com.limit.lazybird.R
 import com.limit.lazybird.models.LoginInfo
 import com.limit.lazybird.ui.splashlogin.LoginFragment
 
+/************** KakaoLoginHelper *****************
+ * 반복되는 Kakao Login 작업을 정리하기 위한 Google Login 전용 객체
+ ********************************************** ***/
 class KakaoLoginHelper(
     private val context: Context
 ) {
@@ -24,10 +27,11 @@ class KakaoLoginHelper(
 
     private lateinit var callback: (OAuthToken?, Throwable?) -> Unit
 
+    // 사용자 로그인정보
     private val _loginInfo = MutableLiveData<LoginInfo>()
     val loginInfo: LiveData<LoginInfo> get() =  _loginInfo
 
-
+    // GoogleLogin 을 위한 초기화
     fun init() {
         Log.e(TAG, "init() called")
         KakaoSdk.init(context, BuildConfig.KAKAO_NATIVE_APP_KEY)
@@ -53,6 +57,7 @@ class KakaoLoginHelper(
         }
     }
 
+    // 로그인
     fun login(){
         Log.e(TAG, "login() called")
         if(!this::callback.isInitialized)
@@ -107,6 +112,7 @@ class KakaoLoginHelper(
         }
     }
 
+    // 로그아웃
     fun logout(){
         if(!this::callback.isInitialized)
             init()
@@ -120,6 +126,7 @@ class KakaoLoginHelper(
         }
     }
 
+    // 회원탈퇴
     fun memberOut(){
         if(!this::callback.isInitialized)
             init()
@@ -133,8 +140,8 @@ class KakaoLoginHelper(
         }
     }
 
+    // 카카오 로그인 성공
     private fun updateUserInfo(user: User, token: OAuthToken){
-        // 카카오 로그인 성공
         /*** kakao API response ***
          * id : user?.id
          * profileNickname : user?.kakaoAccount?.profile?.nickname

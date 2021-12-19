@@ -30,10 +30,13 @@ class NoticeFragment : Fragment(R.layout.fragment_notice) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentNoticeBinding.bind(view)
+
+        // 뒤로가기 버튼
         binding.noticeBackBtn.setOnClickListener {
-            // 뒤로가기 버튼
             parentActivity.supportFragmentManager.popBackStack()
         }
+
+        // 공지사항 업데이트
         viewModel.noticeInfoList.observe(viewLifecycleOwner) { noticeInfoList ->
             binding.noticeRecyclerView.adapter = NoticeAdapter(noticeInfoList).apply {
                 itemClickListener = object : NoticeAdapter.OnItemClickListener {

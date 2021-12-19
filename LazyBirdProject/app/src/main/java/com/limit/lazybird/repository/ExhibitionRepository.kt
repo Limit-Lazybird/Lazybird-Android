@@ -5,8 +5,7 @@ import com.limit.lazybird.datastore.PreferenceDataStoreManager
 import javax.inject.Inject
 
 /************* ExhibitionRepository ***************
- * 메인화면(전시 탭) (Repository)
- * 전시 정보 전체 보기
+ * 전시 관련 정보를 담당하는 Repository
  ********************************************** ***/
 class ExhibitionRepository @Inject constructor(
     private val apiHelper: ApiHelper,

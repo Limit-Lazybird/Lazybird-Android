@@ -45,15 +45,15 @@ class EarlyCardFragment : Fragment(R.layout.fragment_earlycard) {
             }
         }
 
+        // 뒤로가기 버튼 클릭
         binding.earlycardBackBtn.setOnClickListener {
-            // 뒤로가기 버튼 클릭
             parentActivity.supportFragmentManager.popBackStack()
         }
     }
 
+    // dialog 보여주기
     private fun showDialog(earlycardInfo: EarlycardInfo) {
         EarlycardDetailDialogFragment().apply {
-            // dialog 정보 보내주기
             arguments = bundleOf().apply {
                 putParcelable(EarlycardDetailDialogFragment.EARLYCARD_INFO, earlycardInfo)
             }

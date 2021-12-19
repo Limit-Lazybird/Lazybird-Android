@@ -29,10 +29,12 @@ class PrivacyFragment : Fragment(R.layout.fragment_privacy) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentPrivacyBinding.bind(view)
+
+        // 뒤로가기 버튼
         binding.privacyBackBtn.setOnClickListener {
-            // 뒤로가기 버튼
             parentActivity.supportFragmentManager.popBackStack()
         }
+
         binding.privacyContext.text = getString(R.string.privacy_context).applyEscapeSequence()
         binding.privacyScrollView.fullScroll(ScrollView.FOCUS_DOWN) // 끝까지 스크롤 되도록 설정
     }

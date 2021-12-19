@@ -30,23 +30,24 @@ class OnbStartFragment : Fragment(R.layout.fragment_onb_start) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentOnbStartBinding.bind(view)
 
+        // 전시성향분석 버튼 클릭
         binding.onbsOkBtn.setOnClickListener {
-            // 전시성향분석 버튼 클릭
             moveToOnb()
         }
+
+        // 다음에 할래요 버튼 클릭
         binding.onbsToBeNextBtn.setOnClickListener {
-            // 다음에 할래요 버튼 클릭
             moveToEarlyBird()
         }
     }
 
+    // 얼리버드 화면(메인화면)으로 이동
     private fun moveToEarlyBird() {
-        // 얼리버드 화면(메인화면)으로 이동
         parentActivity.supportFragmentManager.replaceFragment(MainFragment(), false)
     }
-    
+
+    // 온보딩 화면으로 이동
     private fun moveToOnb() {
-        // 온보딩 화면으로 이동
         parentActivity.supportFragmentManager.replaceFragment(OnbFragment(), true)
     }
 }
