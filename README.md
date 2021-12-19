@@ -1,7 +1,7 @@
 # Lazybird-Android
 ### 8th CMC Team Limit, Lazybird. 
 <img src="/images/banner.png" width=1200 />
-- install : https://play.google.com/store/apps/details?id=com.limit.lazybird
+- install : https://play.google.com/store/apps/details?id=com.limit.lazybird <br>
 - Compile Android SDK : API 30 <br>
 - Min SDK Version : API 29 <br>
 <br>
