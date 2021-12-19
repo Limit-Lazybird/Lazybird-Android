@@ -1,5 +1,24 @@
 # Lazybird-Android
-### 8th CMC Team Limit, Lazybird. 
+### 8th CMC Team Limit, Lazybird.
+얼리버드가 되고싶은 레이지버드를 위한 전시 문화 큐레이터, 레이지버드 <br>
+판매처별로 찾아다니기는 그만! <br>
+당신에게 꼭 맞는 전시회 정보를 한눈에! <br><br>
+
+[얼리버드] <br>
+전시 문화 얼리버드 티켓 정보를 간편하게 받아보세요! <br><br>
+
+[맞춤전시] <br>
+성향에 맞는 전시회를 추천해 드립니다! 물론 원하는걸 골라서 확인할 수 있어요! <br><br>
+
+[캘린더] <br>
+내가 예약한 전시 예매일정들을 확인하고, 관리할 수 있어요! <br><br>
+
+[키워드 탐색] <br>
+원하는 정보를 키워드에 맞게 찾아보세요! <br><br>
+
+[마이버드] <br>
+내가 예매한 정보를 한눈에! <br><br>
+
 <img src="/images/banner.png" width=1200 />
 - install : https://play.google.com/store/apps/details?id=com.limit.lazybird <br>
 - Compile Android SDK : API 30 <br>
