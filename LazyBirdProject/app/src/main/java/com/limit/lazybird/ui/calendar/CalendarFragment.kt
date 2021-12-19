@@ -47,7 +47,7 @@ class CalendarFragment : Fragment(R.layout.fragment_calendar) {
         const val TAG = "CalendarFragment"
     }
 
-    private val DAY_VIEW_HEGIHT = 120 // "일" Container 의 높이
+    private val DAY_VIEW_HEGIHT = 150 // "일" Container 의 높이
 
     private lateinit var binding: FragmentCalendarBinding
     private val viewModel: CalendarViewModel by viewModels()
@@ -272,7 +272,7 @@ class CalendarFragment : Fragment(R.layout.fragment_calendar) {
         // 세로 크기 조절
         binding.calendarView.daySize = Size(
             binding.calendarView.daySize.width,
-            DAY_VIEW_HEGIHT.toFloat().toDp(requireView())
+            DAY_VIEW_HEGIHT
         )
         binding.calendarView.dayBinder = object : DayBinder<DayViewContainer> {
             override fun create(view: View): DayViewContainer = DayViewContainer(view)
