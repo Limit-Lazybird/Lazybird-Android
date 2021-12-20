@@ -9,6 +9,8 @@ import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import com.limit.lazybird.R
 import com.limit.lazybird.databinding.FragmentOnbEndBinding
 import com.limit.lazybird.ui.MainActivity
@@ -26,6 +28,7 @@ class OnbEndFragment : Fragment(R.layout.fragment_onb_end) {
         const val TAG = "OnbEndFragment"
     }
 
+    private lateinit var navController: NavController
     private lateinit var binding: FragmentOnbEndBinding
     private val parentActivity: MainActivity by lazy {
         activity as MainActivity
@@ -33,6 +36,7 @@ class OnbEndFragment : Fragment(R.layout.fragment_onb_end) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        navController = requireView().findNavController()
         binding = FragmentOnbEndBinding.bind(view)
 
         // TextView 에 일부 글자만 스타일 다르게 넣어주기
@@ -68,7 +72,8 @@ class OnbEndFragment : Fragment(R.layout.fragment_onb_end) {
 
     // 얼리버드 화면(메인화면)으로 이동
     private fun moveToEarlyBird() {
-        parentActivity.supportFragmentManager.removeAllBackStack()
-        parentActivity.supportFragmentManager.replaceFragment(MainFragment(), false)
+        navController.navigate(OnbEndFragmentDirections.actionOnbEndFragmentToMainFragment())
+//        parentActivity.supportFragmentManager.removeAllBackStack()
+//        parentActivity.supportFragmentManager.replaceFragment(MainFragment(), false)
     }
 }

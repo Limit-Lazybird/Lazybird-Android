@@ -117,7 +117,7 @@ class KakaoLoginHelper(
         if(!this::callback.isInitialized)
             init()
 
-        UserApiClient.instance.logout { error ->
+        UserApiClient.instance.unlink { error ->
             if(error != null) {
                 Log.e(TAG, "로그아웃 실패: ${error}")
             } else {

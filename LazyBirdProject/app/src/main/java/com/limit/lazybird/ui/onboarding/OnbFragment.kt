@@ -9,6 +9,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.coroutineScope
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import com.limit.lazybird.R
 import com.limit.lazybird.ui.custom.OnbSelectBox
 import com.limit.lazybird.databinding.FragmentOnbBinding
@@ -33,6 +35,7 @@ class OnbFragment : Fragment(R.layout.fragment_onb) {
         const val TAG = "OnbFragment"
     }
 
+    private lateinit var navController: NavController
     private lateinit var binding: FragmentOnbBinding
     private val viewModel: OnbViewModel by viewModels()
     private val parentActivity: MainActivity by lazy {
@@ -41,7 +44,7 @@ class OnbFragment : Fragment(R.layout.fragment_onb) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        navController = requireView().findNavController()
         binding = FragmentOnbBinding.bind(view)
 
         viewModel.customizedList.observe(viewLifecycleOwner) { customizedList ->
@@ -149,7 +152,8 @@ class OnbFragment : Fragment(R.layout.fragment_onb) {
 
     // OnbStartFragment 로 이동
     private fun moveToStartFragment() {
-        parentActivity.supportFragmentManager.popBackStack()
+        navController.popBackStack()
+//        parentActivity.supportFragmentManager.popBackStack()
     }
 
     // 설문조사 결과 서버에 업데이트
@@ -166,7 +170,8 @@ class OnbFragment : Fragment(R.layout.fragment_onb) {
 
     // OnbEndFragment로 이동
     private fun moveToEndFragment() {
-        parentActivity.supportFragmentManager.replaceFragment(OnbEndFragment(), false)
+        navController.navigate(OnbFragmentDirections.actionOnbFragmentToOnbEndFragment())
+//        navController.navigate(R.id.action_onbFragment_to_onbEndFragment)
+//        parentActivity.supportFragmentManager.replaceFragment(OnbEndFragment(), false)
     }
-
 }

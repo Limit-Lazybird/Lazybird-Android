@@ -9,31 +9,75 @@
         android:id="@+id/splashFragment"
         android:name="com.limit.lazybird.ui.splashlogin.SplashFragment"
         android:label="fragment_splash"
-        tools:layout="@layout/fragment_splash" >
+        tools:layout="@layout/fragment_splash">
         <action
             android:id="@+id/action_splashFragment_to_loginFragment"
-            app:destination="@id/loginFragment" />
+            app:destination="@id/loginFragment"
+            app:popUpTo="@id/splashFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.limit.lazybird.ui.splashlogin.LoginFragment"
         android:label="fragment_login"
-        tools:layout="@layout/fragment_login" >
+        tools:layout="@layout/fragment_login">
         <action
             android:id="@+id/action_loginFragment_to_onbStartFragment"
             app:destination="@id/onbStartFragment" />
         <action
-            android:id="@+id/action_loginFragment_to_earlyBirdFragment"
-            app:destination="@id/earlyBirdFragment" />
+            android:id="@+id/action_loginFragment_to_mainFragment"
+            app:destination="@id/mainFragment"
+            app:popUpTo="@id/splashFragment"
+            app:popUpToInclusive="true" />
     </fragment>
-    <fragment
-        android:id="@+id/earlyBirdFragment"
-        android:name="com.limit.lazybird.ui.earlybird.EarlyBirdFragment"
-        android:label="fragment_earlybird"
-        tools:layout="@layout/fragment_earlybird" />
     <fragment
         android:id="@+id/onbStartFragment"
         android:name="com.limit.lazybird.ui.onboarding.OnbStartFragment"
         android:label="fragment_onb_start"
-        tools:layout="@layout/fragment_onb_start" />
+        tools:layout="@layout/fragment_onb_start">
+        <action
+            android:id="@+id/action_onbStartFragment_to_onbFragment"
+            app:destination="@id/onbFragment" />
+        <action
+            android:id="@+id/action_onbStartFragment_to_mainFragment"
+            app:destination="@id/mainFragment"
+            app:popUpTo="@id/splashFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/onbFragment"
+        android:name="com.limit.lazybird.ui.onboarding.OnbFragment"
+        android:label="fragment_onb"
+        tools:layout="@layout/fragment_onb">
+        <action
+            android:id="@+id/action_onbFragment_to_onbEndFragment"
+            app:destination="@id/onbEndFragment"
+            app:popUpTo="@id/onbFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/onbEndFragment"
+        android:name="com.limit.lazybird.ui.onboarding.OnbEndFragment"
+        android:label="fragment_onb_end"
+        tools:layout="@layout/fragment_onb_end">
+        <action
+            android:id="@+id/action_onbEndFragment_to_mainFragment"
+            app:destination="@id/mainFragment"
+            app:popUpTo="@id/splashFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="com.limit.lazybird.ui.MainFragment"
+        android:label="fragment_main"
+        tools:layout="@layout/fragment_main" >
+        <action
+            android:id="@+id/action_mainFragment_to_customDialogFragment"
+            app:destination="@id/customDialogFragment" />
+    </fragment>
+    <dialog
+        android:id="@+id/customDialogFragment"
+        android:name="com.limit.lazybird.ui.custom.dialog.CustomDialogFragment"
+        android:label="dialog_custom"
+        tools:layout="@layout/dialog_custom" />
 </navigation>

@@ -3,7 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/gray_100">
+    android:background="@color/gray_100"
+    tools:context=".ui.onboarding.OnbEndFragment">
+
 
     <TextView
         android:id="@+id/orb_end_header"

@@ -2,6 +2,7 @@ package com.limit.lazybird.ui
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.activity.OnBackPressedCallback
 import androidx.core.os.bundleOf
@@ -9,6 +10,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import com.limit.lazybird.R
 import com.limit.lazybird.databinding.FragmentMainBinding
 import com.limit.lazybird.models.DialogInfo
@@ -29,6 +32,7 @@ class MainFragment: Fragment(R.layout.fragment_main) {
     private var _currentChildFragment = MutableLiveData(0) // 선택된 페이지
     private val currentChildFragment: LiveData<Int> get() = _currentChildFragment
 
+    private lateinit var navController: NavController
     private lateinit var binding : FragmentMainBinding
     private val parentActivity: MainActivity by lazy {
         activity as MainActivity
@@ -39,6 +43,7 @@ class MainFragment: Fragment(R.layout.fragment_main) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        navController = requireView().findNavController()
         binding = FragmentMainBinding.bind(view)
 
         currentChildFragment.observe(viewLifecycleOwner) { page ->
@@ -86,7 +91,7 @@ class MainFragment: Fragment(R.layout.fragment_main) {
         setFragmentResultListener(CustomDialogFragment.TAG) { _, bundle ->
             when (bundle.getString(CustomDialogFragment.RESULT_CODE)) {
                 CustomDialogFragment.RESULT_OK -> {
-                    parentActivity.finish()
+                    navController.popBackStack()
                 }
             }
         }

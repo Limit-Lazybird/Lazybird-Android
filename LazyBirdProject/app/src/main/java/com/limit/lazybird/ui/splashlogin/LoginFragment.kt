@@ -32,9 +32,9 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
         const val TAG = "LoginFragment"
     }
 
+    private lateinit var navController: NavController
     private lateinit var binding: FragmentLoginBinding
     private val viewModel: LoginViewModel by viewModels()
-    private lateinit var navController: NavController
     private val parentActivity: MainActivity by lazy {
         activity as MainActivity
     }
@@ -111,13 +111,15 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
 
     // 온보딩 화면으로 이동
     private fun moveToOnBoarding() {
-        navController.navigate(R.id.action_loginFragment_to_onbStartFragment)
+        navController.navigate(LoginFragmentDirections.actionLoginFragmentToOnbStartFragment())
+//        navController.navigate(R.id.action_loginFragment_to_onbStartFragment)
 //        parentActivity.supportFragmentManager.replaceFragment(OnbStartFragment(), false)
     }
 
     // 얼리버드 화면(메인화면)으로 이동
     private fun moveToEarlyBird() {
-        navController.navigate(R.id.action_loginFragment_to_earlyBirdFragment)
+        navController.navigate(LoginFragmentDirections.actionLoginFragmentToMainFragment())
+//        navController.navigate(R.id.action_loginFragment_to_mainFragment)
 //        parentActivity.supportFragmentManager.removeAllBackStack()
 //        parentActivity.supportFragmentManager.replaceFragment(MainFragment(), false)
     }
