@@ -18,5 +18,22 @@
         android:id="@+id/loginFragment"
         android:name="com.limit.lazybird.ui.splashlogin.LoginFragment"
         android:label="fragment_login"
-        tools:layout="@layout/fragment_login" />
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_onbStartFragment"
+            app:destination="@id/onbStartFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_earlyBirdFragment"
+            app:destination="@id/earlyBirdFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/earlyBirdFragment"
+        android:name="com.limit.lazybird.ui.earlybird.EarlyBirdFragment"
+        android:label="fragment_earlybird"
+        tools:layout="@layout/fragment_earlybird" />
+    <fragment
+        android:id="@+id/onbStartFragment"
+        android:name="com.limit.lazybird.ui.onboarding.OnbStartFragment"
+        android:label="fragment_onb_start"
+        tools:layout="@layout/fragment_onb_start" />
 </navigation>

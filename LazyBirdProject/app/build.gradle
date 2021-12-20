@@ -5,6 +5,7 @@ plugins {
     id 'kotlin-parcelize'
     id 'kotlin-kapt'
     id 'com.google.secrets_gradle_plugin' version '0.6.1'
+    id "androidx.navigation.safeargs.kotlin" // navigation safeargs
 }
 
 android {
@@ -91,6 +92,7 @@ dependencies {
 
     // Navigation fragment
     implementation "androidx.navigation:navigation-fragment-ktx:$navigation_version"
+    implementation "androidx.navigation:navigation-ui-ktx:$navigation_version"
 
     // Retrofit
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"

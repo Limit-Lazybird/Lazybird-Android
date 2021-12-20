@@ -6,6 +6,8 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import com.limit.lazybird.R
 import com.limit.lazybird.api.GoogleLoginHelper
 import com.limit.lazybird.api.KakaoLoginHelper
@@ -32,6 +34,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
 
     private lateinit var binding: FragmentLoginBinding
     private val viewModel: LoginViewModel by viewModels()
+    private lateinit var navController: NavController
     private val parentActivity: MainActivity by lazy {
         activity as MainActivity
     }
@@ -44,6 +47,7 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        navController = requireView().findNavController()
         binding = FragmentLoginBinding.bind(view)
 
         // kakao 개체 구성
@@ -73,9 +77,9 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                         Log.e(TAG, "retrofit success : ${event.responseBody}")
                         viewModel.updateToken(event.responseBody.jwt.token) // 토큰 dataStore 로 업데이트
                         if(event.responseBody.useYN == "Y"){
-                            moveToEarlyBird()
+                            moveToEarlyBird() // 온보딩 완료된 사용자
                         } else {
-                            moveToOnBoarding()
+                            moveToOnBoarding() // 온보딩 완료되지 않은 사용자
                         }
                     }
                     is LoginViewModel.LoginEvent.ErrorOccured -> {
@@ -107,12 +111,14 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
 
     // 온보딩 화면으로 이동
     private fun moveToOnBoarding() {
-        parentActivity.supportFragmentManager.replaceFragment(OnbStartFragment(), false)
+        navController.navigate(R.id.action_loginFragment_to_onbStartFragment)
+//        parentActivity.supportFragmentManager.replaceFragment(OnbStartFragment(), false)
     }
 
     // 얼리버드 화면(메인화면)으로 이동
     private fun moveToEarlyBird() {
-        parentActivity.supportFragmentManager.removeAllBackStack()
-        parentActivity.supportFragmentManager.replaceFragment(MainFragment(), false)
+        navController.navigate(R.id.action_loginFragment_to_earlyBirdFragment)
+//        parentActivity.supportFragmentManager.removeAllBackStack()
+//        parentActivity.supportFragmentManager.replaceFragment(MainFragment(), false)
     }
 }
