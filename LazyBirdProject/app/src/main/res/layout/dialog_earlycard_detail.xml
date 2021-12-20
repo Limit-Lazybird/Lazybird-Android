@@ -16,7 +16,8 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:context=".ui.custom.dialog.EarlyCardDetailDialogFragment">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/earlycard_detail_background"

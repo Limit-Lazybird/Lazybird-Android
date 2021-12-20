@@ -16,8 +16,10 @@ import com.limit.lazybird.ui.custom.OnbSelectBox
 import com.limit.lazybird.databinding.FragmentOnbBinding
 import com.limit.lazybird.models.Answer
 import com.limit.lazybird.models.DialogInfo
+import com.limit.lazybird.models.DialogResult
 import com.limit.lazybird.models.Survey
 import com.limit.lazybird.ui.MainActivity
+import com.limit.lazybird.ui.MainFragmentDirections
 import com.limit.lazybird.ui.custom.dialog.CustomDialogFragment
 import com.limit.lazybird.util.replaceFragment
 import com.limit.lazybird.viewmodel.OnbViewModel
@@ -120,11 +122,12 @@ class OnbFragment : Fragment(R.layout.fragment_onb) {
         }
 
         // 온보딩 중도 종료 Dialog 선택 결과
-        setFragmentResultListener(CustomDialogFragment.TAG) { _, bundle ->
-            when (bundle.getString(CustomDialogFragment.RESULT_CODE)) {
-                CustomDialogFragment.RESULT_OK -> {
-                    // CustomDialogFragment 에서 종료 버튼 클릭 시
-                    moveToStartFragment()
+        navController.currentBackStackEntry?.savedStateHandle?.apply {
+            getLiveData<DialogResult>(CustomDialogFragment.TAG)?.observe(viewLifecycleOwner) { dialogResult ->
+                when(dialogResult.results[0]){
+                    CustomDialogFragment.RESULT_OK -> {
+                        moveToStartFragment()
+                    }
                 }
             }
         }
@@ -138,22 +141,14 @@ class OnbFragment : Fragment(R.layout.fragment_onb) {
             positiveBtnTitle = resources.getString(R.string.onb_cancel_yes),
             negativeBtnTitle = resources.getString(R.string.onb_cancel_no)
         )
-       CustomDialogFragment().apply {
-            // dialog 정보 보내주기
-            arguments = bundleOf().apply {
-                putParcelable(CustomDialogFragment.DIALOG_INFO, dialogInfo)
-            }
-        }.show(
-            parentActivity.supportFragmentManager,
-            CustomDialogFragment.TAG
-        )
+        val action = OnbFragmentDirections.actionOnbFragmentToCustomDialogFragment(dialogInfo)
+        navController.navigate(action)
     }
 
 
     // OnbStartFragment 로 이동
     private fun moveToStartFragment() {
         navController.popBackStack()
-//        parentActivity.supportFragmentManager.popBackStack()
     }
 
     // 설문조사 결과 서버에 업데이트
@@ -171,7 +166,5 @@ class OnbFragment : Fragment(R.layout.fragment_onb) {
     // OnbEndFragment로 이동
     private fun moveToEndFragment() {
         navController.navigate(OnbFragmentDirections.actionOnbFragmentToOnbEndFragment())
-//        navController.navigate(R.id.action_onbFragment_to_onbEndFragment)
-//        parentActivity.supportFragmentManager.replaceFragment(OnbEndFragment(), false)
     }
 }

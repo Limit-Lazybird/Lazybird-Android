@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import com.limit.lazybird.R
 import com.limit.lazybird.databinding.FragmentNotificationBinding
@@ -24,7 +26,8 @@ class NotificationFragment: Fragment(R.layout.fragment_notification) {
     }
 
     private val CLAMP_WIDTH_RATIO = 0.2f // CLAMP 의 값이 화면의 가로길이의 몇 퍼센트인지
-    
+
+    private lateinit var navController: NavController
     lateinit var binding: FragmentNotificationBinding
     private val viewModel: NotificationViewModel by viewModels()
     private val parentActivity: MainActivity by lazy {
@@ -33,11 +36,12 @@ class NotificationFragment: Fragment(R.layout.fragment_notification) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        navController = requireView().findNavController()
         binding = FragmentNotificationBinding.bind(view)
 
         // 뒤로가기 버튼
         binding.notificationBackBtn.setOnClickListener {
-            parentActivity.supportFragmentManager.popBackStack()
+            navController.popBackStack()
         }
 
         // 공지사항 리스트 업데이트

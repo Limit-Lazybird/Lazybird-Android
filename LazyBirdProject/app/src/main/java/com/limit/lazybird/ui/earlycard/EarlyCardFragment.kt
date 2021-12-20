@@ -5,11 +5,13 @@ import android.view.View
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import com.limit.lazybird.R
 import com.limit.lazybird.databinding.FragmentEarlycardBinding
 import com.limit.lazybird.models.EarlycardInfo
 import com.limit.lazybird.ui.MainActivity
-import com.limit.lazybird.ui.custom.dialog.EarlycardDetailDialogFragment
+import com.limit.lazybird.ui.custom.dialog.EarlyCardDetailDialogFragment
 import com.limit.lazybird.viewmodel.EarlycardViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -20,6 +22,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class EarlyCardFragment : Fragment(R.layout.fragment_earlycard) {
 
+    private lateinit var navController: NavController
     private lateinit var binding: FragmentEarlycardBinding
     private val viewModel: EarlycardViewModel by viewModels()
     private val parentActivity: MainActivity by lazy {
@@ -28,6 +31,7 @@ class EarlyCardFragment : Fragment(R.layout.fragment_earlycard) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        navController = requireView().findNavController()
         binding = FragmentEarlycardBinding.bind(view)
 
         viewModel.earlycardList.observe(viewLifecycleOwner) { earlycardInfoList ->
@@ -47,19 +51,12 @@ class EarlyCardFragment : Fragment(R.layout.fragment_earlycard) {
 
         // 뒤로가기 버튼 클릭
         binding.earlycardBackBtn.setOnClickListener {
-            parentActivity.supportFragmentManager.popBackStack()
+            navController.popBackStack()
         }
     }
 
     // dialog 보여주기
     private fun showDialog(earlycardInfo: EarlycardInfo) {
-        EarlycardDetailDialogFragment().apply {
-            arguments = bundleOf().apply {
-                putParcelable(EarlycardDetailDialogFragment.EARLYCARD_INFO, earlycardInfo)
-            }
-        }.show(
-            parentActivity.supportFragmentManager,
-            EarlycardDetailDialogFragment.TAG
-        )
+        navController.navigate(EarlyCardFragmentDirections.actionEarlyCardFragmentToEarlyCardDetailDialogFragment(earlycardInfo))
     }
 }

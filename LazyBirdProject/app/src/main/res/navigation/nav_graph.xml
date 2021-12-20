@@ -26,9 +26,7 @@
             app:destination="@id/onbStartFragment" />
         <action
             android:id="@+id/action_loginFragment_to_mainFragment"
-            app:destination="@id/mainFragment"
-            app:popUpTo="@id/splashFragment"
-            app:popUpToInclusive="true" />
+            app:destination="@id/mainFragment"/>
     </fragment>
     <fragment
         android:id="@+id/onbStartFragment"
@@ -40,9 +38,7 @@
             app:destination="@id/onbFragment" />
         <action
             android:id="@+id/action_onbStartFragment_to_mainFragment"
-            app:destination="@id/mainFragment"
-            app:popUpTo="@id/splashFragment"
-            app:popUpToInclusive="true" />
+            app:destination="@id/mainFragment"/>
     </fragment>
     <fragment
         android:id="@+id/onbFragment"
@@ -54,6 +50,9 @@
             app:destination="@id/onbEndFragment"
             app:popUpTo="@id/onbFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_onbFragment_to_customDialogFragment"
+            app:destination="@id/customDialogFragment" />
     </fragment>
     <fragment
         android:id="@+id/onbEndFragment"
@@ -62,22 +61,68 @@
         tools:layout="@layout/fragment_onb_end">
         <action
             android:id="@+id/action_onbEndFragment_to_mainFragment"
-            app:destination="@id/mainFragment"
-            app:popUpTo="@id/splashFragment"
-            app:popUpToInclusive="true" />
+            app:destination="@id/mainFragment"/>
     </fragment>
     <fragment
         android:id="@+id/mainFragment"
         android:name="com.limit.lazybird.ui.MainFragment"
         android:label="fragment_main"
-        tools:layout="@layout/fragment_main" >
+        tools:layout="@layout/fragment_main">
         <action
             android:id="@+id/action_mainFragment_to_customDialogFragment"
             app:destination="@id/customDialogFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_earlyCardFragment"
+            app:destination="@id/earlyCardFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_notificationFragment"
+            app:destination="@id/notificationFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_earlyBirdDetailFragment"
+            app:destination="@id/earlyBirdDetailFragment" />
     </fragment>
     <dialog
         android:id="@+id/customDialogFragment"
         android:name="com.limit.lazybird.ui.custom.dialog.CustomDialogFragment"
         android:label="dialog_custom"
-        tools:layout="@layout/dialog_custom" />
+        tools:layout="@layout/dialog_custom">
+        <argument
+            android:name="dialogInfo"
+            app:argType="com.limit.lazybird.models.DialogInfo"
+            app:nullable="false"/>
+    </dialog>
+    <fragment
+        android:id="@+id/earlyCardFragment"
+        android:name="com.limit.lazybird.ui.earlycard.EarlyCardFragment"
+        android:label="fragment_earlycard"
+        tools:layout="@layout/fragment_earlycard" >
+        <action
+            android:id="@+id/action_earlyCardFragment_to_earlyCardDetailDialogFragment"
+            app:destination="@id/earlyCardDetailDialogFragment" />
+    </fragment>
+    <dialog
+        android:id="@+id/earlyCardDetailDialogFragment"
+        android:name="com.limit.lazybird.ui.custom.dialog.EarlyCardDetailDialogFragment"
+        android:label="dialog_earlycard_detail"
+        tools:layout="@layout/dialog_earlycard_detail" >
+        <argument
+            android:name="dialogInfo"
+            app:argType="com.limit.lazybird.models.EarlycardInfo"
+            app:nullable="false"/>
+    </dialog>
+    <fragment
+        android:id="@+id/notificationFragment"
+        android:name="com.limit.lazybird.ui.notification.NotificationFragment"
+        android:label="NotificationFragment"
+        tools:layout="@layout/fragment_notification" />
+    <fragment
+        android:id="@+id/earlyBirdDetailFragment"
+        android:name="com.limit.lazybird.ui.earlybird.EarlyBirdDetailFragment"
+        android:label="EarlyBirdDetailFragment"
+        tools:layout="@layout/fragment_earlybird_detail">
+        <argument
+            android:name="earlyBirdInfo"
+            app:argType="com.limit.lazybird.models.retrofit.Exhbt"
+            app:nullable="false"/>
+    </fragment>
 </navigation>

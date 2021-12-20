@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/gray_100"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".ui.notification.NotificationFragment">
 
     <ImageButton
         android:id="@+id/notification_back_btn"

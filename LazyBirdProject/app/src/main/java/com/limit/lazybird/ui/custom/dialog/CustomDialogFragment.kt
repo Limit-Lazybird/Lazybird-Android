@@ -2,9 +2,11 @@ package com.limit.lazybird.ui.custom.dialog
 
 import android.app.AlertDialog
 import android.app.Dialog
+import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
 import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.setFragmentResult
@@ -12,6 +14,11 @@ import com.limit.lazybird.R
 import com.limit.lazybird.databinding.DialogCustomBinding
 import com.limit.lazybird.models.DialogInfo
 import android.view.View
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
+import com.limit.lazybird.models.DialogResult
 
 /************* CustomDialogFragment ***************
  * 확인/취소 선택버튼을 가진 Custom 모달창 (DialogFragment)
@@ -26,11 +33,13 @@ class CustomDialogFragment : DialogFragment() {
         const val RESULT_OK = "result_ok"
     }
 
+    private val args: CustomDialogFragmentArgs by navArgs()
     private lateinit var binding: DialogCustomBinding
     private var alertDialog: AlertDialog? = null
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val dialogInfo = requireArguments().getParcelable<DialogInfo>(DIALOG_INFO)!!
+//        val dialogInfo = requireArguments().getParcelable<DialogInfo>(DIALOG_INFO)!!
+        val dialogInfo = args.dialogInfo
         val layout = layoutInflater.inflate(R.layout.dialog_custom, null).apply {
             binding = DialogCustomBinding.bind(this)
         }
@@ -40,10 +49,10 @@ class CustomDialogFragment : DialogFragment() {
             onbCancelButtonNo.text = dialogInfo.negativeBtnTitle
             onbCancelButtonYes.text = dialogInfo.positiveBtnTitle
             onbCancelButtonNo.setOnClickListener {
-                cancelDialog()
+                clickCancel()
             }
             onbCancelButtonYes.setOnClickListener {
-                cancelOnb()
+                clickOK()
             }
             if(dialogInfo.message == ""){
                 onbCancelMessage.visibility = View.GONE
@@ -58,23 +67,23 @@ class CustomDialogFragment : DialogFragment() {
         return alertDialog!!
     }
 
-    private fun cancelOnb() {
+    private fun clickOK() {
         // 확인 버튼 클릭 시
-        setFragmentResult(
-            TAG, bundleOf(
-                RESULT_CODE to RESULT_OK
-            )
-        )
-        dismiss()
+        findNavController().previousBackStackEntry?.savedStateHandle?.apply {
+            set(TAG, DialogResult(
+                listOf(RESULT_OK)
+            ))
+        }
+        findNavController().popBackStack()
     }
 
-    private fun cancelDialog() {
+    private fun clickCancel() {
         // 취소 버튼 클릭 시
-        setFragmentResult(
-            TAG, bundleOf(
-                RESULT_CODE to RESULT_CANCEL
-            )
-        )
-        dismiss()
+        findNavController().previousBackStackEntry?.savedStateHandle?.apply {
+            set(TAG, DialogResult(
+                listOf(RESULT_CANCEL)
+            ))
+        }
+        findNavController().popBackStack()
     }
 }

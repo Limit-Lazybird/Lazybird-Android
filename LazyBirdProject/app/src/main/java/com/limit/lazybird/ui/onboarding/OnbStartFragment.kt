@@ -48,14 +48,10 @@ class OnbStartFragment : Fragment(R.layout.fragment_onb_start) {
     // 얼리버드 화면(메인화면)으로 이동
     private fun moveToEarlyBird() {
         navController.navigate(OnbStartFragmentDirections.actionOnbStartFragmentToMainFragment())
-//        navController.navigate(R.id.action_onbStartFragment_to_mainFragment)
-//        parentActivity.supportFragmentManager.replaceFragment(MainFragment(), false)
     }
 
     // 온보딩 화면으로 이동
     private fun moveToOnb() {
         navController.navigate(OnbStartFragmentDirections.actionOnbStartFragmentToOnbFragment())
-//        navController.navigate(R.id.action_onbStartFragment_to_onbFragment)
-//        parentActivity.supportFragmentManager.replaceFragment(OnbFragment(), true)
     }
 }

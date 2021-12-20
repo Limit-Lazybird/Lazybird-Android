@@ -12,6 +12,7 @@ import androidx.core.text.HtmlCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
@@ -45,6 +46,7 @@ class EarlyBirdDetailFragment : Fragment(R.layout.fragment_earlybird_detail) {
     private val THUMBNAIL_IMAGE_RATIO = 4 / 3f // Thumbnail 이미지의 세로 크기
     private val DETAIL_IMAGE_LIMIT_HIGH = 500f // detail Image의 최대 Hegiht 값
 
+    private val args: EarlyBirdDetailFragmentArgs by navArgs()
     private lateinit var binding: FragmentEarlybirdDetailBinding
     private val viewModel: EarlyBirdDetailViewModel by viewModels()
     private val parentActivity: MainActivity by lazy {
@@ -60,7 +62,7 @@ class EarlyBirdDetailFragment : Fragment(R.layout.fragment_earlybird_detail) {
 
         // argument 로 넘어오는 earlyBird 상세정보 ViewModel에 업데이트
         lifecycleScope.launchWhenStarted {
-            val exhbt = requireArguments().getParcelable<Exhbt>(EarlyBirdDetailViewModel.EARLYBIRD_INFO)
+            val exhbt = args.earlyBirdInfo
             if(exhbt!=null)
                 viewModel.updateExhibitionInfo(exhbt)
         }

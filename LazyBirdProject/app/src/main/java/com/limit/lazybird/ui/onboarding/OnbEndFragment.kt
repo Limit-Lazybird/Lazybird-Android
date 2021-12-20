@@ -73,7 +73,5 @@ class OnbEndFragment : Fragment(R.layout.fragment_onb_end) {
     // 얼리버드 화면(메인화면)으로 이동
     private fun moveToEarlyBird() {
         navController.navigate(OnbEndFragmentDirections.actionOnbEndFragmentToMainFragment())
-//        parentActivity.supportFragmentManager.removeAllBackStack()
-//        parentActivity.supportFragmentManager.replaceFragment(MainFragment(), false)
     }
 }

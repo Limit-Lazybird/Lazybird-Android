@@ -15,6 +15,8 @@ import android.os.Environment
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.DialogFragment
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
@@ -26,14 +28,14 @@ import java.io.File
 import java.io.FileOutputStream
 import java.util.*
 
-/************* EarlycardDetailDialogFragment ***************
+/************* EarlyCardDetailDialogFragment ***************
  * 메인화면(?? 탭) >> 얼리카드 화면 >> 얼리카드 크게보기 (DialogFragment)
  * 얼리카드 정보 크게 보기, 스샷 찍기
  ********************************************** ***/
-class EarlycardDetailDialogFragment : DialogFragment() {
+class EarlyCardDetailDialogFragment : DialogFragment() {
 
     companion object {
-        const val TAG = "EarlycardDetailDialogFragment"
+        const val TAG = "EarlyCardDetailDialogFragment"
         const val EARLYCARD_INFO = "EARLYCARD_INFO"
     }
 
@@ -43,12 +45,13 @@ class EarlycardDetailDialogFragment : DialogFragment() {
         Manifest.permission.READ_EXTERNAL_STORAGE
     )
 
+    private val args: EarlyCardDetailDialogFragmentArgs by navArgs()
     private lateinit var binding: DialogEarlycardDetailBinding
     private var parentActivity: Activity? = null
     private var alertDialog: AlertDialog? = null
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val earlycardInfo = requireArguments().getParcelable<EarlycardInfo>(EARLYCARD_INFO)!!
+        val earlycardInfo = args.dialogInfo
         val layout = layoutInflater.inflate(R.layout.dialog_earlycard_detail, null).apply {
             binding = DialogEarlycardDetailBinding.bind(this)
         }
@@ -102,7 +105,7 @@ class EarlycardDetailDialogFragment : DialogFragment() {
 
     private fun clickClose() {
         // 취소 버튼 클릭 시
-        dismiss()
+        findNavController().popBackStack()
     }
 
     fun verifyStoragePermission() {

@@ -2,12 +2,9 @@ package com.limit.lazybird.ui
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.activity.OnBackPressedCallback
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.NavController
@@ -15,6 +12,7 @@ import androidx.navigation.findNavController
 import com.limit.lazybird.R
 import com.limit.lazybird.databinding.FragmentMainBinding
 import com.limit.lazybird.models.DialogInfo
+import com.limit.lazybird.models.DialogResult
 import com.limit.lazybird.ui.calendar.CalendarFragment
 import com.limit.lazybird.ui.earlybird.EarlyBirdFragment
 import com.limit.lazybird.ui.exhibition.ExhibitionFragment
@@ -87,15 +85,15 @@ class MainFragment: Fragment(R.layout.fragment_main) {
             }
             return@setOnItemSelectedListener false
         }
-
-        setFragmentResultListener(CustomDialogFragment.TAG) { _, bundle ->
-            when (bundle.getString(CustomDialogFragment.RESULT_CODE)) {
-                CustomDialogFragment.RESULT_OK -> {
-                    navController.popBackStack()
+        navController.currentBackStackEntry?.savedStateHandle?.apply {
+            getLiveData<DialogResult>(CustomDialogFragment.TAG)?.observe(viewLifecycleOwner) { dialogResult ->
+                when(dialogResult.results[0]){
+                    CustomDialogFragment.RESULT_OK -> {
+                        parentActivity.finish()
+                    }
                 }
             }
         }
-
     }
 
     private fun updateChildFragment(page: Int) {
@@ -110,15 +108,8 @@ class MainFragment: Fragment(R.layout.fragment_main) {
             positiveBtnTitle = resources.getString(R.string.main_exit_yes),
             negativeBtnTitle = resources.getString(R.string.main_exit_no)
         )
-        CustomDialogFragment().apply {
-            // dialog 정보 보내주기
-            arguments = bundleOf().apply {
-                putParcelable(CustomDialogFragment.DIALOG_INFO, dialogInfo)
-            }
-        }.show(
-            parentActivity.supportFragmentManager,
-            CustomDialogFragment.TAG
-        )
+        val action = MainFragmentDirections.actionMainFragmentToCustomDialogFragment(dialogInfo)
+        navController.navigate(action)
     }
 
     override fun onAttach(context: Context) {

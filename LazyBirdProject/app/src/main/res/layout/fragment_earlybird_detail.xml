@@ -15,7 +15,8 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/gray_100">
+        android:background="@color/gray_100"
+        tools:context=".ui.earlybird.EarlyBirdDetailFragment">
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
