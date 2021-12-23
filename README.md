@@ -20,9 +20,17 @@
 내가 예매한 정보를 한눈에! <br><br>
 
 <img src="/images/banner.png" width=1200 />
-- install : https://play.google.com/store/apps/details?id=com.limit.lazybird <br>
+
+### 앱 정보
+- Install : https://play.google.com/store/apps/details?id=com.limit.lazybird <br>
 - Compile Android SDK : API 30 <br>
 - Min SDK Version : API 29 <br>
+<br>
+
+### 기술스택
+- Architecture : MVVM, Single Activity <br>
+- JetPack : CardView, ViewPager2, Datastore, Dagger Hilt <br>
+- ETC : Retrofit, Glide, FlexboxLayout, CalendarView <br>
 <br>
 
 ## 화면 구성

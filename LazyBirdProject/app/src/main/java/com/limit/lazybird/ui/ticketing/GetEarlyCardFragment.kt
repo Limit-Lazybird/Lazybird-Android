@@ -10,6 +10,10 @@ import android.view.animation.AnimationUtils
 import androidx.core.view.GestureDetectorCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.limit.lazybird.R
 import com.limit.lazybird.ui.custom.CustomSnackBar
@@ -26,7 +30,9 @@ class GetEarlyCardFragment : Fragment(R.layout.fragment_get_earlycard) {
         const val TAG = "TicketingConfirmFragment"
     }
 
+    private lateinit var navController: NavController
     lateinit var binding: FragmentGetEarlycardBinding
+    private val args: GetEarlyCardFragmentArgs by navArgs()
     private val viewModel: TicketingViewModel by viewModels()
     private val parentActivity: MainActivity by lazy {
         activity as MainActivity
@@ -36,15 +42,15 @@ class GetEarlyCardFragment : Fragment(R.layout.fragment_get_earlycard) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        navController = requireView().findNavController()
         binding = FragmentGetEarlycardBinding.bind(view)
 
-        initDetector(view)
+        // argument 로 넘어오는 earlyBird 상세정보 ViewModel에 업데이트
+        lifecycleScope.launchWhenStarted {
+            viewModel.updateExhibitionInfo(args.exhibitionInfo)
+        }
 
-        viewModel.updateExhibitionInfo(
-            requireArguments().getParcelable(
-                TicketingViewModel.EXHIBITION_INFO
-            )!!
-        )
+        initDetector(view)
 
         viewModel.exhibitionInfo.observe(viewLifecycleOwner) { exhibitionInfo ->
             // main earlycard, sub earlycard 모두 초기화하기
@@ -71,7 +77,7 @@ class GetEarlyCardFragment : Fragment(R.layout.fragment_get_earlycard) {
         }
         binding.getEarlycardBackBtn.setOnClickListener {
             // 뒤로가기 버튼 클릭 시
-            parentActivity.supportFragmentManager.popBackStack()
+            clickBackBtn()
         }
     }
 
@@ -150,9 +156,11 @@ class GetEarlyCardFragment : Fragment(R.layout.fragment_get_earlycard) {
         }.show()
     }
 
+    private fun clickBackBtn(){
+        navController.popBackStack()
+    }
+
     private fun moveToMain(){
-        repeat(parentActivity.supportFragmentManager.backStackEntryCount) {
-            parentActivity.supportFragmentManager.popBackStack()
-        }
+        navController.popBackStack()
     }
 }

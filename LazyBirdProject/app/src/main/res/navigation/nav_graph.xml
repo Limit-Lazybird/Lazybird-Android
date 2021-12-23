@@ -26,7 +26,7 @@
             app:destination="@id/onbStartFragment" />
         <action
             android:id="@+id/action_loginFragment_to_mainFragment"
-            app:destination="@id/mainFragment"/>
+            app:destination="@id/mainFragment" />
     </fragment>
     <fragment
         android:id="@+id/onbStartFragment"
@@ -38,7 +38,7 @@
             app:destination="@id/onbFragment" />
         <action
             android:id="@+id/action_onbStartFragment_to_mainFragment"
-            app:destination="@id/mainFragment"/>
+            app:destination="@id/mainFragment" />
     </fragment>
     <fragment
         android:id="@+id/onbFragment"
@@ -61,7 +61,7 @@
         tools:layout="@layout/fragment_onb_end">
         <action
             android:id="@+id/action_onbEndFragment_to_mainFragment"
-            app:destination="@id/mainFragment"/>
+            app:destination="@id/mainFragment" />
     </fragment>
     <fragment
         android:id="@+id/mainFragment"
@@ -79,7 +79,12 @@
             app:destination="@id/notificationFragment" />
         <action
             android:id="@+id/action_mainFragment_to_earlyBirdDetailFragment"
-            app:destination="@id/earlyBirdDetailFragment" />
+            app:argType="com.limit.lazybird.models.retrofit.Exhbt"
+            app:destination="@id/earlyBirdDetailFragment"
+            app:nullable="false" />
+        <action
+            android:id="@+id/action_mainFragment_to_exhibitionDetailFragment"
+            app:destination="@id/exhibitionDetailFragment" />
     </fragment>
     <dialog
         android:id="@+id/customDialogFragment"
@@ -89,13 +94,13 @@
         <argument
             android:name="dialogInfo"
             app:argType="com.limit.lazybird.models.DialogInfo"
-            app:nullable="false"/>
+            app:nullable="false" />
     </dialog>
     <fragment
         android:id="@+id/earlyCardFragment"
         android:name="com.limit.lazybird.ui.earlycard.EarlyCardFragment"
         android:label="fragment_earlycard"
-        tools:layout="@layout/fragment_earlycard" >
+        tools:layout="@layout/fragment_earlycard">
         <action
             android:id="@+id/action_earlyCardFragment_to_earlyCardDetailDialogFragment"
             app:destination="@id/earlyCardDetailDialogFragment" />
@@ -104,11 +109,11 @@
         android:id="@+id/earlyCardDetailDialogFragment"
         android:name="com.limit.lazybird.ui.custom.dialog.EarlyCardDetailDialogFragment"
         android:label="dialog_earlycard_detail"
-        tools:layout="@layout/dialog_earlycard_detail" >
+        tools:layout="@layout/dialog_earlycard_detail">
         <argument
             android:name="dialogInfo"
             app:argType="com.limit.lazybird.models.EarlycardInfo"
-            app:nullable="false"/>
+            app:nullable="false" />
     </dialog>
     <fragment
         android:id="@+id/notificationFragment"
@@ -123,6 +128,64 @@
         <argument
             android:name="earlyBirdInfo"
             app:argType="com.limit.lazybird.models.retrofit.Exhbt"
-            app:nullable="false"/>
+            app:nullable="false" />
+        <action
+            android:id="@+id/action_earlyBirdDetailFragment_to_ticketingNoticeFragment"
+            app:argType="com.limit.lazybird.models.ExhibitionInfo"
+            app:nullable="false"
+            app:destination="@id/ticketingNoticeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/exhibitionDetailFragment"
+        android:name="com.limit.lazybird.ui.exhibition.ExhibitionDetailFragment"
+        android:label="fragment_exhibition_detail"
+        tools:layout="@layout/fragment_exhibition_detail">
+        <argument
+            android:name="earlyBirdInfo"
+            app:argType="com.limit.lazybird.models.retrofit.Exhbt"
+            app:nullable="false" />
+        <action
+            android:id="@+id/action_exhibitionDetailFragment_to_ticketingNoticeFragment"
+            app:destination="@id/ticketingNoticeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/ticketingNoticeFragment"
+        android:name="com.limit.lazybird.ui.ticketing.TicketingNoticeFragment"
+        android:label="fragment_ticketing_notice"
+        tools:layout="@layout/fragment_ticketing_notice">
+        <argument
+            android:name="exhibitionInfo"
+            app:argType="com.limit.lazybird.models.ExhibitionInfo"
+            app:nullable="false" />
+        <action
+            android:id="@+id/action_ticketingNoticeFragment_to_ticketingConfirmFragment"
+            app:destination="@id/ticketingConfirmFragment"
+            app:popUpTo="@id/ticketingNoticeFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/ticketingConfirmFragment"
+        android:name="com.limit.lazybird.ui.ticketing.TicketingConfirmFragment"
+        android:label="fragment_ticketing_confirm"
+        tools:layout="@layout/fragment_ticketing_confirm">
+        <argument
+            android:name="exhibitionInfo"
+            app:argType="com.limit.lazybird.models.ExhibitionInfo"
+            app:nullable="false" />
+        <action
+            android:id="@+id/action_ticketingConfirmFragment_to_getEarlyCardFragment"
+            app:destination="@id/getEarlyCardFragment"
+            app:popUpTo="@id/ticketingNoticeFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/getEarlyCardFragment"
+        android:name="com.limit.lazybird.ui.ticketing.GetEarlyCardFragment"
+        android:label="fragment_get_earlycard"
+        tools:layout="@layout/fragment_get_earlycard">
+        <argument
+            android:name="exhibitionInfo"
+            app:argType="com.limit.lazybird.models.ExhibitionInfo"
+            app:nullable="false" />
     </fragment>
 </navigation>

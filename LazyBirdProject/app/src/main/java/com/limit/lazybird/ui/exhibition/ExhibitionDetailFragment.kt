@@ -10,6 +10,9 @@ import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
@@ -20,6 +23,8 @@ import com.limit.lazybird.ui.custom.PositionedCropTransformation
 import com.limit.lazybird.databinding.FragmentExhibitionDetailBinding
 import com.limit.lazybird.models.retrofit.Exhbt
 import com.limit.lazybird.ui.MainActivity
+import com.limit.lazybird.ui.earlybird.EarlyBirdDetailFragmentArgs
+import com.limit.lazybird.ui.earlybird.EarlyBirdDetailFragmentDirections
 import com.limit.lazybird.ui.ticketing.TicketingNoticeFragment
 import com.limit.lazybird.viewmodel.TicketingViewModel
 import com.limit.lazybird.util.applyEscapeSequenceWithDot
@@ -43,24 +48,22 @@ class ExhibitionDetailFragment: Fragment(R.layout.fragment_exhibition_detail) {
     private val THUMBNAIL_IMAGE_RATIO = 4 / 3f  // Thumbnail 이미지의 세로 크기
     private val DETAIL_IMAGE_LIMIT_HIGH = 500f // detail Image의 최대 Hegiht 값
 
+    private lateinit var navController: NavController
+    private val args: ExhibitionDetailFragmentArgs by navArgs()
     private lateinit var binding: FragmentExhibitionDetailBinding
     private val viewModel: ExhibitionDetailViewModel by viewModels()
     private val parentActivity: MainActivity by lazy {
         activity as MainActivity
     }
 
-    lateinit var callback: OnBackPressedCallback
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        navController = requireView().findNavController()
         binding = FragmentExhibitionDetailBinding.bind(view)
 
         // argument 로 넘어오는 earlyBird 상세정보 ViewModel에 업데이트
         lifecycleScope.launchWhenStarted {
-            val exhbt = requireArguments().getParcelable<Exhbt>(ExhibitionDetailViewModel.EXHIBITION_INFO)
-            if(exhbt!=null)
-                viewModel.updateExhibitionInfo(exhbt)
+            viewModel.updateExhibitionInfo(args.earlyBirdInfo)
         }
 
         // exhibitionInfo 정보 업데이트 완료
@@ -170,28 +173,11 @@ class ExhibitionDetailFragment: Fragment(R.layout.fragment_exhibition_detail) {
 
         // TicketingNoticeFragment 화면 이동
         binding.exhibitionDetailTicketingBtn.setOnClickListener {
-            val bundle = Bundle().apply {
-                putParcelable(TicketingViewModel.EXHIBITION_INFO, viewModel.exhibitionInfo.value!!)
-            }
-            parentActivity.supportFragmentManager.replaceFragment(TicketingNoticeFragment().apply {
-                arguments = bundle
-            })
+            moveToTicketingNoticeFragment()
         }
     }
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        callback = object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                // 뒤로가기 버튼 클릭 시
-                parentActivity.supportFragmentManager.popBackStack()
-            }
-        }
-        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        callback.remove()
+    private fun moveToTicketingNoticeFragment() {
+        navController.navigate(ExhibitionDetailFragmentDirections.actionExhibitionDetailFragmentToTicketingNoticeFragment(viewModel.exhibitionInfo.value!!))
     }
 }

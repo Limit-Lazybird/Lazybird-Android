@@ -6,17 +6,19 @@ import androidx.core.view.allViews
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import com.limit.lazybird.R
 import com.limit.lazybird.ui.custom.OptionItemView
 import com.limit.lazybird.databinding.FragmentExhibitionBinding
 import com.limit.lazybird.models.ExhibitionFilterList
 import com.limit.lazybird.models.retrofit.Exhbt
 import com.limit.lazybird.ui.MainActivity
+import com.limit.lazybird.ui.MainFragmentDirections
 import com.limit.lazybird.ui.custom.dialog.ExhibitionFilterBSDialog
 import com.limit.lazybird.ui.custom.dialog.ExhibitionRefreshBSDialog
 import com.limit.lazybird.viewmodel.EarlyBirdDetailViewModel
 import com.limit.lazybird.ui.earlybird.EarlyBirdDetailFragment
-import com.limit.lazybird.ui.earlycard.EarlyCardFragment
 import com.limit.lazybird.viewmodel.ExhibitionDetailViewModel
 import com.limit.lazybird.ui.onboarding.OnbFragment
 import com.limit.lazybird.util.replaceFragment
@@ -36,6 +38,7 @@ class ExhibitionFragment : Fragment(R.layout.fragment_exhibition) {
         const val TAG = "ExhibitionFragment"
     }
 
+    private lateinit var navController: NavController
     private lateinit var binding: FragmentExhibitionBinding
     private val viewModel: ExhibitionViewModel by viewModels()
     private val parentActivity: MainActivity by lazy {
@@ -47,7 +50,7 @@ class ExhibitionFragment : Fragment(R.layout.fragment_exhibition) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        navController = requireView().findNavController()
         binding = FragmentExhibitionBinding.bind(view)
 
         // RecyclerView 업데이트
@@ -61,7 +64,17 @@ class ExhibitionFragment : Fragment(R.layout.fragment_exhibition) {
                     ) {
                         // item 클릭 시
                         val exhibitionInfo = viewModel.getExhibitionInfo(position)
-                        moveToExhibitionDetail(exhibitionInfo)
+                        when (exhibitionInfo.eb_yn) {
+                            "Y" -> {
+                                // 얼리버드 전시 디테일 화면
+                                moveToEarlyBirdDetail(exhibitionInfo)
+                            }
+
+                            "N" -> {
+                                // 일반 전시 디테일 화면
+                                moveToExhibitionDetail(exhibitionInfo)
+                            }
+                        }
                     }
 
                     override fun onLikeBtnClick(
@@ -199,40 +212,18 @@ class ExhibitionFragment : Fragment(R.layout.fragment_exhibition) {
         }
     }
 
+    // EarlyCard Fragment 로 이동
+    private fun moveToEarlyCard() {
+        navController.navigate(MainFragmentDirections.actionMainFragmentToEarlyCardFragment())
+    }
+
     // ExhibitionDetail Fragment 로 이동
     private fun moveToExhibitionDetail(exhibitionInfo: Exhbt) {
-        when (exhibitionInfo.eb_yn) {
-            "Y" -> {
-                // 얼리버드 전시 디테일 화면
-                val bundle = Bundle().apply {
-                    putParcelable(EarlyBirdDetailViewModel.EARLYBIRD_INFO, exhibitionInfo)
-                }
-                parentActivity.supportFragmentManager.replaceFragment(
-                    EarlyBirdDetailFragment().apply {
-                        arguments = bundle
-                    },
-                    true
-                )
-            }
-
-            "N" -> {
-                // 일반 전시 디테일 화면
-                val bundle = Bundle().apply {
-                    putParcelable(ExhibitionDetailViewModel.EXHIBITION_INFO, exhibitionInfo)
-                }
-                parentActivity.supportFragmentManager.replaceFragment(
-                    ExhibitionDetailFragment().apply {
-                        arguments = bundle
-                    },
-                    true
-                )
-            }
-        }
+        navController.navigate(MainFragmentDirections.actionMainFragmentToExhibitionDetailFragment(exhibitionInfo))
     }
 
-    private fun moveToEarlyCard() {
-        // Earlycard Fragment 로 이동
-        parentActivity.supportFragmentManager.replaceFragment(EarlyCardFragment())
+    // EarlyBirdDetail Fragment 로 이동
+    private fun moveToEarlyBirdDetail(exhibitionInfo: Exhbt) {
+        navController.navigate(MainFragmentDirections.actionMainFragmentToEarlyBirdDetailFragment(exhibitionInfo))
     }
-
 }

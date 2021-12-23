@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/gray_100">
+    android:background="@color/gray_100"
+    tools:context=".ui.ticketing.GetEarlyCardFragment">
 
     <ImageButton
         android:id="@+id/get_earlycard_back_btn"

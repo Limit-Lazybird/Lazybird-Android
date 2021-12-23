@@ -7,6 +7,10 @@ import androidx.core.text.HtmlCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.coroutineScope
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.limit.lazybird.R
 import com.limit.lazybird.databinding.FragmentTicketingConfirmBinding
@@ -28,7 +32,9 @@ class TicketingConfirmFragment : Fragment(R.layout.fragment_ticketing_confirm) {
         const val TAG = "TicketingConfirmFragment"
     }
 
+    private lateinit var navController: NavController
     lateinit var binding: FragmentTicketingConfirmBinding
+    private val args: GetEarlyCardFragmentArgs by navArgs()
     private val viewModel: TicketingViewModel by viewModels()
     private val parentActivity: MainActivity by lazy {
         activity as MainActivity
@@ -36,14 +42,13 @@ class TicketingConfirmFragment : Fragment(R.layout.fragment_ticketing_confirm) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        navController = requireView().findNavController()
         binding = FragmentTicketingConfirmBinding.bind(view)
 
-        viewModel.updateExhibitionInfo(
-            requireArguments().getParcelable(
-                TicketingViewModel.EXHIBITION_INFO
-            )!!
-        )
+        // argument 로 넘어오는 earlyBird 상세정보 ViewModel에 업데이트
+        lifecycleScope.launchWhenStarted {
+            viewModel.updateExhibitionInfo(args.exhibitionInfo)
+        }
 
         viewModel.exhibitionInfo.observe(viewLifecycleOwner) { exhibitionInfo ->
             binding.ticketingConfirmExhbtTitle.text = exhibitionInfo.title
@@ -84,20 +89,10 @@ class TicketingConfirmFragment : Fragment(R.layout.fragment_ticketing_confirm) {
     }
 
     private fun moveToGetEarlyCard() {
-        val bundle = Bundle().apply {
-            putParcelable(TicketingViewModel.EXHIBITION_INFO, viewModel.exhibitionInfo.value!!)
-        }
-        parentActivity.supportFragmentManager.replaceFragment(
-            GetEarlyCardFragment().apply {
-                arguments = bundle
-            }, false
-        )
+        navController.navigate(TicketingConfirmFragmentDirections.actionTicketingConfirmFragmentToGetEarlyCardFragment(viewModel.exhibitionInfo.value!!))
     }
 
     private fun moveToBack() {
-        // 메인화면으로 되돌아가기
-        repeat(1) {
-            parentActivity.supportFragmentManager.popBackStack()
-        }
+        navController.popBackStack()
     }
 }

@@ -12,6 +12,10 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.navArgs
 import com.limit.lazybird.R
 import com.limit.lazybird.databinding.FragmentTicketingNoticeBinding
 import com.limit.lazybird.ui.MainActivity
@@ -34,6 +38,8 @@ class TicketingNoticeFragment : Fragment(R.layout.fragment_ticketing_notice) {
 
     private val DELAY_MILLIS = 3000L // 몇 초 뒤에 다음 페이지로 넘어갈 지에 대한 값
 
+    private lateinit var navController: NavController
+    private val args: TicketingConfirmFragmentArgs by navArgs()
     lateinit var binding: FragmentTicketingNoticeBinding
     private val viewModel: TicketingViewModel by viewModels()
     private val parentActivity: MainActivity by lazy {
@@ -48,14 +54,13 @@ class TicketingNoticeFragment : Fragment(R.layout.fragment_ticketing_notice) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        navController = requireView().findNavController()
         binding = FragmentTicketingNoticeBinding.bind(view)
 
-        viewModel.updateExhibitionInfo(
-            requireArguments().getParcelable(
-                TicketingViewModel.EXHIBITION_INFO
-            )!!
-        )
+        // argument 로 넘어오는 earlyBird 상세정보 ViewModel에 업데이트
+        lifecycleScope.launchWhenStarted {
+            viewModel.updateExhibitionInfo(args.exhibitionInfo)
+        }
 
         viewModel.exhibitionInfo.observe(viewLifecycleOwner) { exhibitionInfo ->
             binding.ticketingNoticeContext.text =
@@ -94,15 +99,7 @@ class TicketingNoticeFragment : Fragment(R.layout.fragment_ticketing_notice) {
 
     private fun moveToTicketingConfirm() {
         // TicketingConfirmFragment 로 이동
-        val bundle = Bundle().apply {
-            putParcelable(TicketingViewModel.EXHIBITION_INFO, viewModel.exhibitionInfo.value!!)
-        }
-        parentActivity.supportFragmentManager.replaceFragment(
-            TicketingConfirmFragment().apply {
-                arguments = bundle
-            },
-            false
-        )
+        navController.navigate(TicketingNoticeFragmentDirections.actionTicketingNoticeFragmentToTicketingConfirmFragment(viewModel.exhibitionInfo.value!!))
     }
 
     override fun onAttach(context: Context) {
@@ -118,7 +115,7 @@ class TicketingNoticeFragment : Fragment(R.layout.fragment_ticketing_notice) {
             override fun handleOnBackPressed() {
                 // 뒤로가기 버튼 클릭 시
                 cancelHandlerCallback()
-                parentActivity.supportFragmentManager.popBackStack()
+                navController.popBackStack()
             }
         }
         requireActivity().onBackPressedDispatcher.addCallback(this, callback)
