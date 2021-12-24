@@ -11,7 +11,6 @@ import com.kakao.sdk.common.model.KakaoSdkError
 import com.kakao.sdk.user.UserApiClient
 import com.kakao.sdk.user.model.User
 import com.limit.lazybird.BuildConfig
-import com.limit.lazybird.R
 import com.limit.lazybird.models.LoginInfo
 import com.limit.lazybird.ui.splashlogin.LoginFragment
 

@@ -153,16 +153,16 @@ class ExhibitionFilterBSDialog : BottomSheetDialogFragment() {
             dismiss()
         }
 
+        // 취소버튼 클릭 시
         binding.dialogBsFilterCancel.setOnClickListener {
-            // 취소버튼 클릭 시
             setFragmentResult(TAG, Bundle().apply {
                 putString(RESULT_CODE, RESULT_CANCEL)
             })
             dismiss()
         }
 
+        // 초기화버튼 클릭 시 (선택된 모든 버튼 초기화)
         binding.dialogBsRefresh.setOnClickListener {
-            // 초기화버튼 클릭 시 (선택된 모든 버튼 초기화)
             binding.dialogBsFilterClass.allViews.forEach { optionItemView ->
                 optionItemView.isSelected = false
             }

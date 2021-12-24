@@ -25,7 +25,6 @@ import com.limit.lazybird.models.CalendarInfoList
 import com.limit.lazybird.models.DialogInfo
 import com.limit.lazybird.models.Schedule
 import com.limit.lazybird.models.retrofit.CalendarInfo
-import com.limit.lazybird.ui.MainActivity
 import com.limit.lazybird.ui.MainFragmentDirections
 import com.limit.lazybird.ui.custom.dialog.IsVisitedDialogFragment
 import com.limit.lazybird.ui.custom.dialog.UnregisteredListBSDialog
@@ -55,9 +54,6 @@ class CalendarFragment : Fragment(R.layout.fragment_calendar) {
     private lateinit var navController: NavController
     private lateinit var binding: FragmentCalendarBinding
     private val viewModel: CalendarViewModel by viewModels()
-    private val parentActivity: MainActivity by lazy {
-        activity as MainActivity
-    }
 
     lateinit var unregisteredList: CalendarInfoList // 등록되지 않은 전시 리스트
     lateinit var scheduleMap: Map<Long, MutableList<Schedule>> // 일정 Map

@@ -14,8 +14,6 @@ import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.limit.lazybird.R
 import com.limit.lazybird.databinding.FragmentTicketingConfirmBinding
-import com.limit.lazybird.ui.MainActivity
-import com.limit.lazybird.util.replaceFragment
 import com.limit.lazybird.util.thousandUnitFormatted
 import com.limit.lazybird.viewmodel.TicketingViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -36,9 +34,6 @@ class TicketingConfirmFragment : Fragment(R.layout.fragment_ticketing_confirm) {
     lateinit var binding: FragmentTicketingConfirmBinding
     private val args: GetEarlyCardFragmentArgs by navArgs()
     private val viewModel: TicketingViewModel by viewModels()
-    private val parentActivity: MainActivity by lazy {
-        activity as MainActivity
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -68,8 +63,8 @@ class TicketingConfirmFragment : Fragment(R.layout.fragment_ticketing_confirm) {
                 .into(binding.ticketingConfirmExhbtImg)
         }
 
+        // 예매 완료 버튼 클릭 시
         binding.ticketingConfirmOkBtn.setOnClickListener {
-            // 예매 완료 버튼 클릭 시
             binding.ticketingConfirmOkBtn.isClickable = false // 중복클릭 차단
             viewLifecycleOwner.lifecycle.coroutineScope.launch {
                 viewModel.updateExhibitionReservation()
@@ -77,21 +72,23 @@ class TicketingConfirmFragment : Fragment(R.layout.fragment_ticketing_confirm) {
             }
         }
 
+        // 돌아가기 버튼 클릭 시
         binding.ticketingConfirmCancelBtn.setOnClickListener {
-            // 돌아가기 버튼 클릭 시
             moveToBack()
         }
 
+        // 뒤로가기 버튼 클릭 시
         binding.ticketingConfirmBackBtn.setOnClickListener {
-            // 뒤로가기 버튼 클릭 시
             moveToBack()
         }
     }
 
+    // GetEarlyCardFragment 로 이동
     private fun moveToGetEarlyCard() {
         navController.navigate(TicketingConfirmFragmentDirections.actionTicketingConfirmFragmentToGetEarlyCardFragment(viewModel.exhibitionInfo.value!!))
     }
 
+    // 뒤로가기 클릭 시
     private fun moveToBack() {
         navController.popBackStack()
     }

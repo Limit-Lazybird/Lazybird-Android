@@ -2,20 +2,13 @@ package com.limit.lazybird.ui.custom.dialog
 
 import android.app.AlertDialog
 import android.app.Dialog
-import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.util.Log
-import androidx.core.os.bundleOf
 import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.setFragmentResult
 import com.limit.lazybird.R
 import com.limit.lazybird.databinding.DialogCustomBinding
-import com.limit.lazybird.models.DialogInfo
 import android.view.View
-import androidx.navigation.NavController
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.limit.lazybird.models.DialogResult
@@ -38,7 +31,6 @@ class CustomDialogFragment : DialogFragment() {
     private var alertDialog: AlertDialog? = null
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-//        val dialogInfo = requireArguments().getParcelable<DialogInfo>(DIALOG_INFO)!!
         val dialogInfo = args.dialogInfo
         val layout = layoutInflater.inflate(R.layout.dialog_custom, null).apply {
             binding = DialogCustomBinding.bind(this)

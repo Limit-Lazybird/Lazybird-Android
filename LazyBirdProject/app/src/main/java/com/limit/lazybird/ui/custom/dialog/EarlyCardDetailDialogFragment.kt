@@ -23,7 +23,6 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.limit.lazybird.R
 import com.limit.lazybird.databinding.DialogEarlycardDetailBinding
-import com.limit.lazybird.models.EarlycardInfo
 import java.io.File
 import java.io.FileOutputStream
 import java.util.*
@@ -36,7 +35,6 @@ class EarlyCardDetailDialogFragment : DialogFragment() {
 
     companion object {
         const val TAG = "EarlyCardDetailDialogFragment"
-        const val EARLYCARD_INFO = "EARLYCARD_INFO"
     }
 
     private val REQUEST_EXTERNAL_STORAGE = 1
@@ -64,16 +62,19 @@ class EarlyCardDetailDialogFragment : DialogFragment() {
                 .load(earlycardInfo.imgUrl)
                 .apply(RequestOptions().transform(CenterCrop(), RoundedCorners(30)))
                 .into(earlycardDetailImg)
+
+            // 배경 클릭
             earlycardDetailBackground.setOnClickListener {
-                // 배경 클릭
                 clickClose()
             }
+
+            // 닫기 버튼 클릭
             earlycardDetailCloseBtn.setOnClickListener {
-                // 닫기 버튼 클릭
                 clickClose()
             }
+
+            // 스크린샷 버튼 클릭
             earlycardDetailSaveBtn.setOnClickListener {
-                // 스크린샷 버튼 클릭
                 if(Build.VERSION.SDK_INT >= 30){
                     clickTicketSave()
                 } else {
@@ -84,8 +85,8 @@ class EarlyCardDetailDialogFragment : DialogFragment() {
 
         alertDialog = AlertDialog.Builder(
             requireContext(),
-            R.style.DialogThemeFullScreen
-        ) // fullscreen dialogFragment theme 적용
+            R.style.DialogThemeFullScreen // fullscreen dialogFragment theme 적용
+        )
             .setView(layout)
             .create()
             .apply {
@@ -96,15 +97,15 @@ class EarlyCardDetailDialogFragment : DialogFragment() {
         return alertDialog!!
     }
 
+    // 티켓이미지 저장 버튼 클릭
     private fun clickTicketSave() {
-        // 티켓이미지 저장 버튼 클릭
         verifyStoragePermission()
         takeScreenShot()
         Toast.makeText(requireContext(), "스크린샷 저장이 완료되었습니다.", Toast.LENGTH_SHORT).show()
     }
 
+    // 취소 버튼 클릭 시
     private fun clickClose() {
-        // 취소 버튼 클릭 시
         findNavController().popBackStack()
     }
 

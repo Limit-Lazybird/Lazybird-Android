@@ -15,12 +15,7 @@ import com.limit.lazybird.models.retrofit.Exhbt
 import com.limit.lazybird.ui.MainActivity
 import com.limit.lazybird.ui.MainFragmentDirections
 import com.limit.lazybird.ui.custom.dialog.DeleteExhbtDialogFragment
-import com.limit.lazybird.viewmodel.EarlyBirdDetailViewModel
-import com.limit.lazybird.ui.earlybird.EarlyBirdDetailFragment
-import com.limit.lazybird.ui.exhibition.ExhibitionDetailFragment
-import com.limit.lazybird.viewmodel.ExhibitionDetailViewModel
 import com.limit.lazybird.ui.custom.dialog.CustomDialogFragment
-import com.limit.lazybird.util.replaceFragment
 import com.limit.lazybird.viewmodel.MyBirdViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -38,9 +33,6 @@ class ReservationDetailFragment: Fragment(R.layout.fragment_reservation_detail) 
     private lateinit var navController: NavController
     lateinit var binding: FragmentReservationDetailBinding
     private val viewModel: MyBirdViewModel by viewModels()
-    private val parentActivity: MainActivity by lazy {
-        activity as MainActivity
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -125,14 +117,14 @@ class ReservationDetailFragment: Fragment(R.layout.fragment_reservation_detail) 
                 putString(DeleteExhbtDialogFragment.EXHBT_CD, exhbtCd)
             }
         }.show(
-            parentActivity.supportFragmentManager,
+            (activity as MainActivity).supportFragmentManager,
             CustomDialogFragment.TAG
         )
     }
 
+    // 뒤로가기 버튼 클릭 시
     private fun clickBackBtn() {
         navController.popBackStack()
-//        parentActivity.supportFragmentManager.popBackStack()
     }
 
     // ExhibitionDetail Fragment 로 이동

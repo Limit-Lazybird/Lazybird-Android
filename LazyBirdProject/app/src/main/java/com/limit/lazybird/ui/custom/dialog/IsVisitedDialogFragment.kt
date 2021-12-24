@@ -60,8 +60,8 @@ class IsVisitedDialogFragment : DialogFragment() {
         return alertDialog!!
     }
 
+    // 확인 버튼 클릭 시
     private fun clickYes() {
-        // 확인 버튼 클릭 시
         setFragmentResult(
             TAG, bundleOf(
                 RESULT_CODE to RESULT_OK,
@@ -72,8 +72,8 @@ class IsVisitedDialogFragment : DialogFragment() {
         dismiss()
     }
 
+    // 취소 버튼 클릭 시
     private fun clickNo() {
-        // 취소 버튼 클릭 시
         setFragmentResult(
             TAG, bundleOf(
                 RESULT_CODE to RESULT_CANCEL

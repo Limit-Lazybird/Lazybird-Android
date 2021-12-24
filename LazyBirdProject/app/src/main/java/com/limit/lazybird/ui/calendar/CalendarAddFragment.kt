@@ -14,7 +14,6 @@ import com.limit.lazybird.R
 import com.limit.lazybird.databinding.FragmentCalendarAddBinding
 import com.limit.lazybird.models.Schedule
 import com.limit.lazybird.models.retrofit.CalendarInfo
-import com.limit.lazybird.ui.MainActivity
 import com.limit.lazybird.ui.custom.dialog.DateSelectBSDialog
 import com.limit.lazybird.ui.custom.dialog.TimeSelectBSDialog
 import com.limit.lazybird.util.parseDay
@@ -43,9 +42,6 @@ class CalendarAddFragment: Fragment(R.layout.fragment_calendar_add) {
     private val args: CalendarAddFragmentArgs by navArgs()
     private lateinit var binding: FragmentCalendarAddBinding
     private val viewModel: CalendarAddViewModel by viewModels()
-    private val parentActivity: MainActivity by lazy {
-        activity as MainActivity
-    }
 
     private var isAdd: Boolean = false
     private lateinit var type:String
@@ -58,14 +54,11 @@ class CalendarAddFragment: Fragment(R.layout.fragment_calendar_add) {
 
         type = args.addType // custom or ticketed
         isAdd = args.isAdd  // add mode or modify mode
-//        type = arguments?.getString(ADD_TYPE).toString() // custom or ticketed
-//        isAdd = requireArguments().getBoolean(IS_ADD)
 
         if(isAdd){
             // 추가하기 모드 일 때
             if(type == TYPE_TICKETED) {
                 val calendarInfo:CalendarInfo = args.ticketInfo ?: CalendarInfo()
-//                val calendarInfo:CalendarInfo = arguments?.getParcelable(TICKET_INFO)?: CalendarInfo()
                 exhbtCd = calendarInfo.exhbt_cd.toString()
                 // 전시회 이름 고정
                 binding.calendarAddExhibition.setText(calendarInfo.exhbt_nm)
@@ -77,7 +70,6 @@ class CalendarAddFragment: Fragment(R.layout.fragment_calendar_add) {
         } else {
             // 수정하기 모드 일 때
             val schedule:Schedule = args.schedule ?: Schedule()
-//            val schedule:Schedule = arguments?.getParcelable(TICKET_INFO)!!
             exhbtCd = schedule.id.toString()
             binding.calendarAddContext.visibility = View.GONE
             binding.calendarAddOkBtn.text = "수정"

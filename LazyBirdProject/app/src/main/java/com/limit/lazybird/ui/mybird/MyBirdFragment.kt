@@ -12,9 +12,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.limit.lazybird.R
 import com.limit.lazybird.databinding.FragmentMybirdBinding
-import com.limit.lazybird.ui.MainActivity
 import com.limit.lazybird.ui.MainFragmentDirections
-import com.limit.lazybird.ui.setting.SettingFragment
 import com.limit.lazybird.util.*
 import com.limit.lazybird.viewmodel.MyBirdViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -34,9 +32,6 @@ class MyBirdFragment : Fragment(R.layout.fragment_mybird) {
     private lateinit var navController: NavController
     lateinit var binding: FragmentMybirdBinding
     private val viewModel: MyBirdViewModel by viewModels()
-    private val parentActivity: MainActivity by lazy {
-        activity as MainActivity
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

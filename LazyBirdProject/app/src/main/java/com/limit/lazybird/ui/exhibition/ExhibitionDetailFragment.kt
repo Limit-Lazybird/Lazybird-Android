@@ -1,12 +1,10 @@
 package com.limit.lazybird.ui.exhibition
 
-import android.content.Context
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -21,14 +19,8 @@ import com.bumptech.glide.request.target.Target
 import com.limit.lazybird.R
 import com.limit.lazybird.ui.custom.PositionedCropTransformation
 import com.limit.lazybird.databinding.FragmentExhibitionDetailBinding
-import com.limit.lazybird.models.retrofit.Exhbt
 import com.limit.lazybird.ui.MainActivity
-import com.limit.lazybird.ui.earlybird.EarlyBirdDetailFragmentArgs
-import com.limit.lazybird.ui.earlybird.EarlyBirdDetailFragmentDirections
-import com.limit.lazybird.ui.ticketing.TicketingNoticeFragment
-import com.limit.lazybird.viewmodel.TicketingViewModel
 import com.limit.lazybird.util.applyEscapeSequenceWithDot
-import com.limit.lazybird.util.replaceFragment
 import com.limit.lazybird.util.thousandUnitFormatted
 import com.limit.lazybird.viewmodel.ExhibitionDetailViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -52,9 +44,6 @@ class ExhibitionDetailFragment: Fragment(R.layout.fragment_exhibition_detail) {
     private val args: ExhibitionDetailFragmentArgs by navArgs()
     private lateinit var binding: FragmentExhibitionDetailBinding
     private val viewModel: ExhibitionDetailViewModel by viewModels()
-    private val parentActivity: MainActivity by lazy {
-        activity as MainActivity
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -177,6 +166,7 @@ class ExhibitionDetailFragment: Fragment(R.layout.fragment_exhibition_detail) {
         }
     }
 
+    // TicketingNoticeFragment 로 이동
     private fun moveToTicketingNoticeFragment() {
         navController.navigate(ExhibitionDetailFragmentDirections.actionExhibitionDetailFragmentToTicketingNoticeFragment(viewModel.exhibitionInfo.value!!))
     }

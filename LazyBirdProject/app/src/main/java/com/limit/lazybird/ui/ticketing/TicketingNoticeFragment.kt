@@ -18,9 +18,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import com.limit.lazybird.R
 import com.limit.lazybird.databinding.FragmentTicketingNoticeBinding
-import com.limit.lazybird.ui.MainActivity
 import com.limit.lazybird.util.applyEscapeSequence
-import com.limit.lazybird.util.replaceFragment
 import com.limit.lazybird.viewmodel.TicketingViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -42,9 +40,6 @@ class TicketingNoticeFragment : Fragment(R.layout.fragment_ticketing_notice) {
     private val args: TicketingConfirmFragmentArgs by navArgs()
     lateinit var binding: FragmentTicketingNoticeBinding
     private val viewModel: TicketingViewModel by viewModels()
-    private val parentActivity: MainActivity by lazy {
-        activity as MainActivity
-    }
 
     lateinit var runnable: Runnable
     lateinit var handler: Handler
@@ -68,38 +63,13 @@ class TicketingNoticeFragment : Fragment(R.layout.fragment_ticketing_notice) {
             moveToUrlPostDelayed(exhibitionInfo.exhibitionUrl, DELAY_MILLIS)
         }
 
+        // 예매처로 이동 버튼 클릭
         binding.ticketingNextBtn.setOnClickListener {
-            // 예매처로 이동 버튼 클릭
             viewModel.exhibitionInfo.value?.let { exhibitionInfo ->
                 cancelHandlerCallback()
                 moveToUrl(exhibitionInfo.exhibitionUrl)
             }
         }
-    }
-
-    private fun cancelHandlerCallback() {
-        // handler Callback 취소
-        handler.removeCallbacks(runnable)
-    }
-
-    private fun moveToUrlPostDelayed(url: String, millis: Long) {
-        // handler Callback 등록
-        handler = Handler(Looper.getMainLooper())
-        runnable = Runnable {
-            moveToUrl(url)
-        }
-        handler.postDelayed(runnable, millis)
-    }
-
-    private fun moveToUrl(url: String) {
-        // Url 로 웹뷰를 띄워주기
-        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-        activityResult.launch(intent)
-    }
-
-    private fun moveToTicketingConfirm() {
-        // TicketingConfirmFragment 로 이동
-        navController.navigate(TicketingNoticeFragmentDirections.actionTicketingNoticeFragmentToTicketingConfirmFragment(viewModel.exhibitionInfo.value!!))
     }
 
     override fun onAttach(context: Context) {
@@ -126,4 +96,30 @@ class TicketingNoticeFragment : Fragment(R.layout.fragment_ticketing_notice) {
         activityResult.unregister() // activityResult delete
         callback.remove() // backPressed callback delete
     }
+
+    // handler Callback 취소
+    private fun cancelHandlerCallback() {
+        handler.removeCallbacks(runnable)
+    }
+
+    // handler Callback 등록
+    private fun moveToUrlPostDelayed(url: String, millis: Long) {
+        handler = Handler(Looper.getMainLooper())
+        runnable = Runnable {
+            moveToUrl(url)
+        }
+        handler.postDelayed(runnable, millis)
+    }
+
+    // Url 로 웹뷰를 띄워주기
+    private fun moveToUrl(url: String) {
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+        activityResult.launch(intent)
+    }
+
+    // TicketingConfirmFragment 로 이동
+    private fun moveToTicketingConfirm() {
+        navController.navigate(TicketingNoticeFragmentDirections.actionTicketingNoticeFragmentToTicketingConfirmFragment(viewModel.exhibitionInfo.value!!))
+    }
+
 }

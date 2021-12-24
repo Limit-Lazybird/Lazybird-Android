@@ -85,6 +85,7 @@ class MainFragment: Fragment(R.layout.fragment_main) {
             }
             return@setOnItemSelectedListener false
         }
+
         navController.currentBackStackEntry?.savedStateHandle?.apply {
             getLiveData<DialogResult>(CustomDialogFragment.TAG)?.observe(viewLifecycleOwner) { dialogResult ->
                 when(dialogResult.results[0]){
@@ -94,22 +95,6 @@ class MainFragment: Fragment(R.layout.fragment_main) {
                 }
             }
         }
-    }
-
-    private fun updateChildFragment(page: Int) {
-        if(_currentChildFragment.value != page)
-            _currentChildFragment.value = page // 페이지가 동일할 땐 화면을 변경하지 않는다.
-    }
-
-    private fun showDialog() {
-        val dialogInfo = DialogInfo(
-            title = resources.getString(R.string.main_exit_title),
-            message = "",
-            positiveBtnTitle = resources.getString(R.string.main_exit_yes),
-            negativeBtnTitle = resources.getString(R.string.main_exit_no)
-        )
-        val action = MainFragmentDirections.actionMainFragmentToCustomDialogFragment(dialogInfo)
-        navController.navigate(action)
     }
 
     override fun onAttach(context: Context) {
@@ -127,5 +112,23 @@ class MainFragment: Fragment(R.layout.fragment_main) {
     override fun onDetach() {
         super.onDetach()
         callback.remove()
+    }
+    
+    // bottomNav 변화에 따른 ChildFragment 변화
+    private fun updateChildFragment(page: Int) {
+        if(_currentChildFragment.value != page)
+            _currentChildFragment.value = page // 페이지가 동일할 땐 화면을 변경하지 않는다.
+    }
+
+    // 레이지버드 종료 Dialog 보여주기
+    private fun showDialog() {
+        val dialogInfo = DialogInfo(
+            title = resources.getString(R.string.main_exit_title),
+            message = "",
+            positiveBtnTitle = resources.getString(R.string.main_exit_yes),
+            negativeBtnTitle = resources.getString(R.string.main_exit_no)
+        )
+        val action = MainFragmentDirections.actionMainFragmentToCustomDialogFragment(dialogInfo)
+        navController.navigate(action)
     }
 }

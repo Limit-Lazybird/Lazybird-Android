@@ -3,10 +3,8 @@ package com.limit.lazybird.ui.onboarding
 import android.os.Bundle
 import android.view.View
 import android.widget.LinearLayout
-import androidx.core.os.bundleOf
 import androidx.core.view.forEachIndexed
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.coroutineScope
 import androidx.navigation.NavController
@@ -18,10 +16,7 @@ import com.limit.lazybird.models.Answer
 import com.limit.lazybird.models.DialogInfo
 import com.limit.lazybird.models.DialogResult
 import com.limit.lazybird.models.Survey
-import com.limit.lazybird.ui.MainActivity
-import com.limit.lazybird.ui.MainFragmentDirections
 import com.limit.lazybird.ui.custom.dialog.CustomDialogFragment
-import com.limit.lazybird.util.replaceFragment
 import com.limit.lazybird.viewmodel.OnbViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -40,9 +35,6 @@ class OnbFragment : Fragment(R.layout.fragment_onb) {
     private lateinit var navController: NavController
     private lateinit var binding: FragmentOnbBinding
     private val viewModel: OnbViewModel by viewModels()
-    private val parentActivity: MainActivity by lazy {
-        activity as MainActivity
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

@@ -49,16 +49,16 @@ class ExhibitionRefreshBSDialog : BottomSheetDialogFragment() {
         val view = inflater.inflate(R.layout.dialog_bs_refresh_exhibition, container, false)
         binding = DialogBsRefreshExhibitionBinding.bind(view)
 
+        // 재설정버튼 클릭 시
         binding.dialogBsFilterOk.setOnClickListener {
-            // 재설정버튼 클릭 시
             val bundle = Bundle()
             bundle.putString(RESULT_CODE, RESULT_OK)
             setFragmentResult(TAG, bundle)
             dismiss()
         }
 
+        // 취소버튼 클릭 시
         binding.dialogBsRefreshClose.setOnClickListener {
-            // 취소버튼 클릭 시
             val bundle = Bundle()
             bundle.putString(RESULT_CODE, RESULT_CANCEL)
             setFragmentResult(TAG, bundle)

@@ -32,12 +32,13 @@ class UpdateDeleteDialogFragment : DialogFragment() {
             binding = DialogUpdateDeleteBinding.bind(this)
         }
         binding.apply {
+            // 수정 버튼 클릭
             dialogUpdDelUpdateBtn.setOnClickListener {
-                // 수정 버튼 클릭
                 clickUpdate()
             }
+
+            // 삭제 버튼 클릭
             dialogUpdDelDeleteBtn.setOnClickListener {
-                // 삭제 버튼 클릭
                 clickDelete()
             }
         }
@@ -50,8 +51,8 @@ class UpdateDeleteDialogFragment : DialogFragment() {
         return alertDialog!!
     }
 
+    // 확인 버튼 클릭 시
     private fun clickUpdate() {
-        // 확인 버튼 클릭 시
         setFragmentResult(
             TAG, bundleOf(
                 RESULT_CODE to RESULT_UPDATE,
@@ -61,8 +62,8 @@ class UpdateDeleteDialogFragment : DialogFragment() {
         dismiss()
     }
 
+    // 취소 버튼 클릭 시
     private fun clickDelete() {
-        // 취소 버튼 클릭 시
         setFragmentResult(
             TAG, bundleOf(
                 RESULT_CODE to RESULT_DELETE,

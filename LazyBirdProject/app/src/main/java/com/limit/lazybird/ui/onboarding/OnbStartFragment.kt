@@ -7,9 +7,6 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.limit.lazybird.R
 import com.limit.lazybird.databinding.FragmentOnbStartBinding
-import com.limit.lazybird.ui.MainActivity
-import com.limit.lazybird.ui.MainFragment
-import com.limit.lazybird.util.replaceFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 /************* OnbStartFragment ***************
@@ -25,9 +22,6 @@ class OnbStartFragment : Fragment(R.layout.fragment_onb_start) {
 
     private lateinit var navController: NavController
     private lateinit var binding: FragmentOnbStartBinding
-    private val parentActivity: MainActivity by lazy {
-        activity as MainActivity
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

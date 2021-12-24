@@ -8,7 +8,6 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.limit.lazybird.R
 import com.limit.lazybird.databinding.FragmentTermBinding
-import com.limit.lazybird.ui.MainActivity
 import com.limit.lazybird.util.applyEscapeSequence
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -25,9 +24,6 @@ class TermFragment:Fragment(R.layout.fragment_term) {
 
     private lateinit var navController: NavController
     lateinit var binding :FragmentTermBinding
-    private val parentActivity: MainActivity by lazy {
-        activity as MainActivity
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

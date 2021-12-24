@@ -1,7 +1,6 @@
 package com.limit.lazybird.ui.earlybird
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -12,13 +11,7 @@ import androidx.viewpager2.widget.CompositePageTransformer
 import com.limit.lazybird.R
 import com.limit.lazybird.databinding.FragmentEarlybirdBinding
 import com.limit.lazybird.models.retrofit.Exhbt
-import com.limit.lazybird.ui.MainActivity
 import com.limit.lazybird.ui.MainFragmentDirections
-import com.limit.lazybird.viewmodel.EarlyBirdDetailViewModel
-import com.limit.lazybird.ui.earlycard.EarlyCardFragment
-import com.limit.lazybird.ui.earlycard.EarlyCardFragmentDirections
-import com.limit.lazybird.ui.notification.NotificationFragment
-import com.limit.lazybird.util.replaceFragment
 import com.limit.lazybird.util.toDp
 import com.limit.lazybird.viewmodel.EarlyBirdViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -42,9 +35,6 @@ class EarlyBirdFragment : Fragment(R.layout.fragment_earlybird) {
     private lateinit var navController: NavController
     private lateinit var binding: FragmentEarlybirdBinding
     private val earlyBirdViewModel: EarlyBirdViewModel by viewModels()
-    private val parentActivity: MainActivity by lazy {
-        activity as MainActivity
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

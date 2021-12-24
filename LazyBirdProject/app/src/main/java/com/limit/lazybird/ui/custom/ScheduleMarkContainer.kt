@@ -20,6 +20,7 @@ class ScheduleMarkContainer(context: Context, attrs: AttributeSet?): RelativeLay
         binding = ItemCalendarDayMarkBinding.bind(view)
     }
 
+    // View의 색깔 지정해주기
     fun setColor(tint: ColorStateList) {
         binding.itemMark.backgroundTintList = tint
     }

@@ -1,7 +1,6 @@
 package com.limit.lazybird.ui.ticketing
 
 import android.os.Bundle
-import android.util.Log
 import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
@@ -18,7 +17,6 @@ import com.bumptech.glide.Glide
 import com.limit.lazybird.R
 import com.limit.lazybird.ui.custom.CustomSnackBar
 import com.limit.lazybird.databinding.FragmentGetEarlycardBinding
-import com.limit.lazybird.ui.MainActivity
 import com.limit.lazybird.viewmodel.TicketingViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -34,9 +32,7 @@ class GetEarlyCardFragment : Fragment(R.layout.fragment_get_earlycard) {
     lateinit var binding: FragmentGetEarlycardBinding
     private val args: GetEarlyCardFragmentArgs by navArgs()
     private val viewModel: TicketingViewModel by viewModels()
-    private val parentActivity: MainActivity by lazy {
-        activity as MainActivity
-    }
+
     private lateinit var mDetector: GestureDetectorCompat
     private var isSwipe = false
 
@@ -52,8 +48,8 @@ class GetEarlyCardFragment : Fragment(R.layout.fragment_get_earlycard) {
 
         initDetector(view)
 
+        // main earlycard, sub earlycard 모두 초기화하기
         viewModel.exhibitionInfo.observe(viewLifecycleOwner) { exhibitionInfo ->
-            // main earlycard, sub earlycard 모두 초기화하기
             binding.getEarlycardMainTitle.text = exhibitionInfo.title
             binding.getEarlycardSubTitle.text = exhibitionInfo.title
             Glide.with(this)
@@ -66,8 +62,8 @@ class GetEarlyCardFragment : Fragment(R.layout.fragment_get_earlycard) {
                 .into(binding.getEarlycardSubImg)
         }
 
+        // No 값 가져오기
         viewModel.earlycardList.observe(viewLifecycleOwner) { earlycardList ->
-            // No 값 가져오기
             var currentNumber = 0
             earlycardList.forEach {
                 currentNumber = maxOf(currentNumber, it.no)
@@ -75,8 +71,9 @@ class GetEarlyCardFragment : Fragment(R.layout.fragment_get_earlycard) {
             binding.getEarlycardMainNumber.text = "NO. $currentNumber"
             binding.getEarlycardSubNumber.text = "NO. $currentNumber"
         }
+
+        // 뒤로가기 버튼 클릭 시
         binding.getEarlycardBackBtn.setOnClickListener {
-            // 뒤로가기 버튼 클릭 시
             clickBackBtn()
         }
     }
@@ -145,6 +142,7 @@ class GetEarlyCardFragment : Fragment(R.layout.fragment_get_earlycard) {
         )
     }
 
+    // SnackBar 보여주기
     private fun showSnackBar() {
         CustomSnackBar.make(requireView(), "얼리카드가 추가되었어요", "보러가기").apply {
             clickListener = object : CustomSnackBar.OnClickListener {
@@ -156,10 +154,12 @@ class GetEarlyCardFragment : Fragment(R.layout.fragment_get_earlycard) {
         }.show()
     }
 
+    // 뒤로가기 버튼 클릭 시 
     private fun clickBackBtn(){
         navController.popBackStack()
     }
 
+    // Main 화면으로 이동
     private fun moveToMain(){
         navController.popBackStack()
     }

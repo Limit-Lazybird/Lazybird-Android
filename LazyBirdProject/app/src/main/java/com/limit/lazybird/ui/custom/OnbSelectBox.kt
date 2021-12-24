@@ -21,16 +21,16 @@ class OnbSelectBox(context: Context, attrs: AttributeSet?) : LinearLayout(contex
         binding = CustomOnbSelectBoxBinding.bind(view)
     }
 
+    // 이미지 삽입
     fun setImage(url: String) {
-        // 이미지 삽입
         Glide.with(this)
             .load(url)
             .centerCrop()
             .into(binding.customOnbImage)
     }
 
+    // 답변문구 삽입
     fun setAnswer(answer: String) {
-        // 답변문구 삽입
         binding.customOnbAnswer.text = answer
     }
 }

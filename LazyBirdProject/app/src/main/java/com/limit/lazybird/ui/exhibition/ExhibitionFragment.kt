@@ -13,15 +13,9 @@ import com.limit.lazybird.ui.custom.OptionItemView
 import com.limit.lazybird.databinding.FragmentExhibitionBinding
 import com.limit.lazybird.models.ExhibitionFilterList
 import com.limit.lazybird.models.retrofit.Exhbt
-import com.limit.lazybird.ui.MainActivity
 import com.limit.lazybird.ui.MainFragmentDirections
 import com.limit.lazybird.ui.custom.dialog.ExhibitionFilterBSDialog
 import com.limit.lazybird.ui.custom.dialog.ExhibitionRefreshBSDialog
-import com.limit.lazybird.viewmodel.EarlyBirdDetailViewModel
-import com.limit.lazybird.ui.earlybird.EarlyBirdDetailFragment
-import com.limit.lazybird.viewmodel.ExhibitionDetailViewModel
-import com.limit.lazybird.ui.onboarding.OnbFragment
-import com.limit.lazybird.util.replaceFragment
 import com.limit.lazybird.viewmodel.ExhibitionViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -41,9 +35,6 @@ class ExhibitionFragment : Fragment(R.layout.fragment_exhibition) {
     private lateinit var navController: NavController
     private lateinit var binding: FragmentExhibitionBinding
     private val viewModel: ExhibitionViewModel by viewModels()
-    private val parentActivity: MainActivity by lazy {
-        activity as MainActivity
-    }
 
     // detailFilter 어떤 것 선택했는지 가지고 있는 리스트
     private var currentDetailFilterSelectedList:List<Int> = listOf()
@@ -88,14 +79,6 @@ class ExhibitionFragment : Fragment(R.layout.fragment_exhibition) {
                             viewModel.getCustomExhbtList()
                         else
                             viewModel.getExhbtList()
-
-                        // Todo : RecyclerView에 LiveData와 ListAdapter 적용하여, 데이터 변환시 시각적으로 변화하도록 수정
-//                        holder.isLike = !holder.isLike
-//                        if (holder.isLike) {
-//                            holder.exhibitionLikeBtn.setImageResource(R.drawable.ic_fav_sm_on)
-//                        } else {
-//                            holder.exhibitionLikeBtn.setImageResource(R.drawable.ic_fav_sm_off)
-//                        }
                     }
                 }
             }

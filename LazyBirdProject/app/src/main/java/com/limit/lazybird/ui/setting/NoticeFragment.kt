@@ -8,7 +8,6 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.limit.lazybird.R
 import com.limit.lazybird.databinding.FragmentNoticeBinding
-import com.limit.lazybird.ui.MainActivity
 import com.limit.lazybird.viewmodel.NoticeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -26,9 +25,6 @@ class NoticeFragment : Fragment(R.layout.fragment_notice) {
     private lateinit var navController: NavController
     lateinit var binding: FragmentNoticeBinding
     private val viewModel: NoticeViewModel by viewModels()
-    private val parentActivity: MainActivity by lazy {
-        activity as MainActivity
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

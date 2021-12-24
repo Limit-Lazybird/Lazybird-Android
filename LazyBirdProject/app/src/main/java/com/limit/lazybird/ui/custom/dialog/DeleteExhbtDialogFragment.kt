@@ -60,8 +60,8 @@ class DeleteExhbtDialogFragment : DialogFragment() {
         return alertDialog!!
     }
 
+    // 확인 버튼 클릭 시
     private fun cancelOnb() {
-        // 확인 버튼 클릭 시
         setFragmentResult(
             TAG, bundleOf(
                 RESULT_CODE to RESULT_OK,
@@ -71,8 +71,8 @@ class DeleteExhbtDialogFragment : DialogFragment() {
         dismiss()
     }
 
+    // 취소 버튼 클릭 시
     private fun cancelDialog() {
-        // 취소 버튼 클릭 시
         setFragmentResult(
             TAG, bundleOf(
                 RESULT_CODE to RESULT_CANCEL

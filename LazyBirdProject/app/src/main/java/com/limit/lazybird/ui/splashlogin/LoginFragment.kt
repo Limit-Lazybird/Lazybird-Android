@@ -12,11 +12,6 @@ import com.limit.lazybird.R
 import com.limit.lazybird.api.GoogleLoginHelper
 import com.limit.lazybird.api.KakaoLoginHelper
 import com.limit.lazybird.databinding.FragmentLoginBinding
-import com.limit.lazybird.ui.MainActivity
-import com.limit.lazybird.ui.MainFragment
-import com.limit.lazybird.ui.onboarding.OnbStartFragment
-import com.limit.lazybird.util.removeAllBackStack
-import com.limit.lazybird.util.replaceFragment
 import com.limit.lazybird.viewmodel.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
@@ -35,9 +30,6 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
     private lateinit var navController: NavController
     private lateinit var binding: FragmentLoginBinding
     private val viewModel: LoginViewModel by viewModels()
-    private val parentActivity: MainActivity by lazy {
-        activity as MainActivity
-    }
 
     // for kakao login
     private lateinit var kakaoLoginHelper: KakaoLoginHelper
