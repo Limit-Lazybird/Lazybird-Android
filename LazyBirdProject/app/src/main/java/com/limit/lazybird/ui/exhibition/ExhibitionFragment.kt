@@ -164,7 +164,7 @@ class ExhibitionFragment : Fragment(R.layout.fragment_exhibition) {
         setFragmentResultListener(ExhibitionRefreshBSDialog.TAG) { _, bundle ->
             when(bundle.getString(ExhibitionRefreshBSDialog.RESULT_CODE)){
                 ExhibitionRefreshBSDialog.RESULT_OK -> {
-                    parentActivity.supportFragmentManager.replaceFragment(OnbFragment()) // 전시성향분석 Dialog 이동
+                    moveToOnb()
                 }
             }
         }
@@ -194,6 +194,7 @@ class ExhibitionFragment : Fragment(R.layout.fragment_exhibition) {
             }
         }
     }
+
 
     // 현재 선택된 detail filter 목록 초기화
     private fun resetDetailSelectedList(){
@@ -226,4 +227,10 @@ class ExhibitionFragment : Fragment(R.layout.fragment_exhibition) {
     private fun moveToEarlyBirdDetail(exhibitionInfo: Exhbt) {
         navController.navigate(MainFragmentDirections.actionMainFragmentToEarlyBirdDetailFragment(exhibitionInfo))
     }
+
+    // Onb Fragment 로 이동
+    private fun moveToOnb() {
+        navController.navigate(MainFragmentDirections.actionMainFragmentToOnbFragment())
+    }
+
 }

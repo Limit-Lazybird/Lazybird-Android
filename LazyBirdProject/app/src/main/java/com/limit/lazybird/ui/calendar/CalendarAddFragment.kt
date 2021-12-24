@@ -7,6 +7,9 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.navArgs
 import com.limit.lazybird.R
 import com.limit.lazybird.databinding.FragmentCalendarAddBinding
 import com.limit.lazybird.models.Schedule
@@ -36,6 +39,8 @@ class CalendarAddFragment: Fragment(R.layout.fragment_calendar_add) {
         const val IS_ADD = "ticket_is_add"
     }
 
+    private lateinit var navController: NavController
+    private val args: CalendarAddFragmentArgs by navArgs()
     private lateinit var binding: FragmentCalendarAddBinding
     private val viewModel: CalendarAddViewModel by viewModels()
     private val parentActivity: MainActivity by lazy {
@@ -48,15 +53,19 @@ class CalendarAddFragment: Fragment(R.layout.fragment_calendar_add) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        navController = requireView().findNavController()
         binding = FragmentCalendarAddBinding.bind(view)
 
-        type = arguments?.getString(ADD_TYPE).toString() // custom or ticketed
-        isAdd = requireArguments().getBoolean(IS_ADD)
+        type = args.addType // custom or ticketed
+        isAdd = args.isAdd  // add mode or modify mode
+//        type = arguments?.getString(ADD_TYPE).toString() // custom or ticketed
+//        isAdd = requireArguments().getBoolean(IS_ADD)
 
         if(isAdd){
             // 추가하기 모드 일 때
             if(type == TYPE_TICKETED) {
-                val calendarInfo:CalendarInfo = arguments?.getParcelable(TICKET_INFO)!!
+                val calendarInfo:CalendarInfo = args.ticketInfo ?: CalendarInfo()
+//                val calendarInfo:CalendarInfo = arguments?.getParcelable(TICKET_INFO)?: CalendarInfo()
                 exhbtCd = calendarInfo.exhbt_cd.toString()
                 // 전시회 이름 고정
                 binding.calendarAddExhibition.setText(calendarInfo.exhbt_nm)
@@ -67,7 +76,8 @@ class CalendarAddFragment: Fragment(R.layout.fragment_calendar_add) {
             }
         } else {
             // 수정하기 모드 일 때
-            val schedule:Schedule = arguments?.getParcelable(TICKET_INFO)!!
+            val schedule:Schedule = args.schedule ?: Schedule()
+//            val schedule:Schedule = arguments?.getParcelable(TICKET_INFO)!!
             exhbtCd = schedule.id.toString()
             binding.calendarAddContext.visibility = View.GONE
             binding.calendarAddOkBtn.text = "수정"
@@ -89,7 +99,7 @@ class CalendarAddFragment: Fragment(R.layout.fragment_calendar_add) {
 
         // 뒤로가기 버튼 클릭
         binding.calendarAddBackBtn.setOnClickListener {
-            parentActivity.supportFragmentManager.popBackStack()
+            dismiss()
         }
 
         // 날짜 버튼 클릭
@@ -140,7 +150,7 @@ class CalendarAddFragment: Fragment(R.layout.fragment_calendar_add) {
                                 start_time = binding.calendarAddTimeStart.text.toString(),
                                 end_time = binding.calendarAddTimeEnd.text.toString()
                             )
-                            parentActivity.supportFragmentManager.popBackStack()
+                            dismiss()
                         } else {
                             Toast.makeText(context, "모든 내용을 입력해주세요", Toast.LENGTH_SHORT).show()
                         }
@@ -159,7 +169,7 @@ class CalendarAddFragment: Fragment(R.layout.fragment_calendar_add) {
                                 start_time = binding.calendarAddTimeStart.text.toString(),
                                 end_time = binding.calendarAddTimeEnd.text.toString()
                             )
-                            parentActivity.supportFragmentManager.popBackStack()
+                            dismiss()
                         } else {
                             Toast.makeText(context, "모든 내용을 입력해주세요", Toast.LENGTH_SHORT).show()
                         }
@@ -184,7 +194,7 @@ class CalendarAddFragment: Fragment(R.layout.fragment_calendar_add) {
                                 start_time = binding.calendarAddTimeStart.text.toString(),
                                 end_time = binding.calendarAddTimeEnd.text.toString()
                             )
-                            parentActivity.supportFragmentManager.popBackStack()
+                            dismiss()
                         } else {
                             Toast.makeText(context, "모든 내용을 입력해주세요", Toast.LENGTH_SHORT).show()
                         }
@@ -203,7 +213,7 @@ class CalendarAddFragment: Fragment(R.layout.fragment_calendar_add) {
                                 start_time = binding.calendarAddTimeStart.text.toString(),
                                 end_time = binding.calendarAddTimeEnd.text.toString()
                             )
-                            parentActivity.supportFragmentManager.popBackStack()
+                            dismiss()
                         } else {
                             Toast.makeText(context, "모든 내용을 입력해주세요", Toast.LENGTH_SHORT).show()
                         }
@@ -241,5 +251,9 @@ class CalendarAddFragment: Fragment(R.layout.fragment_calendar_add) {
                 }
             }
         }
+    }
+
+    private fun dismiss() {
+        navController.popBackStack()
     }
 }

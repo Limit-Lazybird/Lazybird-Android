@@ -12,4 +12,6 @@ data class CalendarInfo(
     val start_time: String,
     val end_time: String,
     val visit_yn: String
-): Parcelable
+): Parcelable {
+    constructor() : this(0,"","","","","","")
+}

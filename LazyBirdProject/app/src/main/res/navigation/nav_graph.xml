@@ -85,6 +85,12 @@
         <action
             android:id="@+id/action_mainFragment_to_exhibitionDetailFragment"
             app:destination="@id/exhibitionDetailFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_onbFragment"
+            app:destination="@id/onbFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_calendarAddFragment"
+            app:destination="@id/calendarAddFragment" />
     </fragment>
     <dialog
         android:id="@+id/customDialogFragment"
@@ -187,5 +193,27 @@
             android:name="exhibitionInfo"
             app:argType="com.limit.lazybird.models.ExhibitionInfo"
             app:nullable="false" />
+    </fragment>
+    <fragment
+        android:id="@+id/calendarAddFragment"
+        android:name="com.limit.lazybird.ui.calendar.CalendarAddFragment"
+        android:label="fragment_calendar_add"
+        tools:layout="@layout/fragment_calendar_add">
+        <argument
+            android:name="addType"
+            app:argType="string"
+            app:nullable="false" />
+        <argument
+            android:name="isAdd"
+            app:argType="boolean"
+            app:nullable="false" />
+        <argument
+            android:name="ticketInfo"
+            app:argType="com.limit.lazybird.models.retrofit.CalendarInfo"
+            app:nullable="true" />
+        <argument
+            android:name="schedule"
+            app:argType="com.limit.lazybird.models.Schedule"
+            app:nullable="true" />
     </fragment>
 </navigation>
