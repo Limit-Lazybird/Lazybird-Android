@@ -8,11 +8,14 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import com.limit.lazybird.R
 import com.limit.lazybird.ui.custom.OptionItemView
 import com.limit.lazybird.databinding.FragmentSearchBinding
 import com.limit.lazybird.models.retrofit.Exhbt
 import com.limit.lazybird.ui.MainActivity
+import com.limit.lazybird.ui.MainFragmentDirections
 import com.limit.lazybird.viewmodel.EarlyBirdDetailViewModel
 import com.limit.lazybird.ui.earlybird.EarlyBirdDetailFragment
 import com.limit.lazybird.ui.exhibition.ExhibitionDetailFragment
@@ -31,6 +34,8 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
     companion object {
         const val TAG = "SearchFragment"
     }
+
+    private lateinit var navController: NavController
     lateinit var binding: FragmentSearchBinding
     private val viewModel: SearchViewModel by viewModels()
     private val parentActivity: MainActivity by lazy {
@@ -39,7 +44,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        navController = requireView().findNavController()
         binding = FragmentSearchBinding.bind(view)
 
         val imm =
@@ -89,7 +94,17 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
                     ) {
                         // 아이템 클릭 시
                         val exhibitionInfo = viewModel.getExhibitionInfo(position)
-                        moveToExhibitionDetail(exhibitionInfo)
+                        when (exhibitionInfo.eb_yn) {
+                            "Y" -> {
+                                // 얼리버드 전시 디테일 화면
+                                moveToEarlyBirdDetail(exhibitionInfo)
+                            }
+
+                            "N" -> {
+                                // 일반 전시 디테일 화면
+                                moveToExhibitionDetail(exhibitionInfo)
+                            }
+                        }
                     }
 
                     override fun onLikeBtnClick(
@@ -104,34 +119,14 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         }
     }
 
+    // ExhibitionDetail Fragment 로 이동
     private fun moveToExhibitionDetail(exhibitionInfo: Exhbt) {
-        // ExhibitionDetail Fragment 로 이동
-        when (exhibitionInfo.eb_yn) {
-            "Y" -> {
-                // 얼리버드 전시 디테일 화면
-                val bundle = Bundle().apply {
-                    putParcelable(EarlyBirdDetailViewModel.EARLYBIRD_INFO, exhibitionInfo)
-                }
-                parentActivity.supportFragmentManager.replaceFragment(
-                    EarlyBirdDetailFragment().apply {
-                        arguments = bundle
-                    },
-                    true
-                )
-            }
-
-            "N" -> {
-                // 일반 전시 디테일 화면
-                val bundle = Bundle().apply {
-                    putParcelable(ExhibitionDetailViewModel.EXHIBITION_INFO, exhibitionInfo)
-                }
-                parentActivity.supportFragmentManager.replaceFragment(
-                    ExhibitionDetailFragment().apply {
-                        arguments = bundle
-                    },
-                    true
-                )
-            }
-        }
+        navController.navigate(MainFragmentDirections.actionMainFragmentToExhibitionDetailFragment(exhibitionInfo))
     }
+
+    // EarlyBirdDetail Fragment 로 이동
+    private fun moveToEarlyBirdDetail(exhibitionInfo: Exhbt) {
+        navController.navigate(MainFragmentDirections.actionMainFragmentToEarlyBirdDetailFragment(exhibitionInfo))
+    }
+
 }

@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import com.limit.lazybird.R
 import com.limit.lazybird.databinding.FragmentNoticeBinding
 import com.limit.lazybird.ui.MainActivity
@@ -21,6 +23,7 @@ class NoticeFragment : Fragment(R.layout.fragment_notice) {
         const val TAG = "NoticeFragment"
     }
 
+    private lateinit var navController: NavController
     lateinit var binding: FragmentNoticeBinding
     private val viewModel: NoticeViewModel by viewModels()
     private val parentActivity: MainActivity by lazy {
@@ -29,11 +32,12 @@ class NoticeFragment : Fragment(R.layout.fragment_notice) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        navController = requireView().findNavController()
         binding = FragmentNoticeBinding.bind(view)
 
         // 뒤로가기 버튼
         binding.noticeBackBtn.setOnClickListener {
-            parentActivity.supportFragmentManager.popBackStack()
+            clickBackBtn()
         }
 
         // 공지사항 업데이트
@@ -56,5 +60,10 @@ class NoticeFragment : Fragment(R.layout.fragment_notice) {
                 }
             }
         }
+    }
+
+    // 뒤로가기 버튼 클릭 시
+    private fun clickBackBtn() {
+        navController.popBackStack()
     }
 }

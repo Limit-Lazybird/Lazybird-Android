@@ -1,11 +1,14 @@
 package com.limit.lazybird.ui.setting
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import com.limit.lazybird.BuildConfig
 import com.limit.lazybird.R
 import com.limit.lazybird.api.GoogleLoginHelper
@@ -34,6 +37,7 @@ class SettingFragment : Fragment(R.layout.fragment_setting) {
         const val TAG = "SettingFragment"
     }
 
+    private lateinit var navController: NavController
     lateinit var binding: FragmentSettingBinding
     private val viewModel: SettingViewModel by viewModels()
     private val parentActivity: MainActivity by lazy {
@@ -46,6 +50,7 @@ class SettingFragment : Fragment(R.layout.fragment_setting) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        navController = requireView().findNavController()
         binding = FragmentSettingBinding.bind(view)
 
         kakaoLoginHelper = KakaoLoginHelper(requireContext()).apply {
@@ -59,7 +64,7 @@ class SettingFragment : Fragment(R.layout.fragment_setting) {
 
         // 뒤로가기 버튼 클릭
         binding.settingBackBtn.setOnClickListener {
-            parentActivity.supportFragmentManager.popBackStack()
+            clickBackBtn()
         }
 
         // 성향분석 재설정 버튼 클릭
@@ -72,17 +77,22 @@ class SettingFragment : Fragment(R.layout.fragment_setting) {
 
         // 공지사항 버튼 클릭
         binding.settingOnbNotice.setOnClickListener {
-            parentActivity.supportFragmentManager.replaceFragment(NoticeFragment())
+            moveToNotice()
         }
 
         // 이용약관 버튼 클릭
         binding.settingOnbTerm.setOnClickListener {
-            parentActivity.supportFragmentManager.replaceFragment(TermFragment())
+            moveToTerm()
         }
 
         // 개인정보 처리방침 버튼 클릭
         binding.settingOnbPrivacyRule.setOnClickListener {
-            parentActivity.supportFragmentManager.replaceFragment(PrivacyFragment())
+            moveToPrivacy()
+        }
+
+        // 회원탈퇴 버튼 클릭
+        binding.settingOnbMemberOut.setOnClickListener {
+            moveToMemberOut()
         }
 
         // 로그아웃 버튼 클릭
@@ -90,16 +100,11 @@ class SettingFragment : Fragment(R.layout.fragment_setting) {
             LogoutBSDialog().show(parentFragmentManager, LogoutBSDialog.TAG)
         }
 
-        // 회원탈퇴 버튼 클릭
-        binding.settingOnbMemberOut.setOnClickListener {
-            parentActivity.supportFragmentManager.replaceFragment(MemberOutFragment())
-        }
-
         // 성향 분석 재설정에서 Dialog 결과 반환
         setFragmentResultListener(ExhibitionRefreshBSDialog.TAG) { _, bundle ->
             when (bundle.getString(ExhibitionRefreshBSDialog.RESULT_CODE)) {
                 ExhibitionRefreshBSDialog.RESULT_OK -> {
-                    parentActivity.supportFragmentManager.replaceFragment(OnbFragment())
+                    moveToOnb()
                 }
             }
         }
@@ -117,10 +122,45 @@ class SettingFragment : Fragment(R.layout.fragment_setting) {
                             }
                         }
                     }
-                    parentActivity.supportFragmentManager.removeAllBackStack()
-                    parentActivity.supportFragmentManager.replaceFragment(LoginFragment(), false)
+                    moveToLogin()
                 }
             }
+        }
+    }
+
+    // 뒤로가기 버튼 클릭 시
+    private fun clickBackBtn() {
+        navController.popBackStack()
+    }
+    
+    // 회원탈퇴 화면으로 이동
+    private fun moveToMemberOut(){
+        navController.navigate(SettingFragmentDirections.actionSettingFragmentToMemberOutFragment())
+    }
+
+    // 공지사항 화면으로 이동
+    private fun moveToNotice(){
+        navController.navigate(SettingFragmentDirections.actionSettingFragmentToNoticeFragment())
+    }
+
+    // 개인정보 처리방침 화면으로 이동
+    private fun moveToPrivacy(){
+        navController.navigate(SettingFragmentDirections.actionSettingFragmentToPrivacyFragment())
+    }
+
+    // 이용약관 화면으로 이동
+    private fun moveToTerm(){
+        navController.navigate(SettingFragmentDirections.actionSettingFragmentToTermFragment())
+    }
+
+    // 이용약관 화면으로 이동
+    private fun moveToOnb(){
+        navController.navigate(SettingFragmentDirections.actionSettingFragmentToOnbFragment())
+    }
+
+    private fun moveToLogin(){
+        repeat(navController.backStack.size){
+            navController.popBackStack()
         }
     }
 }

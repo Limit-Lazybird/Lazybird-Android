@@ -5,6 +5,8 @@ import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import com.limit.lazybird.R
 import com.limit.lazybird.api.GoogleLoginHelper
 import com.limit.lazybird.api.KakaoLoginHelper
@@ -30,6 +32,7 @@ class MemberOutFragment : Fragment(R.layout.fragment_member_out) {
         const val TAG = "MemberOutFragment"
     }
 
+    private lateinit var navController: NavController
     lateinit var binding: FragmentMemberOutBinding
     private val viewModel: SettingViewModel by viewModels()
     private val parentActivity: MainActivity by lazy {
@@ -42,6 +45,7 @@ class MemberOutFragment : Fragment(R.layout.fragment_member_out) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        navController = requireView().findNavController()
         binding = FragmentMemberOutBinding.bind(view)
 
         kakaoLoginHelper = KakaoLoginHelper(requireContext()).apply {
@@ -53,12 +57,12 @@ class MemberOutFragment : Fragment(R.layout.fragment_member_out) {
 
         // 뒤로가기 버튼
         binding.memberOutBackBtn.setOnClickListener {
-            parentActivity.supportFragmentManager.popBackStack()
+            clickBackBtn()
         }
 
         // 취소버튼
         binding.memberOutCancel.setOnClickListener {
-            parentActivity.supportFragmentManager.popBackStack()
+            clickBackBtn()
         }
 
         // 탈퇴하기 버튼
@@ -77,10 +81,21 @@ class MemberOutFragment : Fragment(R.layout.fragment_member_out) {
             viewModel.deleteUser()
 
             // 로그인 화면으로 이동
-            parentActivity.supportFragmentManager.removeAllBackStack()
-            parentActivity.supportFragmentManager.replaceFragment(LoginFragment(), false)
+            moveToLogin()
         }
 
         binding.memberOutContext.text = getString(R.string.member_out_context).applyEscapeSequence()
+    }
+
+    // 뒤로가기 버튼 클릭 시
+    private fun clickBackBtn() {
+        navController.popBackStack()
+    }
+
+    // 뒤로가기 버튼 클릭 시
+    private fun moveToLogin() {
+        repeat(navController.backStack.size){
+            navController.popBackStack()
+        }
     }
 }

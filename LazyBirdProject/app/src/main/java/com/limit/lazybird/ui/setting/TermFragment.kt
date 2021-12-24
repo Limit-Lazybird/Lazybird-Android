@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ScrollView
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import com.limit.lazybird.R
 import com.limit.lazybird.databinding.FragmentTermBinding
 import com.limit.lazybird.ui.MainActivity
@@ -21,6 +23,7 @@ class TermFragment:Fragment(R.layout.fragment_term) {
         const val TAG = "TermFragment"
     }
 
+    private lateinit var navController: NavController
     lateinit var binding :FragmentTermBinding
     private val parentActivity: MainActivity by lazy {
         activity as MainActivity
@@ -28,14 +31,21 @@ class TermFragment:Fragment(R.layout.fragment_term) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        navController = requireView().findNavController()
         binding = FragmentTermBinding.bind(view)
 
         // 뒤로가기 버튼
         binding.termBackBtn.setOnClickListener {
-            parentActivity.supportFragmentManager.popBackStack()
+            clickBackBtn()
         }
 
         binding.termContext.text = getString(R.string.term_context).applyEscapeSequence()
         binding.termScrollView.fullScroll(ScrollView.FOCUS_DOWN) // 끝까지 스크롤 되도록 설정
     }
+
+    // 뒤로가기 버튼 클릭 시
+    private fun clickBackBtn() {
+        navController.popBackStack()
+    }
+
 }

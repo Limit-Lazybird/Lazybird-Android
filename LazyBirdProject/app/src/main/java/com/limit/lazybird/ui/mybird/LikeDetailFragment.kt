@@ -4,10 +4,13 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import com.limit.lazybird.R
 import com.limit.lazybird.databinding.FragmentLikeDetailBinding
 import com.limit.lazybird.models.retrofit.Exhbt
 import com.limit.lazybird.ui.MainActivity
+import com.limit.lazybird.ui.MainFragmentDirections
 import com.limit.lazybird.viewmodel.EarlyBirdDetailViewModel
 import com.limit.lazybird.ui.earlybird.EarlyBirdDetailFragment
 import com.limit.lazybird.ui.exhibition.ExhibitionDetailFragment
@@ -27,6 +30,7 @@ class LikeDetailFragment :Fragment(R.layout.fragment_like_detail) {
         const val TAG = "LikeDetailFragment"
     }
 
+    private lateinit var navController: NavController
     lateinit var binding: FragmentLikeDetailBinding
     private val viewModel: MyBirdViewModel by viewModels()
     private val parentActivity: MainActivity by lazy {
@@ -35,6 +39,7 @@ class LikeDetailFragment :Fragment(R.layout.fragment_like_detail) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        navController = requireView().findNavController()
         binding = FragmentLikeDetailBinding.bind(view)
 
         // 좋아요 누른 전시 업데이트 완료
@@ -53,7 +58,17 @@ class LikeDetailFragment :Fragment(R.layout.fragment_like_detail) {
                     ) {
                         // 아이템 클릭 시
                         val exhibitionInfo = viewModel.getLikeExhibitionInfo(position)
-                        moveToExhibitionDetail(exhibitionInfo)
+                        when (exhibitionInfo.eb_yn) {
+                            "Y" -> {
+                                // 얼리버드 전시 디테일 화면
+                                moveToEarlyBirdDetail(exhibitionInfo)
+                            }
+
+                            "N" -> {
+                                // 일반 전시 디테일 화면
+                                moveToExhibitionDetail(exhibitionInfo)
+                            }
+                        }
                     }
 
                     override fun onLikeBtnClick(
@@ -69,38 +84,21 @@ class LikeDetailFragment :Fragment(R.layout.fragment_like_detail) {
 
         // 뒤로가기 버튼 클릭
         binding.likeDetailBackBtn.setOnClickListener {
-            parentActivity.supportFragmentManager.popBackStack()
+            clickBackBtn()
         }
     }
 
-    // ExhibitionDetail 화면으로 이동
-    private fun moveToExhibitionDetail(exhibitionInfo: Exhbt) {
-        when (exhibitionInfo.eb_yn) {
-            "Y" -> {
-                // 얼리버드 전시 디테일 화면
-                val bundle = Bundle().apply {
-                    putParcelable(EarlyBirdDetailViewModel.EARLYBIRD_INFO, exhibitionInfo)
-                }
-                parentActivity.supportFragmentManager.replaceFragment(
-                    EarlyBirdDetailFragment().apply {
-                        arguments = bundle
-                    },
-                    true
-                )
-            }
+    private fun clickBackBtn() {
+        navController.popBackStack()
+    }
 
-            "N" -> {
-                // 일반 전시 디테일 화면
-                val bundle = Bundle().apply {
-                    putParcelable(ExhibitionDetailViewModel.EXHIBITION_INFO, exhibitionInfo)
-                }
-                parentActivity.supportFragmentManager.replaceFragment(
-                    ExhibitionDetailFragment().apply {
-                        arguments = bundle
-                    },
-                    true
-                )
-            }
-        }
+    // ExhibitionDetail Fragment 로 이동
+    private fun moveToExhibitionDetail(exhibitionInfo: Exhbt) {
+        navController.navigate(MainFragmentDirections.actionMainFragmentToExhibitionDetailFragment(exhibitionInfo))
+    }
+
+    // EarlyBirdDetail Fragment 로 이동
+    private fun moveToEarlyBirdDetail(exhibitionInfo: Exhbt) {
+        navController.navigate(MainFragmentDirections.actionMainFragmentToEarlyBirdDetailFragment(exhibitionInfo))
     }
 }

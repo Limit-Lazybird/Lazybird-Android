@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
@@ -11,6 +13,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.limit.lazybird.R
 import com.limit.lazybird.databinding.FragmentMybirdBinding
 import com.limit.lazybird.ui.MainActivity
+import com.limit.lazybird.ui.MainFragmentDirections
 import com.limit.lazybird.ui.setting.SettingFragment
 import com.limit.lazybird.util.*
 import com.limit.lazybird.viewmodel.MyBirdViewModel
@@ -28,6 +31,7 @@ class MyBirdFragment : Fragment(R.layout.fragment_mybird) {
         const val TAG = "MyBirdFragment"
     }
 
+    private lateinit var navController: NavController
     lateinit var binding: FragmentMybirdBinding
     private val viewModel: MyBirdViewModel by viewModels()
     private val parentActivity: MainActivity by lazy {
@@ -36,7 +40,7 @@ class MyBirdFragment : Fragment(R.layout.fragment_mybird) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        navController = requireView().findNavController()
         binding = FragmentMybirdBinding.bind(view)
 
         // 사용자 정보 업데이트
@@ -159,17 +163,32 @@ class MyBirdFragment : Fragment(R.layout.fragment_mybird) {
 
         // 예매한 전시 클릭 (내가 예매한 전시 화면으로 넘어감)
         binding.mybirdReservationContainer.setOnClickListener {
-            parentActivity.supportFragmentManager.replaceFragment(ReservationDetailFragment())
+            moveToReservationDetail()
         }
 
         // 찜한 전시 클릭 (내가 찜한 전시 화면으로 넘어감)
         binding.mybirdLikeContainer.setOnClickListener {
-            parentActivity.supportFragmentManager.replaceFragment(LikeDetailFragment())
+            moveToLikeDetail()
         }
 
         // 옵션 버튼 클릭 (세팅 화면으로 넘어감)
         binding.mybirdSetting.setOnClickListener {
-            parentActivity.supportFragmentManager.replaceFragment(SettingFragment())
+            moveToSetting()
         }
+    }
+    
+    // 예매한 전시 목록 확인 페이지로 이동
+    private fun moveToReservationDetail(){
+        navController.navigate(MainFragmentDirections.actionMainFragmentToReservationDetailFragment())
+    }
+
+    // 찜한 전시 목록 확인 페이지로 이동
+    private fun moveToLikeDetail(){
+        navController.navigate(MainFragmentDirections.actionMainFragmentToLikeDetailFragment())
+    }
+    
+    // 세팅 화면으로 이동
+    private fun moveToSetting(){
+        navController.navigate(MainFragmentDirections.actionMainFragmentToSettingFragment())
     }
 }

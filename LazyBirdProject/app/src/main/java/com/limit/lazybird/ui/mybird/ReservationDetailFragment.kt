@@ -6,11 +6,14 @@ import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import com.limit.lazybird.R
 import com.limit.lazybird.databinding.FragmentReservationDetailBinding
 import com.limit.lazybird.models.DialogInfo
 import com.limit.lazybird.models.retrofit.Exhbt
 import com.limit.lazybird.ui.MainActivity
+import com.limit.lazybird.ui.MainFragmentDirections
 import com.limit.lazybird.ui.custom.dialog.DeleteExhbtDialogFragment
 import com.limit.lazybird.viewmodel.EarlyBirdDetailViewModel
 import com.limit.lazybird.ui.earlybird.EarlyBirdDetailFragment
@@ -32,6 +35,7 @@ class ReservationDetailFragment: Fragment(R.layout.fragment_reservation_detail) 
         const val TAG = "ReservationDetailFragment"
     }
 
+    private lateinit var navController: NavController
     lateinit var binding: FragmentReservationDetailBinding
     private val viewModel: MyBirdViewModel by viewModels()
     private val parentActivity: MainActivity by lazy {
@@ -40,7 +44,7 @@ class ReservationDetailFragment: Fragment(R.layout.fragment_reservation_detail) 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        navController = requireView().findNavController()
         binding = FragmentReservationDetailBinding.bind(view)
 
         // 예매한 전시 리스트 업데이트
@@ -59,7 +63,17 @@ class ReservationDetailFragment: Fragment(R.layout.fragment_reservation_detail) 
                     ) {
                         // 아이템 클릭 시 (상세페이지 이동)
                         val exhibitionInfo = viewModel.getReservationExhibitionInfo(position)
-                        moveToExhibitionDetail(exhibitionInfo)
+                        when (exhibitionInfo.eb_yn) {
+                            "Y" -> {
+                                // 얼리버드 전시 디테일 화면
+                                moveToEarlyBirdDetail(exhibitionInfo)
+                            }
+
+                            "N" -> {
+                                // 일반 전시 디테일 화면
+                                moveToExhibitionDetail(exhibitionInfo)
+                            }
+                        }
                     }
 
                     override fun onItemLongClick(
@@ -76,7 +90,7 @@ class ReservationDetailFragment: Fragment(R.layout.fragment_reservation_detail) 
 
         // 뒤로가기 버튼 클릭
         binding.reservationDetailBackBtn.setOnClickListener {
-            parentActivity.supportFragmentManager.popBackStack()
+            clickBackBtn()
         }
 
         // 정말로 예매를 취소 하시겠습니까? Dialog 결과 반환
@@ -94,35 +108,6 @@ class ReservationDetailFragment: Fragment(R.layout.fragment_reservation_detail) 
     // 예매한 전시 리스트 재 업데이트
     private fun resetView() {
         viewModel.getReservationExhbtList()
-    }
-
-    // ExhibitionDetail 화면으로 이동
-    private fun moveToExhibitionDetail(exhibitionInfo: Exhbt) {
-        when (exhibitionInfo.eb_yn) {
-            "Y" -> {
-                val bundle = Bundle().apply {
-                    putParcelable(EarlyBirdDetailViewModel.EARLYBIRD_INFO, exhibitionInfo)
-                }
-                parentActivity.supportFragmentManager.replaceFragment(
-                    EarlyBirdDetailFragment().apply {
-                        arguments = bundle
-                    },
-                    true
-                )
-            }
-
-            "N" -> {
-                val bundle = Bundle().apply {
-                    putParcelable(ExhibitionDetailViewModel.EXHIBITION_INFO, exhibitionInfo)
-                }
-                parentActivity.supportFragmentManager.replaceFragment(
-                    ExhibitionDetailFragment().apply {
-                        arguments = bundle
-                    },
-                    true
-                )
-            }
-        }
     }
 
     // 정말로 삭제할 지 dialog 보여주기
@@ -143,5 +128,20 @@ class ReservationDetailFragment: Fragment(R.layout.fragment_reservation_detail) 
             parentActivity.supportFragmentManager,
             CustomDialogFragment.TAG
         )
+    }
+
+    private fun clickBackBtn() {
+        navController.popBackStack()
+//        parentActivity.supportFragmentManager.popBackStack()
+    }
+
+    // ExhibitionDetail Fragment 로 이동
+    private fun moveToExhibitionDetail(exhibitionInfo: Exhbt) {
+        navController.navigate(MainFragmentDirections.actionMainFragmentToExhibitionDetailFragment(exhibitionInfo))
+    }
+
+    // EarlyBirdDetail Fragment 로 이동
+    private fun moveToEarlyBirdDetail(exhibitionInfo: Exhbt) {
+        navController.navigate(MainFragmentDirections.actionMainFragmentToEarlyBirdDetailFragment(exhibitionInfo))
     }
 }
