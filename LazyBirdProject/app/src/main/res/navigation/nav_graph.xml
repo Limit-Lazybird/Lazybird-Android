@@ -190,7 +190,7 @@
         <action
             android:id="@+id/action_ticketingConfirmFragment_to_getEarlyCardFragment"
             app:destination="@id/getEarlyCardFragment"
-            app:popUpTo="@id/ticketingNoticeFragment"
+            app:popUpTo="@id/ticketingConfirmFragment"
             app:popUpToInclusive="true" />
     </fragment>
     <fragment

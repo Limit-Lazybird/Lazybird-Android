@@ -129,11 +129,11 @@ class ReservationDetailFragment: Fragment(R.layout.fragment_reservation_detail) 
 
     // ExhibitionDetail Fragment 로 이동
     private fun moveToExhibitionDetail(exhibitionInfo: Exhbt) {
-        navController.navigate(MainFragmentDirections.actionMainFragmentToExhibitionDetailFragment(exhibitionInfo))
+        navController.navigate(ReservationDetailFragmentDirections.actionReservationDetailFragmentToExhibitionDetailFragment(exhibitionInfo))
     }
 
     // EarlyBirdDetail Fragment 로 이동
     private fun moveToEarlyBirdDetail(exhibitionInfo: Exhbt) {
-        navController.navigate(MainFragmentDirections.actionMainFragmentToEarlyBirdDetailFragment(exhibitionInfo))
+        navController.navigate(ReservationDetailFragmentDirections.actionReservationDetailFragmentToEarlyBirdDetailFragment(exhibitionInfo))
     }
 }

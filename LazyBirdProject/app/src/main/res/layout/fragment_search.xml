@@ -43,6 +43,7 @@
                 android:fontFamily="@font/roboto_300"
                 android:hint="@string/search_hint"
                 android:lines="1"
+                android:singleLine="true"
                 android:textColor="@color/white"
                 android:textColorHint="@color/gray04"
                 android:textSize="15dp" />

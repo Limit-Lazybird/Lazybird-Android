@@ -14,6 +14,7 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
+import com.google.android.material.snackbar.Snackbar
 import com.limit.lazybird.R
 import com.limit.lazybird.ui.custom.CustomSnackBar
 import com.limit.lazybird.databinding.FragmentGetEarlycardBinding
@@ -33,6 +34,7 @@ class GetEarlyCardFragment : Fragment(R.layout.fragment_get_earlycard) {
     private val args: GetEarlyCardFragmentArgs by navArgs()
     private val viewModel: TicketingViewModel by viewModels()
 
+    private lateinit var snackBar: CustomSnackBar
     private lateinit var mDetector: GestureDetectorCompat
     private var isSwipe = false
 
@@ -47,6 +49,7 @@ class GetEarlyCardFragment : Fragment(R.layout.fragment_get_earlycard) {
         }
 
         initDetector(view)
+        initSnackbar()
 
         // main earlycard, sub earlycard 모두 초기화하기
         viewModel.exhibitionInfo.observe(viewLifecycleOwner) { exhibitionInfo ->
@@ -75,6 +78,17 @@ class GetEarlyCardFragment : Fragment(R.layout.fragment_get_earlycard) {
         // 뒤로가기 버튼 클릭 시
         binding.getEarlycardBackBtn.setOnClickListener {
             clickBackBtn()
+        }
+    }
+
+    private fun initSnackbar() {
+        snackBar = CustomSnackBar.make(requireView(), "얼리카드가 추가되었어요", "보러가기").apply {
+            clickListener = object : CustomSnackBar.OnClickListener {
+                override fun onClick(view: View) {
+                    moveToMain()
+                    dismiss()
+                }
+            }
         }
     }
 
@@ -144,14 +158,7 @@ class GetEarlyCardFragment : Fragment(R.layout.fragment_get_earlycard) {
 
     // SnackBar 보여주기
     private fun showSnackBar() {
-        CustomSnackBar.make(requireView(), "얼리카드가 추가되었어요", "보러가기").apply {
-            clickListener = object : CustomSnackBar.OnClickListener {
-                override fun onClick(view: View) {
-                    moveToMain()
-                    dismiss()
-                }
-            }
-        }.show()
+        snackBar.show()
     }
 
     // 뒤로가기 버튼 클릭 시 
@@ -161,6 +168,13 @@ class GetEarlyCardFragment : Fragment(R.layout.fragment_get_earlycard) {
 
     // Main 화면으로 이동
     private fun moveToMain(){
-        navController.popBackStack()
+        repeat(2){
+            navController.popBackStack()
+        }
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        snackBar.dismiss()
     }
 }

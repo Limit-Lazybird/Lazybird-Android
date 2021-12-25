@@ -86,11 +86,11 @@ class LikeDetailFragment :Fragment(R.layout.fragment_like_detail) {
 
     // ExhibitionDetail Fragment 로 이동
     private fun moveToExhibitionDetail(exhibitionInfo: Exhbt) {
-        navController.navigate(MainFragmentDirections.actionMainFragmentToExhibitionDetailFragment(exhibitionInfo))
+        navController.navigate(LikeDetailFragmentDirections.actionLikeDetailFragmentToExhibitionDetailFragment(exhibitionInfo))
     }
 
     // EarlyBirdDetail Fragment 로 이동
     private fun moveToEarlyBirdDetail(exhibitionInfo: Exhbt) {
-        navController.navigate(MainFragmentDirections.actionMainFragmentToEarlyBirdDetailFragment(exhibitionInfo))
+        navController.navigate(LikeDetailFragmentDirections.actionLikeDetailFragmentToEarlyBirdDetailFragment(exhibitionInfo))
     }
 }
