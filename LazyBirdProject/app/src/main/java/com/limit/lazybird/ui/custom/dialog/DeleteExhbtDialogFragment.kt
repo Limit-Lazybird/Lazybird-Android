@@ -12,6 +12,9 @@ import com.limit.lazybird.R
 import com.limit.lazybird.databinding.DialogCustomBinding
 import com.limit.lazybird.models.DialogInfo
 import android.view.View
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
+import com.limit.lazybird.models.DialogResult
 
 /************* DeleteExhbtDialogFragment ***************
  * 메인화면(마이버드 탭) >> 내가 예약한 전시리스트 보기 >> 삭제하기 (DialogFragment)
@@ -28,11 +31,12 @@ class DeleteExhbtDialogFragment : DialogFragment() {
         const val EXHBT_CD = "delete_exhbt_exhbt_cd"
     }
 
+    private val args: DeleteExhbtDialogFragmentArgs by navArgs()
     private lateinit var binding: DialogCustomBinding
     private var alertDialog: AlertDialog? = null
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val dialogInfo = requireArguments().getParcelable<DialogInfo>(DIALOG_INFO)!!
+        val dialogInfo = args.dialogInfo
         val layout = layoutInflater.inflate(R.layout.dialog_custom, null).apply {
             binding = DialogCustomBinding.bind(this)
         }
@@ -62,22 +66,26 @@ class DeleteExhbtDialogFragment : DialogFragment() {
 
     // 확인 버튼 클릭 시
     private fun cancelOnb() {
-        setFragmentResult(
-            TAG, bundleOf(
-                RESULT_CODE to RESULT_OK,
-                EXHBT_CD to requireArguments().getString(EXHBT_CD)!!
-            )
-        )
-        dismiss()
+        findNavController().previousBackStackEntry?.savedStateHandle?.apply {
+            set(TAG, DialogResult(
+                listOf(
+                    RESULT_OK,
+                    args.exhbtCd
+                )
+            ))
+        }
+        findNavController().popBackStack()
     }
 
     // 취소 버튼 클릭 시
     private fun cancelDialog() {
-        setFragmentResult(
-            TAG, bundleOf(
-                RESULT_CODE to RESULT_CANCEL
-            )
-        )
-        dismiss()
+        findNavController().previousBackStackEntry?.savedStateHandle?.apply {
+            set(TAG, DialogResult(
+                listOf(
+                    RESULT_CANCEL
+                )
+            ))
+        }
+        findNavController().popBackStack()
     }
 }

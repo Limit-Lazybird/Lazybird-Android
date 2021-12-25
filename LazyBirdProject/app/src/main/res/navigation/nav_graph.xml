@@ -248,6 +248,9 @@
         <action
             android:id="@+id/action_reservationDetailFragment_to_exhibitionDetailFragment"
             app:destination="@id/exhibitionDetailFragment" />
+        <action
+            android:id="@+id/action_reservationDetailFragment_to_deleteExhbtDialogFragment"
+            app:destination="@id/deleteExhbtDialogFragment" />
     </fragment>
     <fragment
         android:id="@+id/settingFragment"
@@ -290,4 +293,18 @@
         android:name="com.limit.lazybird.ui.setting.TermFragment"
         android:label="fragment_term"
         tools:layout="@layout/fragment_term" />
+    <dialog
+        android:id="@+id/deleteExhbtDialogFragment"
+        android:name="com.limit.lazybird.ui.custom.dialog.DeleteExhbtDialogFragment"
+        android:label="DeleteExhbtDialogFragment"
+        tools:layout="@layout/dialog_custom">
+        <argument
+            android:name="dialogInfo"
+            app:argType="com.limit.lazybird.models.DialogInfo"
+            app:nullable="false" />
+        <argument
+            android:name="exhbtCd"
+            app:argType="string"
+            app:nullable="false" />
+    </dialog>
 </navigation>

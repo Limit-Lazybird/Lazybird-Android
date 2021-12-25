@@ -11,11 +11,13 @@ import androidx.navigation.findNavController
 import com.limit.lazybird.R
 import com.limit.lazybird.databinding.FragmentReservationDetailBinding
 import com.limit.lazybird.models.DialogInfo
+import com.limit.lazybird.models.DialogResult
 import com.limit.lazybird.models.retrofit.Exhbt
 import com.limit.lazybird.ui.MainActivity
 import com.limit.lazybird.ui.MainFragmentDirections
 import com.limit.lazybird.ui.custom.dialog.DeleteExhbtDialogFragment
 import com.limit.lazybird.ui.custom.dialog.CustomDialogFragment
+import com.limit.lazybird.ui.onboarding.OnbFragmentDirections
 import com.limit.lazybird.viewmodel.MyBirdViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -86,12 +88,14 @@ class ReservationDetailFragment: Fragment(R.layout.fragment_reservation_detail) 
         }
 
         // 정말로 예매를 취소 하시겠습니까? Dialog 결과 반환
-        setFragmentResultListener(DeleteExhbtDialogFragment.TAG) { _, bundle ->
-            when (bundle.getString(DeleteExhbtDialogFragment.RESULT_CODE)) {
-                DeleteExhbtDialogFragment.RESULT_OK -> {
-                    val exhbtCd = bundle.getString(DeleteExhbtDialogFragment.EXHBT_CD)!!
-                    viewModel.deleteReservationExhibition(exhbtCd)
-                    resetView()
+        navController.currentBackStackEntry?.savedStateHandle?.apply {
+            getLiveData<DialogResult>(DeleteExhbtDialogFragment.TAG)?.observe(viewLifecycleOwner) { dialogResult ->
+                when(dialogResult.results[0]){
+                    DeleteExhbtDialogFragment.RESULT_OK -> {
+                        val exhbtCd = dialogResult.results[1]
+                        viewModel.deleteReservationExhibition(exhbtCd)
+                        resetView()
+                    }
                 }
             }
         }
@@ -110,16 +114,8 @@ class ReservationDetailFragment: Fragment(R.layout.fragment_reservation_detail) 
             positiveBtnTitle = "예매취소",
             negativeBtnTitle = "돌아가기"
         )
-        DeleteExhbtDialogFragment().apply {
-            // dialog 정보 보내주기
-            arguments = bundleOf().apply {
-                putParcelable(DeleteExhbtDialogFragment.DIALOG_INFO, dialogInfo)
-                putString(DeleteExhbtDialogFragment.EXHBT_CD, exhbtCd)
-            }
-        }.show(
-            (activity as MainActivity).supportFragmentManager,
-            CustomDialogFragment.TAG
-        )
+        val action = ReservationDetailFragmentDirections.actionReservationDetailFragmentToDeleteExhbtDialogFragment(dialogInfo, exhbtCd)
+        navController.navigate(action)
     }
 
     // 뒤로가기 버튼 클릭 시
