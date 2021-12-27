@@ -16,8 +16,8 @@ android {
         applicationId "com.limit.lazybird"
         minSdkVersion 29
         targetSdkVersion 30
-        versionCode 10
-        versionName "1.0.9"
+        versionCode 12
+        versionName "1.0.11"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
