@@ -67,3 +67,4 @@
 ### Epilogue
 - <a href="https://blog.naver.com/ponson1017/222598071541"> 1. 완성부터 시작하는 개발세계 생활 </a><br>
 - <a href="https://blog.naver.com/ponson1017/222599995052"> 2. 너 내가 다시 찾아온다했지.. (Navigation편) </a><br>
+- <a href="https://blog.naver.com/ponson1017/222605164433"> 3. BaseFragment, 양방향 dataBinding 적용기 </a><br>

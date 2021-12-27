@@ -12,7 +12,6 @@ class ExhibitionRepository @Inject constructor(
     private val dataStoreManager: PreferenceDataStoreManager
 ) {
     fun getPreferenceTokenFlow() = dataStoreManager.preferenceTokenFlow
-    fun getPreferenceUserInfoFlow() = dataStoreManager.preferenceUserInfoFlow
 
     suspend fun getEarlyList(token: String) = apiHelper.getEarlyList(token)
     suspend fun getExhibitionList(token:String) = apiHelper.getExhbtList(token)
