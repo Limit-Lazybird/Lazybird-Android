@@ -14,6 +14,7 @@ import com.limit.lazybird.R
 import com.limit.lazybird.databinding.FragmentCalendarAddBinding
 import com.limit.lazybird.models.Schedule
 import com.limit.lazybird.models.retrofit.CalendarInfo
+import com.limit.lazybird.ui.BaseFragment
 import com.limit.lazybird.ui.custom.dialog.DateSelectBSDialog
 import com.limit.lazybird.ui.custom.dialog.TimeSelectBSDialog
 import com.limit.lazybird.util.parseDay
@@ -27,7 +28,7 @@ import dagger.hilt.android.AndroidEntryPoint
  * 캘린더에서 (예약된 or 예약되지 않은)전시일정정보 확인
  ********************************************** ***/
 @AndroidEntryPoint
-class CalendarAddFragment: Fragment(R.layout.fragment_calendar_add) {
+class CalendarAddFragment: BaseFragment<FragmentCalendarAddBinding>(FragmentCalendarAddBinding::inflate) {
 
     companion object {
         const val TAG = "CalendarAddFragment"
@@ -38,9 +39,7 @@ class CalendarAddFragment: Fragment(R.layout.fragment_calendar_add) {
         const val IS_ADD = "ticket_is_add"
     }
 
-    private lateinit var navController: NavController
     private val args: CalendarAddFragmentArgs by navArgs()
-    private lateinit var binding: FragmentCalendarAddBinding
     private val viewModel: CalendarAddViewModel by viewModels()
 
     private var isAdd: Boolean = false
@@ -49,8 +48,6 @@ class CalendarAddFragment: Fragment(R.layout.fragment_calendar_add) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        navController = requireView().findNavController()
-        binding = FragmentCalendarAddBinding.bind(view)
 
         type = args.addType // custom or ticketed
         isAdd = args.isAdd  // add mode or modify mode

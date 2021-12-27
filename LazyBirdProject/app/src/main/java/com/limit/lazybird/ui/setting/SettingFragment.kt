@@ -13,6 +13,7 @@ import com.limit.lazybird.R
 import com.limit.lazybird.api.GoogleLoginHelper
 import com.limit.lazybird.api.KakaoLoginHelper
 import com.limit.lazybird.databinding.FragmentSettingBinding
+import com.limit.lazybird.ui.BaseFragment
 import com.limit.lazybird.ui.custom.dialog.ExhibitionRefreshBSDialog
 import com.limit.lazybird.ui.custom.dialog.LogoutBSDialog
 import com.limit.lazybird.viewmodel.SettingViewModel
@@ -25,14 +26,8 @@ import kotlinx.coroutines.launch
  * 옵션 화면
  ********************************************** ***/
 @AndroidEntryPoint
-class SettingFragment : Fragment(R.layout.fragment_setting) {
+class SettingFragment : BaseFragment<FragmentSettingBinding>(FragmentSettingBinding::inflate) {
 
-    companion object {
-        const val TAG = "SettingFragment"
-    }
-
-    private lateinit var navController: NavController
-    lateinit var binding: FragmentSettingBinding
     private val viewModel: SettingViewModel by viewModels()
 
     // for login
@@ -41,15 +36,9 @@ class SettingFragment : Fragment(R.layout.fragment_setting) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        navController = requireView().findNavController()
-        binding = FragmentSettingBinding.bind(view)
 
-        kakaoLoginHelper = KakaoLoginHelper(requireContext()).apply {
-            init()
-        }
-        googleLoginHelper = GoogleLoginHelper(this).apply {
-            init()
-        }
+        kakaoLoginHelper = KakaoLoginHelper(requireContext())
+        googleLoginHelper = GoogleLoginHelper(this)
 
         binding.settingOnbAppVersionText.text = "${BuildConfig.VERSION_NAME}v"
 

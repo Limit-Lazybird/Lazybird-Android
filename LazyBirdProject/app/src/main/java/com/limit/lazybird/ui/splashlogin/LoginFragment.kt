@@ -12,6 +12,7 @@ import com.limit.lazybird.R
 import com.limit.lazybird.api.GoogleLoginHelper
 import com.limit.lazybird.api.KakaoLoginHelper
 import com.limit.lazybird.databinding.FragmentLoginBinding
+import com.limit.lazybird.ui.BaseFragment
 import com.limit.lazybird.viewmodel.LoginViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
@@ -21,14 +22,8 @@ import kotlinx.coroutines.flow.collect
  * 로그인 화면 (카카오 로그인, 구글 로그인)
  ********************************************** ***/
 @AndroidEntryPoint
-class LoginFragment : Fragment(R.layout.fragment_login) {
+class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::inflate) {
 
-    companion object {
-        const val TAG = "LoginFragment"
-    }
-
-    private lateinit var navController: NavController
-    private lateinit var binding: FragmentLoginBinding
     private val viewModel: LoginViewModel by viewModels()
 
     // for kakao login
@@ -39,17 +34,29 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        navController = requireView().findNavController()
-        binding = FragmentLoginBinding.bind(view)
 
         // kakao 개체 구성
         kakaoLoginHelper = KakaoLoginHelper(requireContext()).apply {
-            init()
+            // 카카오 로그인결과 업데이트
+            loginInfo.observe(viewLifecycleOwner) {
+                viewModel.loginKakao(
+                    email = it.email,
+                    name = it.name,
+                    kakaoToken = it.token
+                )
+            }
         }
 
         // GoogleSignInClient 개체 구성
         googleLoginHelper = GoogleLoginHelper(this).apply {
-            init()
+            // 구글 로그인결과 업데이트
+            loginInfo.observe(viewLifecycleOwner) {
+                viewModel.loginGoogle(
+                    email = it.email,
+                    name = it.name,
+                    googleToken = it.token
+                )
+            }
         }
 
         // 구글로 로그인하기 버튼 클릭
@@ -79,25 +86,6 @@ class LoginFragment : Fragment(R.layout.fragment_login) {
                     }
                 }
             }
-        }
-
-        // 카카오 로그인결과 업데이트
-        kakaoLoginHelper.loginInfo.observe(viewLifecycleOwner) {
-            viewModel.loginKakao(
-                email = it.email,
-                name = it.name,
-                kakaoToken = it.token
-            )
-        }
-
-        // 구글 로그인결과 업데이트
-        googleLoginHelper.loginInfo.observe(viewLifecycleOwner) {
-            Log.e(TAG, "collect: ${it}")
-            viewModel.loginGoogle(
-                email = it.email,
-                name = it.name,
-                googleToken = it.token
-            )
         }
     }
 

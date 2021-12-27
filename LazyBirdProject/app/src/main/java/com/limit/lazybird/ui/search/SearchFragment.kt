@@ -14,6 +14,7 @@ import com.limit.lazybird.R
 import com.limit.lazybird.ui.custom.OptionItemView
 import com.limit.lazybird.databinding.FragmentSearchBinding
 import com.limit.lazybird.models.retrofit.Exhbt
+import com.limit.lazybird.ui.BaseFragment
 import com.limit.lazybird.ui.MainActivity
 import com.limit.lazybird.ui.MainFragmentDirections
 import com.limit.lazybird.viewmodel.SearchViewModel
@@ -24,23 +25,15 @@ import dagger.hilt.android.AndroidEntryPoint
  * 검색 화면
  ********************************************** ***/
 @AndroidEntryPoint
-class SearchFragment : Fragment(R.layout.fragment_search) {
+class SearchFragment : BaseFragment<FragmentSearchBinding>(FragmentSearchBinding::inflate) {
 
-    companion object {
-        const val TAG = "SearchFragment"
-    }
-
-    private lateinit var navController: NavController
-    lateinit var binding: FragmentSearchBinding
     private val viewModel: SearchViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        navController = requireView().findNavController()
-        binding = FragmentSearchBinding.bind(view)
 
         val imm =
-            (activity as MainActivity).getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+            requireActivity().getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
 
         // 추천검색 리스트 업데이트
         val recommendList = resources.getStringArray(R.array.fast_search_list)

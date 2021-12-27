@@ -18,6 +18,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import com.limit.lazybird.R
 import com.limit.lazybird.databinding.FragmentTicketingNoticeBinding
+import com.limit.lazybird.ui.BaseFragment
 import com.limit.lazybird.util.applyEscapeSequence
 import com.limit.lazybird.viewmodel.TicketingViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -28,17 +29,11 @@ import dagger.hilt.android.AndroidEntryPoint
  ********************************************** ***/
 
 @AndroidEntryPoint
-class TicketingNoticeFragment : Fragment(R.layout.fragment_ticketing_notice) {
-
-    companion object {
-        const val TAG = "TicketingNoticeFragment"
-    }
+class TicketingNoticeFragment : BaseFragment<FragmentTicketingNoticeBinding>(FragmentTicketingNoticeBinding::inflate) {
 
     private val DELAY_MILLIS = 3000L // 몇 초 뒤에 다음 페이지로 넘어갈 지에 대한 값
 
-    private lateinit var navController: NavController
     private val args: TicketingConfirmFragmentArgs by navArgs()
-    lateinit var binding: FragmentTicketingNoticeBinding
     private val viewModel: TicketingViewModel by viewModels()
 
     lateinit var runnable: Runnable
@@ -49,8 +44,6 @@ class TicketingNoticeFragment : Fragment(R.layout.fragment_ticketing_notice) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        navController = requireView().findNavController()
-        binding = FragmentTicketingNoticeBinding.bind(view)
 
         // argument 로 넘어오는 earlyBird 상세정보 ViewModel에 업데이트
         lifecycleScope.launchWhenStarted {

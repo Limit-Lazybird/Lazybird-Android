@@ -13,6 +13,7 @@ import com.limit.lazybird.ui.custom.OptionItemView
 import com.limit.lazybird.databinding.FragmentExhibitionBinding
 import com.limit.lazybird.models.ExhibitionFilterList
 import com.limit.lazybird.models.retrofit.Exhbt
+import com.limit.lazybird.ui.BaseFragment
 import com.limit.lazybird.ui.MainFragmentDirections
 import com.limit.lazybird.ui.custom.dialog.ExhibitionFilterBSDialog
 import com.limit.lazybird.ui.custom.dialog.ExhibitionRefreshBSDialog
@@ -26,14 +27,8 @@ import dagger.hilt.android.AndroidEntryPoint
  * Todo : RecyclerView에 LiveData와 ListAdapter 적용하여, 데이터 변환시 시각적으로 변화하도록 수정
  ********************************************** ***/
 @AndroidEntryPoint
-class ExhibitionFragment : Fragment(R.layout.fragment_exhibition) {
+class ExhibitionFragment : BaseFragment<FragmentExhibitionBinding>(FragmentExhibitionBinding::inflate) {
 
-    companion object {
-        const val TAG = "ExhibitionFragment"
-    }
-
-    private lateinit var navController: NavController
-    private lateinit var binding: FragmentExhibitionBinding
     private val viewModel: ExhibitionViewModel by viewModels()
 
     // detailFilter 어떤 것 선택했는지 가지고 있는 리스트
@@ -41,8 +36,6 @@ class ExhibitionFragment : Fragment(R.layout.fragment_exhibition) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        navController = requireView().findNavController()
-        binding = FragmentExhibitionBinding.bind(view)
 
         // RecyclerView 업데이트
         viewModel.exhibitionList.observe(viewLifecycleOwner) { exhibitionList ->

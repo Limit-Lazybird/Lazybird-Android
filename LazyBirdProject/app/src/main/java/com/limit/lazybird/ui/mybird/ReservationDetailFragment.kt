@@ -13,6 +13,7 @@ import com.limit.lazybird.databinding.FragmentReservationDetailBinding
 import com.limit.lazybird.models.DialogInfo
 import com.limit.lazybird.models.DialogResult
 import com.limit.lazybird.models.retrofit.Exhbt
+import com.limit.lazybird.ui.BaseFragment
 import com.limit.lazybird.ui.MainActivity
 import com.limit.lazybird.ui.MainFragmentDirections
 import com.limit.lazybird.ui.custom.dialog.DeleteExhbtDialogFragment
@@ -26,20 +27,12 @@ import dagger.hilt.android.AndroidEntryPoint
  * 내가 예약한 전시리스트 보기
  ********************************************** ***/
 @AndroidEntryPoint
-class ReservationDetailFragment: Fragment(R.layout.fragment_reservation_detail) {
+class ReservationDetailFragment: BaseFragment<FragmentReservationDetailBinding>(FragmentReservationDetailBinding::inflate) {
 
-    companion object {
-        const val TAG = "ReservationDetailFragment"
-    }
-
-    private lateinit var navController: NavController
-    lateinit var binding: FragmentReservationDetailBinding
     private val viewModel: MyBirdViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        navController = requireView().findNavController()
-        binding = FragmentReservationDetailBinding.bind(view)
 
         // 예매한 전시 리스트 업데이트
         viewModel.reservationExhibitionShortList.observe(viewLifecycleOwner) { exhibitList ->

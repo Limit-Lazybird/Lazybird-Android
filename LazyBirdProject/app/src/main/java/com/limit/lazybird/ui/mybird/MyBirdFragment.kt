@@ -12,6 +12,7 @@ import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.limit.lazybird.R
 import com.limit.lazybird.databinding.FragmentMybirdBinding
+import com.limit.lazybird.ui.BaseFragment
 import com.limit.lazybird.ui.MainFragmentDirections
 import com.limit.lazybird.util.*
 import com.limit.lazybird.viewmodel.MyBirdViewModel
@@ -23,20 +24,12 @@ import java.util.*
  * 마이버드 화면 (내 정보 보기)
  ********************************************** ***/
 @AndroidEntryPoint
-class MyBirdFragment : Fragment(R.layout.fragment_mybird) {
+class MyBirdFragment : BaseFragment<FragmentMybirdBinding>(FragmentMybirdBinding::inflate) {
 
-    companion object {
-        const val TAG = "MyBirdFragment"
-    }
-
-    private lateinit var navController: NavController
-    lateinit var binding: FragmentMybirdBinding
     private val viewModel: MyBirdViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        navController = requireView().findNavController()
-        binding = FragmentMybirdBinding.bind(view)
 
         // 사용자 정보 업데이트
         viewModel.userInfo.observe(viewLifecycleOwner) { userInfo ->

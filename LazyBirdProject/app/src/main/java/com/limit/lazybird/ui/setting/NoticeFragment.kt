@@ -8,6 +8,7 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.limit.lazybird.R
 import com.limit.lazybird.databinding.FragmentNoticeBinding
+import com.limit.lazybird.ui.BaseFragment
 import com.limit.lazybird.viewmodel.NoticeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -16,20 +17,12 @@ import dagger.hilt.android.AndroidEntryPoint
  * 공지사항 전체 보기
  ********************************************** ***/
 @AndroidEntryPoint
-class NoticeFragment : Fragment(R.layout.fragment_notice) {
+class NoticeFragment : BaseFragment<FragmentNoticeBinding>(FragmentNoticeBinding::inflate) {
 
-    companion object {
-        const val TAG = "NoticeFragment"
-    }
-
-    private lateinit var navController: NavController
-    lateinit var binding: FragmentNoticeBinding
     private val viewModel: NoticeViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        navController = requireView().findNavController()
-        binding = FragmentNoticeBinding.bind(view)
 
         // 뒤로가기 버튼
         binding.noticeBackBtn.setOnClickListener {

@@ -9,6 +9,7 @@ import androidx.navigation.findNavController
 import com.limit.lazybird.R
 import com.limit.lazybird.databinding.FragmentLikeDetailBinding
 import com.limit.lazybird.models.retrofit.Exhbt
+import com.limit.lazybird.ui.BaseFragment
 import com.limit.lazybird.ui.MainFragmentDirections
 import com.limit.lazybird.viewmodel.MyBirdViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -18,20 +19,12 @@ import dagger.hilt.android.AndroidEntryPoint
  * 내가 찜한 전시리스트 보기
  ********************************************** ***/
 @AndroidEntryPoint
-class LikeDetailFragment :Fragment(R.layout.fragment_like_detail) {
+class LikeDetailFragment : BaseFragment<FragmentLikeDetailBinding>(FragmentLikeDetailBinding::inflate) {
 
-    companion object {
-        const val TAG = "LikeDetailFragment"
-    }
-
-    private lateinit var navController: NavController
-    lateinit var binding: FragmentLikeDetailBinding
     private val viewModel: MyBirdViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        navController = requireView().findNavController()
-        binding = FragmentLikeDetailBinding.bind(view)
 
         // 좋아요 누른 전시 업데이트 완료
         viewModel.likeExhibitionShortList.observe(viewLifecycleOwner) { exhibitList ->

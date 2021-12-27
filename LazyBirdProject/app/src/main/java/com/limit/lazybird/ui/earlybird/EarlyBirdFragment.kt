@@ -11,6 +11,7 @@ import androidx.viewpager2.widget.CompositePageTransformer
 import com.limit.lazybird.R
 import com.limit.lazybird.databinding.FragmentEarlybirdBinding
 import com.limit.lazybird.models.retrofit.Exhbt
+import com.limit.lazybird.ui.BaseFragment
 import com.limit.lazybird.ui.MainFragmentDirections
 import com.limit.lazybird.util.toDp
 import com.limit.lazybird.viewmodel.EarlyBirdViewModel
@@ -22,27 +23,19 @@ import kotlin.math.abs
  * 얼리버드 정보 리스트로 보기
  ********************************************** ***/
 @AndroidEntryPoint
-class EarlyBirdFragment : Fragment(R.layout.fragment_earlybird) {
-
-    companion object {
-        const val TAG = "EarlyBirdFragment"
-    }
+class EarlyBirdFragment : BaseFragment<FragmentEarlybirdBinding>(FragmentEarlybirdBinding::inflate) {
 
     private val SCREEN_PAGE_RATIO = 0.90f // ViewPager2에서 현재 페이지의 가로 크기 값 (기기의 몇퍼센트인지)
     private val OFF_SCREEN_PAGE_LIMIT = 1 // ViewPager2에서 보여줄 다음 페이지 개수
     private val OFF_SCREEN_PAGE_RATIO = 0.88f // ViewPager2에서 다음 페이지의 크기감소 비율
 
-    private lateinit var navController: NavController
-    private lateinit var binding: FragmentEarlybirdBinding
-    private val earlyBirdViewModel: EarlyBirdViewModel by viewModels()
+    private val viewModel: EarlyBirdViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        navController = requireView().findNavController()
-        binding = FragmentEarlybirdBinding.bind(view)
 
         // earlybirdList 업데이트
-        earlyBirdViewModel.todayEarlyBirdList.observe(viewLifecycleOwner) { earlybirdInfoList ->
+        viewModel.todayEarlyBirdList.observe(viewLifecycleOwner) { earlybirdInfoList ->
             // adapter 적용
             binding.earlybirdViewpager2.adapter = EarlyBirdAdapter(earlybirdInfoList).apply {
                 itemClickListener = object : EarlyBirdAdapter.OnItemClickListener {
@@ -52,7 +45,7 @@ class EarlyBirdFragment : Fragment(R.layout.fragment_earlybird) {
                         position: Int
                     ) {
                         // item 클릭 시
-                        val earlyBirdInfo = earlyBirdViewModel.getEarlyInfo(position)
+                        val earlyBirdInfo = viewModel.getEarlyInfo(position)
                         moveToEarlyBirdDetail(earlyBirdInfo)
                     }
                 }

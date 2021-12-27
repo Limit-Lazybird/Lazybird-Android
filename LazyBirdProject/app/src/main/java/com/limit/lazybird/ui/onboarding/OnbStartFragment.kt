@@ -7,6 +7,7 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.limit.lazybird.R
 import com.limit.lazybird.databinding.FragmentOnbStartBinding
+import com.limit.lazybird.ui.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 /************* OnbStartFragment ***************
@@ -14,19 +15,10 @@ import dagger.hilt.android.AndroidEntryPoint
  * 온보딩 설문조사하기 전의 시작화면
  ********************************************** ***/
 @AndroidEntryPoint
-class OnbStartFragment : Fragment(R.layout.fragment_onb_start) {
-
-    companion object {
-        const val TAG = "OnbStartFragment"
-    }
-
-    private lateinit var navController: NavController
-    private lateinit var binding: FragmentOnbStartBinding
+class OnbStartFragment : BaseFragment<FragmentOnbStartBinding>(FragmentOnbStartBinding::inflate) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        navController = requireView().findNavController()
-        binding = FragmentOnbStartBinding.bind(view)
 
         // 전시성향분석 버튼 클릭
         binding.onbsOkBtn.setOnClickListener {

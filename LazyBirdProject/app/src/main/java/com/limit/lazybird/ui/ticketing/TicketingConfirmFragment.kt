@@ -14,6 +14,7 @@ import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.limit.lazybird.R
 import com.limit.lazybird.databinding.FragmentTicketingConfirmBinding
+import com.limit.lazybird.ui.BaseFragment
 import com.limit.lazybird.util.thousandUnitFormatted
 import com.limit.lazybird.viewmodel.TicketingViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -24,21 +25,13 @@ import kotlinx.coroutines.launch
  * 예약 완료 후 확인하는 화면
  ********************************************** ***/
 @AndroidEntryPoint
-class TicketingConfirmFragment : Fragment(R.layout.fragment_ticketing_confirm) {
+class TicketingConfirmFragment : BaseFragment<FragmentTicketingConfirmBinding>(FragmentTicketingConfirmBinding::inflate) {
 
-    companion object {
-        const val TAG = "TicketingConfirmFragment"
-    }
-
-    private lateinit var navController: NavController
-    lateinit var binding: FragmentTicketingConfirmBinding
     private val args: GetEarlyCardFragmentArgs by navArgs()
     private val viewModel: TicketingViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        navController = requireView().findNavController()
-        binding = FragmentTicketingConfirmBinding.bind(view)
 
         // argument 로 넘어오는 earlyBird 상세정보 ViewModel에 업데이트
         lifecycleScope.launchWhenStarted {

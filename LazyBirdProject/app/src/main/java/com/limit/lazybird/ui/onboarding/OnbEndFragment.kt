@@ -13,24 +13,16 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.limit.lazybird.R
 import com.limit.lazybird.databinding.FragmentOnbEndBinding
+import com.limit.lazybird.ui.BaseFragment
 
 /************* OnbEndFragment ***************
  * 온보딩 시작화면 >> 온보딩 화면 >> 온보딩 완료 화면 (Fragment)
  * 온보딩을 완료했을 때의 화면
  ********************************************** ***/
-class OnbEndFragment : Fragment(R.layout.fragment_onb_end) {
-
-    companion object {
-        const val TAG = "OnbEndFragment"
-    }
-
-    private lateinit var navController: NavController
-    private lateinit var binding: FragmentOnbEndBinding
+class OnbEndFragment : BaseFragment<FragmentOnbEndBinding>(FragmentOnbEndBinding::inflate) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        navController = requireView().findNavController()
-        binding = FragmentOnbEndBinding.bind(view)
 
         // TextView 에 일부 글자만 스타일 다르게 넣어주기
         binding.onbEndContext.text =

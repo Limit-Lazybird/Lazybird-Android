@@ -9,6 +9,7 @@ import androidx.navigation.findNavController
 import com.limit.lazybird.R
 import com.limit.lazybird.databinding.FragmentEarlycardBinding
 import com.limit.lazybird.models.EarlycardInfo
+import com.limit.lazybird.ui.BaseFragment
 import com.limit.lazybird.viewmodel.EarlycardViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -17,16 +18,12 @@ import dagger.hilt.android.AndroidEntryPoint
  * 얼리카드 정보 리스트로 보기
  ********************************************** ***/
 @AndroidEntryPoint
-class EarlyCardFragment : Fragment(R.layout.fragment_earlycard) {
+class EarlyCardFragment : BaseFragment<FragmentEarlycardBinding>(FragmentEarlycardBinding::inflate) {
 
-    private lateinit var navController: NavController
-    private lateinit var binding: FragmentEarlycardBinding
     private val viewModel: EarlycardViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        navController = requireView().findNavController()
-        binding = FragmentEarlycardBinding.bind(view)
 
         viewModel.earlycardList.observe(viewLifecycleOwner) { earlycardInfoList ->
             binding.earlycardRecyclerView.adapter = EarlyCardAdapter(earlycardInfoList).apply {

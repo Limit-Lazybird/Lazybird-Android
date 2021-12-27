@@ -11,6 +11,7 @@ import com.limit.lazybird.R
 import com.limit.lazybird.api.GoogleLoginHelper
 import com.limit.lazybird.api.KakaoLoginHelper
 import com.limit.lazybird.databinding.FragmentMemberOutBinding
+import com.limit.lazybird.ui.BaseFragment
 import com.limit.lazybird.util.applyEscapeSequence
 import com.limit.lazybird.viewmodel.SettingViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -22,14 +23,8 @@ import kotlinx.coroutines.launch
  * 정말로 회원탈퇴 할지 선택하는 화면
  ********************************************** ***/
 @AndroidEntryPoint
-class MemberOutFragment : Fragment(R.layout.fragment_member_out) {
+class MemberOutFragment : BaseFragment<FragmentMemberOutBinding>(FragmentMemberOutBinding::inflate) {
 
-    companion object {
-        const val TAG = "MemberOutFragment"
-    }
-
-    private lateinit var navController: NavController
-    lateinit var binding: FragmentMemberOutBinding
     private val viewModel: SettingViewModel by viewModels()
 
     // for google login
@@ -38,15 +33,9 @@ class MemberOutFragment : Fragment(R.layout.fragment_member_out) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        navController = requireView().findNavController()
-        binding = FragmentMemberOutBinding.bind(view)
 
-        kakaoLoginHelper = KakaoLoginHelper(requireContext()).apply {
-            init()
-        }
-        googleLoginHelper = GoogleLoginHelper(this).apply {
-            init()
-        }
+        kakaoLoginHelper = KakaoLoginHelper(requireContext())
+        googleLoginHelper = GoogleLoginHelper(this)
 
         // 뒤로가기 버튼
         binding.memberOutBackBtn.setOnClickListener {

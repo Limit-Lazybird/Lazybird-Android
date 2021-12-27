@@ -8,6 +8,7 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.limit.lazybird.R
 import com.limit.lazybird.databinding.FragmentPrivacyBinding
+import com.limit.lazybird.ui.BaseFragment
 import com.limit.lazybird.util.applyEscapeSequence
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -16,19 +17,10 @@ import dagger.hilt.android.AndroidEntryPoint
  * 개인정보처리방침 보기
  ********************************************** ***/
 @AndroidEntryPoint
-class PrivacyFragment : Fragment(R.layout.fragment_privacy) {
-
-    companion object {
-        const val TAG = "PrivacyFragment"
-    }
-
-    private lateinit var navController: NavController
-    lateinit var binding: FragmentPrivacyBinding
+class PrivacyFragment : BaseFragment<FragmentPrivacyBinding>(FragmentPrivacyBinding::inflate) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        navController = requireView().findNavController()
-        binding = FragmentPrivacyBinding.bind(view)
 
         // 뒤로가기 버튼
         binding.privacyBackBtn.setOnClickListener {

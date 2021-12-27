@@ -25,6 +25,7 @@ import com.limit.lazybird.models.CalendarInfoList
 import com.limit.lazybird.models.DialogInfo
 import com.limit.lazybird.models.Schedule
 import com.limit.lazybird.models.retrofit.CalendarInfo
+import com.limit.lazybird.ui.BaseFragment
 import com.limit.lazybird.ui.MainFragmentDirections
 import com.limit.lazybird.ui.custom.dialog.IsVisitedDialogFragment
 import com.limit.lazybird.ui.custom.dialog.UnregisteredListBSDialog
@@ -43,16 +44,10 @@ import java.util.*
  * 캘린더에서 (예약된 or 예약되지 않은)전시일정정보 확인
  ********************************************** ***/
 @AndroidEntryPoint
-class CalendarFragment : Fragment(R.layout.fragment_calendar) {
-
-    companion object {
-        const val TAG = "CalendarFragment"
-    }
+class CalendarFragment : BaseFragment<FragmentCalendarBinding>(FragmentCalendarBinding::inflate) {
 
     private val DAY_VIEW_HEGIHT = 150 // "일" Container 의 높이
 
-    private lateinit var navController: NavController
-    private lateinit var binding: FragmentCalendarBinding
     private val viewModel: CalendarViewModel by viewModels()
 
     lateinit var unregisteredList: CalendarInfoList // 등록되지 않은 전시 리스트
@@ -60,8 +55,6 @@ class CalendarFragment : Fragment(R.layout.fragment_calendar) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        navController = requireView().findNavController()
-        binding = FragmentCalendarBinding.bind(view)
 
         // 일정 Map 업데이트
         viewModel.scheduleListDict.observe(viewLifecycleOwner) {
@@ -164,13 +157,6 @@ class CalendarFragment : Fragment(R.layout.fragment_calendar) {
             null,
             null
         ))
-//        parentActivity.supportFragmentManager.replaceFragment(CalendarAddFragment().apply {
-//            arguments = bundleOf(
-//                CalendarAddFragment.ADD_TYPE to CalendarAddFragment.TYPE_CUSTOM,
-//                CalendarAddFragment.IS_ADD to true,
-//                CalendarAddFragment.TICKET_INFO to null
-//            )
-//        })
     }
 
     // CalendarAddFragment 로 이동 (미등록 전시 추가하기)
@@ -181,13 +167,6 @@ class CalendarFragment : Fragment(R.layout.fragment_calendar) {
             calendarInfo,
             null
         ))
-//        parentActivity.supportFragmentManager.replaceFragment(CalendarAddFragment().apply {
-//            arguments = bundleOf(
-//                CalendarAddFragment.ADD_TYPE to CalendarAddFragment.TYPE_TICKETED,
-//                CalendarAddFragment.IS_ADD to true,
-//                CalendarAddFragment.TICKET_INFO to calendarInfo
-//            )
-//        })
     }
 
     // CalendarAddFragment 로 이동 (수정하기)
@@ -198,13 +177,6 @@ class CalendarFragment : Fragment(R.layout.fragment_calendar) {
             null,
             schedule
         ))
-//        parentActivity.supportFragmentManager.replaceFragment(CalendarAddFragment().apply {
-//            arguments = bundleOf(
-//                CalendarAddFragment.ADD_TYPE to if (isCustom) CalendarAddFragment.TYPE_CUSTOM else CalendarAddFragment.TYPE_TICKETED,
-//                CalendarAddFragment.IS_ADD to false,
-//                CalendarAddFragment.TICKET_INFO to schedule
-//            )
-//        })
     }
 
     // 수정하기, 제거하기 선택 Dialog 띄워줌

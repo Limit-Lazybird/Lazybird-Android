@@ -25,24 +25,15 @@ import com.limit.lazybird.util.replaceChildFragment
  * 메인화면 (Fragment)
  * (얼리버드, 전시, 캘린더, 검색, 마이버드 탭) 을 모두 포함하는 Fragment
  ********************************************** ***/
-class MainFragment: Fragment(R.layout.fragment_main) {
+class MainFragment: BaseFragment<FragmentMainBinding>(FragmentMainBinding::inflate) {
 
     private var _currentChildFragment = MutableLiveData(0) // 선택된 페이지
     private val currentChildFragment: LiveData<Int> get() = _currentChildFragment
-
-    private lateinit var navController: NavController
-    private lateinit var binding : FragmentMainBinding
-    private val parentActivity: MainActivity by lazy {
-        activity as MainActivity
-    }
 
     lateinit var callback: OnBackPressedCallback
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        navController = requireView().findNavController()
-        binding = FragmentMainBinding.bind(view)
 
         currentChildFragment.observe(viewLifecycleOwner) { page ->
             when(page) {
@@ -90,7 +81,7 @@ class MainFragment: Fragment(R.layout.fragment_main) {
             getLiveData<DialogResult>(CustomDialogFragment.TAG)?.observe(viewLifecycleOwner) { dialogResult ->
                 when(dialogResult.results[0]){
                     CustomDialogFragment.RESULT_OK -> {
-                        parentActivity.finish()
+                        requireActivity().finish()
                     }
                 }
             }
@@ -101,9 +92,7 @@ class MainFragment: Fragment(R.layout.fragment_main) {
         super.onAttach(context)
         callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                if(parentActivity.supportFragmentManager.backStackEntryCount == 0){
-                    showDialog()
-                }
+                showDialog()
             }
         }
         requireActivity().onBackPressedDispatcher.addCallback(this, callback)

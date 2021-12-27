@@ -18,19 +18,14 @@ import com.google.android.material.snackbar.Snackbar
 import com.limit.lazybird.R
 import com.limit.lazybird.ui.custom.CustomSnackBar
 import com.limit.lazybird.databinding.FragmentGetEarlycardBinding
+import com.limit.lazybird.ui.BaseFragment
 import com.limit.lazybird.viewmodel.TicketingViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class GetEarlyCardFragment : Fragment(R.layout.fragment_get_earlycard) {
+class GetEarlyCardFragment : BaseFragment<FragmentGetEarlycardBinding>(FragmentGetEarlycardBinding::inflate) {
 
-    companion object {
-        const val TAG = "TicketingConfirmFragment"
-    }
-
-    private lateinit var navController: NavController
-    lateinit var binding: FragmentGetEarlycardBinding
     private val args: GetEarlyCardFragmentArgs by navArgs()
     private val viewModel: TicketingViewModel by viewModels()
 
@@ -40,8 +35,6 @@ class GetEarlyCardFragment : Fragment(R.layout.fragment_get_earlycard) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        navController = requireView().findNavController()
-        binding = FragmentGetEarlycardBinding.bind(view)
 
         // argument 로 넘어오는 earlyBird 상세정보 ViewModel에 업데이트
         lifecycleScope.launchWhenStarted {

@@ -9,6 +9,7 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import com.limit.lazybird.R
 import com.limit.lazybird.databinding.FragmentNotificationBinding
+import com.limit.lazybird.ui.BaseFragment
 import com.limit.lazybird.ui.custom.SwipeHelperCallback
 import com.limit.lazybird.viewmodel.NotificationViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -18,22 +19,14 @@ import dagger.hilt.android.AndroidEntryPoint
  * 나에게 온 알림 보기
  ********************************************** ***/
 @AndroidEntryPoint
-class NotificationFragment: Fragment(R.layout.fragment_notification) {
-
-    companion object {
-        const val TAG = "NotificationFragment"
-    }
+class NotificationFragment: BaseFragment<FragmentNotificationBinding>(FragmentNotificationBinding::inflate) {
 
     private val CLAMP_WIDTH_RATIO = 0.2f // CLAMP 의 값이 화면의 가로길이의 몇 퍼센트인지
 
-    private lateinit var navController: NavController
-    lateinit var binding: FragmentNotificationBinding
     private val viewModel: NotificationViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        navController = requireView().findNavController()
-        binding = FragmentNotificationBinding.bind(view)
 
         // 뒤로가기 버튼
         binding.notificationBackBtn.setOnClickListener {

@@ -8,6 +8,7 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import com.limit.lazybird.R
 import com.limit.lazybird.databinding.FragmentTermBinding
+import com.limit.lazybird.ui.BaseFragment
 import com.limit.lazybird.util.applyEscapeSequence
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -16,19 +17,10 @@ import dagger.hilt.android.AndroidEntryPoint
  * 이용약관 보기
  ********************************************** ***/
 @AndroidEntryPoint
-class TermFragment:Fragment(R.layout.fragment_term) {
-
-    companion object {
-        const val TAG = "TermFragment"
-    }
-
-    private lateinit var navController: NavController
-    lateinit var binding :FragmentTermBinding
+class TermFragment: BaseFragment<FragmentTermBinding>(FragmentTermBinding::inflate) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        navController = requireView().findNavController()
-        binding = FragmentTermBinding.bind(view)
 
         // 뒤로가기 버튼
         binding.termBackBtn.setOnClickListener {

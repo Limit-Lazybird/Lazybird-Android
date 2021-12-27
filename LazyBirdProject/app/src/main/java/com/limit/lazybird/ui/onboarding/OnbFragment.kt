@@ -16,6 +16,7 @@ import com.limit.lazybird.models.Answer
 import com.limit.lazybird.models.DialogInfo
 import com.limit.lazybird.models.DialogResult
 import com.limit.lazybird.models.Survey
+import com.limit.lazybird.ui.BaseFragment
 import com.limit.lazybird.ui.custom.dialog.CustomDialogFragment
 import com.limit.lazybird.viewmodel.OnbViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -26,20 +27,12 @@ import kotlinx.coroutines.launch
  * 온보딩 설문조사하는 화면
  ********************************************** ***/
 @AndroidEntryPoint
-class OnbFragment : Fragment(R.layout.fragment_onb) {
+class OnbFragment : BaseFragment<FragmentOnbBinding>(FragmentOnbBinding::inflate) {
 
-    companion object {
-        const val TAG = "OnbFragment"
-    }
-
-    private lateinit var navController: NavController
-    private lateinit var binding: FragmentOnbBinding
     private val viewModel: OnbViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        navController = requireView().findNavController()
-        binding = FragmentOnbBinding.bind(view)
 
         viewModel.customizedList.observe(viewLifecycleOwner) { customizedList ->
             var curPage = 0

@@ -21,6 +21,7 @@ import com.bumptech.glide.request.target.Target
 import com.limit.lazybird.R
 import com.limit.lazybird.ui.custom.PositionedCropTransformation
 import com.limit.lazybird.databinding.FragmentEarlybirdDetailBinding
+import com.limit.lazybird.ui.BaseFragment
 import com.limit.lazybird.ui.MainActivity
 import com.limit.lazybird.viewmodel.EarlyBirdDetailViewModel
 import com.limit.lazybird.util.applyEscapeSequenceWithDot
@@ -30,28 +31,18 @@ import dagger.hilt.android.AndroidEntryPoint
 /************* EarlyBirdDetailFragment ***************
  * 메인화면(얼리버드 탭) >> 얼리버드 상세보기 (Fragment)
  * 얼리버드 정보 자세히 보기
- * Todo : 코드단에서 수동으로 안하고 ConstraintLayout 을 통해 비율 맞추도록 수정
  ********************************************** ***/
 @AndroidEntryPoint
-class EarlyBirdDetailFragment : Fragment(R.layout.fragment_earlybird_detail) {
-
-    companion object {
-        const val TAG = "EarlyBirdDetailFragment"
-    }
+class EarlyBirdDetailFragment : BaseFragment<FragmentEarlybirdDetailBinding>(FragmentEarlybirdDetailBinding::inflate) {
 
     private val THUMBNAIL_IMAGE_RATIO = 4 / 3f // Thumbnail 이미지의 세로 크기
     private val DETAIL_IMAGE_LIMIT_HIGH = 500f // detail Image의 최대 Hegiht 값
 
-
-    private lateinit var navController: NavController
     private val args: EarlyBirdDetailFragmentArgs by navArgs()
-    private lateinit var binding: FragmentEarlybirdDetailBinding
     private val viewModel: EarlyBirdDetailViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        navController = requireView().findNavController()
-        binding = FragmentEarlybirdDetailBinding.bind(view)
 
         // argument 로 넘어오는 earlyBird 상세정보 ViewModel에 업데이트
         lifecycleScope.launchWhenStarted {
