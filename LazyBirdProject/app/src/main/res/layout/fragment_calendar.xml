@@ -11,6 +11,10 @@
         <variable
             name="unregisterCount"
             type="int" />
+
+        <variable
+            name="fragment"
+            type="com.limit.lazybird.ui.calendar.CalendarFragment" />
     </data>
 
     <androidx.core.widget.NestedScrollView
@@ -43,8 +47,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
-                        android:fontFamily="@font/roboto_700"
                         android:layout_centerVertical="true"
+                        android:fontFamily="@font/roboto_700"
                         android:text="@string/calendar_title"
                         android:textColor="@color/white"
                         android:textSize="17dp" />
@@ -56,6 +60,7 @@
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="16dp"
+                        android:onClick="@{() -> fragment.moveToCalendarAdd()}"
                         android:src="@drawable/ic_custom" />
 
                 </RelativeLayout>
@@ -80,9 +85,9 @@
                     <TextView
                         android:id="@+id/calendar_not_added_title1"
                         android:layout_width="wrap_content"
-                        android:fontFamily="@font/roboto_500"
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
+                        android:fontFamily="@font/roboto_500"
                         android:text="@string/calendar_not_added_title1"
                         android:textColor="@color/white"
                         android:textSize="13dp" />
@@ -91,8 +96,8 @@
                         android:id="@+id/calendar_not_added_count"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/montserrat_700"
                         android:layout_toRightOf="@id/calendar_not_added_title1"
+                        android:fontFamily="@font/montserrat_700"
                         android:paddingLeft="4dp"
                         android:paddingRight="2dp"
                         android:text='@{unregisterCount+""}'

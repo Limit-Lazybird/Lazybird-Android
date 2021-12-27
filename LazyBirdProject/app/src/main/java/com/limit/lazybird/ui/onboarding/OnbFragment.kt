@@ -3,21 +3,21 @@ package com.limit.lazybird.ui.onboarding
 import android.os.Bundle
 import android.view.View
 import android.widget.LinearLayout
-import androidx.core.os.bundleOf
 import androidx.core.view.forEachIndexed
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.coroutineScope
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import com.limit.lazybird.R
 import com.limit.lazybird.ui.custom.OnbSelectBox
 import com.limit.lazybird.databinding.FragmentOnbBinding
 import com.limit.lazybird.models.Answer
 import com.limit.lazybird.models.DialogInfo
+import com.limit.lazybird.models.DialogResult
 import com.limit.lazybird.models.Survey
-import com.limit.lazybird.ui.MainActivity
+import com.limit.lazybird.ui.BaseFragment
 import com.limit.lazybird.ui.custom.dialog.CustomDialogFragment
-import com.limit.lazybird.util.replaceFragment
 import com.limit.lazybird.viewmodel.OnbViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -27,38 +27,32 @@ import kotlinx.coroutines.launch
  * 온보딩 설문조사하는 화면
  ********************************************** ***/
 @AndroidEntryPoint
-class OnbFragment : Fragment(R.layout.fragment_onb) {
+class OnbFragment : BaseFragment<FragmentOnbBinding>(FragmentOnbBinding::inflate) {
 
-    companion object {
-        const val TAG = "OnbFragment"
-    }
-
-    private lateinit var binding: FragmentOnbBinding
     private val viewModel: OnbViewModel by viewModels()
-    private val parentActivity: MainActivity by lazy {
-        activity as MainActivity
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding = FragmentOnbBinding.bind(view)
+        binding.fragment = this
 
         viewModel.customizedList.observe(viewLifecycleOwner) { customizedList ->
             var curPage = 0
             val questionList = mutableListOf<String>()
             val answerList = mutableListOf<MutableList<Answer>>()
             customizedList.forEach { customInfo ->
-                if(curPage != customInfo.cq_index){
+                if (curPage != customInfo.cq_index) {
                     // 새로운 페이지
                     curPage++
                     answerList.add(mutableListOf())
                     questionList.add(customInfo.cq_head)
                 }
-                answerList[curPage-1].add(Answer(
-                    customInfo.cs_head,
-                    "https://limit-lazybird.com/customized/image/onb${customInfo.cq_index}_opt${customInfo.cs_index}.png"
-                ))
+                answerList[curPage - 1].add(
+                    Answer(
+                        customInfo.cs_head,
+                        "https://limit-lazybird.com/customized/image/onb${customInfo.cq_index}_opt${customInfo.cs_index}.png"
+                    )
+                )
             }
 
             // 성향분석 리스트
@@ -73,7 +67,7 @@ class OnbFragment : Fragment(R.layout.fragment_onb) {
                 if (page >= surveyList.size) {
                     updateResultToServer() // 서버에 결과 업데이트
                     moveToEndFragment() // 화면 이동
-                } else if(page < 0) {
+                } else if (page < 0) {
                     moveToStartFragment() // 화면 벗어나기
                 } else {
                     val survey = surveyList[page]
@@ -106,66 +100,55 @@ class OnbFragment : Fragment(R.layout.fragment_onb) {
             }
         }
 
-        binding.onbBack.setOnClickListener {
-            // 이전 문항 이동 버튼
-            viewModel.movePrevPage()
-        }
-
-        binding.onbClose.setOnClickListener {
-            // 닫기 버튼 클릭 시
-            createCancelDialog()
-        }
-
-        setFragmentResultListener(CustomDialogFragment.TAG) { _, bundle ->
-            when (bundle.getString(CustomDialogFragment.RESULT_CODE)) {
-                CustomDialogFragment.RESULT_OK -> {
-                    // CustomDialogFragment 에서 종료 버튼 클릭 시
-                    moveToStartFragment()
+        // 온보딩 중도 종료 Dialog 선택 결과
+        navController.currentBackStackEntry?.savedStateHandle?.apply {
+            getLiveData<DialogResult>(CustomDialogFragment.TAG)?.observe(viewLifecycleOwner) { dialogResult ->
+                when (dialogResult.results[0]) {
+                    CustomDialogFragment.RESULT_OK -> {
+                        moveToStartFragment()
+                    }
                 }
             }
         }
     }
 
-    private fun createCancelDialog() {
-        // 종료 재확인 dialog 생성
+    // 이전 문항 이동 버튼
+    fun clickBackBtn() {
+        viewModel.movePrevPage()
+    }
+
+    // 종료 재확인 dialog 생성
+    fun createCancelDialog() {
         val dialogInfo = DialogInfo(
             title = resources.getString(R.string.onb_cancel_title),
             message = resources.getString(R.string.onb_cancel_message),
             positiveBtnTitle = resources.getString(R.string.onb_cancel_yes),
             negativeBtnTitle = resources.getString(R.string.onb_cancel_no)
         )
-       CustomDialogFragment().apply {
-            // dialog 정보 보내주기
-            arguments = bundleOf().apply {
-                putParcelable(CustomDialogFragment.DIALOG_INFO, dialogInfo)
-            }
-        }.show(
-            parentActivity.supportFragmentManager,
-            CustomDialogFragment.TAG
-        )
+        val action = OnbFragmentDirections.actionOnbFragmentToCustomDialogFragment(dialogInfo)
+        navController.navigate(action)
     }
 
 
+    // OnbStartFragment 로 이동
     private fun moveToStartFragment() {
-        // OnbStartFragment 로 이동
-        parentActivity.supportFragmentManager.popBackStack()
+        navController.popBackStack()
     }
 
+    // 설문조사 결과 서버에 업데이트
     private fun updateResultToServer() {
-        // 설문조사 결과 서버에 업데이트
         viewLifecycleOwner.lifecycle.coroutineScope.launch {
             viewModel.deleteCustomizedList()
             viewModel.insertCustomizedList(
-                viewModel.selectedResult.map{
-                    it+1
+                viewModel.selectedResult.map {
+                    it + 1
                 }.joinToString(".")
             )
         }
     }
 
+    // OnbEndFragment로 이동
     private fun moveToEndFragment() {
-        // OnbEndFragment로 이동
-        parentActivity.supportFragmentManager.replaceFragment(OnbEndFragment(), false)
+        navController.navigate(OnbFragmentDirections.actionOnbFragmentToOnbEndFragment())
     }
-
 }

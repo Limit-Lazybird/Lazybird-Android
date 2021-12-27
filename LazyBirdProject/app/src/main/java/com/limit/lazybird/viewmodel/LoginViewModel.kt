@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.limit.lazybird.api.ApiHelper
 import com.limit.lazybird.datastore.PreferenceDataStoreManager
 import com.limit.lazybird.models.retrofit.LoginResponseBody
+import com.limit.lazybird.repository.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -18,8 +19,7 @@ import javax.inject.Inject
  ********************************************** ***/
 @HiltViewModel
 class LoginViewModel @Inject constructor(
-    private val apiHelper: ApiHelper,
-    private val preferenceDataStoreManager: PreferenceDataStoreManager
+    private val repository: UserRepository
 ): ViewModel() {
 
     private val loginEventChannel = Channel<LoginEvent>()
@@ -32,7 +32,7 @@ class LoginViewModel @Inject constructor(
     ) = viewModelScope.launch {
         // LazyBird 서버에 카카오 로그인 요청
         updateUserInfo("kakao", email, name)
-        val response = apiHelper.loginKakao(
+        val response = repository.loginKakao(
             token = kakaoToken
         )
         if(response.isSuccessful) {
@@ -49,7 +49,7 @@ class LoginViewModel @Inject constructor(
     ) = viewModelScope.launch {
         // LazyBird 서버에 구글 로그인 요청
         updateUserInfo("google", email, name)
-        val response = apiHelper.loginGoogle(
+        val response = repository.loginGoogle(
             token = googleToken
         )
         if(response.isSuccessful) {
@@ -61,12 +61,12 @@ class LoginViewModel @Inject constructor(
 
     fun updateToken(token:String) = viewModelScope.launch {
         // dataStore 에서 토큰 값 저장하기
-        preferenceDataStoreManager.updateToken(token)
+        repository.updateToken(token)
     }
 
     fun updateUserInfo(loginType: String, email: String, name: String) = viewModelScope.launch {
         // dataStore 에서 유저정보 값 저장하기
-        preferenceDataStoreManager.updateUserInfo(loginType, email, name)
+        repository.updateUserInfo(loginType, email, name)
     }
 
     sealed class LoginEvent {

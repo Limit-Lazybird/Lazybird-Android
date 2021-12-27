@@ -4,14 +4,15 @@ import android.content.Context
 import android.os.Bundle
 import android.view.View
 import androidx.activity.OnBackPressedCallback
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.setFragmentResultListener
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import com.limit.lazybird.R
 import com.limit.lazybird.databinding.FragmentMainBinding
 import com.limit.lazybird.models.DialogInfo
+import com.limit.lazybird.models.DialogResult
 import com.limit.lazybird.ui.calendar.CalendarFragment
 import com.limit.lazybird.ui.earlybird.EarlyBirdFragment
 import com.limit.lazybird.ui.exhibition.ExhibitionFragment
@@ -24,22 +25,15 @@ import com.limit.lazybird.util.replaceChildFragment
  * 메인화면 (Fragment)
  * (얼리버드, 전시, 캘린더, 검색, 마이버드 탭) 을 모두 포함하는 Fragment
  ********************************************** ***/
-class MainFragment: Fragment(R.layout.fragment_main) {
+class MainFragment: BaseFragment<FragmentMainBinding>(FragmentMainBinding::inflate) {
 
     private var _currentChildFragment = MutableLiveData(0) // 선택된 페이지
     private val currentChildFragment: LiveData<Int> get() = _currentChildFragment
-
-    private lateinit var binding : FragmentMainBinding
-    private val parentActivity: MainActivity by lazy {
-        activity as MainActivity
-    }
 
     lateinit var callback: OnBackPressedCallback
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        binding = FragmentMainBinding.bind(view)
 
         currentChildFragment.observe(viewLifecycleOwner) { page ->
             when(page) {
@@ -83,46 +77,22 @@ class MainFragment: Fragment(R.layout.fragment_main) {
             return@setOnItemSelectedListener false
         }
 
-        setFragmentResultListener(CustomDialogFragment.TAG) { _, bundle ->
-            when (bundle.getString(CustomDialogFragment.RESULT_CODE)) {
-                CustomDialogFragment.RESULT_OK -> {
-                    parentActivity.finish()
+        navController.currentBackStackEntry?.savedStateHandle?.apply {
+            getLiveData<DialogResult>(CustomDialogFragment.TAG)?.observe(viewLifecycleOwner) { dialogResult ->
+                when(dialogResult.results[0]){
+                    CustomDialogFragment.RESULT_OK -> {
+                        requireActivity().finish()
+                    }
                 }
             }
         }
-
-    }
-
-    private fun updateChildFragment(page: Int) {
-        if(_currentChildFragment.value != page)
-            _currentChildFragment.value = page // 페이지가 동일할 땐 화면을 변경하지 않는다.
-    }
-
-    private fun showDialog() {
-        val dialogInfo = DialogInfo(
-            title = resources.getString(R.string.main_exit_title),
-            message = "",
-            positiveBtnTitle = resources.getString(R.string.main_exit_yes),
-            negativeBtnTitle = resources.getString(R.string.main_exit_no)
-        )
-        CustomDialogFragment().apply {
-            // dialog 정보 보내주기
-            arguments = bundleOf().apply {
-                putParcelable(CustomDialogFragment.DIALOG_INFO, dialogInfo)
-            }
-        }.show(
-            parentActivity.supportFragmentManager,
-            CustomDialogFragment.TAG
-        )
     }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
         callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                if(parentActivity.supportFragmentManager.backStackEntryCount == 0){
-                    showDialog()
-                }
+                showDialog()
             }
         }
         requireActivity().onBackPressedDispatcher.addCallback(this, callback)
@@ -131,5 +101,23 @@ class MainFragment: Fragment(R.layout.fragment_main) {
     override fun onDetach() {
         super.onDetach()
         callback.remove()
+    }
+    
+    // bottomNav 변화에 따른 ChildFragment 변화
+    private fun updateChildFragment(page: Int) {
+        if(_currentChildFragment.value != page)
+            _currentChildFragment.value = page // 페이지가 동일할 땐 화면을 변경하지 않는다.
+    }
+
+    // 레이지버드 종료 Dialog 보여주기
+    private fun showDialog() {
+        val dialogInfo = DialogInfo(
+            title = resources.getString(R.string.main_exit_title),
+            message = "",
+            positiveBtnTitle = resources.getString(R.string.main_exit_yes),
+            negativeBtnTitle = resources.getString(R.string.main_exit_no)
+        )
+        val action = MainFragmentDirections.actionMainFragmentToCustomDialogFragment(dialogInfo)
+        navController.navigate(action)
     }
 }

@@ -21,7 +21,7 @@ class SearchViewModel @Inject constructor(
 ):ViewModel() {
 
     companion object {
-        const val TAG = "ExhibitionViewModel"
+        const val TAG = "SearchViewModel"
     }
 
     private lateinit var token: String

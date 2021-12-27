@@ -1,305 +1,322 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.calendar.CalendarAddFragment">
 
-    <!-- calendar add header -->
-    <TextView
-        android:id="@+id/calendar_add_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:fontFamily="@font/roboto_700"
-        android:paddingTop="13dp"
-        android:paddingBottom="16dp"
-        android:text="@string/calendar_add_title"
-        android:textColor="@color/white"
-        android:textSize="17dp" />
+    <data>
 
-    <ImageButton
-        android:id="@+id/calendar_add_back_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@id/calendar_add_title"
-        android:layout_alignBottom="@id/calendar_add_title"
-        android:background="@color/transparent"
-        android:padding="13dp"
-        android:src="@drawable/ic_left_arrow" />
+        <variable
+            name="fragment"
+            type="com.limit.lazybird.ui.calendar.CalendarAddFragment" />
+    </data>
 
-    <View
-        android:id="@+id/calendar_add_line_1"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_below="@id/calendar_add_title"
-        android:background="@color/gray_200" />
+        android:layout_height="match_parent">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/calendar_add_line_1"
-        android:paddingTop="24dp"
-        android:scrollbars="none">
+        <!-- calendar add header -->
+        <TextView
+            android:id="@+id/calendar_add_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:fontFamily="@font/roboto_700"
+            android:paddingTop="13dp"
+            android:paddingBottom="16dp"
+            android:text="@string/calendar_add_title"
+            android:textColor="@color/white"
+            android:textSize="17dp" />
 
-        <LinearLayout
+        <ImageButton
+            android:id="@+id/calendar_add_back_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/calendar_add_title"
+            android:layout_alignBottom="@id/calendar_add_title"
+            android:background="@color/transparent"
+            android:onClick="@{() -> fragment.dismiss()}"
+            android:padding="13dp"
+            android:src="@drawable/ic_left_arrow" />
+
+        <View
+            android:id="@+id/calendar_add_line_1"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/calendar_add_title"
+            android:background="@color/gray_200" />
+
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_below="@id/calendar_add_line_1"
+            android:paddingTop="24dp"
+            android:scrollbars="none">
 
-            <TextView
-                android:id="@+id/calendar_add_context"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="24dp"
-                android:layout_marginBottom="23dp"
-                android:fontFamily="@font/roboto_700"
-                android:text="일정 등록을 위해\n전시회 정보를 입력해주세요."
-                android:textColor="@color/white"
-                android:textSize="20dp" />
-
-            <!-- exhibition container -->
-            <RelativeLayout
-                android:id="@+id/calendar_add_exhibition_container"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="24dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginRight="24dp"
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/calendar_add_exhibition_title"
+                    android:id="@+id/calendar_add_context"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="1dp"
-                    android:fontFamily="@font/roboto_500"
-                    android:text="전시"
-                    android:textColor="@color/white"
-                    android:textSize="15dp" />
-
-                <EditText
-                    android:id="@+id/calendar_add_exhibition"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/calendar_add_exhibition_title"
-                    android:layout_marginTop="8dp"
-                    android:background="@drawable/button_rounded_5"
-                    android:backgroundTint="@color/gray_200"
-                    android:fontFamily="@font/roboto_500"
-                    android:hint="전시회 이름"
-                    android:padding="15dp"
-                    android:singleLine="true"
-                    android:textColor="@color/white"
-                    android:textColorHint="@color/gray_600"
-                    android:textSize="15dp" />
-            </RelativeLayout>
-
-            <!-- place container -->
-            <RelativeLayout
-                android:id="@+id/calendar_add_place_container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="24dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginRight="24dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/calendar_add_place_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="1dp"
-                    android:fontFamily="@font/roboto_500"
-                    android:text="장소"
-                    android:textColor="@color/white"
-                    android:textSize="15dp" />
-
-                <EditText
-                    android:id="@+id/calendar_add_place"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/calendar_add_place_title"
-                    android:layout_marginTop="8dp"
-                    android:background="@drawable/button_rounded_5"
-                    android:backgroundTint="@color/gray_200"
-                    android:fontFamily="@font/roboto_500"
-                    android:hint="전시회 장소"
-                    android:padding="15dp"
-                    android:singleLine="true"
-                    android:textColor="@color/white"
-                    android:textColorHint="@color/gray_600"
-                    android:textSize="15dp" />
-            </RelativeLayout>
-
-            <TextView
-                android:id="@+id/calendar_add_schedule_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="25dp"
-                android:layout_marginTop="32dp"
-                android:fontFamily="@font/roboto_500"
-                android:text="관람 일정"
-                android:textColor="@color/white"
-                android:textSize="15dp" />
-
-            <!-- date container -->
-            <RelativeLayout
-                android:id="@+id/calendar_add_date_container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="24dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginRight="24dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/calendar_add_date_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="1dp"
-                    android:fontFamily="@font/roboto_500"
-                    android:text="날짜"
-                    android:textColor="@color/white"
-                    android:textSize="11dp" />
-
-                <EditText
-                    android:id="@+id/calendar_add_date"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/calendar_add_date_title"
-                    android:layout_marginTop="8dp"
-                    android:background="@drawable/button_rounded_5"
-                    android:backgroundTint="@color/gray_200"
-                    android:focusable="false"
-                    android:fontFamily="@font/roboto_500"
-                    android:hint="선택"
-                    android:padding="15dp"
-                    android:textColor="@color/white"
-                    android:textColorHint="@color/gray_600"
-                    android:textSize="15dp" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignTop="@id/calendar_add_date"
-                    android:layout_alignBottom="@id/calendar_add_date"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="8dp"
-                    android:src="@drawable/ic_expand_light_d"
-                    app:tint="@color/gray_600" />
-            </RelativeLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="24dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginRight="24dp">
-
-                <TextView
-                    android:id="@+id/calendar_add_time_title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="1dp"
-                    android:fontFamily="@font/roboto_500"
-                    android:text="시간"
-                    android:textColor="@color/white"
-                    android:textSize="11dp"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <EditText
-                    android:id="@+id/calendar_add_time_start"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:background="@drawable/button_rounded_5"
-                    android:backgroundTint="@color/gray_200"
-                    android:focusable="false"
-                    android:fontFamily="@font/roboto_500"
-                    android:hint="선택"
-                    android:padding="15dp"
-                    android:textColorHint="@color/gray_600"
-                    android:textSize="15dp"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/calendar_add_time_title"
-                    app:layout_constraintWidth_percent="0.452" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="8dp"
-                    android:src="@drawable/ic_expand_light_d"
-                    app:layout_constraintBottom_toBottomOf="@id/calendar_add_time_start"
-                    app:layout_constraintRight_toRightOf="@id/calendar_add_time_start"
-                    app:layout_constraintTop_toTopOf="@id/calendar_add_time_start"
-                    app:tint="@color/gray_600" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/montserrat_300"
-                    android:text="~"
-                    android:textColor="@color/white"
-                    android:textSize="24dp"
-                    app:layout_constraintBottom_toBottomOf="@id/calendar_add_time_start"
-                    app:layout_constraintLeft_toRightOf="@id/calendar_add_time_start"
-                    app:layout_constraintRight_toLeftOf="@id/calendar_add_time_end"
-                    app:layout_constraintTop_toTopOf="@id/calendar_add_time_start" />
-
-                <EditText
-                    android:id="@+id/calendar_add_time_end"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:background="@drawable/button_rounded_5"
-                    android:backgroundTint="@color/gray_200"
-                    android:focusable="false"
-                    android:fontFamily="@font/roboto_500"
-                    android:hint="선택"
-                    android:padding="15dp"
-                    android:textColorHint="@color/gray_600"
-                    android:textSize="15dp"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/calendar_add_time_title"
-                    app:layout_constraintWidth_percent="0.452" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="8dp"
-                    android:src="@drawable/ic_expand_light_d"
-                    app:layout_constraintBottom_toBottomOf="@id/calendar_add_time_end"
-                    app:layout_constraintRight_toRightOf="@id/calendar_add_time_end"
-                    app:layout_constraintTop_toTopOf="@id/calendar_add_time_end"
-                    app:tint="@color/gray_600" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="50dp" />
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_marginLeft="24dp"
-                android:layout_marginRight="24dp"
-                android:layout_marginBottom="25dp">
-
-                <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/calendar_add_ok_btn"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/button_rounded_10"
-                    android:backgroundTint="@color/or01"
+                    android:layout_marginLeft="24dp"
+                    android:layout_marginBottom="23dp"
                     android:fontFamily="@font/roboto_700"
-                    android:text="등록"
+                    android:text="일정 등록을 위해\n전시회 정보를 입력해주세요."
                     android:textColor="@color/white"
-                    android:textSize="17dp"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </LinearLayout>
-    </ScrollView>
-</RelativeLayout>
+                    android:textSize="20dp" />
+
+                <!-- exhibition container -->
+                <RelativeLayout
+                    android:id="@+id/calendar_add_exhibition_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="24dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginRight="24dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/calendar_add_exhibition_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="1dp"
+                        android:fontFamily="@font/roboto_500"
+                        android:text="전시"
+                        android:textColor="@color/white"
+                        android:textSize="15dp" />
+
+                    <EditText
+                        android:id="@+id/calendar_add_exhibition"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/calendar_add_exhibition_title"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/button_rounded_5"
+                        android:backgroundTint="@color/gray_200"
+                        android:fontFamily="@font/roboto_500"
+                        android:hint="전시회 이름"
+                        android:padding="15dp"
+                        android:singleLine="true"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/gray_600"
+                        android:textSize="15dp" />
+                </RelativeLayout>
+
+                <!-- place container -->
+                <RelativeLayout
+                    android:id="@+id/calendar_add_place_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="24dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginRight="24dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/calendar_add_place_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="1dp"
+                        android:fontFamily="@font/roboto_500"
+                        android:text="장소"
+                        android:textColor="@color/white"
+                        android:textSize="15dp" />
+
+                    <EditText
+                        android:id="@+id/calendar_add_place"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/calendar_add_place_title"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/button_rounded_5"
+                        android:backgroundTint="@color/gray_200"
+                        android:fontFamily="@font/roboto_500"
+                        android:hint="전시회 장소"
+                        android:padding="15dp"
+                        android:singleLine="true"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/gray_600"
+                        android:textSize="15dp" />
+                </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/calendar_add_schedule_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="25dp"
+                    android:layout_marginTop="32dp"
+                    android:fontFamily="@font/roboto_500"
+                    android:text="관람 일정"
+                    android:textColor="@color/white"
+                    android:textSize="15dp" />
+
+                <!-- date container -->
+                <RelativeLayout
+                    android:id="@+id/calendar_add_date_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="24dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginRight="24dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/calendar_add_date_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="1dp"
+                        android:fontFamily="@font/roboto_500"
+                        android:text="날짜"
+                        android:textColor="@color/white"
+                        android:textSize="11dp" />
+
+                    <EditText
+                        android:id="@+id/calendar_add_date"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/calendar_add_date_title"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/button_rounded_5"
+                        android:backgroundTint="@color/gray_200"
+                        android:focusable="false"
+                        android:fontFamily="@font/roboto_500"
+                        android:hint="선택"
+                        android:onClick="@{() -> fragment.clickDateView()}"
+                        android:padding="15dp"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/gray_600"
+                        android:textSize="15dp" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignTop="@id/calendar_add_date"
+                        android:layout_alignBottom="@id/calendar_add_date"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="8dp"
+                        android:src="@drawable/ic_expand_light_d"
+                        app:tint="@color/gray_600" />
+                </RelativeLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="24dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginRight="24dp">
+
+                    <TextView
+                        android:id="@+id/calendar_add_time_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="1dp"
+                        android:fontFamily="@font/roboto_500"
+                        android:text="시간"
+                        android:textColor="@color/white"
+                        android:textSize="11dp"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <EditText
+                        android:id="@+id/calendar_add_time_start"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/button_rounded_5"
+                        android:backgroundTint="@color/gray_200"
+                        android:focusable="false"
+                        android:fontFamily="@font/roboto_500"
+                        android:hint="선택"
+                        android:onClick="@{() -> fragment.clickStartTimeView()}"
+                        android:padding="15dp"
+                        android:textColorHint="@color/gray_600"
+                        android:textSize="15dp"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/calendar_add_time_title"
+                        app:layout_constraintWidth_percent="0.452" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="8dp"
+                        android:src="@drawable/ic_expand_light_d"
+                        app:layout_constraintBottom_toBottomOf="@id/calendar_add_time_start"
+                        app:layout_constraintRight_toRightOf="@id/calendar_add_time_start"
+                        app:layout_constraintTop_toTopOf="@id/calendar_add_time_start"
+                        app:tint="@color/gray_600" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/montserrat_300"
+                        android:text="~"
+                        android:textColor="@color/white"
+                        android:textSize="24dp"
+                        app:layout_constraintBottom_toBottomOf="@id/calendar_add_time_start"
+                        app:layout_constraintLeft_toRightOf="@id/calendar_add_time_start"
+                        app:layout_constraintRight_toLeftOf="@id/calendar_add_time_end"
+                        app:layout_constraintTop_toTopOf="@id/calendar_add_time_start" />
+
+                    <EditText
+                        android:id="@+id/calendar_add_time_end"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/button_rounded_5"
+                        android:backgroundTint="@color/gray_200"
+                        android:focusable="false"
+                        android:fontFamily="@font/roboto_500"
+                        android:hint="선택"
+                        android:onClick="@{() -> fragment.clickEndTimeView()}"
+                        android:padding="15dp"
+                        android:textColorHint="@color/gray_600"
+                        android:textSize="15dp"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/calendar_add_time_title"
+                        app:layout_constraintWidth_percent="0.452" />
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="8dp"
+                        android:src="@drawable/ic_expand_light_d"
+                        app:layout_constraintBottom_toBottomOf="@id/calendar_add_time_end"
+                        app:layout_constraintRight_toRightOf="@id/calendar_add_time_end"
+                        app:layout_constraintTop_toTopOf="@id/calendar_add_time_end"
+                        app:tint="@color/gray_600" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginLeft="24dp"
+                    android:layout_marginRight="24dp"
+                    android:layout_marginBottom="25dp">
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/calendar_add_ok_btn"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/button_rounded_10"
+                        android:backgroundTint="@color/or01"
+                        android:fontFamily="@font/roboto_700"
+                        android:onClick="@{() -> fragment.clickAddOkBtn()}"
+                        android:text="등록"
+                        android:textColor="@color/white"
+                        android:textSize="17dp"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
+        </ScrollView>
+    </RelativeLayout>
+</layout>

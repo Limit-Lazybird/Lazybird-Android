@@ -5,13 +5,14 @@ import com.limit.lazybird.datastore.PreferenceDataStoreManager
 import javax.inject.Inject
 
 /************* EarlyCardFragment ***************
- * 메인화면(?? 탭) >> 얼리카드 화면 (Repository)
- * 얼리카드 정보 리스트로 보기
+ * 얼리카드 관련 정보를 담당하는 Repository
  ********************************************** ***/
 class EarlycardRepository @Inject constructor(
     private val apiHelper: ApiHelper,
     private val dataStoreManager: PreferenceDataStoreManager
 ) {
     fun getPreferenceTokenFlow() = dataStoreManager.preferenceTokenFlow
+
     suspend fun getEarlyCardList(token: String) = apiHelper.getEarlyCardList(token)
+    suspend fun exhbtReservationSave(token: String, id: String) = apiHelper.exhbtReservationSave(token, id)
 }

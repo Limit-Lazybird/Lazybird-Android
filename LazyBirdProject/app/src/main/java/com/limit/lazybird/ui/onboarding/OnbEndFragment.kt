@@ -9,31 +9,22 @@ import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import com.limit.lazybird.R
 import com.limit.lazybird.databinding.FragmentOnbEndBinding
-import com.limit.lazybird.ui.MainActivity
-import com.limit.lazybird.ui.MainFragment
-import com.limit.lazybird.util.removeAllBackStack
-import com.limit.lazybird.util.replaceFragment
+import com.limit.lazybird.ui.BaseFragment
 
 /************* OnbEndFragment ***************
  * 온보딩 시작화면 >> 온보딩 화면 >> 온보딩 완료 화면 (Fragment)
  * 온보딩을 완료했을 때의 화면
  ********************************************** ***/
-class OnbEndFragment : Fragment(R.layout.fragment_onb_end) {
-
-    companion object {
-        const val TAG = "OnbEndFragment"
-    }
-
-    private lateinit var binding: FragmentOnbEndBinding
-    private val parentActivity: MainActivity by lazy {
-        activity as MainActivity
-    }
+class OnbEndFragment : BaseFragment<FragmentOnbEndBinding>(FragmentOnbEndBinding::inflate) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = FragmentOnbEndBinding.bind(view)
+
+        binding.fragment = this
 
         // TextView 에 일부 글자만 스타일 다르게 넣어주기
         binding.onbEndContext.text =
@@ -59,16 +50,10 @@ class OnbEndFragment : Fragment(R.layout.fragment_onb_end) {
                     Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
                 )
             }
-
-        binding.orbEndStartBtn.setOnClickListener {
-            // 시작하기 버튼 클릭
-            moveToEarlyBird()
-        }
     }
 
-    private fun moveToEarlyBird() {
-        // 얼리버드 화면(메인화면)으로 이동
-        parentActivity.supportFragmentManager.removeAllBackStack()
-        parentActivity.supportFragmentManager.replaceFragment(MainFragment(), false)
+    // 얼리버드 화면(메인화면)으로 이동
+    fun moveToEarlyBird() {
+        navController.navigate(OnbEndFragmentDirections.actionOnbEndFragmentToMainFragment())
     }
 }

@@ -24,6 +24,7 @@ class EarlycardViewModel @Inject constructor(
     }
 
     private lateinit var token: String
+
     private var _earlycardList = MutableLiveData<List<EarlyCard>>()
     val earlycardList: LiveData<List<EarlycardInfo>>
         get() = _earlycardList.map { earlyCardList ->

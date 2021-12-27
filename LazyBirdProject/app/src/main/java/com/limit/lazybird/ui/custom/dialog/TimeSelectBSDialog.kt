@@ -59,10 +59,12 @@ class TimeSelectBSDialog : BottomSheetDialogFragment() {
             timeType = it
         }
 
+        // 닫기 버튼 클릭 시
         binding.dialogBsTimeSelectCloseBtn.setOnClickListener {
             dismiss()
         }
 
+        // 확인 버튼 클릭 시
         binding.dialogBsTimeSelectOkBtn.setOnClickListener {
             setFragmentResult(
                 timeType, bundleOf(

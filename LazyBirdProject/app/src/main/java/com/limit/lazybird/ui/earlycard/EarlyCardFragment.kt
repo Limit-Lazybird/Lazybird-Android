@@ -2,14 +2,14 @@ package com.limit.lazybird.ui.earlycard
 
 import android.os.Bundle
 import android.view.View
-import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import com.limit.lazybird.R
 import com.limit.lazybird.databinding.FragmentEarlycardBinding
 import com.limit.lazybird.models.EarlycardInfo
-import com.limit.lazybird.ui.MainActivity
-import com.limit.lazybird.ui.custom.dialog.EarlycardDetailDialogFragment
+import com.limit.lazybird.ui.BaseFragment
 import com.limit.lazybird.viewmodel.EarlycardViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -18,17 +18,15 @@ import dagger.hilt.android.AndroidEntryPoint
  * 얼리카드 정보 리스트로 보기
  ********************************************** ***/
 @AndroidEntryPoint
-class EarlyCardFragment : Fragment(R.layout.fragment_earlycard) {
+class EarlyCardFragment :
+    BaseFragment<FragmentEarlycardBinding>(FragmentEarlycardBinding::inflate) {
 
-    private lateinit var binding: FragmentEarlycardBinding
     private val viewModel: EarlycardViewModel by viewModels()
-    private val parentActivity: MainActivity by lazy {
-        activity as MainActivity
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = FragmentEarlycardBinding.bind(view)
+
+        binding.fragment = this
 
         viewModel.earlycardList.observe(viewLifecycleOwner) { earlycardInfoList ->
             binding.earlycardRecyclerView.adapter = EarlyCardAdapter(earlycardInfoList).apply {
@@ -44,22 +42,18 @@ class EarlyCardFragment : Fragment(R.layout.fragment_earlycard) {
                 }
             }
         }
-
-        binding.earlycardBackBtn.setOnClickListener {
-            // 뒤로가기 버튼 클릭
-            parentActivity.supportFragmentManager.popBackStack()
-        }
     }
 
+    fun clickBackBtn() {
+        navController.popBackStack()
+    }
+
+    // dialog 보여주기
     private fun showDialog(earlycardInfo: EarlycardInfo) {
-        EarlycardDetailDialogFragment().apply {
-            // dialog 정보 보내주기
-            arguments = bundleOf().apply {
-                putParcelable(EarlycardDetailDialogFragment.EARLYCARD_INFO, earlycardInfo)
-            }
-        }.show(
-            parentActivity.supportFragmentManager,
-            EarlycardDetailDialogFragment.TAG
+        navController.navigate(
+            EarlyCardFragmentDirections.actionEarlyCardFragmentToEarlyCardDetailDialogFragment(
+                earlycardInfo
+            )
         )
     }
 }

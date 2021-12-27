@@ -4,9 +4,11 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import com.limit.lazybird.R
 import com.limit.lazybird.databinding.FragmentNoticeBinding
-import com.limit.lazybird.ui.MainActivity
+import com.limit.lazybird.ui.BaseFragment
 import com.limit.lazybird.viewmodel.NoticeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -15,25 +17,16 @@ import dagger.hilt.android.AndroidEntryPoint
  * 공지사항 전체 보기
  ********************************************** ***/
 @AndroidEntryPoint
-class NoticeFragment : Fragment(R.layout.fragment_notice) {
+class NoticeFragment : BaseFragment<FragmentNoticeBinding>(FragmentNoticeBinding::inflate) {
 
-    companion object {
-        const val TAG = "NoticeFragment"
-    }
-
-    lateinit var binding: FragmentNoticeBinding
     private val viewModel: NoticeViewModel by viewModels()
-    private val parentActivity: MainActivity by lazy {
-        activity as MainActivity
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = FragmentNoticeBinding.bind(view)
-        binding.noticeBackBtn.setOnClickListener {
-            // 뒤로가기 버튼
-            parentActivity.supportFragmentManager.popBackStack()
-        }
+
+        binding.fragment = this
+
+        // 공지사항 업데이트
         viewModel.noticeInfoList.observe(viewLifecycleOwner) { noticeInfoList ->
             binding.noticeRecyclerView.adapter = NoticeAdapter(noticeInfoList).apply {
                 itemClickListener = object : NoticeAdapter.OnItemClickListener {
@@ -42,7 +35,7 @@ class NoticeFragment : Fragment(R.layout.fragment_notice) {
                         view: View,
                         position: Int
                     ) {
-                        if(holder.noticeContext.visibility == View.VISIBLE){
+                        if (holder.noticeContext.visibility == View.VISIBLE) {
                             holder.noticeExpandBtn.setImageResource(R.drawable.ic_expand_light_d)
                             holder.noticeContext.visibility = View.GONE
                         } else {
@@ -53,5 +46,10 @@ class NoticeFragment : Fragment(R.layout.fragment_notice) {
                 }
             }
         }
+    }
+
+    // 뒤로가기 버튼 클릭 시
+    fun clickBackBtn() {
+        navController.popBackStack()
     }
 }

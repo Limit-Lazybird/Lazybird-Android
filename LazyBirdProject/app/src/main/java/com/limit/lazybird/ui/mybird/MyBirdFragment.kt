@@ -4,14 +4,16 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.limit.lazybird.R
 import com.limit.lazybird.databinding.FragmentMybirdBinding
-import com.limit.lazybird.ui.MainActivity
-import com.limit.lazybird.ui.setting.SettingFragment
+import com.limit.lazybird.ui.BaseFragment
+import com.limit.lazybird.ui.MainFragmentDirections
 import com.limit.lazybird.util.*
 import com.limit.lazybird.viewmodel.MyBirdViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -22,30 +24,24 @@ import java.util.*
  * 마이버드 화면 (내 정보 보기)
  ********************************************** ***/
 @AndroidEntryPoint
-class MyBirdFragment : Fragment(R.layout.fragment_mybird) {
+class MyBirdFragment : BaseFragment<FragmentMybirdBinding>(FragmentMybirdBinding::inflate) {
 
-    companion object {
-        const val TAG = "MyBirdFragment"
-    }
-
-    lateinit var binding: FragmentMybirdBinding
     private val viewModel: MyBirdViewModel by viewModels()
-    private val parentActivity: MainActivity by lazy {
-        activity as MainActivity
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding = FragmentMybirdBinding.bind(view)
+        binding.fragment = this
 
+        // 사용자 정보 업데이트
         viewModel.userInfo.observe(viewLifecycleOwner) { userInfo ->
             binding.mybirdEmail.text = userInfo.email
             binding.mybirdName.text = userInfo.name
         }
 
+        // 좋아요 누른 전시 정보 업데이트
         viewModel.likeExhbtList.observe(viewLifecycleOwner) { exhbtList ->
-            if (exhbtList.isNullOrEmpty()){
+            if (exhbtList.isNullOrEmpty()) {
                 binding.mybirdNoLikeText.visibility = View.VISIBLE
             } else {
                 binding.mybirdNoLikeText.visibility = View.INVISIBLE
@@ -72,7 +68,7 @@ class MyBirdFragment : Fragment(R.layout.fragment_mybird) {
                     )
                     .into(binding.mybirdLike1Image)
             }
-            
+
             if (!exhbtList.isNullOrEmpty() && exhbtList.size >= 2) {
                 binding.mybirdLike2Title.visibility = View.VISIBLE
                 binding.mybirdLike2Date.visibility = View.VISIBLE
@@ -95,9 +91,10 @@ class MyBirdFragment : Fragment(R.layout.fragment_mybird) {
                     .into(binding.mybirdLike2Image)
             }
         }
-        
+
+        // 예약한 누른 전시 정보 업데이트
         viewModel.reservationExhbtList.observe(viewLifecycleOwner) { exhbtList ->
-            if (exhbtList.isNullOrEmpty()){
+            if (exhbtList.isNullOrEmpty()) {
                 binding.mybirdNoReservationText.visibility = View.VISIBLE
             } else {
                 binding.mybirdNoReservationText.visibility = View.INVISIBLE
@@ -114,7 +111,12 @@ class MyBirdFragment : Fragment(R.layout.fragment_mybird) {
                 binding.mybirdReservation1Date.text =
                     "${exhbt.exhbt_from_dt.dateFormatted()} ~ ${exhbt.exhbt_to_dt.dateFormatted()}"
                 binding.mybirdReservation1Dday.text =
-                    "D - ${calculateDateDiff(exhbt.exhbt_to_dt.toDate(), Calendar.getInstance().time)}"
+                    "D - ${
+                        calculateDateDiff(
+                            exhbt.exhbt_to_dt.toDate(),
+                            Calendar.getInstance().time
+                        )
+                    }"
                 Glide.with(view)
                     .load(exhbt.exhbt_sn)
                     .apply(
@@ -127,7 +129,7 @@ class MyBirdFragment : Fragment(R.layout.fragment_mybird) {
                     )
                     .into(binding.mybirdReservation1Image)
             }
-            
+
             if (!exhbtList.isNullOrEmpty() && exhbtList.size >= 2) {
                 binding.mybirdReservation2Title.visibility = View.VISIBLE
                 binding.mybirdReservation2Date.visibility = View.VISIBLE
@@ -139,7 +141,12 @@ class MyBirdFragment : Fragment(R.layout.fragment_mybird) {
                 binding.mybirdReservation2Date.text =
                     "${exhbt.exhbt_from_dt.dateFormatted()} ~ ${exhbt.exhbt_to_dt.dateFormatted()}"
                 binding.mybirdReservation2Dday.text =
-                    "D - ${calculateDateDiff(exhbt.exhbt_to_dt.toDate(), Calendar.getInstance().time)}"
+                    "D - ${
+                        calculateDateDiff(
+                            exhbt.exhbt_to_dt.toDate(),
+                            Calendar.getInstance().time
+                        )
+                    }"
                 Glide.with(view)
                     .load(exhbt.exhbt_sn)
                     .apply(
@@ -153,20 +160,20 @@ class MyBirdFragment : Fragment(R.layout.fragment_mybird) {
                     .into(binding.mybirdReservation2Image)
             }
         }
+    }
 
-        binding.mybirdReservationContainer.setOnClickListener {
-            // 예매한 전시 클릭 >> 내가 예매한 전시 화면으로 넘어감
-            parentActivity.supportFragmentManager.replaceFragment(ReservationDetailFragment())
-        }
+    // 예매한 전시 목록 확인 페이지로 이동
+    fun moveToReservationDetail() {
+        navController.navigate(MainFragmentDirections.actionMainFragmentToReservationDetailFragment())
+    }
 
-        binding.mybirdLikeContainer.setOnClickListener {
-            // 찜한 전시 클릭 >> 내가 찜한 전시 화면으로 넘어감
-            parentActivity.supportFragmentManager.replaceFragment(LikeDetailFragment())
-        }
+    // 찜한 전시 목록 확인 페이지로 이동
+    fun moveToLikeDetail() {
+        navController.navigate(MainFragmentDirections.actionMainFragmentToLikeDetailFragment())
+    }
 
-        binding.mybirdSetting.setOnClickListener {
-            // 옵션 버튼 클릭 >> 세팅 화면으로 넘어감
-            parentActivity.supportFragmentManager.replaceFragment(SettingFragment())
-        }
+    // 세팅 화면으로 이동
+    fun moveToSetting() {
+        navController.navigate(MainFragmentDirections.actionMainFragmentToSettingFragment())
     }
 }

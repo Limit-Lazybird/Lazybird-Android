@@ -5,8 +5,7 @@ import com.limit.lazybird.datastore.PreferenceDataStoreManager
 import javax.inject.Inject
 
 /**************** CalendarRepository ******************
- * 메인화면(캘린더 탭) (Repository)
- * 캘린더에서 (예약된 or 예약되지 않은)전시일정정보 확인
+ * 캘린더 관련 정보를 담당하는 Repository
  ********************************************** ***/
 class CalendarRepository @Inject constructor(
     private val apiHelper: ApiHelper,

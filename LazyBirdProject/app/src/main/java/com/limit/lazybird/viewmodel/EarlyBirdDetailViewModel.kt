@@ -30,13 +30,13 @@ class EarlyBirdDetailViewModel @Inject constructor(
         const val EARLYBIRD_INFO = "earlyBirdInfo"
     }
 
+    private lateinit var token: String
+
     private val _exhibitionInfo = MutableLiveData<ExhibitionInfo>()
     val exhibitionInfo: LiveData<ExhibitionInfo> = _exhibitionInfo
 
     private val _exhibitionLike = MutableLiveData(false)
     val exhibitionLike: LiveData<Boolean> = _exhibitionLike
-
-    private lateinit var token: String
 
     init {
         initToken()

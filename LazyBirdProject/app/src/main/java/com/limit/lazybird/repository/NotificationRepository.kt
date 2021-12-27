@@ -6,8 +6,7 @@ import javax.inject.Inject
 
 
 /************* NotificationRepository ***************
- * ?? >> 알림화면 (Repository)
- * 나에게 온 알림 보기
+ * 알림 정보를 담당하는 Repository
  ********************************************** ***/
 class NotificationRepository @Inject constructor(
     private val apiHelper: ApiHelper,

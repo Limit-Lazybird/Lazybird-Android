@@ -6,6 +6,7 @@ import com.limit.lazybird.models.ExhibitionInfoShort
 import com.limit.lazybird.models.UserInfo
 import com.limit.lazybird.models.retrofit.Exhbt
 import com.limit.lazybird.repository.ExhibitionRepository
+import com.limit.lazybird.repository.UserRepository
 import com.limit.lazybird.util.dateFormatted
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.first
@@ -18,7 +19,8 @@ import javax.inject.Inject
  ********************************************** ***/
 @HiltViewModel
 class MyBirdViewModel @Inject constructor(
-    private val repository: ExhibitionRepository
+    private val repository: ExhibitionRepository,
+    private val userRepository: UserRepository
 ):ViewModel() {
 
     companion object {
@@ -26,6 +28,7 @@ class MyBirdViewModel @Inject constructor(
     }
 
     private lateinit var token: String
+
     private val _likeExhbtList = MutableLiveData<List<Exhbt>>()
     val likeExhbtList: LiveData<List<Exhbt>> get() = _likeExhbtList
 
@@ -83,7 +86,7 @@ class MyBirdViewModel @Inject constructor(
 
     private fun initUserInfo() = viewModelScope.launch {
         // UserInfo(사용자 정보) 초기화
-        _userInfo.postValue(repository.getPreferenceUserInfoFlow().first())
+        _userInfo.postValue(userRepository.getPreferenceUserInfoFlow().first())
     }
 
     private fun initToken() = viewModelScope.launch {

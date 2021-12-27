@@ -14,4 +14,6 @@ data class Schedule(
     val endTime: String,
     val isCustom: Boolean,
     val isVisited: Boolean = false
-): Parcelable
+): Parcelable {
+    constructor() : this(0,Date(),"","","","",false,false)
+}

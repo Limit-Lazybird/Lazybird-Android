@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".ui.exhibition.ExhibitionDetailFragment">
 
     <data>
 
@@ -14,6 +15,10 @@
         <variable
             name="notice"
             type="String" />
+
+        <variable
+            name="fragment"
+            type="com.limit.lazybird.ui.exhibition.ExhibitionDetailFragment" />
     </data>
 
     <RelativeLayout
@@ -91,6 +96,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="17dp"
                     android:background="@color/transparent"
+                    android:onClick="@{() -> fragment.clickLike()}"
                     android:src="@drawable/ic_fav_lg_off"
                     app:layout_constraintBottom_toBottomOf="@id/exhibition_detail_title"
                     app:layout_constraintRight_toRightOf="parent"
@@ -321,6 +327,7 @@
                 android:background="@drawable/button_rounded_10"
                 android:backgroundTint="@color/or01"
                 android:fontFamily="@font/roboto_700"
+                android:onClick="@{() -> fragment.moveToTicketingNoticeFragment()}"
                 android:paddingLeft="26dp"
                 android:paddingTop="16dp"
                 android:paddingRight="27dp"

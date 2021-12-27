@@ -74,12 +74,14 @@ class DateSelectBSDialog : BottomSheetDialogFragment(){
         val view = inflater.inflate(R.layout.dialog_bs_date_select, container, false)
         binding = DialogBsDateSelectBinding.bind(view)
         calendarViewInit()
-        binding.dialogBsDateSelectCloseBtn.setOnClickListener { 
-            // 취소버튼 클릭 시
+
+        // 취소버튼 클릭 시
+        binding.dialogBsDateSelectCloseBtn.setOnClickListener {
             dismiss()
         }
+
+        // 선택하기 버튼 클릭
         binding.dialogBsDateSelectOkBtn.setOnClickListener {
-            // 선택하기 버튼 클릭
             val selectedDate = selectedDateLiveData.value?.let { mDate ->
                 SimpleDateFormat("yyyy-MM-dd").format(mDate)
             } ?: ""
@@ -98,6 +100,7 @@ class DateSelectBSDialog : BottomSheetDialogFragment(){
             binding.dialogBsDateSelectCalendar.daySize.width,
             DAY_VIEW_HEGIHT
         )
+
         binding.dialogBsDateSelectCalendar.dayBinder = object : DayBinder<DayViewContainer> {
             override fun create(view: View): DayViewContainer = DayViewContainer(view)
             override fun bind(container: DayViewContainer, day: CalendarDay) {

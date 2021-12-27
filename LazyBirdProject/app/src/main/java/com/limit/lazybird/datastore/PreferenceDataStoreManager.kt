@@ -13,8 +13,6 @@ import javax.inject.Singleton
 /*********** PreferenceDataStoreManager ***********
  * Preference DataStore 를 사용하기 위핸 Manager 객체이다.
  * Signleton으로 제공된다.
- * Todo : AppModule 에 추가하기
- * Todo : DataStore 이름 바꿔주기 (user_token >> user_datastore)
  ********************************************** ***/
 @Singleton
 class PreferenceDataStoreManager @Inject constructor(
@@ -27,7 +25,7 @@ class PreferenceDataStoreManager @Inject constructor(
         val LOGIN_TYPE = preferencesKey<String>("login_type") // 사용자의 이름
     }
 
-    val dataStore = applicationContext.createDataStore("user_token")
+    val dataStore = applicationContext.createDataStore("user_datastore")
 
     // Token 제공받는 Flow
     val preferenceTokenFlow = dataStore.data

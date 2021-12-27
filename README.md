@@ -57,8 +57,14 @@
 
 <br><br>
 ## 개발일지
+### In Progress
 - <a href="https://blog.naver.com/ponson1017/222533130703"> Select Button Group </a><br>
 - <a href="https://blog.naver.com/ponson1017/222534837499"> Custom Calendar </a><br>
 - <a href="https://blog.naver.com/ponson1017/222554342327"> Custom Select Box View </a><br>
 - <a href="https://blog.naver.com/ponson1017/222557587431"> 포스터처럼 넘기면서 볼 수 있는 화면 </a><br>
 - <a href="https://blog.naver.com/ponson1017/222593139878"> detect Swipe up and View with Animation </a><br>
+
+### Epilogue
+- <a href="https://blog.naver.com/ponson1017/222598071541"> 1. 완성부터 시작하는 개발세계 생활 </a><br>
+- <a href="https://blog.naver.com/ponson1017/222599995052"> 2. 너 내가 다시 찾아온다했지.. (Navigation편) </a><br>
+- <a href="https://blog.naver.com/ponson1017/222605164433"> 3. BaseFragment, 양방향 dataBinding 적용기 </a><br>

@@ -8,6 +8,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import com.kizitonwose.calendarview.model.*
 import com.kizitonwose.calendarview.ui.DayBinder
 import com.kizitonwose.calendarview.ui.MonthHeaderFooterBinder
@@ -23,7 +25,8 @@ import com.limit.lazybird.models.CalendarInfoList
 import com.limit.lazybird.models.DialogInfo
 import com.limit.lazybird.models.Schedule
 import com.limit.lazybird.models.retrofit.CalendarInfo
-import com.limit.lazybird.ui.MainActivity
+import com.limit.lazybird.ui.BaseFragment
+import com.limit.lazybird.ui.MainFragmentDirections
 import com.limit.lazybird.ui.custom.dialog.IsVisitedDialogFragment
 import com.limit.lazybird.ui.custom.dialog.UnregisteredListBSDialog
 import com.limit.lazybird.ui.custom.dialog.UpdateDeleteDialogFragment
@@ -41,29 +44,23 @@ import java.util.*
  * 캘린더에서 (예약된 or 예약되지 않은)전시일정정보 확인
  ********************************************** ***/
 @AndroidEntryPoint
-class CalendarFragment : Fragment(R.layout.fragment_calendar) {
-
-    companion object {
-        const val TAG = "CalendarFragment"
-    }
+class CalendarFragment : BaseFragment<FragmentCalendarBinding>(FragmentCalendarBinding::inflate) {
 
     private val DAY_VIEW_HEGIHT = 150 // "일" Container 의 높이
 
-    private lateinit var binding: FragmentCalendarBinding
     private val viewModel: CalendarViewModel by viewModels()
-    private val parentActivity: MainActivity by lazy {
-        activity as MainActivity
-    }
 
-    lateinit var unregisteredList: CalendarInfoList
-    lateinit var scheduleListDict: Map<Long, MutableList<Schedule>>
+    lateinit var unregisteredList: CalendarInfoList // 등록되지 않은 전시 리스트
+    lateinit var scheduleMap: Map<Long, MutableList<Schedule>> // 일정 Map
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = FragmentCalendarBinding.bind(view)
 
+        binding.fragment = this
+
+        // 일정 Map 업데이트
         viewModel.scheduleListDict.observe(viewLifecycleOwner) {
-            scheduleListDict = it
+            scheduleMap = it
             calendarViewInit()
             lifecycleScope.launchWhenStarted {
                 viewModel.selectedDateLiveData.collect { date ->
@@ -72,18 +69,14 @@ class CalendarFragment : Fragment(R.layout.fragment_calendar) {
             }
         }
 
+        // 등록되지 않은 전시 리스트 업데이트
         viewModel.unregisteredListLiveData.observe(viewLifecycleOwner) { calendarInfoList ->
             unregisteredList = CalendarInfoList(calendarInfoList)
             binding.unregisterCount = calendarInfoList.size
         }
 
-        binding.calendarCustomBtn.setOnClickListener {
-            // 커스텀 일정 추가하기 버튼
-            moveToCalendarAdd()
-        }
-
+        // 추가되지 않은 전시 일정이 N개 있습니다 버튼 클릭
         binding.calendarSubHeader.setOnClickListener {
-            // 추가되지 않은 전시 일정이 N개 있습니다 버튼
             val bundle = Bundle().apply {
                 putParcelable(UnregisteredListBSDialog.EXHIBITION_LIST, unregisteredList)
             }
@@ -95,8 +88,8 @@ class CalendarFragment : Fragment(R.layout.fragment_calendar) {
             )
         }
 
+        // 추가되지 않은 전시 일정 N개 추가하는 BottomSheetDialog 반환 결과
         setFragmentResultListener(UnregisteredListBSDialog.TAG) { _, bundle ->
-            // 추가되지 않은 전시 일정 N개 추가하는 BottomSheetDialog
             when (bundle.getString(UnregisteredListBSDialog.RESULT_CODE)) {
                 UnregisteredListBSDialog.RESULT_OK -> {
                     val position = bundle.getInt(UnregisteredListBSDialog.SELECTED_POSITION)
@@ -105,14 +98,14 @@ class CalendarFragment : Fragment(R.layout.fragment_calendar) {
             }
         }
 
+        // 캘린더 수정/삭제 dialog 반환 결과
         childFragmentManager.setFragmentResultListener(
             UpdateDeleteDialogFragment.TAG,
             viewLifecycleOwner
         ) { _, bundle ->
-            // 캘린더 수정/삭제 dialog 선택 결과 확인
             when (bundle.getString(UpdateDeleteDialogFragment.RESULT_CODE)) {
+                // 수정 버튼 클릭
                 UpdateDeleteDialogFragment.RESULT_UPDATE -> {
-                    // 수정 버튼 클릭
                     val schedule: Schedule =
                         bundle.getParcelable(UpdateDeleteDialogFragment.SCHEDULE_INFO)!!
                     if (schedule.isCustom) {
@@ -121,8 +114,8 @@ class CalendarFragment : Fragment(R.layout.fragment_calendar) {
                         moveToCalendarUpdate(schedule, false)
                     }
                 }
+                // 삭제 버튼 클릭
                 UpdateDeleteDialogFragment.RESULT_DELETE -> {
-                    // 삭제 버튼 클릭
                     val schedule: Schedule =
                         bundle.getParcelable(UpdateDeleteDialogFragment.SCHEDULE_INFO)!!
                     if (schedule.isCustom) {
@@ -134,11 +127,11 @@ class CalendarFragment : Fragment(R.layout.fragment_calendar) {
             }
         }
 
+        // 전시 방문 확인했음 dialog 반환 결과
         childFragmentManager.setFragmentResultListener(
             IsVisitedDialogFragment.TAG,
             viewLifecycleOwner
         ) { _, bundle ->
-            // 전시 방문 확인했음 dialog 선택 결과 확인
             when (bundle.getString(IsVisitedDialogFragment.RESULT_CODE)) {
                 IsVisitedDialogFragment.RESULT_OK -> {
                     val exhbt_cd = bundle.getString(IsVisitedDialogFragment.EXHBT_CD)
@@ -153,90 +146,43 @@ class CalendarFragment : Fragment(R.layout.fragment_calendar) {
         }
     }
 
-    private fun moveToCalendarAdd() {
-        parentActivity.supportFragmentManager.replaceFragment(CalendarAddFragment().apply {
-            arguments = bundleOf(
-                CalendarAddFragment.ADD_TYPE to CalendarAddFragment.TYPE_CUSTOM,
-                CalendarAddFragment.IS_ADD to true,
+    // CalendarAddFragment 로 이동 (커스텀 전시 추가하기)
+    fun moveToCalendarAdd() {
+        navController.navigate(
+            MainFragmentDirections.actionMainFragmentToCalendarAddFragment(
+                CalendarAddFragment.TYPE_CUSTOM,
+                true,
+                null,
+                null
             )
-        })
+        )
     }
 
+    // CalendarAddFragment 로 이동 (미등록 전시 추가하기)
     private fun moveToCalendarAdd(calendarInfo: CalendarInfo) {
-        // 캘린더 일정 추가하기
-        parentActivity.supportFragmentManager.replaceFragment(CalendarAddFragment().apply {
-            arguments = bundleOf(
-                CalendarAddFragment.ADD_TYPE to CalendarAddFragment.TYPE_TICKETED,
-                CalendarAddFragment.IS_ADD to true,
-                CalendarAddFragment.TICKET_INFO to calendarInfo
+        navController.navigate(
+            MainFragmentDirections.actionMainFragmentToCalendarAddFragment(
+                CalendarAddFragment.TYPE_TICKETED,
+                true,
+                calendarInfo,
+                null
             )
-        })
+        )
     }
 
+    // CalendarAddFragment 로 이동 (수정하기)
     private fun moveToCalendarUpdate(schedule: Schedule, isCustom: Boolean) {
-        // 캘린더 일정 수정하기
-        parentActivity.supportFragmentManager.replaceFragment(CalendarAddFragment().apply {
-            arguments = bundleOf(
-                CalendarAddFragment.ADD_TYPE to if (isCustom) CalendarAddFragment.TYPE_CUSTOM else CalendarAddFragment.TYPE_TICKETED,
-                CalendarAddFragment.IS_ADD to false,
-                CalendarAddFragment.TICKET_INFO to schedule
+        navController.navigate(
+            MainFragmentDirections.actionMainFragmentToCalendarAddFragment(
+                CalendarAddFragment.TYPE_TICKETED,
+                false,
+                null,
+                schedule
             )
-        })
+        )
     }
 
-    private fun scheduleLayoutUpdate(selectedDay: Date) {
-        // selectedDay 에 해당하는 일정내용을 업데이트
-        if (this::scheduleListDict.isInitialized
-            && scheduleListDict.containsKey(selectedDay.time)
-            && scheduleListDict[selectedDay.time]!!.isNotEmpty()
-        ) {
-            // schedule 이 존재하고, 일정이 1개 이상
-            binding.calendarScheduleRecyclerView.visibility = View.VISIBLE
-            binding.calendarScheduleRecyclerView.adapter =
-                CalendarScheduleAdapter(scheduleListDict[selectedDay.time]!!).apply {
-                    itemClickListener = object : CalendarScheduleAdapter.OnItemClickListener {
-                        override fun onIsVisitedClick(
-                            holder: CalendarScheduleAdapter.ViewHolder,
-                            view: View,
-                            position: Int
-                        ) {
-                            // 방문했음 버튼 클릭
-                            with(scheduleListDict[selectedDay.time]!![position]) {
-                                if (!isVisited) {
-                                    showDialog(
-                                        exhbt_cd = id.toString(),
-                                        is_custom = isCustom
-                                    )
-                                } else {
-                                    if (isCustom) {
-                                        viewModel.visitUpdateCustomNo(
-                                            exhbt_cd = id.toString()
-                                        )
-                                    } else {
-                                        viewModel.visitUpdateExhbtNo(
-                                            exhbt_cd = id.toString()
-                                        )
-                                    }
-                                }
-                            }
-                        }
-
-                        override fun onItemClick(
-                            holder: CalendarScheduleAdapter.ViewHolder,
-                            view: View,
-                            position: Int
-                        ) {
-                            // 아이템 클릭
-                            showUpdDelDialog(scheduleListDict[selectedDay.time]!![position])
-                        }
-                    }
-                }
-        } else {
-            // schedule 이 존재하지 않음
-            binding.calendarScheduleRecyclerView.visibility = View.GONE
-        }
-    }
-
+    // 수정하기, 제거하기 선택 Dialog 띄워줌
     private fun showUpdDelDialog(schedule: Schedule) {
         UpdateDeleteDialogFragment().apply {
             arguments = bundleOf().apply {
@@ -248,6 +194,7 @@ class CalendarFragment : Fragment(R.layout.fragment_calendar) {
         )
     }
 
+    // 방문하였는지 확인하는 Dialog 띄워줌
     private fun showDialog(exhbt_cd: String, is_custom: Boolean) {
         val dialogInfo = DialogInfo(
             title = "전시회는 잘 방문하셨나요?",
@@ -268,12 +215,15 @@ class CalendarFragment : Fragment(R.layout.fragment_calendar) {
         )
     }
 
+    // 캘린더 화면 초기화
     private fun calendarViewInit() {
         // 세로 크기 조절
         binding.calendarView.daySize = Size(
             binding.calendarView.daySize.width,
             DAY_VIEW_HEGIHT
         )
+
+        // "일" view binding
         binding.calendarView.dayBinder = object : DayBinder<DayViewContainer> {
             override fun create(view: View): DayViewContainer = DayViewContainer(view)
             override fun bind(container: DayViewContainer, day: CalendarDay) {
@@ -305,9 +255,9 @@ class CalendarFragment : Fragment(R.layout.fragment_calendar) {
 
                 container.scheduleMark.removeAllViews()
                 if (day.owner == DayOwner.THIS_MONTH
-                    && scheduleListDict[day.toDate().time]?.size ?: 0 > 0
+                    && scheduleMap[day.toDate().time]?.size ?: 0 > 0
                 ) {
-                    for (schedule in scheduleListDict[day.toDate().time]!!) {
+                    for (schedule in scheduleMap[day.toDate().time]!!) {
                         container.scheduleMark.addView(
                             ScheduleMarkContainer(container.view.context, null).apply {
                                 if (schedule.isVisited)
@@ -321,6 +271,7 @@ class CalendarFragment : Fragment(R.layout.fragment_calendar) {
             }
         }
 
+        // "월" view binding
         binding.calendarView.monthHeaderBinder =
             object : MonthHeaderFooterBinder<MonthViewContainer> {
                 override fun create(view: View): MonthViewContainer = MonthViewContainer(view)
@@ -342,7 +293,8 @@ class CalendarFragment : Fragment(R.layout.fragment_calendar) {
                 }
             }
 
-        val currentMonth = YearMonth.now()
+        // setup
+        val currentMonth = YearMonth.now() // 현재 월
         binding.calendarView.setup(
             currentMonth.minusMonths(10),
             currentMonth.plusMonths(10),
@@ -351,4 +303,56 @@ class CalendarFragment : Fragment(R.layout.fragment_calendar) {
         binding.calendarView.scrollToMonth(currentMonth)
     }
 
+    // selectedDay 에 해당하는 일정내용을 업데이트
+    private fun scheduleLayoutUpdate(selectedDay: Date) {
+        if (this::scheduleMap.isInitialized
+            && scheduleMap.containsKey(selectedDay.time)
+            && scheduleMap[selectedDay.time]!!.isNotEmpty()
+        ) {
+            // schedule 이 존재하고, 일정이 1개 이상 일 때
+            binding.calendarScheduleRecyclerView.visibility = View.VISIBLE
+            binding.calendarScheduleRecyclerView.adapter =
+                CalendarScheduleAdapter(scheduleMap[selectedDay.time]!!).apply {
+                    itemClickListener = object : CalendarScheduleAdapter.OnItemClickListener {
+                        override fun onIsVisitedClick(
+                            holder: CalendarScheduleAdapter.ViewHolder,
+                            view: View,
+                            position: Int
+                        ) {
+                            // 방문했음 버튼 클릭
+                            with(scheduleMap[selectedDay.time]!![position]) {
+                                if (!isVisited) {
+                                    showDialog(
+                                        exhbt_cd = id.toString(),
+                                        is_custom = isCustom
+                                    )
+                                } else {
+                                    if (isCustom) {
+                                        viewModel.visitUpdateCustomNo(
+                                            exhbt_cd = id.toString()
+                                        )
+                                    } else {
+                                        viewModel.visitUpdateExhbtNo(
+                                            exhbt_cd = id.toString()
+                                        )
+                                    }
+                                }
+                            }
+                        }
+
+                        // 아이템 클릭
+                        override fun onItemClick(
+                            holder: CalendarScheduleAdapter.ViewHolder,
+                            view: View,
+                            position: Int
+                        ) {
+                            showUpdDelDialog(scheduleMap[selectedDay.time]!![position])
+                        }
+                    }
+                }
+        } else {
+            // schedule 이 존재하지 않음 일 때
+            binding.calendarScheduleRecyclerView.visibility = View.GONE
+        }
+    }
 }

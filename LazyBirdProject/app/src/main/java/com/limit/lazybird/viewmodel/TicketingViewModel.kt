@@ -20,8 +20,6 @@ import javax.inject.Inject
 @HiltViewModel
 class TicketingViewModel @Inject constructor(
     private val repository: EarlycardRepository,
-    private val apiHelper: ApiHelper,
-    private val dataStoreManager: PreferenceDataStoreManager
 ):ViewModel() {
 
     companion object {
@@ -54,7 +52,7 @@ class TicketingViewModel @Inject constructor(
 
     private fun initToken() = viewModelScope.launch {
         // dataStore 에서 토큰 값 가져오기
-        token = dataStoreManager.preferenceTokenFlow.first()
+        token = repository.getPreferenceTokenFlow().first()
     }
 
     private fun initEarlyCardList() = viewModelScope.launch {
@@ -73,6 +71,6 @@ class TicketingViewModel @Inject constructor(
 
     fun updateExhibitionReservation() = viewModelScope.launch {
         // 전시 예약정보 서버에 등록
-        apiHelper.exhbtReservationSave(token, exhibitionInfo.value!!.id)
+        repository.exhbtReservationSave(token, exhibitionInfo.value!!.id)
     }
 }

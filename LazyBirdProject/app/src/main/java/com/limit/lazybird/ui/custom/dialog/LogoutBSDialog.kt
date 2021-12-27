@@ -49,8 +49,8 @@ class LogoutBSDialog : BottomSheetDialogFragment() {
         val view = inflater.inflate(R.layout.dialog_bs_logout, container, false)
         binding = DialogBsLogoutBinding.bind(view)
 
-        binding.dialogBsLogoutOk.setOnClickListener { 
-            // 로그아웃 하기 버튼
+        // 로그아웃 하기 버튼
+        binding.dialogBsLogoutOk.setOnClickListener {
             val bundle = Bundle().apply {
                 putString(RESULT_CODE, RESULT_OK)
             }
@@ -58,13 +58,13 @@ class LogoutBSDialog : BottomSheetDialogFragment() {
             dismiss()
         }
 
+        // x 버튼
         binding.dialogBsLogoutClose.setOnClickListener {
-            // x 버튼
             dismiss()
         }
 
+        // 로그아웃 취소 버튼
         binding.dialogBsLogoutCancel.setOnClickListener {
-            // 로그아웃 취소 버튼
             dismiss()
         }
             

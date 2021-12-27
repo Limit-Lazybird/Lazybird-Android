@@ -11,10 +11,12 @@ import com.kakao.sdk.common.model.KakaoSdkError
 import com.kakao.sdk.user.UserApiClient
 import com.kakao.sdk.user.model.User
 import com.limit.lazybird.BuildConfig
-import com.limit.lazybird.R
 import com.limit.lazybird.models.LoginInfo
 import com.limit.lazybird.ui.splashlogin.LoginFragment
 
+/************** KakaoLoginHelper *****************
+ * 반복되는 Kakao Login 작업을 정리하기 위한 Google Login 전용 객체
+ ********************************************** ***/
 class KakaoLoginHelper(
     private val context: Context
 ) {
@@ -24,28 +26,29 @@ class KakaoLoginHelper(
 
     private lateinit var callback: (OAuthToken?, Throwable?) -> Unit
 
+    // 사용자 로그인정보
     private val _loginInfo = MutableLiveData<LoginInfo>()
     val loginInfo: LiveData<LoginInfo> get() =  _loginInfo
 
-
+    // GoogleLogin 을 위한 초기화
     fun init() {
         Log.e(TAG, "init() called")
         KakaoSdk.init(context, BuildConfig.KAKAO_NATIVE_APP_KEY)
         callback = { token, error ->
             if (error != null) {
-                Log.e(LoginFragment.TAG, "로그인 실패 : ${error}")
+                Log.e(TAG, "로그인 실패 : ${error}")
             } else if (token != null) {
-                Log.e(LoginFragment.TAG, "로그인 성공")
+                Log.e(TAG, "로그인 성공")
                 UserApiClient.instance.me { user, error ->
                     when {
                         error != null -> {
-                            Log.e(LoginFragment.TAG, "사용자 정보 요청 실패: ${error}")
+                            Log.e(TAG, "사용자 정보 요청 실패: ${error}")
                         }
                         user != null -> {
                             updateUserInfo(user, token)
                         }
                         else -> {
-                            Log.e(LoginFragment.TAG, "user is null")
+                            Log.e(TAG, "user is null")
                         }
                     }
                 }
@@ -53,6 +56,7 @@ class KakaoLoginHelper(
         }
     }
 
+    // 로그인
     fun login(){
         Log.e(TAG, "login() called")
         if(!this::callback.isInitialized)
@@ -107,11 +111,12 @@ class KakaoLoginHelper(
         }
     }
 
+    // 로그아웃
     fun logout(){
         if(!this::callback.isInitialized)
             init()
 
-        UserApiClient.instance.logout { error ->
+        UserApiClient.instance.unlink { error ->
             if(error != null) {
                 Log.e(TAG, "로그아웃 실패: ${error}")
             } else {
@@ -120,6 +125,7 @@ class KakaoLoginHelper(
         }
     }
 
+    // 회원탈퇴
     fun memberOut(){
         if(!this::callback.isInitialized)
             init()
@@ -133,8 +139,8 @@ class KakaoLoginHelper(
         }
     }
 
+    // 카카오 로그인 성공
     private fun updateUserInfo(user: User, token: OAuthToken){
-        // 카카오 로그인 성공
         /*** kakao API response ***
          * id : user?.id
          * profileNickname : user?.kakaoAccount?.profile?.nickname

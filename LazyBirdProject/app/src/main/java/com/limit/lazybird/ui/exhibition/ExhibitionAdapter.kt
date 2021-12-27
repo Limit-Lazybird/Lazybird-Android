@@ -86,6 +86,7 @@ class ExhibitionAdapter(
         holder.exhibitionLikeBtn.setOnClickListener {
             itemClickListener?.onLikeBtnClick(holder, it, position)
         }
+
         holder.itemView.setOnClickListener {
             itemClickListener?.onItemClick(holder, it, position)
         }

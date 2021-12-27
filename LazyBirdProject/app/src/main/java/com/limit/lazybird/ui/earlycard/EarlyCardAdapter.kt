@@ -29,10 +29,10 @@ class EarlyCardAdapter(
     private lateinit var binding: ItemEarlycardBinding
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val earlyCardTitle = binding.itemEarlycardTitle
-        val earlyCardNumber = binding.itemEarlycardNumber
-        val earlyCardImage = binding.itemEarlycardImg
-        val earlyCardVisitedDate = binding.itemEarlycardVisitedDate
+        val earlyCardTitle = binding.itemEarlycardTitle // 얼리카드 제목
+        val earlyCardNumber = binding.itemEarlycardNumber // 얼리카드의 번호
+        val earlyCardImage = binding.itemEarlycardImg // 얼리카드 이미지
+        val earlyCardVisitedDate = binding.itemEarlycardVisitedDate // 얼리카드 방문 날짜 (없으면 "-" 으로 표시)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

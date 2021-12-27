@@ -7,11 +7,14 @@ import androidx.core.text.HtmlCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.coroutineScope
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.limit.lazybird.R
 import com.limit.lazybird.databinding.FragmentTicketingConfirmBinding
-import com.limit.lazybird.ui.MainActivity
-import com.limit.lazybird.util.replaceFragment
+import com.limit.lazybird.ui.BaseFragment
 import com.limit.lazybird.util.thousandUnitFormatted
 import com.limit.lazybird.viewmodel.TicketingViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -22,28 +25,21 @@ import kotlinx.coroutines.launch
  * 예약 완료 후 확인하는 화면
  ********************************************** ***/
 @AndroidEntryPoint
-class TicketingConfirmFragment : Fragment(R.layout.fragment_ticketing_confirm) {
+class TicketingConfirmFragment :
+    BaseFragment<FragmentTicketingConfirmBinding>(FragmentTicketingConfirmBinding::inflate) {
 
-    companion object {
-        const val TAG = "TicketingConfirmFragment"
-    }
-
-    lateinit var binding: FragmentTicketingConfirmBinding
+    private val args: GetEarlyCardFragmentArgs by navArgs()
     private val viewModel: TicketingViewModel by viewModels()
-    private val parentActivity: MainActivity by lazy {
-        activity as MainActivity
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding = FragmentTicketingConfirmBinding.bind(view)
+        binding.fragment = this
 
-        viewModel.updateExhibitionInfo(
-            requireArguments().getParcelable(
-                TicketingViewModel.EXHIBITION_INFO
-            )!!
-        )
+        // argument 로 넘어오는 earlyBird 상세정보 ViewModel에 업데이트
+        lifecycleScope.launchWhenStarted {
+            viewModel.updateExhibitionInfo(args.exhibitionInfo)
+        }
 
         viewModel.exhibitionInfo.observe(viewLifecycleOwner) { exhibitionInfo ->
             binding.ticketingConfirmExhbtTitle.text = exhibitionInfo.title
@@ -62,42 +58,27 @@ class TicketingConfirmFragment : Fragment(R.layout.fragment_ticketing_confirm) {
                 .centerCrop()
                 .into(binding.ticketingConfirmExhbtImg)
         }
+    }
 
-        binding.ticketingConfirmOkBtn.setOnClickListener {
-            // 예매 완료 버튼 클릭 시
-            binding.ticketingConfirmOkBtn.isClickable = false // 중복클릭 차단
-            viewLifecycleOwner.lifecycle.coroutineScope.launch {
-                viewModel.updateExhibitionReservation()
-                moveToGetEarlyCard()
-            }
-        }
-
-        binding.ticketingConfirmCancelBtn.setOnClickListener {
-            // 돌아가기 버튼 클릭 시
-            moveToBack()
-        }
-
-        binding.ticketingConfirmBackBtn.setOnClickListener {
-            // 뒤로가기 버튼 클릭 시
-            moveToBack()
+    fun clickOkBtn() {
+        binding.ticketingConfirmOkBtn.isClickable = false // 중복클릭 차단
+        viewLifecycleOwner.lifecycle.coroutineScope.launch {
+            viewModel.updateExhibitionReservation()
+            moveToGetEarlyCard()
         }
     }
 
+    // GetEarlyCardFragment 로 이동
     private fun moveToGetEarlyCard() {
-        val bundle = Bundle().apply {
-            putParcelable(TicketingViewModel.EXHIBITION_INFO, viewModel.exhibitionInfo.value!!)
-        }
-        parentActivity.supportFragmentManager.replaceFragment(
-            GetEarlyCardFragment().apply {
-                arguments = bundle
-            }, false
+        navController.navigate(
+            TicketingConfirmFragmentDirections.actionTicketingConfirmFragmentToGetEarlyCardFragment(
+                viewModel.exhibitionInfo.value!!
+            )
         )
     }
 
-    private fun moveToBack() {
-        // 메인화면으로 되돌아가기
-        repeat(1) {
-            parentActivity.supportFragmentManager.popBackStack()
-        }
+    // 뒤로가기 클릭 시
+    fun moveToBack() {
+        navController.popBackStack()
     }
 }

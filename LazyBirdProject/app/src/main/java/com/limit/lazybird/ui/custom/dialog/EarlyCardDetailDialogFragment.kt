@@ -15,26 +15,26 @@ import android.os.Environment
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.DialogFragment
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.bumptech.glide.request.RequestOptions
 import com.limit.lazybird.R
 import com.limit.lazybird.databinding.DialogEarlycardDetailBinding
-import com.limit.lazybird.models.EarlycardInfo
 import java.io.File
 import java.io.FileOutputStream
 import java.util.*
 
-/************* EarlycardDetailDialogFragment ***************
+/************* EarlyCardDetailDialogFragment ***************
  * 메인화면(?? 탭) >> 얼리카드 화면 >> 얼리카드 크게보기 (DialogFragment)
  * 얼리카드 정보 크게 보기, 스샷 찍기
  ********************************************** ***/
-class EarlycardDetailDialogFragment : DialogFragment() {
+class EarlyCardDetailDialogFragment : DialogFragment() {
 
     companion object {
-        const val TAG = "EarlycardDetailDialogFragment"
-        const val EARLYCARD_INFO = "EARLYCARD_INFO"
+        const val TAG = "EarlyCardDetailDialogFragment"
     }
 
     private val REQUEST_EXTERNAL_STORAGE = 1
@@ -43,12 +43,13 @@ class EarlycardDetailDialogFragment : DialogFragment() {
         Manifest.permission.READ_EXTERNAL_STORAGE
     )
 
+    private val args: EarlyCardDetailDialogFragmentArgs by navArgs()
     private lateinit var binding: DialogEarlycardDetailBinding
     private var parentActivity: Activity? = null
     private var alertDialog: AlertDialog? = null
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val earlycardInfo = requireArguments().getParcelable<EarlycardInfo>(EARLYCARD_INFO)!!
+        val earlycardInfo = args.dialogInfo
         val layout = layoutInflater.inflate(R.layout.dialog_earlycard_detail, null).apply {
             binding = DialogEarlycardDetailBinding.bind(this)
         }
@@ -61,16 +62,19 @@ class EarlycardDetailDialogFragment : DialogFragment() {
                 .load(earlycardInfo.imgUrl)
                 .apply(RequestOptions().transform(CenterCrop(), RoundedCorners(30)))
                 .into(earlycardDetailImg)
+
+            // 배경 클릭
             earlycardDetailBackground.setOnClickListener {
-                // 배경 클릭
                 clickClose()
             }
+
+            // 닫기 버튼 클릭
             earlycardDetailCloseBtn.setOnClickListener {
-                // 닫기 버튼 클릭
                 clickClose()
             }
+
+            // 스크린샷 버튼 클릭
             earlycardDetailSaveBtn.setOnClickListener {
-                // 스크린샷 버튼 클릭
                 if(Build.VERSION.SDK_INT >= 30){
                     clickTicketSave()
                 } else {
@@ -81,8 +85,8 @@ class EarlycardDetailDialogFragment : DialogFragment() {
 
         alertDialog = AlertDialog.Builder(
             requireContext(),
-            R.style.DialogThemeFullScreen
-        ) // fullscreen dialogFragment theme 적용
+            R.style.DialogThemeFullScreen // fullscreen dialogFragment theme 적용
+        )
             .setView(layout)
             .create()
             .apply {
@@ -93,16 +97,16 @@ class EarlycardDetailDialogFragment : DialogFragment() {
         return alertDialog!!
     }
 
+    // 티켓이미지 저장 버튼 클릭
     private fun clickTicketSave() {
-        // 티켓이미지 저장 버튼 클릭
         verifyStoragePermission()
         takeScreenShot()
         Toast.makeText(requireContext(), "스크린샷 저장이 완료되었습니다.", Toast.LENGTH_SHORT).show()
     }
 
+    // 취소 버튼 클릭 시
     private fun clickClose() {
-        // 취소 버튼 클릭 시
-        dismiss()
+        findNavController().popBackStack()
     }
 
     fun verifyStoragePermission() {

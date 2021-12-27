@@ -9,44 +9,46 @@ import android.view.animation.AnimationUtils
 import androidx.core.view.GestureDetectorCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
+import com.google.android.material.snackbar.Snackbar
 import com.limit.lazybird.R
 import com.limit.lazybird.ui.custom.CustomSnackBar
 import com.limit.lazybird.databinding.FragmentGetEarlycardBinding
-import com.limit.lazybird.ui.MainActivity
+import com.limit.lazybird.ui.BaseFragment
 import com.limit.lazybird.viewmodel.TicketingViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class GetEarlyCardFragment : Fragment(R.layout.fragment_get_earlycard) {
+class GetEarlyCardFragment :
+    BaseFragment<FragmentGetEarlycardBinding>(FragmentGetEarlycardBinding::inflate) {
 
-    companion object {
-        const val TAG = "TicketingConfirmFragment"
-    }
-
-    lateinit var binding: FragmentGetEarlycardBinding
+    private val args: GetEarlyCardFragmentArgs by navArgs()
     private val viewModel: TicketingViewModel by viewModels()
-    private val parentActivity: MainActivity by lazy {
-        activity as MainActivity
-    }
+
+    private lateinit var snackBar: CustomSnackBar
     private lateinit var mDetector: GestureDetectorCompat
     private var isSwipe = false
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = FragmentGetEarlycardBinding.bind(view)
+
+        binding.fragment = this
+
+        // argument 로 넘어오는 earlyBird 상세정보 ViewModel에 업데이트
+        lifecycleScope.launchWhenStarted {
+            viewModel.updateExhibitionInfo(args.exhibitionInfo)
+        }
 
         initDetector(view)
+        initSnackbar()
 
-        viewModel.updateExhibitionInfo(
-            requireArguments().getParcelable(
-                TicketingViewModel.EXHIBITION_INFO
-            )!!
-        )
-
+        // main earlycard, sub earlycard 모두 초기화하기
         viewModel.exhibitionInfo.observe(viewLifecycleOwner) { exhibitionInfo ->
-            // main earlycard, sub earlycard 모두 초기화하기
             binding.getEarlycardMainTitle.text = exhibitionInfo.title
             binding.getEarlycardSubTitle.text = exhibitionInfo.title
             Glide.with(this)
@@ -59,8 +61,8 @@ class GetEarlyCardFragment : Fragment(R.layout.fragment_get_earlycard) {
                 .into(binding.getEarlycardSubImg)
         }
 
+        // No 값 가져오기
         viewModel.earlycardList.observe(viewLifecycleOwner) { earlycardList ->
-            // No 값 가져오기
             var currentNumber = 0
             earlycardList.forEach {
                 currentNumber = maxOf(currentNumber, it.no)
@@ -68,9 +70,21 @@ class GetEarlyCardFragment : Fragment(R.layout.fragment_get_earlycard) {
             binding.getEarlycardMainNumber.text = "NO. $currentNumber"
             binding.getEarlycardSubNumber.text = "NO. $currentNumber"
         }
-        binding.getEarlycardBackBtn.setOnClickListener {
-            // 뒤로가기 버튼 클릭 시
-            parentActivity.supportFragmentManager.popBackStack()
+    }
+
+    // 뒤로가기 버튼 클릭 시
+    fun clickBackBtn() {
+        navController.popBackStack()
+    }
+
+    private fun initSnackbar() {
+        snackBar = CustomSnackBar.make(requireView(), "얼리카드가 추가되었어요", "보러가기").apply {
+            clickListener = object : CustomSnackBar.OnClickListener {
+                override fun onClick(view: View) {
+                    moveToMain()
+                    dismiss()
+                }
+            }
         }
     }
 
@@ -138,21 +152,20 @@ class GetEarlyCardFragment : Fragment(R.layout.fragment_get_earlycard) {
         )
     }
 
+    // SnackBar 보여주기
     private fun showSnackBar() {
-        CustomSnackBar.make(requireView(), "얼리카드가 추가되었어요", "보러가기").apply {
-            clickListener = object : CustomSnackBar.OnClickListener {
-                override fun onClick(view: View) {
-                    moveToMain()
-                    dismiss()
-                }
-            }
-        }.show()
+        snackBar.show()
     }
 
-    private fun moveToMain(){
+    // Main 화면으로 이동
+    private fun moveToMain() {
         repeat(2) {
-            parentActivity.supportFragmentManager.popBackStack()
+            navController.popBackStack()
         }
     }
 
+    override fun onDetach() {
+        super.onDetach()
+        snackBar.dismiss()
+    }
 }

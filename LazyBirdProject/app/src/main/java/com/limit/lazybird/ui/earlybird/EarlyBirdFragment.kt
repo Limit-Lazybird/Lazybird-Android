@@ -4,16 +4,15 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.CompositePageTransformer
 import com.limit.lazybird.R
 import com.limit.lazybird.databinding.FragmentEarlybirdBinding
 import com.limit.lazybird.models.retrofit.Exhbt
-import com.limit.lazybird.ui.MainActivity
-import com.limit.lazybird.viewmodel.EarlyBirdDetailViewModel
-import com.limit.lazybird.ui.earlycard.EarlyCardFragment
-import com.limit.lazybird.ui.notification.NotificationFragment
-import com.limit.lazybird.util.replaceFragment
+import com.limit.lazybird.ui.BaseFragment
+import com.limit.lazybird.ui.MainFragmentDirections
 import com.limit.lazybird.util.toDp
 import com.limit.lazybird.viewmodel.EarlyBirdViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -24,29 +23,24 @@ import kotlin.math.abs
  * 얼리버드 정보 리스트로 보기
  ********************************************** ***/
 @AndroidEntryPoint
-class EarlyBirdFragment : Fragment(R.layout.fragment_earlybird) {
-
-    companion object {
-        const val TAG = "EarlyBirdFragment"
-    }
+class EarlyBirdFragment :
+    BaseFragment<FragmentEarlybirdBinding>(FragmentEarlybirdBinding::inflate) {
 
     private val SCREEN_PAGE_RATIO = 0.90f // ViewPager2에서 현재 페이지의 가로 크기 값 (기기의 몇퍼센트인지)
     private val OFF_SCREEN_PAGE_LIMIT = 1 // ViewPager2에서 보여줄 다음 페이지 개수
     private val OFF_SCREEN_PAGE_RATIO = 0.88f // ViewPager2에서 다음 페이지의 크기감소 비율
 
-    private lateinit var binding: FragmentEarlybirdBinding
-    private val earlyBirdViewModel: EarlyBirdViewModel by viewModels()
-    private val parentActivity: MainActivity by lazy {
-        activity as MainActivity
-    }
+    private val viewModel: EarlyBirdViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = FragmentEarlybirdBinding.bind(view)
 
-        earlyBirdViewModel.todayEarlyBirdList.observe(viewLifecycleOwner) { earlybirdInfoList ->
+        binding.fragment = this
+
+        // earlybirdList 업데이트
+        viewModel.todayEarlyBirdList.observe(viewLifecycleOwner) { earlybirdInfoList ->
+            // adapter 적용
             binding.earlybirdViewpager2.adapter = EarlyBirdAdapter(earlybirdInfoList).apply {
-                // adapter 적용
                 itemClickListener = object : EarlyBirdAdapter.OnItemClickListener {
                     override fun onItemClick(
                         holder: EarlyBirdAdapter.PageViewHolder,
@@ -54,18 +48,21 @@ class EarlyBirdFragment : Fragment(R.layout.fragment_earlybird) {
                         position: Int
                     ) {
                         // item 클릭 시
-                        val earlyBirdInfo = earlyBirdViewModel.getEarlyInfo(position)
+                        val earlyBirdInfo = viewModel.getEarlyInfo(position)
                         moveToEarlyBirdDetail(earlyBirdInfo)
                     }
                 }
             }
+
+            // 첫 페이지, 마지막페이지 overScroll 효과 차단
             binding.earlybirdViewpager2.apply {
-                // 첫 페이지, 마지막페이지 overScroll 효과 차단
                 (getChildAt(0) as RecyclerView).overScrollMode = RecyclerView.OVER_SCROLL_NEVER
-                (getChildAt(childCount-1) as RecyclerView).overScrollMode = RecyclerView.OVER_SCROLL_NEVER
+                (getChildAt(childCount - 1) as RecyclerView).overScrollMode =
+                    RecyclerView.OVER_SCROLL_NEVER
             }
+
+            // page 변환 시 애니메이션 적용
             binding.earlybirdViewpager2.setPageTransformer(
-                // page 변환 시 애니메이션 적용
                 CompositePageTransformer().apply {
                     addTransformer { pageView: View, position: Float ->
                         var v = 1 - abs(position)
@@ -88,36 +85,24 @@ class EarlyBirdFragment : Fragment(R.layout.fragment_earlybird) {
                 }
             )
         }
-        binding.earlybirdBell.setOnClickListener {
-            // 알림 버튼 클릭
-            moveToNotification()
-        }
-        binding.earlybirdEarlycard.setOnClickListener {
-            // 얼리카드 버튼 클릭
-            moveToEarlyCard()
-        }
     }
 
+    // EarlyBirdDetail Fragment 로 이동
     private fun moveToEarlyBirdDetail(earlyBirdInfo: Exhbt) {
-        // EarlyBirdDetail Fragment 로 이동
-        val bundle = Bundle().apply {
-            putParcelable(EarlyBirdDetailViewModel.EARLYBIRD_INFO, earlyBirdInfo)
-        }
-        parentActivity.supportFragmentManager.replaceFragment(
-            EarlyBirdDetailFragment().apply {
-                arguments = bundle
-            },
-            true
+        navController.navigate(
+            MainFragmentDirections.actionMainFragmentToEarlyBirdDetailFragment(
+                earlyBirdInfo
+            )
         )
     }
 
-    private fun moveToNotification() {
-        // Notification Fragment 로 이동
-        parentActivity.supportFragmentManager.replaceFragment(NotificationFragment())
+    // Notification Fragment 로 이동
+    fun moveToNotification() {
+        navController.navigate(MainFragmentDirections.actionMainFragmentToNotificationFragment())
     }
 
-    private fun moveToEarlyCard() {
-        // Earlycard Fragment 로 이동
-        parentActivity.supportFragmentManager.replaceFragment(EarlyCardFragment())
+    // Earlycard Fragment 로 이동
+    fun moveToEarlyCard() {
+        navController.navigate(MainFragmentDirections.actionMainFragmentToEarlyCardFragment())
     }
 }

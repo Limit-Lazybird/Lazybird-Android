@@ -58,11 +58,12 @@ class UnregisteredListBSDialog  : BottomSheetDialogFragment(){
             calendarInfoList = it
         }
 
+        // 취소버튼 클릭 시
         binding.dialogBsUnregisteredListCloseBtn.setOnClickListener {
-            // 취소버튼 클릭 시
             dismiss()
         }
 
+        // picker update
         binding.dialogBsUnregisteredListPicker.apply {
             val nameArray:Array<String> = calendarInfoList.calendarInfoList.map {
                 it.exhbt_nm
@@ -73,6 +74,7 @@ class UnregisteredListBSDialog  : BottomSheetDialogFragment(){
             wrapSelectorWheel = false // 반복 제거
         }
 
+        // 확인버튼 클릭 시
         binding.dialogBsUnregisteredOkBtn.setOnClickListener {
             setFragmentResult(
                 TAG, bundleOf(
@@ -83,31 +85,6 @@ class UnregisteredListBSDialog  : BottomSheetDialogFragment(){
             dismiss()
         }
 
-//        binding.dialogBsUnregisteredListRecyclerView.adapter = UnregisteredListAdapter(
-//            calendarInfoList.calendarInfoList.map {
-//                UnregisteredItem(
-//                    exhibitionId = it.exhbt_cd,
-//                    exhibitionName = it.exhbt_nm
-//                )
-//            }
-//        ).apply {
-//            itemClickListener = object : UnregisteredListAdapter.OnItemClickListener {
-//                override fun onItemClick(
-//                    holder: UnregisteredListAdapter.ViewHolder,
-//                    view: View,
-//                    position: Int
-//                ) {
-//                    // item click 시
-//                    setFragmentResult(
-//                        TAG, bundleOf(
-//                            RESULT_CODE to RESULT_OK,
-//                            SELECTED_POSITION to position
-//                        )
-//                    )
-//                    dismiss()
-//                }
-//            }
-//        }
         return binding.root
     }
 

@@ -4,9 +4,11 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ScrollView
 import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
 import com.limit.lazybird.R
 import com.limit.lazybird.databinding.FragmentTermBinding
-import com.limit.lazybird.ui.MainActivity
+import com.limit.lazybird.ui.BaseFragment
 import com.limit.lazybird.util.applyEscapeSequence
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -15,25 +17,19 @@ import dagger.hilt.android.AndroidEntryPoint
  * 이용약관 보기
  ********************************************** ***/
 @AndroidEntryPoint
-class TermFragment:Fragment(R.layout.fragment_term) {
-
-    companion object {
-        const val TAG = "TermFragment"
-    }
-
-    lateinit var binding :FragmentTermBinding
-    private val parentActivity: MainActivity by lazy {
-        activity as MainActivity
-    }
+class TermFragment : BaseFragment<FragmentTermBinding>(FragmentTermBinding::inflate) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = FragmentTermBinding.bind(view)
-        binding.termBackBtn.setOnClickListener {
-            // 뒤로가기 버튼
-            parentActivity.supportFragmentManager.popBackStack()
-        }
+
+        binding.fragment = this
+
         binding.termContext.text = getString(R.string.term_context).applyEscapeSequence()
         binding.termScrollView.fullScroll(ScrollView.FOCUS_DOWN) // 끝까지 스크롤 되도록 설정
+    }
+
+    // 뒤로가기 버튼 클릭 시
+    fun clickBackBtn() {
+        navController.popBackStack()
     }
 }
