@@ -1,44 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     tools:context=".ui.custom.dialog.EarlyCardDetailDialogFragment">
 
-    <ImageButton
-        android:id="@+id/earlycard_back_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="13dp"
-        android:layout_marginTop="12dp"
-        android:background="@color/transparent"
-        android:src="@drawable/ic_left_arrow" />
+    <data>
 
-    <TextView
-        android:id="@+id/earlycard_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/earlycard_back_btn"
-        android:layout_marginLeft="24dp"
-        android:layout_marginTop="14dp"
-        android:fontFamily="@font/montserrat_700"
-        android:text="EARLY\nCARD"
-        android:textColor="@color/or01"
-        android:textSize="40dp" />
+        <variable
+            name="fragment"
+            type="com.limit.lazybird.ui.earlycard.EarlyCardFragment" />
+    </data>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/earlycard_recycler_view"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/earlycard_title"
-        android:layout_marginLeft="18dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginRight="18dp"
-        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-        app:spanCount="2"
-        tools:itemCount="4"
-        tools:listitem="@layout/item_earlycard" />
+        android:layout_height="match_parent">
+
+        <ImageButton
+            android:id="@+id/earlycard_back_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="13dp"
+            android:layout_marginTop="12dp"
+            android:background="@color/transparent"
+            android:onClick="@{() -> fragment.clickBackBtn()}"
+            android:src="@drawable/ic_left_arrow" />
+
+        <TextView
+            android:id="@+id/earlycard_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/earlycard_back_btn"
+            android:layout_marginLeft="24dp"
+            android:layout_marginTop="14dp"
+            android:fontFamily="@font/montserrat_700"
+            android:text="EARLY\nCARD"
+            android:textColor="@color/or01"
+            android:textSize="40dp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/earlycard_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/earlycard_title"
+            android:layout_marginLeft="18dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="18dp"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:spanCount="2"
+            tools:itemCount="4"
+            tools:listitem="@layout/item_earlycard" />
 
 
-</RelativeLayout>
+    </RelativeLayout>
+</layout>

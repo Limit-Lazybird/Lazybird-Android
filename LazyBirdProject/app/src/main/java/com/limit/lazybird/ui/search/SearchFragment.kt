@@ -39,11 +39,14 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(FragmentSearchBinding
         val recommendList = resources.getStringArray(R.array.fast_search_list)
         recommendList.forEach { name ->
             binding.searchRecommendList.addView(
-                OptionItemView(requireContext(), viewLifecycleOwner, name).apply { 
-                    setOnClickListener { 
+                OptionItemView(requireContext(), viewLifecycleOwner, name).apply {
+                    setOnClickListener {
                         // 추천검색어 클릭
                         viewModel.searchExhibition(text.toString()) // 해당 키워드로 검색
-                        imm.hideSoftInputFromWindow(binding.searchEditText.windowToken, 0) // 키보드 내리기
+                        imm.hideSoftInputFromWindow(
+                            binding.searchEditText.windowToken,
+                            0
+                        ) // 키보드 내리기
                         binding.searchEditText.text = null // 검색어 초기화
                     }
                 }
@@ -104,12 +107,20 @@ class SearchFragment : BaseFragment<FragmentSearchBinding>(FragmentSearchBinding
 
     // ExhibitionDetail Fragment 로 이동
     private fun moveToExhibitionDetail(exhibitionInfo: Exhbt) {
-        navController.navigate(MainFragmentDirections.actionMainFragmentToExhibitionDetailFragment(exhibitionInfo))
+        navController.navigate(
+            MainFragmentDirections.actionMainFragmentToExhibitionDetailFragment(
+                exhibitionInfo
+            )
+        )
     }
 
     // EarlyBirdDetail Fragment 로 이동
     private fun moveToEarlyBirdDetail(exhibitionInfo: Exhbt) {
-        navController.navigate(MainFragmentDirections.actionMainFragmentToEarlyBirdDetailFragment(exhibitionInfo))
+        navController.navigate(
+            MainFragmentDirections.actionMainFragmentToEarlyBirdDetailFragment(
+                exhibitionInfo
+            )
+        )
     }
 
 }

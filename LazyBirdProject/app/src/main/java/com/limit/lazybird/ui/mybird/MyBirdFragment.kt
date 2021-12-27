@@ -31,6 +31,8 @@ class MyBirdFragment : BaseFragment<FragmentMybirdBinding>(FragmentMybirdBinding
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.fragment = this
+
         // 사용자 정보 업데이트
         viewModel.userInfo.observe(viewLifecycleOwner) { userInfo ->
             binding.mybirdEmail.text = userInfo.email
@@ -39,7 +41,7 @@ class MyBirdFragment : BaseFragment<FragmentMybirdBinding>(FragmentMybirdBinding
 
         // 좋아요 누른 전시 정보 업데이트
         viewModel.likeExhbtList.observe(viewLifecycleOwner) { exhbtList ->
-            if (exhbtList.isNullOrEmpty()){
+            if (exhbtList.isNullOrEmpty()) {
                 binding.mybirdNoLikeText.visibility = View.VISIBLE
             } else {
                 binding.mybirdNoLikeText.visibility = View.INVISIBLE
@@ -92,7 +94,7 @@ class MyBirdFragment : BaseFragment<FragmentMybirdBinding>(FragmentMybirdBinding
 
         // 예약한 누른 전시 정보 업데이트
         viewModel.reservationExhbtList.observe(viewLifecycleOwner) { exhbtList ->
-            if (exhbtList.isNullOrEmpty()){
+            if (exhbtList.isNullOrEmpty()) {
                 binding.mybirdNoReservationText.visibility = View.VISIBLE
             } else {
                 binding.mybirdNoReservationText.visibility = View.INVISIBLE
@@ -109,7 +111,12 @@ class MyBirdFragment : BaseFragment<FragmentMybirdBinding>(FragmentMybirdBinding
                 binding.mybirdReservation1Date.text =
                     "${exhbt.exhbt_from_dt.dateFormatted()} ~ ${exhbt.exhbt_to_dt.dateFormatted()}"
                 binding.mybirdReservation1Dday.text =
-                    "D - ${calculateDateDiff(exhbt.exhbt_to_dt.toDate(), Calendar.getInstance().time)}"
+                    "D - ${
+                        calculateDateDiff(
+                            exhbt.exhbt_to_dt.toDate(),
+                            Calendar.getInstance().time
+                        )
+                    }"
                 Glide.with(view)
                     .load(exhbt.exhbt_sn)
                     .apply(
@@ -122,7 +129,7 @@ class MyBirdFragment : BaseFragment<FragmentMybirdBinding>(FragmentMybirdBinding
                     )
                     .into(binding.mybirdReservation1Image)
             }
-            
+
             if (!exhbtList.isNullOrEmpty() && exhbtList.size >= 2) {
                 binding.mybirdReservation2Title.visibility = View.VISIBLE
                 binding.mybirdReservation2Date.visibility = View.VISIBLE
@@ -134,7 +141,12 @@ class MyBirdFragment : BaseFragment<FragmentMybirdBinding>(FragmentMybirdBinding
                 binding.mybirdReservation2Date.text =
                     "${exhbt.exhbt_from_dt.dateFormatted()} ~ ${exhbt.exhbt_to_dt.dateFormatted()}"
                 binding.mybirdReservation2Dday.text =
-                    "D - ${calculateDateDiff(exhbt.exhbt_to_dt.toDate(), Calendar.getInstance().time)}"
+                    "D - ${
+                        calculateDateDiff(
+                            exhbt.exhbt_to_dt.toDate(),
+                            Calendar.getInstance().time
+                        )
+                    }"
                 Glide.with(view)
                     .load(exhbt.exhbt_sn)
                     .apply(
@@ -148,35 +160,20 @@ class MyBirdFragment : BaseFragment<FragmentMybirdBinding>(FragmentMybirdBinding
                     .into(binding.mybirdReservation2Image)
             }
         }
-
-        // 예매한 전시 클릭 (내가 예매한 전시 화면으로 넘어감)
-        binding.mybirdReservationContainer.setOnClickListener {
-            moveToReservationDetail()
-        }
-
-        // 찜한 전시 클릭 (내가 찜한 전시 화면으로 넘어감)
-        binding.mybirdLikeContainer.setOnClickListener {
-            moveToLikeDetail()
-        }
-
-        // 옵션 버튼 클릭 (세팅 화면으로 넘어감)
-        binding.mybirdSetting.setOnClickListener {
-            moveToSetting()
-        }
     }
-    
+
     // 예매한 전시 목록 확인 페이지로 이동
-    private fun moveToReservationDetail(){
+    fun moveToReservationDetail() {
         navController.navigate(MainFragmentDirections.actionMainFragmentToReservationDetailFragment())
     }
 
     // 찜한 전시 목록 확인 페이지로 이동
-    private fun moveToLikeDetail(){
+    fun moveToLikeDetail() {
         navController.navigate(MainFragmentDirections.actionMainFragmentToLikeDetailFragment())
     }
-    
+
     // 세팅 화면으로 이동
-    private fun moveToSetting(){
+    fun moveToSetting() {
         navController.navigate(MainFragmentDirections.actionMainFragmentToSettingFragment())
     }
 }

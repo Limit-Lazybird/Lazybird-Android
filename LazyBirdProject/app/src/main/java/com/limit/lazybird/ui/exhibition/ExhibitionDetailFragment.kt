@@ -31,7 +31,8 @@ import dagger.hilt.android.AndroidEntryPoint
  * 전시 정보 자세히 보기
  ********************************************** ***/
 @AndroidEntryPoint
-class ExhibitionDetailFragment: BaseFragment<FragmentExhibitionDetailBinding>(FragmentExhibitionDetailBinding::inflate) {
+class ExhibitionDetailFragment :
+    BaseFragment<FragmentExhibitionDetailBinding>(FragmentExhibitionDetailBinding::inflate) {
 
     private val THUMBNAIL_IMAGE_RATIO = 4 / 3f  // Thumbnail 이미지의 세로 크기
     private val DETAIL_IMAGE_LIMIT_HIGH = 500f // detail Image의 최대 Hegiht 값
@@ -41,6 +42,8 @@ class ExhibitionDetailFragment: BaseFragment<FragmentExhibitionDetailBinding>(Fr
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.fragment = this
 
         // argument 로 넘어오는 earlyBird 상세정보 ViewModel에 업데이트
         lifecycleScope.launchWhenStarted {
@@ -55,7 +58,8 @@ class ExhibitionDetailFragment: BaseFragment<FragmentExhibitionDetailBinding>(Fr
             binding.exhibitionDetailDate.text =
                 "${exhibitionInfo.startDate}~${exhibitionInfo.endDate}" // 전시 기간
             binding.discount = exhibitionInfo.discount // 할인율
-            binding.exhibitionDetailPriceDc.text = exhibitionInfo.discountedPrice.thousandUnitFormatted() // 할인 가격
+            binding.exhibitionDetailPriceDc.text =
+                exhibitionInfo.discountedPrice.thousandUnitFormatted() // 할인 가격
             binding.exhibitionDetailPrice.text = exhibitionInfo.price.thousandUnitFormatted() // 가격
             binding.notice = exhibitionInfo.notice.applyEscapeSequenceWithDot() // 전시 공지사항
 
@@ -136,30 +140,29 @@ class ExhibitionDetailFragment: BaseFragment<FragmentExhibitionDetailBinding>(Fr
                     .override(Target.SIZE_ORIGINAL) // 이미지 깨짐 방지
                     .into(binding.exhibitionDetailImg)
             }
-
-            // 좋아요 버튼 클릭
-            binding.exhibitionDetailLikeBtn.setOnClickListener {
-                viewModel.clickLike()
-            }
         }
 
         // 좋아요 상태 변경
         viewModel.exhibitionLike.observe(viewLifecycleOwner) { isLike ->
-            if(isLike) {
+            if (isLike) {
                 binding.exhibitionDetailLikeBtn.setImageResource(R.drawable.ic_fav_lg_on)
             } else {
                 binding.exhibitionDetailLikeBtn.setImageResource(R.drawable.ic_fav_lg_off)
             }
         }
+    }
 
-        // TicketingNoticeFragment 화면 이동
-        binding.exhibitionDetailTicketingBtn.setOnClickListener {
-            moveToTicketingNoticeFragment()
-        }
+    // 좋아요 버튼 클릭
+    fun clickLike() {
+        viewModel.clickLike()
     }
 
     // TicketingNoticeFragment 로 이동
-    private fun moveToTicketingNoticeFragment() {
-        navController.navigate(ExhibitionDetailFragmentDirections.actionExhibitionDetailFragmentToTicketingNoticeFragment(viewModel.exhibitionInfo.value!!))
+    fun moveToTicketingNoticeFragment() {
+        navController.navigate(
+            ExhibitionDetailFragmentDirections.actionExhibitionDetailFragmentToTicketingNoticeFragment(
+                viewModel.exhibitionInfo.value!!
+            )
+        )
     }
 }

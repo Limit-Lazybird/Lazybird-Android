@@ -19,7 +19,8 @@ import dagger.hilt.android.AndroidEntryPoint
  * 나에게 온 알림 보기
  ********************************************** ***/
 @AndroidEntryPoint
-class NotificationFragment: BaseFragment<FragmentNotificationBinding>(FragmentNotificationBinding::inflate) {
+class NotificationFragment :
+    BaseFragment<FragmentNotificationBinding>(FragmentNotificationBinding::inflate) {
 
     private val CLAMP_WIDTH_RATIO = 0.2f // CLAMP 의 값이 화면의 가로길이의 몇 퍼센트인지
 
@@ -28,10 +29,7 @@ class NotificationFragment: BaseFragment<FragmentNotificationBinding>(FragmentNo
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // 뒤로가기 버튼
-        binding.notificationBackBtn.setOnClickListener {
-            navController.popBackStack()
-        }
+        binding.fragment = this
 
         // 공지사항 리스트 업데이트
         viewModel.notificationList.observe(viewLifecycleOwner) { notificationList ->
@@ -42,7 +40,7 @@ class NotificationFragment: BaseFragment<FragmentNotificationBinding>(FragmentNo
                         view: View,
                         position: Int
                     ) {
-                        if(holder.itemView.tag?.toString() == "true") {
+                        if (holder.itemView.tag?.toString() == "true") {
                             // item 지우기
                             viewModel.deleteNotification(position)
                         }
@@ -62,5 +60,9 @@ class NotificationFragment: BaseFragment<FragmentNotificationBinding>(FragmentNo
                 }
             }
         }
+    }
+
+    fun clickBackBtn() {
+        navController.popBackStack()
     }
 }

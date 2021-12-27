@@ -22,17 +22,14 @@ class PrivacyFragment : BaseFragment<FragmentPrivacyBinding>(FragmentPrivacyBind
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // 뒤로가기 버튼
-        binding.privacyBackBtn.setOnClickListener {
-            clickBackBtn()
-        }
+        binding.fragment = this
 
         binding.privacyContext.text = getString(R.string.privacy_context).applyEscapeSequence()
         binding.privacyScrollView.fullScroll(ScrollView.FOCUS_DOWN) // 끝까지 스크롤 되도록 설정
     }
 
     // 뒤로가기 버튼 클릭 시
-    private fun clickBackBtn() {
+    fun clickBackBtn() {
         navController.popBackStack()
     }
 }

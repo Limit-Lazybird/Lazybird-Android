@@ -19,16 +19,19 @@ import dagger.hilt.android.AndroidEntryPoint
  * 내가 찜한 전시리스트 보기
  ********************************************** ***/
 @AndroidEntryPoint
-class LikeDetailFragment : BaseFragment<FragmentLikeDetailBinding>(FragmentLikeDetailBinding::inflate) {
+class LikeDetailFragment :
+    BaseFragment<FragmentLikeDetailBinding>(FragmentLikeDetailBinding::inflate) {
 
     private val viewModel: MyBirdViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.fragment = this
+
         // 좋아요 누른 전시 업데이트 완료
         viewModel.likeExhibitionShortList.observe(viewLifecycleOwner) { exhibitList ->
-            if(exhibitList.isEmpty()){
+            if (exhibitList.isEmpty()) {
                 binding.likeDetailNoItem.visibility = View.VISIBLE
             } else {
                 binding.likeDetailNoItem.visibility = View.INVISIBLE
@@ -65,25 +68,28 @@ class LikeDetailFragment : BaseFragment<FragmentLikeDetailBinding>(FragmentLikeD
                 }
             }
         }
-
-        // 뒤로가기 버튼 클릭
-        binding.likeDetailBackBtn.setOnClickListener {
-            clickBackBtn()
-        }
     }
 
     // 뒤로가기 버튼 클릭 시
-    private fun clickBackBtn() {
+    fun clickBackBtn() {
         navController.popBackStack()
     }
 
     // ExhibitionDetail Fragment 로 이동
     private fun moveToExhibitionDetail(exhibitionInfo: Exhbt) {
-        navController.navigate(LikeDetailFragmentDirections.actionLikeDetailFragmentToExhibitionDetailFragment(exhibitionInfo))
+        navController.navigate(
+            LikeDetailFragmentDirections.actionLikeDetailFragmentToExhibitionDetailFragment(
+                exhibitionInfo
+            )
+        )
     }
 
     // EarlyBirdDetail Fragment 로 이동
     private fun moveToEarlyBirdDetail(exhibitionInfo: Exhbt) {
-        navController.navigate(LikeDetailFragmentDirections.actionLikeDetailFragmentToEarlyBirdDetailFragment(exhibitionInfo))
+        navController.navigate(
+            LikeDetailFragmentDirections.actionLikeDetailFragmentToEarlyBirdDetailFragment(
+                exhibitionInfo
+            )
+        )
     }
 }

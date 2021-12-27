@@ -1,63 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/gray_100"
     tools:context=".ui.onboarding.OnbEndFragment">
 
+    <data>
 
-    <TextView
-        android:id="@+id/orb_end_header"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp"
-        android:fontFamily="@font/roboto_700"
-        android:text="@string/onb_title"
-        android:textColor="@color/white"
-        android:textSize="17dp" />
+        <variable
+            name="fragment"
+            type="com.limit.lazybird.ui.onboarding.OnbEndFragment" />
+    </data>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/orb_end_start_btn"
-        android:layout_below="@id/orb_end_header"
-        android:layout_marginLeft="47dp"
-        android:layout_marginRight="41dp"
-        android:gravity="center"
-        android:orientation="vertical">
+        android:background="@color/gray_100">
 
-        <ImageView
-            android:id="@+id/onb_end_image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="92dp"
-            android:src="@drawable/ic_cv_onb_finished" />
 
         <TextView
-            android:id="@+id/onb_end_context"
+            android:id="@+id/orb_end_header"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="16dp"
             android:fontFamily="@font/roboto_700"
+            android:text="@string/onb_title"
             android:textColor="@color/white"
-            android:textSize="20dp"
-            tools:text="선택한 답변으로 당신의 취향에\n꼭 맞는 전시회를 추천해드릴 준비가\n끝났습니다." />
-    </LinearLayout>
+            android:textSize="17dp" />
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/orb_end_start_btn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="17dp"
-        android:layout_marginBottom="90dp"
-        android:background="@drawable/button_rounded_10"
-        android:backgroundTint="@color/or01"
-        android:fontFamily="@font/roboto_700"
-        android:text="@string/splash_start_button"
-        android:textColor="@color/white"
-        android:textSize="16dp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/orb_end_start_btn"
+            android:layout_below="@id/orb_end_header"
+            android:layout_marginLeft="47dp"
+            android:layout_marginRight="41dp"
+            android:gravity="center"
+            android:orientation="vertical">
 
-</RelativeLayout>
+            <ImageView
+                android:id="@+id/onb_end_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="92dp"
+                android:src="@drawable/ic_cv_onb_finished" />
+
+            <TextView
+                android:id="@+id/onb_end_context"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/roboto_700"
+                android:textColor="@color/white"
+                android:textSize="20dp"
+                tools:text="선택한 답변으로 당신의 취향에\n꼭 맞는 전시회를 추천해드릴 준비가\n끝났습니다." />
+        </LinearLayout>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/orb_end_start_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="17dp"
+            android:layout_marginBottom="90dp"
+            android:background="@drawable/button_rounded_10"
+            android:backgroundTint="@color/or01"
+            android:fontFamily="@font/roboto_700"
+            android:onClick="@{() -> fragment.moveToEarlyBird()}"
+            android:text="@string/splash_start_button"
+            android:textColor="@color/white"
+            android:textSize="16dp" />
+
+    </RelativeLayout>
+</layout>

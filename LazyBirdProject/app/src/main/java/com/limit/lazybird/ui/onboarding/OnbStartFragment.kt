@@ -19,25 +19,16 @@ class OnbStartFragment : BaseFragment<FragmentOnbStartBinding>(FragmentOnbStartB
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        // 전시성향분석 버튼 클릭
-        binding.onbsOkBtn.setOnClickListener {
-            moveToOnb()
-        }
-
-        // 다음에 할래요 버튼 클릭
-        binding.onbsToBeNextBtn.setOnClickListener {
-            moveToEarlyBird()
-        }
+        binding.fragment = this
     }
 
     // 얼리버드 화면(메인화면)으로 이동
-    private fun moveToEarlyBird() {
+    fun moveToEarlyBird() {
         navController.navigate(OnbStartFragmentDirections.actionOnbStartFragmentToMainFragment())
     }
 
     // 온보딩 화면으로 이동
-    private fun moveToOnb() {
+    fun moveToOnb() {
         navController.navigate(OnbStartFragmentDirections.actionOnbStartFragmentToOnbFragment())
     }
 }

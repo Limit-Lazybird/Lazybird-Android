@@ -29,7 +29,8 @@ import dagger.hilt.android.AndroidEntryPoint
  ********************************************** ***/
 
 @AndroidEntryPoint
-class TicketingNoticeFragment : BaseFragment<FragmentTicketingNoticeBinding>(FragmentTicketingNoticeBinding::inflate) {
+class TicketingNoticeFragment :
+    BaseFragment<FragmentTicketingNoticeBinding>(FragmentTicketingNoticeBinding::inflate) {
 
     private val DELAY_MILLIS = 3000L // 몇 초 뒤에 다음 페이지로 넘어갈 지에 대한 값
 
@@ -45,6 +46,8 @@ class TicketingNoticeFragment : BaseFragment<FragmentTicketingNoticeBinding>(Fra
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.fragment = this
+
         // argument 로 넘어오는 earlyBird 상세정보 ViewModel에 업데이트
         lifecycleScope.launchWhenStarted {
             viewModel.updateExhibitionInfo(args.exhibitionInfo)
@@ -54,14 +57,6 @@ class TicketingNoticeFragment : BaseFragment<FragmentTicketingNoticeBinding>(Fra
             binding.ticketingNoticeContext.text =
                 getString(R.string.ticketing_notice_context).applyEscapeSequence()
             moveToUrlPostDelayed(exhibitionInfo.exhibitionUrl, DELAY_MILLIS)
-        }
-
-        // 예매처로 이동 버튼 클릭
-        binding.ticketingNextBtn.setOnClickListener {
-            viewModel.exhibitionInfo.value?.let { exhibitionInfo ->
-                cancelHandlerCallback()
-                moveToUrl(exhibitionInfo.exhibitionUrl)
-            }
         }
     }
 
@@ -90,6 +85,14 @@ class TicketingNoticeFragment : BaseFragment<FragmentTicketingNoticeBinding>(Fra
         callback.remove() // backPressed callback delete
     }
 
+    // 예매처로 이동 버튼 클릭
+    fun clickNextBtn() {
+        viewModel.exhibitionInfo.value?.let { exhibitionInfo ->
+            cancelHandlerCallback()
+            moveToUrl(exhibitionInfo.exhibitionUrl)
+        }
+    }
+
     // handler Callback 취소
     private fun cancelHandlerCallback() {
         handler.removeCallbacks(runnable)
@@ -112,7 +115,10 @@ class TicketingNoticeFragment : BaseFragment<FragmentTicketingNoticeBinding>(Fra
 
     // TicketingConfirmFragment 로 이동
     private fun moveToTicketingConfirm() {
-        navController.navigate(TicketingNoticeFragmentDirections.actionTicketingNoticeFragmentToTicketingConfirmFragment(viewModel.exhibitionInfo.value!!))
+        navController.navigate(
+            TicketingNoticeFragmentDirections.actionTicketingNoticeFragmentToTicketingConfirmFragment(
+                viewModel.exhibitionInfo.value!!
+            )
+        )
     }
-
 }

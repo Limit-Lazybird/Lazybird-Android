@@ -11,6 +11,10 @@
         <variable
             name="discount"
             type="int" />
+
+        <variable
+            name="fragment"
+            type="com.limit.lazybird.ui.ticketing.TicketingConfirmFragment" />
     </data>
 
 
@@ -24,6 +28,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="13dp"
             android:background="@color/transparent"
+            android:onClick="@{() -> fragment.moveToBack()}"
             android:src="@drawable/ic_left_arrow"
             app:layout_constraintBottom_toBottomOf="@id/ticketing_confirm_title"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -231,6 +236,7 @@
             android:background="@drawable/button_rounded_10"
             android:backgroundTint="@color/or01"
             android:fontFamily="@font/roboto_700"
+            android:onClick="@{() -> fragment.clickOkBtn()}"
             android:text="@string/ticketing_confirm_next_btn_title"
             android:textColor="@color/white"
             android:textSize="16dp"
@@ -247,6 +253,7 @@
             android:background="@drawable/button_rounded_10"
             android:backgroundTint="@color/gray_300"
             android:fontFamily="@font/roboto_700"
+            android:onClick="@{() -> fragment.moveToBack()}"
             android:text="@string/ticketing_confirm_prev_btn_title"
             android:textColor="@color/white"
             android:textSize="16dp"

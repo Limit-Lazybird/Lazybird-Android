@@ -24,6 +24,8 @@ class OnbEndFragment : BaseFragment<FragmentOnbEndBinding>(FragmentOnbEndBinding
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.fragment = this
+
         // TextView 에 일부 글자만 스타일 다르게 넣어주기
         binding.onbEndContext.text =
             SpannableStringBuilder(getString(R.string.onb_end_context)).apply {
@@ -48,15 +50,10 @@ class OnbEndFragment : BaseFragment<FragmentOnbEndBinding>(FragmentOnbEndBinding
                     Spannable.SPAN_EXCLUSIVE_EXCLUSIVE
                 )
             }
-
-        // 시작하기 버튼 클릭
-        binding.orbEndStartBtn.setOnClickListener {
-            moveToEarlyBird()
-        }
     }
 
     // 얼리버드 화면(메인화면)으로 이동
-    private fun moveToEarlyBird() {
+    fun moveToEarlyBird() {
         navController.navigate(OnbEndFragmentDirections.actionOnbEndFragmentToMainFragment())
     }
 }

@@ -1,81 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/gray_100"
     tools:context=".ui.onboarding.OnbStartFragment">
+
+    <data>
+
+        <variable
+            name="fragment"
+            type="com.limit.lazybird.ui.onboarding.OnbStartFragment" />
+    </data>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@id/onbs_ok_btn"
-        android:layout_alignParentTop="true">
+        android:background="@color/gray_100">
 
-        <ImageView
-            android:id="@+id/fobd_ab_test"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:layout_gravity="center"
-            android:layout_marginBottom="6dp"
-            android:padding="2dp"
-            android:src="@drawable/cv_ab_test" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/onbs_ok_btn"
+            android:layout_alignParentTop="true">
 
-        <TextView
-            android:id="@+id/fobd_title"
-            android:layout_width="wrap_content"
+            <ImageView
+                android:id="@+id/fobd_ab_test"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center"
+                android:layout_marginBottom="6dp"
+                android:padding="2dp"
+                android:src="@drawable/cv_ab_test" />
+
+            <TextView
+                android:id="@+id/fobd_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@id/fobd_ab_test"
+                android:layout_centerVertical="true"
+                android:fontFamily="@font/roboto_700"
+                android:lineHeight="36dp"
+                android:paddingTop="272dp"
+                android:text="3가지만\n선택하면"
+                android:textColor="@color/white"
+                android:textSize="30dp" />
+
+            <TextView
+                android:id="@+id/fobd_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/fobd_title"
+                android:layout_alignLeft="@id/fobd_ab_test"
+                android:fontFamily="@font/roboto_500"
+                android:paddingTop="20dp"
+                android:text="당신의 성향에 맞는 전시회를 추천해드릴게요"
+                android:textColor="@color/white"
+                android:textSize="14dp" />
+        </RelativeLayout>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/onbs_ok_btn"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@id/fobd_ab_test"
-            android:layout_centerVertical="true"
+            android:layout_above="@id/onbs_to_be_next_btn"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="17dp"
+            android:layout_marginBottom="23dp"
+            android:background="@drawable/button_rounded_10"
+            android:backgroundTint="@color/or02"
             android:fontFamily="@font/roboto_700"
-            android:lineHeight="36dp"
-            android:paddingTop="272dp"
-            android:text="3가지만\n선택하면"
+            android:onClick="@{() -> fragment.moveToOnb()}"
+            android:text="@string/on_boarding_start_button"
             android:textColor="@color/white"
-            android:textSize="30dp" />
+            android:textSize="17dp" />
 
         <TextView
-            android:id="@+id/fobd_description"
-            android:layout_width="wrap_content"
+            android:id="@+id/onbs_to_be_next_btn"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/fobd_title"
-            android:layout_alignLeft="@id/fobd_ab_test"
+            android:layout_alignLeft="@id/onbs_ok_btn"
+            android:layout_alignRight="@id/onbs_ok_btn"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="40dp"
             android:fontFamily="@font/roboto_500"
-            android:paddingTop="20dp"
-            android:text="당신의 성향에 맞는 전시회를 추천해드릴게요"
+            android:gravity="center_horizontal"
+            android:onClick="@{() -> fragment.moveToEarlyBird()}"
+            android:text="@string/on_boarding_to_be_next_u"
             android:textColor="@color/white"
-            android:textSize="14dp" />
+            android:textSize="16dp" />
+
     </RelativeLayout>
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/onbs_ok_btn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/onbs_to_be_next_btn"
-        android:layout_marginLeft="16dp"
-        android:layout_marginRight="17dp"
-        android:layout_marginBottom="23dp"
-        android:background="@drawable/button_rounded_10"
-        android:backgroundTint="@color/or02"
-        android:fontFamily="@font/roboto_700"
-        android:text="@string/on_boarding_start_button"
-        android:textColor="@color/white"
-        android:textSize="17dp" />
-
-    <TextView
-        android:id="@+id/onbs_to_be_next_btn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@id/onbs_ok_btn"
-        android:layout_alignRight="@id/onbs_ok_btn"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="40dp"
-        android:fontFamily="@font/roboto_500"
-        android:gravity="center_horizontal"
-        android:text="@string/on_boarding_to_be_next_u"
-        android:textColor="@color/white"
-        android:textSize="16dp" />
-
-</RelativeLayout>
+</layout>

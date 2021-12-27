@@ -23,7 +23,8 @@ import kotlinx.coroutines.launch
  * 정말로 회원탈퇴 할지 선택하는 화면
  ********************************************** ***/
 @AndroidEntryPoint
-class MemberOutFragment : BaseFragment<FragmentMemberOutBinding>(FragmentMemberOutBinding::inflate) {
+class MemberOutFragment :
+    BaseFragment<FragmentMemberOutBinding>(FragmentMemberOutBinding::inflate) {
 
     private val viewModel: SettingViewModel by viewModels()
 
@@ -34,49 +35,36 @@ class MemberOutFragment : BaseFragment<FragmentMemberOutBinding>(FragmentMemberO
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.fragment = this
+
         kakaoLoginHelper = KakaoLoginHelper(requireContext())
         googleLoginHelper = GoogleLoginHelper(this)
-
-        // 뒤로가기 버튼
-        binding.memberOutBackBtn.setOnClickListener {
-            clickBackBtn()
-        }
-
-        // 취소버튼
-        binding.memberOutCancel.setOnClickListener {
-            clickBackBtn()
-        }
-
-        // 탈퇴하기 버튼
-        binding.memberOutOk.setOnClickListener {
-            // 클라이언트 단에서 끊어주기
-            lifecycleScope.launch {
-                viewModel.userInfo.collect { userInfo ->
-                    when(userInfo.loginType){
-                        "google" -> googleLoginHelper.memberOut()
-                        "kakao" -> kakaoLoginHelper.memberOut()
-                    }
-                }
-            }
-
-            // 서버단에서 끊어주기
-            viewModel.deleteUser()
-
-            // 로그인 화면으로 이동
-            moveToLogin()
-        }
 
         binding.memberOutContext.text = getString(R.string.member_out_context).applyEscapeSequence()
     }
 
+    fun clickMemberOutBtn() {
+        // 클라이언트 단에서 끊어주기
+        lifecycleScope.launch {
+            viewModel.userInfo.collect { userInfo ->
+                when (userInfo.loginType) {
+                    "google" -> googleLoginHelper.memberOut()
+                    "kakao" -> kakaoLoginHelper.memberOut()
+                }
+            }
+        }
+        viewModel.deleteUser() // 서버단에서 끊어주기
+        moveToLogin() // 로그인 화면으로 이동
+    }
+
     // 뒤로가기 버튼 클릭 시
-    private fun clickBackBtn() {
+    fun clickBackBtn() {
         navController.popBackStack()
     }
 
     // 뒤로가기 버튼 클릭 시
     private fun moveToLogin() {
-        repeat(navController.backStack.size){
+        repeat(navController.backStack.size) {
             navController.popBackStack()
         }
     }

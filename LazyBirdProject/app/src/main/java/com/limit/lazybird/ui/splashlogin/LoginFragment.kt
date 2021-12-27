@@ -26,14 +26,13 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
 
     private val viewModel: LoginViewModel by viewModels()
 
-    // for kakao login
-    private lateinit var kakaoLoginHelper: KakaoLoginHelper
-    
-    // for google login
-    private lateinit var googleLoginHelper: GoogleLoginHelper
+    private lateinit var kakaoLoginHelper: KakaoLoginHelper // for kakao login
+    private lateinit var googleLoginHelper: GoogleLoginHelper // for google login
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.fragment = this
 
         // kakao 개체 구성
         kakaoLoginHelper = KakaoLoginHelper(requireContext()).apply {
@@ -59,23 +58,13 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
             }
         }
 
-        // 구글로 로그인하기 버튼 클릭
-        binding.loginGoogleBtn.setOnClickListener {
-            googleLoginHelper.login()
-        }
-
-        // 카카오로 로그인하기 버튼 클릭
-        binding.loginKakaoBtn.setOnClickListener {
-            kakaoLoginHelper.login()
-        }
-
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.loginEvent.collect { event ->
                 when (event) {
                     is LoginViewModel.LoginEvent.SuccessLogin -> {
                         Log.e(TAG, "retrofit success : ${event.responseBody}")
                         viewModel.updateToken(event.responseBody.jwt.token) // 토큰 dataStore 로 업데이트
-                        if(event.responseBody.useYN == "Y"){
+                        if (event.responseBody.useYN == "Y") {
                             moveToEarlyBird() // 온보딩 완료된 사용자
                         } else {
                             moveToOnBoarding() // 온보딩 완료되지 않은 사용자
@@ -87,6 +76,16 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
                 }
             }
         }
+    }
+
+    // 카카오로 로그인하기 버튼 클릭
+    fun clickKakaoBtn() {
+        kakaoLoginHelper.login()
+    }
+
+    // 구글로 로그인하기 버튼 클릭
+    fun clickGoogleBtn() {
+        googleLoginHelper.login()
     }
 
     // 온보딩 화면으로 이동

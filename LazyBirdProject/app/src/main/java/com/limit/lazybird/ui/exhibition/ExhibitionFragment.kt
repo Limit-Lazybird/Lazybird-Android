@@ -27,15 +27,18 @@ import dagger.hilt.android.AndroidEntryPoint
  * Todo : RecyclerView에 LiveData와 ListAdapter 적용하여, 데이터 변환시 시각적으로 변화하도록 수정
  ********************************************** ***/
 @AndroidEntryPoint
-class ExhibitionFragment : BaseFragment<FragmentExhibitionBinding>(FragmentExhibitionBinding::inflate) {
+class ExhibitionFragment :
+    BaseFragment<FragmentExhibitionBinding>(FragmentExhibitionBinding::inflate) {
 
     private val viewModel: ExhibitionViewModel by viewModels()
 
     // detailFilter 어떤 것 선택했는지 가지고 있는 리스트
-    private var currentDetailFilterSelectedList:List<Int> = listOf()
+    private var currentDetailFilterSelectedList: List<Int> = listOf()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.fragment = this
 
         // RecyclerView 업데이트
         viewModel.exhibitionList.observe(viewLifecycleOwner) { exhibitionList ->
@@ -68,7 +71,7 @@ class ExhibitionFragment : BaseFragment<FragmentExhibitionBinding>(FragmentExhib
                     ) {
                         // 하트 클릭 시
                         viewModel.clickLike(viewModel.getExhibitionInfo(position), holder.isLike)
-                        if(binding.exhibitionCustomSwitch.isChecked)
+                        if (binding.exhibitionCustomSwitch.isChecked)
                             viewModel.getCustomExhbtList()
                         else
                             viewModel.getExhbtList()
@@ -80,15 +83,15 @@ class ExhibitionFragment : BaseFragment<FragmentExhibitionBinding>(FragmentExhib
         // 상단 빠른 필터링 옵션버튼 그려주기
         viewModel.optionItemList.observe(viewLifecycleOwner) { optionList ->
             for (idx in optionList.indices) {
-                val optionName =  optionList[idx]
+                val optionName = optionList[idx]
                 binding.exhibitionOptionItemLayout.addView(
                     OptionItemView(requireContext(), viewLifecycleOwner, optionName).apply {
                         setOnClickListener {
-                            if(!isSelected){
+                            if (!isSelected) {
                                 resetSwitch()
                                 resetShortFilter()
                                 resetDetailSelectedList()
-                                viewModel.getFilterExhbtList("${idx+1}")
+                                viewModel.getFilterExhbtList("${idx + 1}")
                             } else {
                                 viewModel.getExhbtList()
                             }
@@ -99,30 +102,9 @@ class ExhibitionFragment : BaseFragment<FragmentExhibitionBinding>(FragmentExhib
             }
         }
 
-        // 상세 필터링 버튼 클릭
-        binding.exhibitionDetailOptionBtn.setOnClickListener {
-            val bundle = Bundle().apply {
-                putIntegerArrayList(ExhibitionFilterBSDialog.SELECTED_LIST, currentDetailFilterSelectedList.toCollection(ArrayList()))
-            }
-            ExhibitionFilterBSDialog().apply {
-                arguments = bundle
-            }.show(
-                parentFragmentManager,
-                ExhibitionFilterBSDialog.TAG
-            )
-        }
-
-        // 맞춤전시 리셋버튼 클릭
-        binding.exhibitionCustomResetBtn.setOnClickListener {
-            ExhibitionRefreshBSDialog().show(
-                parentFragmentManager,
-                ExhibitionRefreshBSDialog.TAG
-            )
-        }
-
         // 스위치 클릭
         binding.exhibitionCustomSwitch.setOnCheckedChangeListener { _, isOn ->
-            if(isOn){
+            if (isOn) {
                 resetShortFilter()
                 resetDetailSelectedList()
                 viewModel.getCustomExhbtList()
@@ -131,14 +113,9 @@ class ExhibitionFragment : BaseFragment<FragmentExhibitionBinding>(FragmentExhib
             }
         }
 
-        // 얼리카드 버튼 클릭
-        binding.exhibitionEarlycard.setOnClickListener {
-            moveToEarlyCard()
-        }
-
         // 전시성향분석 재설정 Dialog 선택 결과 확인
         setFragmentResultListener(ExhibitionRefreshBSDialog.TAG) { _, bundle ->
-            when(bundle.getString(ExhibitionRefreshBSDialog.RESULT_CODE)){
+            when (bundle.getString(ExhibitionRefreshBSDialog.RESULT_CODE)) {
                 ExhibitionRefreshBSDialog.RESULT_OK -> {
                     moveToOnb()
                 }
@@ -147,19 +124,21 @@ class ExhibitionFragment : BaseFragment<FragmentExhibitionBinding>(FragmentExhib
 
         // 상세필터 결과 확인
         setFragmentResultListener(ExhibitionFilterBSDialog.TAG) { _, bundle ->
-            when(bundle.getString(ExhibitionFilterBSDialog.RESULT_CODE)){
+            when (bundle.getString(ExhibitionFilterBSDialog.RESULT_CODE)) {
                 ExhibitionFilterBSDialog.RESULT_OK -> {
                     val exhibitionFilterList = bundle.getParcelable<ExhibitionFilterList>(
                         ExhibitionFilterBSDialog.FILTER_LIST
                     )!!
                     resetSwitch()
                     resetShortFilter()
-                    if(!(exhibitionFilterList.exhibitionClassSelectedList +
-                        exhibitionFilterList.exhibitionEtcSelectedList +
-                        exhibitionFilterList.exhibitionPlaceSelectedList).isNullOrEmpty()){
-                        currentDetailFilterSelectedList = exhibitionFilterList.exhibitionClassSelectedList +
-                                exhibitionFilterList.exhibitionEtcSelectedList.map { it+400 } +
-                                exhibitionFilterList.exhibitionPlaceSelectedList.map { it+300 }
+                    if (!(exhibitionFilterList.exhibitionClassSelectedList +
+                                exhibitionFilterList.exhibitionEtcSelectedList +
+                                exhibitionFilterList.exhibitionPlaceSelectedList).isNullOrEmpty()
+                    ) {
+                        currentDetailFilterSelectedList =
+                            exhibitionFilterList.exhibitionClassSelectedList +
+                                    exhibitionFilterList.exhibitionEtcSelectedList.map { it + 400 } +
+                                    exhibitionFilterList.exhibitionPlaceSelectedList.map { it + 300 }
                         viewModel.getFilterExhbtList(currentDetailFilterSelectedList.joinToString(","))
                     } else {
                         // 아무것도 선택 안했을 경우, 전체 검색
@@ -171,9 +150,33 @@ class ExhibitionFragment : BaseFragment<FragmentExhibitionBinding>(FragmentExhib
         }
     }
 
+    // 전시 분석 재설정하기 버튼 클릭
+    fun clickCustomResetBtn() {
+        ExhibitionRefreshBSDialog().show(
+            parentFragmentManager,
+            ExhibitionRefreshBSDialog.TAG
+        )
+    }
+
+    // 상세 옵션 버튼 클릭
+    fun clickDetailOptionBtn() {
+        val bundle = Bundle().apply {
+            putIntegerArrayList(
+                ExhibitionFilterBSDialog.SELECTED_LIST,
+                currentDetailFilterSelectedList.toCollection(ArrayList())
+            )
+        }
+        ExhibitionFilterBSDialog().apply {
+            arguments = bundle
+        }.show(
+            parentFragmentManager,
+            ExhibitionFilterBSDialog.TAG
+        )
+    }
+
 
     // 현재 선택된 detail filter 목록 초기화
-    private fun resetDetailSelectedList(){
+    private fun resetDetailSelectedList() {
         currentDetailFilterSelectedList = listOf()
     }
 
@@ -190,18 +193,26 @@ class ExhibitionFragment : BaseFragment<FragmentExhibitionBinding>(FragmentExhib
     }
 
     // EarlyCard Fragment 로 이동
-    private fun moveToEarlyCard() {
+    fun moveToEarlyCard() {
         navController.navigate(MainFragmentDirections.actionMainFragmentToEarlyCardFragment())
     }
 
     // ExhibitionDetail Fragment 로 이동
     private fun moveToExhibitionDetail(exhibitionInfo: Exhbt) {
-        navController.navigate(MainFragmentDirections.actionMainFragmentToExhibitionDetailFragment(exhibitionInfo))
+        navController.navigate(
+            MainFragmentDirections.actionMainFragmentToExhibitionDetailFragment(
+                exhibitionInfo
+            )
+        )
     }
 
     // EarlyBirdDetail Fragment 로 이동
     private fun moveToEarlyBirdDetail(exhibitionInfo: Exhbt) {
-        navController.navigate(MainFragmentDirections.actionMainFragmentToEarlyBirdDetailFragment(exhibitionInfo))
+        navController.navigate(
+            MainFragmentDirections.actionMainFragmentToEarlyBirdDetailFragment(
+                exhibitionInfo
+            )
+        )
     }
 
     // Onb Fragment 로 이동

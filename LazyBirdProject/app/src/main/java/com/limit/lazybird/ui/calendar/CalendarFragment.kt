@@ -56,6 +56,8 @@ class CalendarFragment : BaseFragment<FragmentCalendarBinding>(FragmentCalendarB
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.fragment = this
+
         // 일정 Map 업데이트
         viewModel.scheduleListDict.observe(viewLifecycleOwner) {
             scheduleMap = it
@@ -71,11 +73,6 @@ class CalendarFragment : BaseFragment<FragmentCalendarBinding>(FragmentCalendarB
         viewModel.unregisteredListLiveData.observe(viewLifecycleOwner) { calendarInfoList ->
             unregisteredList = CalendarInfoList(calendarInfoList)
             binding.unregisterCount = calendarInfoList.size
-        }
-
-        // 커스텀 일정 추가하기 버튼 클릭
-        binding.calendarCustomBtn.setOnClickListener {
-            moveToCalendarAdd()
         }
 
         // 추가되지 않은 전시 일정이 N개 있습니다 버튼 클릭
@@ -150,33 +147,39 @@ class CalendarFragment : BaseFragment<FragmentCalendarBinding>(FragmentCalendarB
     }
 
     // CalendarAddFragment 로 이동 (커스텀 전시 추가하기)
-    private fun moveToCalendarAdd() {
-        navController.navigate(MainFragmentDirections.actionMainFragmentToCalendarAddFragment(
-            CalendarAddFragment.TYPE_CUSTOM,
-            true,
-            null,
-            null
-        ))
+    fun moveToCalendarAdd() {
+        navController.navigate(
+            MainFragmentDirections.actionMainFragmentToCalendarAddFragment(
+                CalendarAddFragment.TYPE_CUSTOM,
+                true,
+                null,
+                null
+            )
+        )
     }
 
     // CalendarAddFragment 로 이동 (미등록 전시 추가하기)
     private fun moveToCalendarAdd(calendarInfo: CalendarInfo) {
-        navController.navigate(MainFragmentDirections.actionMainFragmentToCalendarAddFragment(
-            CalendarAddFragment.TYPE_TICKETED,
-            true,
-            calendarInfo,
-            null
-        ))
+        navController.navigate(
+            MainFragmentDirections.actionMainFragmentToCalendarAddFragment(
+                CalendarAddFragment.TYPE_TICKETED,
+                true,
+                calendarInfo,
+                null
+            )
+        )
     }
 
     // CalendarAddFragment 로 이동 (수정하기)
     private fun moveToCalendarUpdate(schedule: Schedule, isCustom: Boolean) {
-        navController.navigate(MainFragmentDirections.actionMainFragmentToCalendarAddFragment(
-            CalendarAddFragment.TYPE_TICKETED,
-            false,
-            null,
-            schedule
-        ))
+        navController.navigate(
+            MainFragmentDirections.actionMainFragmentToCalendarAddFragment(
+                CalendarAddFragment.TYPE_TICKETED,
+                false,
+                null,
+                schedule
+            )
+        )
     }
 
     // 수정하기, 제거하기 선택 Dialog 띄워줌

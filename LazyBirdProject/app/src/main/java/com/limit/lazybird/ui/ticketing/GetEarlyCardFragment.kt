@@ -24,7 +24,8 @@ import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class GetEarlyCardFragment : BaseFragment<FragmentGetEarlycardBinding>(FragmentGetEarlycardBinding::inflate) {
+class GetEarlyCardFragment :
+    BaseFragment<FragmentGetEarlycardBinding>(FragmentGetEarlycardBinding::inflate) {
 
     private val args: GetEarlyCardFragmentArgs by navArgs()
     private val viewModel: TicketingViewModel by viewModels()
@@ -35,6 +36,8 @@ class GetEarlyCardFragment : BaseFragment<FragmentGetEarlycardBinding>(FragmentG
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.fragment = this
 
         // argument 로 넘어오는 earlyBird 상세정보 ViewModel에 업데이트
         lifecycleScope.launchWhenStarted {
@@ -67,11 +70,11 @@ class GetEarlyCardFragment : BaseFragment<FragmentGetEarlycardBinding>(FragmentG
             binding.getEarlycardMainNumber.text = "NO. $currentNumber"
             binding.getEarlycardSubNumber.text = "NO. $currentNumber"
         }
+    }
 
-        // 뒤로가기 버튼 클릭 시
-        binding.getEarlycardBackBtn.setOnClickListener {
-            clickBackBtn()
-        }
+    // 뒤로가기 버튼 클릭 시
+    fun clickBackBtn() {
+        navController.popBackStack()
     }
 
     private fun initSnackbar() {
@@ -154,14 +157,9 @@ class GetEarlyCardFragment : BaseFragment<FragmentGetEarlycardBinding>(FragmentG
         snackBar.show()
     }
 
-    // 뒤로가기 버튼 클릭 시 
-    private fun clickBackBtn(){
-        navController.popBackStack()
-    }
-
     // Main 화면으로 이동
-    private fun moveToMain(){
-        repeat(2){
+    private fun moveToMain() {
+        repeat(2) {
             navController.popBackStack()
         }
     }

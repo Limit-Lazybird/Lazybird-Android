@@ -37,48 +37,12 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>(FragmentSettingBind
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.fragment = this
+
         kakaoLoginHelper = KakaoLoginHelper(requireContext())
         googleLoginHelper = GoogleLoginHelper(this)
 
         binding.settingOnbAppVersionText.text = "${BuildConfig.VERSION_NAME}v"
-
-        // 뒤로가기 버튼 클릭
-        binding.settingBackBtn.setOnClickListener {
-            clickBackBtn()
-        }
-
-        // 성향분석 재설정 버튼 클릭
-        binding.settingOnbReset.setOnClickListener {
-            ExhibitionRefreshBSDialog().show(
-                parentFragmentManager,
-                ExhibitionRefreshBSDialog.TAG
-            )
-        }
-
-        // 공지사항 버튼 클릭
-        binding.settingOnbNotice.setOnClickListener {
-            moveToNotice()
-        }
-
-        // 이용약관 버튼 클릭
-        binding.settingOnbTerm.setOnClickListener {
-            moveToTerm()
-        }
-
-        // 개인정보 처리방침 버튼 클릭
-        binding.settingOnbPrivacyRule.setOnClickListener {
-            moveToPrivacy()
-        }
-
-        // 회원탈퇴 버튼 클릭
-        binding.settingOnbMemberOut.setOnClickListener {
-            moveToMemberOut()
-        }
-
-        // 로그아웃 버튼 클릭
-        binding.settingOnbLogout.setOnClickListener {
-            LogoutBSDialog().show(parentFragmentManager, LogoutBSDialog.TAG)
-        }
 
         // 성향 분석 재설정에서 Dialog 결과 반환
         setFragmentResultListener(ExhibitionRefreshBSDialog.TAG) { _, bundle ->
@@ -96,7 +60,7 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>(FragmentSettingBind
                     // 로그아웃에서 OK 버튼 누름
                     lifecycleScope.launch {
                         viewModel.userInfo.collect { userInfo ->
-                            when(userInfo.loginType){
+                            when (userInfo.loginType) {
                                 "google" -> googleLoginHelper.logout()
                                 "kakao" -> kakaoLoginHelper.logout()
                             }
@@ -108,38 +72,51 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>(FragmentSettingBind
         }
     }
 
+    // 온보딩 재설정 버튼 클릭 시
+    fun clickOnbResetBtn() {
+        ExhibitionRefreshBSDialog().show(
+            parentFragmentManager,
+            ExhibitionRefreshBSDialog.TAG
+        )
+    }
+
+    // 로그아웃 버튼 클릭 시
+    fun clickLogoutBtn() {
+        LogoutBSDialog().show(parentFragmentManager, LogoutBSDialog.TAG)
+    }
+
     // 뒤로가기 버튼 클릭 시
-    private fun clickBackBtn() {
+    fun clickBackBtn() {
         navController.popBackStack()
     }
-    
+
     // 회원탈퇴 화면으로 이동
-    private fun moveToMemberOut(){
+    fun moveToMemberOut() {
         navController.navigate(SettingFragmentDirections.actionSettingFragmentToMemberOutFragment())
     }
 
     // 공지사항 화면으로 이동
-    private fun moveToNotice(){
+    fun moveToNotice() {
         navController.navigate(SettingFragmentDirections.actionSettingFragmentToNoticeFragment())
     }
 
     // 개인정보 처리방침 화면으로 이동
-    private fun moveToPrivacy(){
+    fun moveToPrivacy() {
         navController.navigate(SettingFragmentDirections.actionSettingFragmentToPrivacyFragment())
     }
 
     // 이용약관 화면으로 이동
-    private fun moveToTerm(){
+    fun moveToTerm() {
         navController.navigate(SettingFragmentDirections.actionSettingFragmentToTermFragment())
     }
 
     // 이용약관 화면으로 이동
-    private fun moveToOnb(){
+    private fun moveToOnb() {
         navController.navigate(SettingFragmentDirections.actionSettingFragmentToOnbFragment())
     }
 
-    private fun moveToLogin(){
-        repeat(navController.backStack.size){
+    private fun moveToLogin() {
+        repeat(navController.backStack.size) {
             navController.popBackStack()
         }
     }

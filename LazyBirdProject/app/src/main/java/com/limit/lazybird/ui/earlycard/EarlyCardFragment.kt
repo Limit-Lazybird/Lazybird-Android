@@ -18,12 +18,15 @@ import dagger.hilt.android.AndroidEntryPoint
  * 얼리카드 정보 리스트로 보기
  ********************************************** ***/
 @AndroidEntryPoint
-class EarlyCardFragment : BaseFragment<FragmentEarlycardBinding>(FragmentEarlycardBinding::inflate) {
+class EarlyCardFragment :
+    BaseFragment<FragmentEarlycardBinding>(FragmentEarlycardBinding::inflate) {
 
     private val viewModel: EarlycardViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.fragment = this
 
         viewModel.earlycardList.observe(viewLifecycleOwner) { earlycardInfoList ->
             binding.earlycardRecyclerView.adapter = EarlyCardAdapter(earlycardInfoList).apply {
@@ -39,15 +42,18 @@ class EarlyCardFragment : BaseFragment<FragmentEarlycardBinding>(FragmentEarlyca
                 }
             }
         }
+    }
 
-        // 뒤로가기 버튼 클릭
-        binding.earlycardBackBtn.setOnClickListener {
-            navController.popBackStack()
-        }
+    fun clickBackBtn() {
+        navController.popBackStack()
     }
 
     // dialog 보여주기
     private fun showDialog(earlycardInfo: EarlycardInfo) {
-        navController.navigate(EarlyCardFragmentDirections.actionEarlyCardFragmentToEarlyCardDetailDialogFragment(earlycardInfo))
+        navController.navigate(
+            EarlyCardFragmentDirections.actionEarlyCardFragmentToEarlyCardDetailDialogFragment(
+                earlycardInfo
+            )
+        )
     }
 }

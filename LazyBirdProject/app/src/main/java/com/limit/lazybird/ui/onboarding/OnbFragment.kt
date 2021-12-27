@@ -34,21 +34,25 @@ class OnbFragment : BaseFragment<FragmentOnbBinding>(FragmentOnbBinding::inflate
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.fragment = this
+
         viewModel.customizedList.observe(viewLifecycleOwner) { customizedList ->
             var curPage = 0
             val questionList = mutableListOf<String>()
             val answerList = mutableListOf<MutableList<Answer>>()
             customizedList.forEach { customInfo ->
-                if(curPage != customInfo.cq_index){
+                if (curPage != customInfo.cq_index) {
                     // 새로운 페이지
                     curPage++
                     answerList.add(mutableListOf())
                     questionList.add(customInfo.cq_head)
                 }
-                answerList[curPage-1].add(Answer(
-                    customInfo.cs_head,
-                    "https://limit-lazybird.com/customized/image/onb${customInfo.cq_index}_opt${customInfo.cs_index}.png"
-                ))
+                answerList[curPage - 1].add(
+                    Answer(
+                        customInfo.cs_head,
+                        "https://limit-lazybird.com/customized/image/onb${customInfo.cq_index}_opt${customInfo.cs_index}.png"
+                    )
+                )
             }
 
             // 성향분석 리스트
@@ -63,7 +67,7 @@ class OnbFragment : BaseFragment<FragmentOnbBinding>(FragmentOnbBinding::inflate
                 if (page >= surveyList.size) {
                     updateResultToServer() // 서버에 결과 업데이트
                     moveToEndFragment() // 화면 이동
-                } else if(page < 0) {
+                } else if (page < 0) {
                     moveToStartFragment() // 화면 벗어나기
                 } else {
                     val survey = surveyList[page]
@@ -96,20 +100,10 @@ class OnbFragment : BaseFragment<FragmentOnbBinding>(FragmentOnbBinding::inflate
             }
         }
 
-        // 이전 문항 이동 버튼
-        binding.onbBack.setOnClickListener {
-            viewModel.movePrevPage()
-        }
-
-        // 닫기 버튼 클릭 시
-        binding.onbClose.setOnClickListener {
-            createCancelDialog()
-        }
-
         // 온보딩 중도 종료 Dialog 선택 결과
         navController.currentBackStackEntry?.savedStateHandle?.apply {
             getLiveData<DialogResult>(CustomDialogFragment.TAG)?.observe(viewLifecycleOwner) { dialogResult ->
-                when(dialogResult.results[0]){
+                when (dialogResult.results[0]) {
                     CustomDialogFragment.RESULT_OK -> {
                         moveToStartFragment()
                     }
@@ -118,8 +112,13 @@ class OnbFragment : BaseFragment<FragmentOnbBinding>(FragmentOnbBinding::inflate
         }
     }
 
+    // 이전 문항 이동 버튼
+    fun clickBackBtn() {
+        viewModel.movePrevPage()
+    }
+
     // 종료 재확인 dialog 생성
-    private fun createCancelDialog() {
+    fun createCancelDialog() {
         val dialogInfo = DialogInfo(
             title = resources.getString(R.string.onb_cancel_title),
             message = resources.getString(R.string.onb_cancel_message),
@@ -141,8 +140,8 @@ class OnbFragment : BaseFragment<FragmentOnbBinding>(FragmentOnbBinding::inflate
         viewLifecycleOwner.lifecycle.coroutineScope.launch {
             viewModel.deleteCustomizedList()
             viewModel.insertCustomizedList(
-                viewModel.selectedResult.map{
-                    it+1
+                viewModel.selectedResult.map {
+                    it + 1
                 }.joinToString(".")
             )
         }

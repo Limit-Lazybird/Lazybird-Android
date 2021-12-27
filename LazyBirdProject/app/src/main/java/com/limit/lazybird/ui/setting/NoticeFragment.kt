@@ -24,10 +24,7 @@ class NoticeFragment : BaseFragment<FragmentNoticeBinding>(FragmentNoticeBinding
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // 뒤로가기 버튼
-        binding.noticeBackBtn.setOnClickListener {
-            clickBackBtn()
-        }
+        binding.fragment = this
 
         // 공지사항 업데이트
         viewModel.noticeInfoList.observe(viewLifecycleOwner) { noticeInfoList ->
@@ -38,7 +35,7 @@ class NoticeFragment : BaseFragment<FragmentNoticeBinding>(FragmentNoticeBinding
                         view: View,
                         position: Int
                     ) {
-                        if(holder.noticeContext.visibility == View.VISIBLE){
+                        if (holder.noticeContext.visibility == View.VISIBLE) {
                             holder.noticeExpandBtn.setImageResource(R.drawable.ic_expand_light_d)
                             holder.noticeContext.visibility = View.GONE
                         } else {
@@ -52,7 +49,7 @@ class NoticeFragment : BaseFragment<FragmentNoticeBinding>(FragmentNoticeBinding
     }
 
     // 뒤로가기 버튼 클릭 시
-    private fun clickBackBtn() {
+    fun clickBackBtn() {
         navController.popBackStack()
     }
 }

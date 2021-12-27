@@ -14,4 +14,5 @@ class EarlycardRepository @Inject constructor(
     fun getPreferenceTokenFlow() = dataStoreManager.preferenceTokenFlow
 
     suspend fun getEarlyCardList(token: String) = apiHelper.getEarlyCardList(token)
+    suspend fun exhbtReservationSave(token: String, id: String) = apiHelper.exhbtReservationSave(token, id)
 }

@@ -23,7 +23,8 @@ import kotlin.math.abs
  * 얼리버드 정보 리스트로 보기
  ********************************************** ***/
 @AndroidEntryPoint
-class EarlyBirdFragment : BaseFragment<FragmentEarlybirdBinding>(FragmentEarlybirdBinding::inflate) {
+class EarlyBirdFragment :
+    BaseFragment<FragmentEarlybirdBinding>(FragmentEarlybirdBinding::inflate) {
 
     private val SCREEN_PAGE_RATIO = 0.90f // ViewPager2에서 현재 페이지의 가로 크기 값 (기기의 몇퍼센트인지)
     private val OFF_SCREEN_PAGE_LIMIT = 1 // ViewPager2에서 보여줄 다음 페이지 개수
@@ -33,6 +34,8 @@ class EarlyBirdFragment : BaseFragment<FragmentEarlybirdBinding>(FragmentEarlybi
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.fragment = this
 
         // earlybirdList 업데이트
         viewModel.todayEarlyBirdList.observe(viewLifecycleOwner) { earlybirdInfoList ->
@@ -54,7 +57,8 @@ class EarlyBirdFragment : BaseFragment<FragmentEarlybirdBinding>(FragmentEarlybi
             // 첫 페이지, 마지막페이지 overScroll 효과 차단
             binding.earlybirdViewpager2.apply {
                 (getChildAt(0) as RecyclerView).overScrollMode = RecyclerView.OVER_SCROLL_NEVER
-                (getChildAt(childCount-1) as RecyclerView).overScrollMode = RecyclerView.OVER_SCROLL_NEVER
+                (getChildAt(childCount - 1) as RecyclerView).overScrollMode =
+                    RecyclerView.OVER_SCROLL_NEVER
             }
 
             // page 변환 시 애니메이션 적용
@@ -81,30 +85,24 @@ class EarlyBirdFragment : BaseFragment<FragmentEarlybirdBinding>(FragmentEarlybi
                 }
             )
         }
-
-        // 알림 버튼 클릭
-        binding.earlybirdBell.setOnClickListener {
-            moveToNotification()
-        }
-
-        // 얼리카드 버튼 클릭
-        binding.earlybirdEarlycard.setOnClickListener {
-            moveToEarlyCard()
-        }
     }
 
     // EarlyBirdDetail Fragment 로 이동
     private fun moveToEarlyBirdDetail(earlyBirdInfo: Exhbt) {
-        navController.navigate(MainFragmentDirections.actionMainFragmentToEarlyBirdDetailFragment(earlyBirdInfo))
+        navController.navigate(
+            MainFragmentDirections.actionMainFragmentToEarlyBirdDetailFragment(
+                earlyBirdInfo
+            )
+        )
     }
 
     // Notification Fragment 로 이동
-    private fun moveToNotification() {
+    fun moveToNotification() {
         navController.navigate(MainFragmentDirections.actionMainFragmentToNotificationFragment())
     }
 
     // Earlycard Fragment 로 이동
-    private fun moveToEarlyCard() {
+    fun moveToEarlyCard() {
         navController.navigate(MainFragmentDirections.actionMainFragmentToEarlyCardFragment())
     }
 }
