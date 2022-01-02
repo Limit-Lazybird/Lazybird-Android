@@ -29,6 +29,13 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
     private lateinit var kakaoLoginHelper: KakaoLoginHelper // for kakao login
     private lateinit var googleLoginHelper: GoogleLoginHelper // for google login
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        googleLoginHelper = GoogleLoginHelper(this).apply {
+            init()
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -47,7 +54,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
         }
 
         // GoogleSignInClient 개체 구성
-        googleLoginHelper = GoogleLoginHelper(this).apply {
+        googleLoginHelper.apply {
             // 구글 로그인결과 업데이트
             loginInfo.observe(viewLifecycleOwner) {
                 viewModel.loginGoogle(
