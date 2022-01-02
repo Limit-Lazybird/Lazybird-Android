@@ -19,3 +19,13 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+# for Parcelable
+ -keepnames class * extends android.os.Parcelable
+
+# for kakao
+ -keep class com.kakao.sdk.**.model.* { <fields>; }
+ -keep class * extends com.google.gson.TypeAdapter
+
+# for retrofit POJO
+ -keep class com.limit.lazybird.models.retrofit.* { <fields>; }
