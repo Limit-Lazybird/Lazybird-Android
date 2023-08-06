@@ -64,7 +64,7 @@ class MemberOutFragment :
 
     // 뒤로가기 버튼 클릭 시
     private fun moveToLogin() {
-        repeat(navController.backStack.size) {
+        repeat(navController.currentBackStack.value.size) {
             navController.popBackStack()
         }
     }
