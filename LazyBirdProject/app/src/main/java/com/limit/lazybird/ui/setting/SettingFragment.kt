@@ -116,7 +116,7 @@ class SettingFragment : BaseFragment<FragmentSettingBinding>(FragmentSettingBind
     }
 
     private fun moveToLogin() {
-        repeat(navController.backStack.size) {
+        repeat(navController.currentBackStack.value.size) {
             navController.popBackStack()
         }
     }

@@ -92,32 +92,32 @@ class GetEarlyCardFragment :
     private fun initDetector(view: View) {
         mDetector =
             GestureDetectorCompat(requireContext(), object : GestureDetector.OnGestureListener {
-                override fun onDown(p0: MotionEvent?): Boolean {
+                override fun onDown(p0: MotionEvent): Boolean {
                     return true
                 }
 
-                override fun onShowPress(p0: MotionEvent?) {
+                override fun onShowPress(p0: MotionEvent) {
                 }
 
-                override fun onSingleTapUp(p0: MotionEvent?): Boolean {
+                override fun onSingleTapUp(p0: MotionEvent): Boolean {
                     return true
                 }
 
                 override fun onScroll(
-                    p0: MotionEvent?,
-                    p1: MotionEvent?,
+                    p0: MotionEvent,
+                    p1: MotionEvent,
                     p2: Float,
                     p3: Float
                 ): Boolean {
                     return true
                 }
 
-                override fun onLongPress(p0: MotionEvent?) {
+                override fun onLongPress(p0: MotionEvent) {
                 }
 
                 override fun onFling(
-                    p0: MotionEvent?,
-                    p1: MotionEvent?,
+                    p0: MotionEvent,
+                    p1: MotionEvent,
                     p2: Float,
                     p3: Float
                 ): Boolean {
