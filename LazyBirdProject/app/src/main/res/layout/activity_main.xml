@@ -15,4 +15,14 @@
         app:defaultNavHost="true"
         app:navGraph="@navigation/nav_graph" />
 
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/isDevTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:background="@color/black_trans_70"
+        android:text="isDev"
+        android:textColor="@color/gray04"
+        android:textSize="20sp" />
+
 </RelativeLayout>

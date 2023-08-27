@@ -39,6 +39,23 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    flavorDimensions += "server-version"
+    productFlavors {
+        real {
+            dimension "server-version"
+            applicationIdSuffix ".real"
+            versionNameSuffix "-real"
+            buildConfigField "boolean", "IS_DEV_SERVER", "false"
+        }
+        dev {
+            dimension "server-version"
+            applicationIdSuffix ".dev"
+            versionNameSuffix "-dev"
+            buildConfigField "boolean", "IS_DEV_SERVER", "true"
+        }
+    }
+
     compileOptions {
         coreLibraryDesugaringEnabled true // for CalendarView
         sourceCompatibility JavaVersion.VERSION_1_8
