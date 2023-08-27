@@ -2,9 +2,11 @@ package com.limit.lazybird.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.core.view.isVisible
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
+import com.limit.lazybird.BuildConfig
 import com.limit.lazybird.R
 import com.limit.lazybird.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -26,6 +28,8 @@ class MainActivity : AppCompatActivity() {
 
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragment_container_view) as NavHostFragment
         navController = navHostFragment.findNavController()
+
+        binding.isDevTextView.isVisible = BuildConfig.IS_DEV_SERVER
     }
 
     override fun onSupportNavigateUp(): Boolean {
