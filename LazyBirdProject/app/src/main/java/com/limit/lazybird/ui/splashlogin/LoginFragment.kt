@@ -8,6 +8,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
+import com.limit.lazybird.BuildConfig
 import com.limit.lazybird.R
 import com.limit.lazybird.api.GoogleLoginHelper
 import com.limit.lazybird.api.KakaoLoginHelper
@@ -87,12 +88,14 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
 
     // 카카오로 로그인하기 버튼 클릭
     fun clickKakaoBtn() {
-        kakaoLoginHelper.login()
+        if (BuildConfig.IS_DEV_SERVER.not()) kakaoLoginHelper.login()
+        else moveToEarlyBird()
     }
 
     // 구글로 로그인하기 버튼 클릭
     fun clickGoogleBtn() {
-        googleLoginHelper.login()
+        if (BuildConfig.IS_DEV_SERVER.not()) googleLoginHelper.login()
+        else moveToEarlyBird()
     }
 
     // 온보딩 화면으로 이동
