@@ -61,11 +61,7 @@ class SearchViewModel @Inject constructor(
     fun searchExhibition(words:String) = viewModelScope.launch {
         // 검색결과 전시리스트 받기
         repository.searchExhibitionList(token, words.trim()).let { response ->
-            if (response.body() != null) {
-                _exhbtList.postValue(response.body()!!.exhbtList)
-            } else {
-                Log.e(ExhibitionViewModel.TAG, "response.body() is null")
-            }
+            _exhbtList.postValue(response.exhbtList)
         }
     }
 

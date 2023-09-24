@@ -2,15 +2,13 @@ package com.limit.lazybird.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.limit.lazybird.api.ApiHelper
-import com.limit.lazybird.datastore.PreferenceDataStoreManager
 import com.limit.lazybird.models.retrofit.LoginResponseBody
 import com.limit.lazybird.repository.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
-import okhttp3.ResponseBody
+import java.lang.Exception
 import javax.inject.Inject
 
 /************* LoginViewModel ***************
@@ -32,13 +30,11 @@ class LoginViewModel @Inject constructor(
     ) = viewModelScope.launch {
         // LazyBird 서버에 카카오 로그인 요청
         updateUserInfo("kakao", email, name)
-        val response = repository.loginKakao(
-            token = kakaoToken
-        )
-        if(response.isSuccessful) {
-            loginEventChannel.send(LoginEvent.SuccessLogin(response.body()!!))
-        } else {
-            loginEventChannel.send(LoginEvent.ErrorOccured(response.errorBody()!!))
+        try {
+            val response = repository.loginKakao(kakaoToken)
+            loginEventChannel.send(LoginEvent.SuccessLogin(response))
+        } catch (e: Exception) {
+            loginEventChannel.send(LoginEvent.ErrorOccured(e))
         }
     }
 
@@ -49,13 +45,11 @@ class LoginViewModel @Inject constructor(
     ) = viewModelScope.launch {
         // LazyBird 서버에 구글 로그인 요청
         updateUserInfo("google", email, name)
-        val response = repository.loginGoogle(
-            token = googleToken
-        )
-        if(response.isSuccessful) {
-            loginEventChannel.send(LoginEvent.SuccessLogin(response.body()!!))
-        } else {
-            loginEventChannel.send(LoginEvent.ErrorOccured(response.errorBody()!!))
+        try {
+            val response = repository.loginGoogle(googleToken)
+            loginEventChannel.send(LoginEvent.SuccessLogin(response))
+        } catch (e: Exception) {
+            loginEventChannel.send(LoginEvent.ErrorOccured(e))
         }
     }
 
@@ -75,7 +69,7 @@ class LoginViewModel @Inject constructor(
         ) : LoginEvent()
 
         class ErrorOccured(
-            val errorBody: ResponseBody
+            val errorBody: Exception
         ) : LoginEvent()
     }
 }

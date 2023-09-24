@@ -11,5 +11,5 @@ import javax.inject.Inject
 class NoticeRepository @Inject constructor(
     private val apiHelper: ApiHelper
 ) {
-    suspend fun getNoticeList():Response<NoticeListResponseBody> = apiHelper.getNoticeList()
+    suspend fun getNoticeList() = apiHelper.getNoticeList()
 }

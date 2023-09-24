@@ -6,13 +6,13 @@ import retrofit2.Response
 /****************** ApiHelper *********************
  * API 연결에 사용하기 위한 interface 파일
  * 이를 기반으로 ApiHelperImpl 객체를 만든다.
-********************************************** ***/
+ ********************************************** ***/
 
 interface ApiHelper {
     /********* Calendar *********/
     suspend fun getUnRegistList(
         token: String
-    ):Response<CalendarListResponseBody>
+    ): CalendarListResponseBody
 
     suspend fun saveCalendarInfo(
         token: String,
@@ -20,16 +20,16 @@ interface ApiHelper {
         reser_dt: String,
         start_time: String,
         end_time: String
-    ):Response<CodeMsgResponseBody>
+    ): CodeMsgResponseBody
 
     suspend fun deleteCalendarInfo(
         token: String,
         exhbt_cd: String
-    ):Response<CodeMsgResponseBody>
+    ): CodeMsgResponseBody
 
     suspend fun getRegistListAll(
         token: String
-    ):Response<CalendarListResponseBody>
+    ): CalendarListResponseBody
 
     suspend fun saveCustomInfo(
         token: String,
@@ -38,7 +38,7 @@ interface ApiHelper {
         reser_dt: String,
         start_time: String,
         end_time: String
-    ): Response<CodeMsgResponseBody>
+    ): CodeMsgResponseBody
 
     suspend fun updateCustomInfo(
         token: String,
@@ -48,113 +48,113 @@ interface ApiHelper {
         reser_dt: String,
         start_time: String,
         end_time: String
-    ): Response<CodeMsgResponseBody>
+    ): CodeMsgResponseBody
 
     suspend fun delCustomInfo(
         token: String,
         exhbt_cd: String
-    ): Response<CodeMsgResponseBody>
+    ): CodeMsgResponseBody
 
     suspend fun getCustomListAll(
         token: String
-    ):Response<CalendarListResponseBody>
+    ): CalendarListResponseBody
 
     suspend fun visitUpdateExhbt(
         token: String,
         exhbt_nm: String,
         visit_yn: String
-    ):Response<CodeMsgResponseBody>
+    ): CodeMsgResponseBody
 
     suspend fun visitUpdateCustom(
         token: String,
         exhbt_nm: String,
         visit_yn: String
-    ):Response<CodeMsgResponseBody>
+    ): CodeMsgResponseBody
 
     /********* Customized Question *********/
     suspend fun getCustomizedList(
         token: String
-    ): Response<CustomListResponseBody>
+    ): CustomListResponseBody
 
     suspend fun insertCustomizedList(
         token: String,
         answer_idx: String
-    ): Response<MsgResponseBody>
+    ): MsgResponseBody
 
     suspend fun deleteCustomizedList(
         token: String
-    ): Response<MsgResponseBody>
+    ): MsgResponseBody
 
     /********* Exhibit Info *********/
     suspend fun getNoticeList(
-    ): Response<NoticeListResponseBody>
+    ): NoticeListResponseBody
 
     suspend fun getExhbtList(
         token: String
-    ): Response<ExhbtResponseBody>
+    ): ExhbtResponseBody
 
     suspend fun getEarlyList(
         token: String
-    ): Response<ExhbtResponseBody>
+    ): ExhbtResponseBody
 
     suspend fun getCustomExhbtList(
         token: String
-    ): Response<ExhbtResponseBody>
+    ): ExhbtResponseBody
 
     suspend fun filterDetailExhbtList(
         token: String,
         searchList: String
-    ): Response<ExhbtResponseBody>
+    ): ExhbtResponseBody
 
     suspend fun searchExhbtList(
         token: String,
         words: String
-    ): Response<ExhbtResponseBody>
+    ): ExhbtResponseBody
 
 
     /********* Exhibit Status *********/
     suspend fun exhbtLikeSave(
         token: String,
         exhbt_cd: String
-    ): Response<MsgResponseBody>
+    ): MsgResponseBody
 
     suspend fun exhbtLikeDel(
         token: String,
         exhbt_cd: String
-    ): Response<MsgResponseBody>
+    ): MsgResponseBody
 
     suspend fun getExhbtLikeList(
         token: String
-    ): Response<ExhbtResponseBody>
+    ): ExhbtResponseBody
 
     suspend fun exhbtReservationSave(
         token: String,
         exhbt_cd: String
-    ): Response<MsgResponseBody>
+    ): MsgResponseBody
 
     suspend fun exhbtReservationDelete(
         token: String,
         exhbt_cd: String
-    ): Response<CodeMsgResponseBody>
+    ): CodeMsgResponseBody
 
     suspend fun getExhbtReservationList(
         token: String
-    ): Response<ExhbtResponseBody>
+    ): ExhbtResponseBody
 
     suspend fun getEarlyCardList(
         token: String
-    ): Response<EarlyCardResponseBody>
+    ): EarlyCardResponseBody
 
     /********* Login *********/
     suspend fun loginKakao(
         token: String
-    ): Response<LoginResponseBody>
+    ): LoginResponseBody
 
     suspend fun loginGoogle(
         token: String
-    ): Response<LoginResponseBody>
+    ): LoginResponseBody
 
     suspend fun deleteUser(
         token: String
-    ): Response<MemberOutResponseBody>
+    ): MemberOutResponseBody
 }

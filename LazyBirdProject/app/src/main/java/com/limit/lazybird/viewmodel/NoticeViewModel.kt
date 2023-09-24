@@ -39,11 +39,7 @@ class NoticeViewModel @Inject constructor(
 
     private fun initNoticeList() = viewModelScope.launch {
         repository.getNoticeList().let { response ->
-            if (response.body() != null) {
-                _noticeList.postValue(response.body()!!.noticeList)
-            } else {
-                Log.e(ExhibitionViewModel.TAG, "response.body() is null")
-            }
+            _noticeList.postValue(response.noticeList)
         }
     }
 }

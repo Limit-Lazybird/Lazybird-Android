@@ -69,33 +69,21 @@ class ExhibitionViewModel @Inject constructor(
     fun getExhbtList() = viewModelScope.launch {
         // 전시리스트 받기
         repository.getExhibitionList(token).let { response ->
-            if (response.body() != null) {
-                _exhbtList.postValue(response.body()!!.exhbtList)
-            } else {
-                Log.e(TAG, "response.body() is null")
-            }
+            _exhbtList.postValue(response.exhbtList)
         }
     }
 
     fun getCustomExhbtList() = viewModelScope.launch {
         // 맞춤형 전시리스트 받기
         repository.getCustomExhibitionList(token).let { response ->
-            if (response.body() != null) {
-                _exhbtList.postValue(response.body()!!.exhbtList)
-            } else {
-                Log.e(TAG, "response.body() is null")
-            }
+            _exhbtList.postValue(response.exhbtList)
         }
     }
 
     fun getFilterExhbtList(searchList: String) = viewModelScope.launch {
         // 필터링한 전시리스트 받기
         repository.filterExhbtList(token, searchList).let { response ->
-            if (response.body() != null) {
-                _exhbtList.postValue(response.body()!!.exhbtList)
-            } else {
-                Log.e(TAG, "response.body() is null")
-            }
+            _exhbtList.postValue(response.exhbtList)
         }
     }
 

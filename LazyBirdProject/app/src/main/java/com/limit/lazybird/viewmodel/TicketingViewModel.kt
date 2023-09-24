@@ -57,11 +57,7 @@ class TicketingViewModel @Inject constructor(
 
     private fun initEarlyCardList() = viewModelScope.launch {
         repository.getEarlyCardList(token).let { response ->
-            if (response.body() != null) {
-                _earlycardList.postValue(response.body()!!.earlyCardList)
-            } else {
-                Log.e(TAG, "response.body() is null")
-            }
+            _earlycardList.postValue(response.earlyCardList)
         }
     }
     fun updateExhibitionInfo(exhibitionInfo: ExhibitionInfo){

@@ -96,22 +96,14 @@ class MyBirdViewModel @Inject constructor(
 
     private fun getLikeExhbtList() = viewModelScope.launch {
         // 내가 찜한 전시 리스트 받기
-        if(repository.getLikeExhibitionList(token).body() != null){
-            val likeList = repository.getLikeExhibitionList(token).body()!!.exhbtList
-            _likeExhbtList.postValue(likeList)
-        } else {
-            Log.e(TAG, "getLikeExhbtList(): ${repository.getLikeExhibitionList(token).errorBody().toString()}")
-        }
+        val likeList = repository.getLikeExhibitionList(token).exhbtList
+        _likeExhbtList.postValue(likeList)
     }
 
     fun getReservationExhbtList() = viewModelScope.launch {
         // 내가 예약한 전시 리스트 받기
-        if(repository.getReservationExhibitionList(token).body() != null){
-            val reservationList = repository.getReservationExhibitionList(token).body()!!.exhbtList
-            _reservationExhbtList.postValue(reservationList)
-        } else {
-            Log.e(TAG, "getReservationExhbtList(): ${repository.getReservationExhibitionList(token).errorBody().toString()}")
-        }
+        val reservationList = repository.getReservationExhibitionList(token).exhbtList
+        _reservationExhbtList.postValue(reservationList)
     }
 
     // 찜한 전시 리스트 정보 가져오기

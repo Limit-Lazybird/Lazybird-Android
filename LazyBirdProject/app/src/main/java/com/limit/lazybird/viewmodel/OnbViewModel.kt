@@ -45,9 +45,7 @@ class OnbViewModel @Inject constructor(
     private fun getCustomizedList() = viewModelScope.launch {
         // 질문 정보 가져오기
         val response = repository.getCustomizedList(token)
-        response.body()?.let{
-            _customizedList.postValue(it.customList)
-        }
+        _customizedList.postValue(response.customList)
     }
 
     fun initSelectedResult(size:Int) {

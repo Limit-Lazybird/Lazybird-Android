@@ -104,33 +104,21 @@ class CalendarViewModel @Inject constructor(
     fun initCustomList() = viewModelScope.launch {
         // 예약된 커스텀 전시리스트 받기
         repository.getCustomList(token).let { response ->
-            if (response.body() != null) {
-                _customListLiveData.postValue(response.body()!!.calList)
-            } else {
-                Log.e(TAG, "response.body() is null")
-            }
+            _customListLiveData.postValue(response.calList)
         }
     }
 
     fun initRegisteredList() = viewModelScope.launch {
         // 예약된 전시리스트 받기
         repository.getRegistList(token).let { response ->
-            if (response.body() != null) {
-                _registeredListLiveData.postValue(response.body()!!.calList)
-            } else {
-                Log.e(TAG, "response.body() is null")
-            }
+            _registeredListLiveData.postValue(response.calList)
         }
     }
 
     fun initUnregisteredList() = viewModelScope.launch {
         // 전시리스트 받기
         repository.getUnRegistList(token).let { response ->
-            if (response.body() != null) {
-                _unregisteredListLiveData.postValue(response.body()!!.calList)
-            } else {
-                Log.e(TAG, "response.body() is null")
-            }
+            _unregisteredListLiveData.postValue(response.calList)
         }
     }
 

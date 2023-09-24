@@ -53,11 +53,7 @@ class EarlyBirdViewModel @Inject constructor(
     private fun getEarlyList(token: String) = viewModelScope.launch {
         // 얼리버드 전시리스트 받기
         repository.getEarlyList(token).let { response ->
-            if (response.body() != null) {
-                _earlyList.postValue(response.body()!!.exhbtList)
-            } else {
-                Log.e(TAG, "response.body() is null")
-            }
+            _earlyList.postValue(response.exhbtList)
         }
     }
 
