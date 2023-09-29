@@ -79,7 +79,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
                         }
                     }
                     is LoginViewModel.LoginEvent.ErrorOccured -> {
-                        Log.e(TAG, "retrofit error : ${event.errorBody.string()}")
+                        Log.e(TAG, "retrofit error : ${event.errorBody}")
                     }
                 }
             }
