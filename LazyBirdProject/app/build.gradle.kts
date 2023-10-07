@@ -13,11 +13,11 @@ plugins {
 android {
     defaultConfig {
         applicationId = "com.limit.lazybird"
-        minSdk = 29
-        targetSdk = 33
-        compileSdk = 33
-        versionCode = 12
-        versionName = "1.0.11"
+        minSdk = Version.Android.MinSdk
+        targetSdk = Version.Android.TargetSdk
+        compileSdk = Version.Android.CompileSdk
+        versionCode = Version.Code
+        versionName = Version.Name
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled = true
 
@@ -75,57 +75,57 @@ android {
 }
 
 dependencies {
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:${rootProject.extra["kotlin_version"]}")
-    implementation("androidx.core:core-ktx:1.10.1")
-    implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation("com.google.android.material:material:1.9.0")
-    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
-    implementation("androidx.legacy:legacy-support-v4:1.0.0")
-    testImplementation("junit:junit:")
-    androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    implementation(Library.Kotlin)
+    implementation(Library.Core)
+    implementation(Library.AppCompat)
+    implementation(Library.Material)
+    implementation(Library.ConstraintLayout)
+    implementation(Library.LegacySupport)
+    testImplementation(Library.Junit)
+    androidTestImplementation(Library.JunitExt)
+    androidTestImplementation(Library.EspressoCore)
 
     // CalendarView
-    implementation("com.github.kizitonwose:CalendarView:${rootProject.extra["calendarview_version"]}")
-    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:${rootProject.extra["desugar_version"]}")
+    implementation(Library.Calendarview)
+    coreLibraryDesugaring(Library.Desugar)
 
     // Dagger hilt
-    implementation("com.google.dagger:hilt-android:${rootProject.extra["hilt_version"]}")
-    kapt("com.google.dagger:hilt-compiler:${rootProject.extra["hilt_version"]}")
+    implementation(Library.HiltAndroid)
+    kapt(Library.HiltCompiler)
 
     // DataStore
-    implementation("androidx.datastore:datastore-preferences:${rootProject.extra["datastore_version"]}")
+    implementation(Library.Datastore)
 
     // Flexbox
-    implementation("com.google.android.flexbox:flexbox:${rootProject.extra["flexbox_version"]}")
+    implementation(Library.Flexbox)
 
     // Fragment for fragmentResult
-    implementation("androidx.fragment:fragment-ktx:${rootProject.extra["fragment_version"]}")
+    implementation(Library.Fragment)
 
     // Glide
-    implementation("com.github.bumptech.glide:glide:${rootProject.extra["glide_version"]}")
-    annotationProcessor("com.github.bumptech.glide:compiler:${rootProject.extra["glide_version"]}")
+    implementation(Library.Glide)
+    annotationProcessor(Library.GlideCompiler)
 
     // Google login
-    implementation("com.google.android.gms:play-services-auth:${rootProject.extra["google_ps_version"]}")
+    implementation(Library.GooglePlayStore)
 
     // Kakao login
-    implementation("com.kakao.sdk:v2-user:${rootProject.extra["kakao_version"]}")
+    implementation(Library.KakaoSdk)
 
     // Lifecycle
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:${rootProject.extra["lifecycle_version"]}")
-    implementation("androidx.lifecycle:lifecycle-livedata-ktx:${rootProject.extra["lifecycle_version"]}")
+    implementation(Library.LifecycleViewModel)
+    implementation(Library.LifecycleLiveData)
 
     // Navigation fragment
-    implementation("androidx.navigation:navigation-fragment-ktx:${rootProject.extra["navigation_version"]}")
-    implementation("androidx.navigation:navigation-ui-ktx:${rootProject.extra["navigation_version"]}")
+    implementation(Library.NavigationFragment)
+    implementation(Library.NavigationUi)
 
     // Retrofit
-    implementation("com.squareup.retrofit2:retrofit:${rootProject.extra["retrofit_version"]}")
-    implementation("com.squareup.retrofit2:converter-gson:${rootProject.extra["retrofit_version"]}")
+    implementation(Library.Retrofit)
+    implementation(Library.RetrofitConverterGson)
 
     // ViewPager
-    implementation("androidx.cardview:cardview:${rootProject.extra["cardview_version"]}")
-    implementation("androidx.viewpager2:viewpager2:${rootProject.extra["viewpager2_version"]}")
+    implementation(Library.Cardview)
+    implementation(Library.Viewpager2)
 
 }
