@@ -1,13 +1,14 @@
 import java.util.*
 
+@Suppress("DSL_SCOPE_VIOLATION")
 plugins {
-    id("com.android.application")
-    id("dagger.hilt.android.plugin") // dagger hilt
-    id("kotlin-android")
-    id("kotlin-parcelize")
-    id("kotlin-kapt")
-    id("com.google.secrets_gradle_plugin") version "0.6.1"
-    id("androidx.navigation.safeargs.kotlin") // navigation safeargs
+    id(libs.plugins.android.application.get().pluginId)
+    id(libs.plugins.kotlin.android.get().pluginId)
+    id(libs.plugins.kotlin.kapt.get().pluginId)
+    id(libs.plugins.kotlin.parcelize.get().pluginId)
+    id(libs.plugins.dagger.hilt.android.get().pluginId) // dagger hilt
+    id(libs.plugins.androidx.navigation.get().pluginId) // navigation safeargs
+    alias(libs.plugins.secrets.gradle)
 }
 
 android {
@@ -75,57 +76,57 @@ android {
 }
 
 dependencies {
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:${rootProject.extra["kotlin_version"]}")
-    implementation("androidx.core:core-ktx:1.10.1")
-    implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation("com.google.android.material:material:1.9.0")
-    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
-    implementation("androidx.legacy:legacy-support-v4:1.0.0")
-    testImplementation("junit:junit:")
-    androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    implementation(libs.jetbrains.kotlin)
+    implementation(libs.androidx.core)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.material)
+    implementation(libs.androidx.constraintLayout)
+    implementation(libs.androidx.legacy.support)
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.junit)
+    androidTestImplementation(libs.androidx.espresso.core)
 
     // CalendarView
-    implementation("com.github.kizitonwose:CalendarView:${rootProject.extra["calendarview_version"]}")
-    coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:${rootProject.extra["desugar_version"]}")
+    implementation(libs.calendarview)
+    coreLibraryDesugaring(libs.desugar)
 
     // Dagger hilt
-    implementation("com.google.dagger:hilt-android:${rootProject.extra["hilt_version"]}")
-    kapt("com.google.dagger:hilt-compiler:${rootProject.extra["hilt_version"]}")
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.compiler)
 
     // DataStore
-    implementation("androidx.datastore:datastore-preferences:${rootProject.extra["datastore_version"]}")
+    implementation(libs.androidx.datastore)
 
     // Flexbox
-    implementation("com.google.android.flexbox:flexbox:${rootProject.extra["flexbox_version"]}")
+    implementation(libs.flexbox)
 
     // Fragment for fragmentResult
-    implementation("androidx.fragment:fragment-ktx:${rootProject.extra["fragment_version"]}")
+    implementation(libs.androidx.fragment)
 
     // Glide
-    implementation("com.github.bumptech.glide:glide:${rootProject.extra["glide_version"]}")
-    annotationProcessor("com.github.bumptech.glide:compiler:${rootProject.extra["glide_version"]}")
+    implementation(libs.glide)
+    annotationProcessor(libs.glide.compiler)
 
     // Google login
-    implementation("com.google.android.gms:play-services-auth:${rootProject.extra["google_ps_version"]}")
+    implementation(libs.google.playstore)
 
     // Kakao login
-    implementation("com.kakao.sdk:v2-user:${rootProject.extra["kakao_version"]}")
+    implementation(libs.kakao.sdk)
 
     // Lifecycle
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:${rootProject.extra["lifecycle_version"]}")
-    implementation("androidx.lifecycle:lifecycle-livedata-ktx:${rootProject.extra["lifecycle_version"]}")
+    implementation(libs.androidx.lifecycle.viewModel)
+    implementation(libs.androidx.lifecycle.liveData)
 
     // Navigation fragment
-    implementation("androidx.navigation:navigation-fragment-ktx:${rootProject.extra["navigation_version"]}")
-    implementation("androidx.navigation:navigation-ui-ktx:${rootProject.extra["navigation_version"]}")
+    implementation(libs.androidx.navigation.fragment)
+    implementation(libs.androidx.navigation.ui)
 
     // Retrofit
-    implementation("com.squareup.retrofit2:retrofit:${rootProject.extra["retrofit_version"]}")
-    implementation("com.squareup.retrofit2:converter-gson:${rootProject.extra["retrofit_version"]}")
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.converter.gson)
 
     // ViewPager
-    implementation("androidx.cardview:cardview:${rootProject.extra["cardview_version"]}")
-    implementation("androidx.viewpager2:viewpager2:${rootProject.extra["viewpager2_version"]}")
+    implementation(libs.androidx.cardview)
+    implementation(libs.androidx.viewpager2)
 
 }
